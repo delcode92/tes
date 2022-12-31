@@ -1,1 +1,2 @@
 https://github.com/delcode92/tes/raw/main/downloads/printer.py
+https://github.com/delcode92/tes/raw/main/downloads/config.cfg
