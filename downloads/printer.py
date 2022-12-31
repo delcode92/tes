@@ -53,4 +53,3 @@ def ticket(barcode):
     p.close()
 
 ticket("1234567890")
-    
