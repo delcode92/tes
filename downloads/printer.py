@@ -13,8 +13,6 @@ file = getPath("config.cfg")
 config = ConfigParser()
 config.read(file)
 
-
-
 vid = int(config['PRINTER']['VID'], 16)
 pid = int(config['PRINTER']['PID'], 16)
 in_ep = int(config['PRINTER']['IN'], 16)
@@ -31,20 +29,19 @@ footer4 = config['KARCIS']['FOOTER4']
 
 def ticket(barcode):
     
-    # new_time_text = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    new_time_text = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     p = Usb(vid, pid , timeout = 0, in_ep = in_ep, out_ep = out_ep)
+    # Print text
+    p.set('center')
+    p.text(location + "\n")
+    p.text(company + "\n")
+    p.text("------------------------------------\n\n")
     
-    # # Print text
-    # p.set(align='CENTER', width=1, height=1)
-    # p.text(location + "\n")
-    # p.text(company + "\n")
-    # p.text("------------------------------------\n\n")
+    p.text(gate_name + " " + gate_num + "\n")
+    p.text(vehicle_type + "\n")
+    p.text(new_time_text + "\n\n")
     
-    # p.text(gate_name + " " + gate_num + "\n")
-    # p.text(vehicle_type + "\n")
-    # p.text(new_time_text + "\n\n")
-    
-    # p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
+    p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
     p.text("\n------------------------------------\n")
     p.text(footer1 + "\n")
     p.text(footer2 + "\n")

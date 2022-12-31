@@ -1,1 +1,1 @@
-https://github.com/delcode92/tes/raw/main/downloads/printer.zip
+https://github.com/delcode92/tes/raw/main/downloads/printer.py
