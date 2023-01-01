@@ -41,7 +41,10 @@ def ticket(barcode):
     p.text(vehicle_type + "\n")
     p.text(new_time_text + "\n\n")
     
-    p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
+    # p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
+    p.qr("test", size=5)
+    # p.barcode('1324354657687', 'EAN13', 64, 3, '', '')
+
     p.text("\n------------------------------------\n")
     p.text(footer1 + "\n")
     p.text(footer2 + "\n")
@@ -52,4 +55,7 @@ def ticket(barcode):
     p.cut()
     p.close()
 
-ticket("1234567890")
+time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
+# time_now = datetime.now().strftime("%d%m%Y")
+ticket(time_now)
+# print(time_now)
