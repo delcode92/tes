@@ -1,5 +1,6 @@
-https://raw.githubusercontent.com/delcode92/tes/main/downloads/printer.py
-https://raw.githubusercontent.com/delcode92/tes/main/downloads/config.cfg
+#https://raw.githubusercontent.com/delcode92/tes/main/downloads/printer.py
+#https://raw.githubusercontent.com/delcode92/tes/main/downloads/config.cfg
+https://raw.githubusercontent.com/delcode92/tes/main/downloads/GPIO.py
 
 #https://github.com/delcode92/tes/raw/main/downloads/printer.py
 #https://github.com/delcode92/tes/raw/main/downloads/config.cfg
