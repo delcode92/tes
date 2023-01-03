@@ -3,21 +3,22 @@ import sys, socket
 from time import sleep
 from datetime import datetime
 
-led1, led2, led3, gate = 8,10,11,18
-loop1, loop2, button = 12,13,7
-
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(loop1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(loop2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(led1, GPIO.OUT)
-GPIO.setup(led2, GPIO.OUT)
-GPIO.setup(led3, GPIO.OUT)
-GPIO.setup(gate, GPIO.OUT)
-stateLoop1, stateLoop2, stateButton, stateGate = False, False, False, False
 
 def run_GPIO(socket):
+    
+    led1, led2, led3, gate = 8,10,11,18
+    loop1, loop2, button = 12,13,7
+
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(loop1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(loop2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(led1, GPIO.OUT)
+    GPIO.setup(led2, GPIO.OUT)
+    GPIO.setup(led3, GPIO.OUT)
+    GPIO.setup(gate, GPIO.OUT)
+    stateLoop1, stateLoop2, stateButton, stateGate = False, False, False, False
 
     while True:
         if GPIO.input(loop1) == GPIO.LOW and not stateLoop1:
@@ -67,7 +68,7 @@ def run_GPIO(socket):
 # buat koneksi socket utk GPIO 
 try:
     host = sys.argv[1]
-    port = sys.argv[1]
+    port = int(sys.argv[2])
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
