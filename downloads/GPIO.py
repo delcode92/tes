@@ -109,7 +109,7 @@ def recv_server(s, default):
             for socks in read_sockets:
                 if socks == s:
                     message = socks.recv(2048)
-                    print (message)
+                    print (message.decode("utf-8"))
 
 # buat koneksi socket utk GPIO 
 try:
