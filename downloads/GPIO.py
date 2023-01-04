@@ -202,6 +202,10 @@ class GPIOHandler:
                             print("open Gate Utk Karyawan")
                             # time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
                             # print_barcode(time_now)
+                            # time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
+                        elif message == "rfid-false":
+                            print("RFID not match !")
+                            
                         elif message == "printer-true":
                             print("print struct here ...")
 
