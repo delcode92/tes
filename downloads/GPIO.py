@@ -1,8 +1,61 @@
 import RPi.GPIO as GPIO
-import sys, socket, select
+import sys, socket, select, os
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
+from escpos.printer import Usb
+from configparser import ConfigParser
+
+def getPath(fileName):
+    path = os.path.dirname(os.path.realpath(__file__))
+    
+    return '/'.join([path, fileName])
+
+
+def print_barcode(barcode):
+    file = getPath("config.cfg")
+    config = ConfigParser()
+    config.read(file)
+
+    vid = int(config['PRINTER']['VID'], 16)
+    pid = int(config['PRINTER']['PID'], 16)
+    in_ep = int(config['PRINTER']['IN'], 16)
+    out_ep = int(config['PRINTER']['OUT'], 16)
+    location = config['ID']['LOKASI']
+    company = config['ID']['PERUSAHAAN']
+    gate_num = config['POSISI']['PINTU']
+    gate_name = config['POSISI']['NAMA']
+    vehicle_type = config['POSISI']['KENDARAAN']
+    footer1 = config['KARCIS']['FOOTER1']
+    footer2 = config['KARCIS']['FOOTER2']
+    footer3 = config['KARCIS']['FOOTER3']
+    footer4 = config['KARCIS']['FOOTER4']
+
+    new_time_text = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+    p = Usb(vid, pid , timeout = 0, in_ep = in_ep, out_ep = out_ep)
+    # Print text
+    p.set('center')
+    p.text(location + "\n")
+    p.text(company + "\n")
+    p.text("------------------------------------\n\n")
+    
+    p.text(gate_name + " " + gate_num + "\n")
+    p.text(vehicle_type + "\n")
+    p.text(new_time_text + "\n\n")
+    
+    p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
+    # p.qr("test", size=5)
+    # p.barcode('1324354657687', 'EAN13', 64, 3, '', '')
+
+    p.text("\n------------------------------------\n")
+    p.text(footer1 + "\n")
+    p.text(footer2 + "\n")
+    p.text(footer3 + "\n")
+    p.text(footer4 + "\n")
+
+    # Cut paper
+    p.cut()
+    p.close()
 
 def run_GPIO(socket):
     
@@ -32,11 +85,11 @@ def run_GPIO(socket):
             stateGate = False
             GPIO.output(led1,GPIO.LOW)
 
-        print("GPIO.input(button)", GPIO.input(button))
-        print("GPIO.LOW", GPIO.LOW)
-        print("GPIO.input(loop1)", GPIO.input(loop1))
-        print("stateButton", stateButton)
-        print("stateGate", stateGate)
+        # print("GPIO.input(button)", GPIO.input(button))
+        # print("GPIO.LOW", GPIO.LOW)
+        # print("GPIO.input(loop1)", GPIO.input(loop1))
+        # print("stateButton", stateButton)
+        # print("stateGate", stateGate)
 
         # GPIO.input(button) 1
         # GPIO.LOW 0
@@ -84,7 +137,6 @@ def run_GPIO(socket):
                                     
         sleep(0.5)
 
-
 def rfid_input(s, default):
     while True:
         rfid = input("input RFID: ")
@@ -109,7 +161,11 @@ def recv_server(s, default):
             for socks in read_sockets:
                 if socks == s:
                     message = socks.recv(2048)
-                    print (message.decode("utf-8"))
+                    message = message.decode("utf-8")
+
+                    if message == "1":
+                        time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
+                        print_barcode(time_now)
 
 # buat koneksi socket utk GPIO 
 try:
