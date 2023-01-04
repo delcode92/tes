@@ -16,30 +16,37 @@ class GPIOHandler:
         self.stateLoop1, self.stateLoop2, self.stateButton, self.stateGate = False, False, False, False
         
 
-        # buat koneksi socket utk GPIO 
-        try:
-            host = sys.argv[1]
-            port = int(sys.argv[2])
+        # buat koneksi socket utk GPIO
+        host = sys.argv[1]
+        port = int(sys.argv[2])
+        
+        while True:
 
-            self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            self.s.connect((host, port))
+            try:
+                self.s.sendall( bytes(f"client({host}) connected", 'utf-8') )
+            except:
+                print("GPIO handshake fail")
 
-            # sockets_list = [sys.stdin, s]
-            # print("socket list: " , sockets_list)
+                try:
+                    self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                    self.s.connect((host, port))
 
-            self.s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
-            print("GPIO handshake success")
+                    # sockets_list = [sys.stdin, s]
+                    # print("socket list: " , sockets_list)
 
-            # stanby data yg dikirim dari server disini
-            start_new_thread( self.recv_server,() )
+                    self.s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
+                    print("GPIO handshake success")
 
-            # run input RFID thread
-            start_new_thread( self.rfid_input,() )
-            self.run_GPIO()
-        except:
-            print("GPIO handshake fail")
+                    # stanby data yg dikirim dari server disini
+                    start_new_thread( self.recv_server,() )
 
+                    # run input RFID thread
+                    start_new_thread( self.rfid_input,() )
+                    self.run_GPIO()
+                except:
+                    print("GPIO handshake fail")
+        
 
     def getPath(self,fileName):
         path = os.path.dirname(os.path.realpath(__file__))
@@ -200,12 +207,9 @@ class GPIOHandler:
 
                         if message == "rfid-true":
                             print("open Gate Utk Karyawan")
-                            # time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
-                            # print_barcode(time_now)
-                            # time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
                         elif message == "rfid-false":
                             print("RFID not match !")
-                            
+
                         elif message == "printer-true":
                             print("print struct here ...")
 
