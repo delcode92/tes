@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import sys, socket
+import sys, socket, select
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -97,6 +97,20 @@ def rfid_input(s, default):
             except:
                 print("send RFID to server fail")
 
+def recv_server(s, default):
+    while True:
+        while True:
+ 
+            # maintains a list of possible input streams
+            sockets_list = [sys.stdin, s]
+        
+            read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
+        
+            for socks in read_sockets:
+                if socks == s:
+                    message = socks.recv(2048)
+                    print (message)
+
 # buat koneksi socket utk GPIO 
 try:
     host = sys.argv[1]
@@ -105,12 +119,15 @@ try:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.connect((host, port))
-    sockets_list = [sys.stdin, s]
 
-    print("socket list: " , sockets_list)
+    # sockets_list = [sys.stdin, s]
+    # print("socket list: " , sockets_list)
 
     s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
     print("GPIO handshake success")
+
+    # stanby data yg dikirim dari server disini
+    start_new_thread( recv_server,(s,None) )
 
     # run inoput RFID thread
     start_new_thread( rfid_input,(s,None) )
