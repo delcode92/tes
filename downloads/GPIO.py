@@ -6,188 +6,216 @@ from _thread import start_new_thread
 from escpos.printer import Usb
 from configparser import ConfigParser
 
-def getPath(fileName):
-    path = os.path.dirname(os.path.realpath(__file__))
-    
-    return '/'.join([path, fileName])
 
+class GPIOHandler:
+    def __init__(self) -> None:
+        # global variable
+        self.led1, self.led2, self.led3, self.gate = 8,10,11,18
+        self.loop1, self.loop2, self.button = 12,13,7
 
-def print_barcode(barcode):
-    file = getPath("config.cfg")
-    config = ConfigParser()
-    config.read(file)
-
-    vid = int(config['PRINTER']['VID'], 16)
-    pid = int(config['PRINTER']['PID'], 16)
-    in_ep = int(config['PRINTER']['IN'], 16)
-    out_ep = int(config['PRINTER']['OUT'], 16)
-    location = config['ID']['LOKASI']
-    company = config['ID']['PERUSAHAAN']
-    gate_num = config['POSISI']['PINTU']
-    gate_name = config['POSISI']['NAMA']
-    vehicle_type = config['POSISI']['KENDARAAN']
-    footer1 = config['KARCIS']['FOOTER1']
-    footer2 = config['KARCIS']['FOOTER2']
-    footer3 = config['KARCIS']['FOOTER3']
-    footer4 = config['KARCIS']['FOOTER4']
-
-    new_time_text = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-    p = Usb(vid, pid , timeout = 0, in_ep = in_ep, out_ep = out_ep)
-    # Print text
-    p.set('center')
-    p.text(location + "\n")
-    p.text(company + "\n")
-    p.text("------------------------------------\n\n")
-    
-    p.text(gate_name + " " + gate_num + "\n")
-    p.text(vehicle_type + "\n")
-    p.text(new_time_text + "\n\n")
-    
-    p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
-    # p.qr("test", size=5)
-    # p.barcode('1324354657687', 'EAN13', 64, 3, '', '')
-
-    p.text("\n------------------------------------\n")
-    p.text(footer1 + "\n")
-    p.text(footer2 + "\n")
-    p.text(footer3 + "\n")
-    p.text(footer4 + "\n")
-
-    # Cut paper
-    p.cut()
-    p.close()
-
-def run_GPIO(socket):
-    
-    led1, led2, led3, gate = 8,10,11,18
-    loop1, loop2, button = 12,13,7
-
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(loop1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(loop2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(led1, GPIO.OUT)
-    GPIO.setup(led2, GPIO.OUT)
-    GPIO.setup(led3, GPIO.OUT)
-    GPIO.setup(gate, GPIO.OUT)
-    stateLoop1, stateLoop2, stateButton, stateGate = False, False, False, False
-
-    while True:
-        if GPIO.input(loop1) == GPIO.LOW and not stateLoop1:
-            print("LOOP 1 ON (Vehicle Incoming)")
-            stateLoop1 = True
-            GPIO.output(led1,GPIO.HIGH)
-            
-        elif GPIO.input(loop1) == GPIO.HIGH and stateLoop1:  
-            print("LOOP 1 OFF (Vehicle Start Moving)")
-            stateLoop1 = False
-            stateGate = False
-            GPIO.output(led1,GPIO.LOW)
-
-        # print("GPIO.input(button)", GPIO.input(button))
-        # print("GPIO.LOW", GPIO.LOW)
-        # print("GPIO.input(loop1)", GPIO.input(loop1))
-        # print("stateButton", stateButton)
-        # print("stateGate", stateGate)
-
-        # GPIO.input(button) 1
-        # GPIO.LOW 0
-        # GPIO.input(loop1) 0
-        # stateButton False
-        # stateGate False
-
-        # LOOP 1 OFF (Vehicle Start Moving)
-        # GPIO.input(button) 1
-        # GPIO.LOW 0
-        # GPIO.input(loop1) 1
-        # stateButton False
-        # stateGate False
-
-        if GPIO.input(button) == GPIO.LOW and GPIO.input(loop1) == GPIO.LOW and not stateButton and not stateGate:
-            
-            # send datetime to server
-            time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
-            socket.sendall( bytes(time_now, 'utf-8') )
-            print("BUTTON ON (Printing Ticket)")
-            
-            stateButton = True
-            stateGate = True
-            GPIO.output(led2,GPIO.HIGH)
-            print("RELAY ON (Gate Open)")
-            GPIO.output(gate,GPIO.HIGH)
-            sleep(1)
-            GPIO.output(gate,GPIO.LOW)
-            print("RELAY OFF")
-            
-        elif GPIO.input(button) == GPIO.HIGH and GPIO.input(loop1) == GPIO.LOW and stateButton:
-            print("BUTTON OFF")
-            stateButton = False
-            GPIO.output(led2,GPIO.LOW)
-                            
-        if GPIO.input(loop2) == GPIO.LOW and not stateLoop2:
-            print("LOOP 2 ON (Vehicle Moving In)")
-            stateLoop2 = True
-            
-        elif GPIO.input(loop2) == GPIO.HIGH and stateLoop2:
-            print("LOOP 2 OFF (Vehicle In)")
-            print(".........(Gate Close)")
-            stateLoop2 = False 
-            stateGate = False
-                                    
-        sleep(0.5)
-
-def rfid_input(s, default):
-    while True:
-        rfid = input("input RFID: ")
+        self.stateLoop1, self.stateLoop2, self.stateButton, self.stateGate = False, False, False, False
         
-        if rfid != "":
-            # send to server
 
-            try:
-                s.sendall( bytes(f"{rfid}", 'utf-8') )
-            except:
-                print("send RFID to server fail")
+        # buat koneksi socket utk GPIO 
+        try:
+            host = sys.argv[1]
+            port = int(sys.argv[2])
 
-def recv_server(s, default):
-    while True:
+            self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            self.s.connect((host, port))
+
+            # sockets_list = [sys.stdin, s]
+            # print("socket list: " , sockets_list)
+
+            self.s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
+            print("GPIO handshake success")
+
+            # stanby data yg dikirim dari server disini
+            start_new_thread( self.recv_server,() )
+
+            # run input RFID thread
+            start_new_thread( self.rfid_input,() )
+            self.run_GPIO()
+        except:
+            print("GPIO handshake fail")
+
+
+    def getPath(self,fileName):
+        path = os.path.dirname(os.path.realpath(__file__))
+        
+        return '/'.join([path, fileName])
+
+
+    def print_barcode(self,barcode):
+        file = self.getPath("config.cfg")
+        config = ConfigParser()
+        config.read(file)
+
+        vid = int(config['PRINTER']['VID'], 16)
+        pid = int(config['PRINTER']['PID'], 16)
+        in_ep = int(config['PRINTER']['IN'], 16)
+        out_ep = int(config['PRINTER']['OUT'], 16)
+        location = config['ID']['LOKASI']
+        company = config['ID']['PERUSAHAAN']
+        gate_num = config['POSISI']['PINTU']
+        gate_name = config['POSISI']['NAMA']
+        vehicle_type = config['POSISI']['KENDARAAN']
+        footer1 = config['KARCIS']['FOOTER1']
+        footer2 = config['KARCIS']['FOOTER2']
+        footer3 = config['KARCIS']['FOOTER3']
+        footer4 = config['KARCIS']['FOOTER4']
+
+        new_time_text = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+        p = Usb(vid, pid , timeout = 0, in_ep = in_ep, out_ep = out_ep)
+        # Print text
+        p.set('center')
+        p.text(location + "\n")
+        p.text(company + "\n")
+        p.text("------------------------------------\n\n")
+        
+        p.text(gate_name + " " + gate_num + "\n")
+        p.text(vehicle_type + "\n")
+        p.text(new_time_text + "\n\n")
+        
+        p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
+        # p.qr("test", size=5)
+        # p.barcode('1324354657687', 'EAN13', 64, 3, '', '')
+
+        p.text("\n------------------------------------\n")
+        p.text(footer1 + "\n")
+        p.text(footer2 + "\n")
+        p.text(footer3 + "\n")
+        p.text(footer4 + "\n")
+
+        # Cut paper
+        p.cut()
+        p.close()
+
+    def run_GPIO(self):
+        
+        GPIO.setwarnings(False)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.loop1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.loop2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.led1, GPIO.OUT)
+        GPIO.setup(self.led2, GPIO.OUT)
+        GPIO.setup(self.led3, GPIO.OUT)
+        GPIO.setup(self.gate, GPIO.OUT)
+        
         while True:
- 
-            # maintains a list of possible input streams
-            sockets_list = [sys.stdin, s]
-        
-            read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
-        
-            for socks in read_sockets:
-                if socks == s:
-                    message = socks.recv(2048)
-                    message = message.decode("utf-8")
+            if GPIO.input(self.loop1) == GPIO.LOW and not self.stateLoop1:
+                print("LOOP 1 ON (Vehicle Incoming)")
+                self.stateLoop1 = True
+                GPIO.output(self.led1,GPIO.HIGH)
+                
+            elif GPIO.input(self.loop1) == GPIO.HIGH and self.stateLoop1:  
+                print("LOOP 1 OFF (Vehicle Start Moving)")
+                self.stateLoop1 = False
+                self.stateGate = False
+                GPIO.output(self.led1,GPIO.LOW)
 
-                    if message == "1":
-                        time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
-                        print_barcode(time_now)
+            # print("GPIO.input(button)", GPIO.input(button))
+            # print("GPIO.LOW", GPIO.LOW)
+            # print("GPIO.input(loop1)", GPIO.input(loop1))
+            # print("stateButton", stateButton)
+            # print("stateGate", stateGate)
 
-# buat koneksi socket utk GPIO 
-try:
-    host = sys.argv[1]
-    port = int(sys.argv[2])
+            # GPIO.input(button) 1
+            # GPIO.LOW 0
+            # GPIO.input(loop1) 0
+            # stateButton False
+            # stateGate False
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.connect((host, port))
+            # LOOP 1 OFF (Vehicle Start Moving)
+            # GPIO.input(button) 1
+            # GPIO.LOW 0
+            # GPIO.input(loop1) 1
+            # stateButton False
+            # stateGate False
 
-    # sockets_list = [sys.stdin, s]
-    # print("socket list: " , sockets_list)
+            if GPIO.input(self.button) == GPIO.LOW and GPIO.input(self.loop1) == GPIO.LOW and not self.stateButton and not self.stateGate:
+                
+                # send datetime to server
+                time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
+                self.s.sendall( bytes(f'datetime#{time_now}', 'utf-8') )
+                
+                # get return from server
 
-    s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
-    print("GPIO handshake success")
+                
+                # print("self.button ON (Printing Ticket)")
+                
+                # self.stateButton = True
+                # stateGate = True
+                # GPIO.output(led2,GPIO.HIGH)
+                # print("RELAY ON (Gate Open)")
+                # GPIO.output(gate,GPIO.HIGH)
+                # sleep(1)
+                # GPIO.output(gate,GPIO.LOW)
+                # print("RELAY OFF")
+                
+            elif GPIO.input(self.button) == GPIO.HIGH and GPIO.input(self.loop1) == GPIO.LOW and self.stateButton:
+                print("BUTTON OFF")
+                self.stateButton = False
+                GPIO.output(self.led2,GPIO.LOW)
+                                
+            if GPIO.input(self.loop2) == GPIO.LOW and not self.stateLoop2:
+                print("LOOP 2 ON (Vehicle Moving In)")
+                self.stateLoop2 = True
+                
+            elif GPIO.input(self.loop2) == GPIO.HIGH and self.stateLoop2:
+                print("LOOP 2 OFF (Vehicle In)")
+                print(".........(Gate Close)")
+                self.stateLoop2 = False 
+                self.stateGate = False
+                                        
+            sleep(0.5)
 
-    # stanby data yg dikirim dari server disini
-    start_new_thread( recv_server,(s,None) )
+    def rfid_input(self):
+        while True:
+            rfid = input("input RFID: ")
+            
+            if rfid != "":
+                # send to server
 
-    # run inoput RFID thread
-    start_new_thread( rfid_input,(s,None) )
-    run_GPIO(s)
-except:
-    print("GPIO handshake fail")
+                try:
+                    self.s.sendall( bytes(f"rfid#{rfid}", 'utf-8') )
+                except:
+                    print("send RFID to server fail")
+
+    def recv_server(self):
+        while True:
+            while True:
+    
+                # maintains a list of possible input streams
+                sockets_list = [sys.stdin, self.s]
+            
+                read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
+            
+                for socks in read_sockets:
+                    if socks == self.s:
+                        message = socks.recv(2048)
+                        message = message.decode("utf-8")
+
+                        if message == "rfid-true":
+                            print("open Gate Utk Karyawan")
+                            # time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
+                            # print_barcode(time_now)
+                        elif message == "printer-true":
+                            print("print struct here ...")
+
+                            print("BUTTON ON (Printing Ticket)")
+                
+                            self.stateButton = True
+                            self.stateGate = True
+                            GPIO.output(self.led2,GPIO.HIGH)
+                            print("RELAY ON (Gate Open)")
+                            GPIO.output(self.gate,GPIO.HIGH)
+                            sleep(1)
+                            GPIO.output(self.gate,GPIO.LOW)
+                            print("RELAY OFF")
+
+
+
 
