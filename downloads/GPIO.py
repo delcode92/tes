@@ -202,27 +202,30 @@ class GPIOHandler:
             
                 for socks in read_sockets:
                     if socks == self.s:
-                        message = socks.recv(2048)
-                        message = message.decode("utf-8")
+                        try:
+                            message = socks.recv(2048)
+                            message = message.decode("utf-8")
 
-                        if message == "rfid-true":
-                            print("open Gate Utk Karyawan")
-                        elif message == "rfid-false":
-                            print("RFID not match !")
+                            if message == "rfid-true":
+                                print("open Gate Utk Karyawan")
+                            elif message == "rfid-false":
+                                print("RFID not match !")
 
-                        elif message == "printer-true":
-                            print("print struct here ...")
+                            elif message == "printer-true":
+                                print("print struct here ...")
 
-                            print("BUTTON ON (Printing Ticket)")
-                
-                            self.stateButton = True
-                            self.stateGate = True
-                            GPIO.output(self.led2,GPIO.HIGH)
-                            print("RELAY ON (Gate Open)")
-                            GPIO.output(self.gate,GPIO.HIGH)
-                            sleep(1)
-                            GPIO.output(self.gate,GPIO.LOW)
-                            print("RELAY OFF")
+                                print("BUTTON ON (Printing Ticket)")
+                    
+                                self.stateButton = True
+                                self.stateGate = True
+                                GPIO.output(self.led2,GPIO.HIGH)
+                                print("RELAY ON (Gate Open)")
+                                GPIO.output(self.gate,GPIO.HIGH)
+                                sleep(1)
+                                GPIO.output(self.gate,GPIO.LOW)
+                                print("RELAY OFF")
+                        except:
+                            print("Server not connected ...")
 
 
 
