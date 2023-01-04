@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import sys, socket
 from time import sleep
 from datetime import datetime
-
+from _thread import start_new_thread
 
 def run_GPIO(socket):
     
@@ -38,6 +38,19 @@ def run_GPIO(socket):
         print("stateButton", stateButton)
         print("stateGate", stateGate)
 
+        # GPIO.input(button) 1
+        # GPIO.LOW 0
+        # GPIO.input(loop1) 0
+        # stateButton False
+        # stateGate False
+
+        # LOOP 1 OFF (Vehicle Start Moving)
+        # GPIO.input(button) 1
+        # GPIO.LOW 0
+        # GPIO.input(loop1) 1
+        # stateButton False
+        # stateGate False
+
         if GPIO.input(button) == GPIO.LOW and GPIO.input(loop1) == GPIO.LOW and not stateButton and not stateGate:
             
             # send datetime to server
@@ -71,6 +84,19 @@ def run_GPIO(socket):
                                     
         sleep(0.5)
 
+
+def rfid_input(s, default):
+    while True:
+        rfid = input("input RFID: ")
+        
+        if rfid != "":
+            # send to server
+
+            try:
+                s.sendall( bytes(f"{rfid}", 'utf-8') )
+            except:
+                print("send RFID to server fail")
+
 # buat koneksi socket utk GPIO 
 try:
     host = sys.argv[1]
@@ -83,6 +109,8 @@ try:
     s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
     print("GPIO handshake success")
 
+    # run inoput RFID thread
+    start_new_thread( rfid_input,(s,None) )
     run_GPIO(s)
 except:
     print("GPIO handshake fail")
