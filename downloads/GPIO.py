@@ -226,6 +226,7 @@ class GPIOHandler:
                                 print("RELAY OFF")
                         except:
                             print("Server not connected ...")
+                            self.__init__()
 
 
 
