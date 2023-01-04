@@ -31,7 +31,13 @@ def run_GPIO(socket):
             stateLoop1 = False
             stateGate = False
             GPIO.output(led1,GPIO.LOW)
-            
+
+        print("GPIO.input(button)", GPIO.input(button))
+        print("GPIO.LOW", GPIO.LOW)
+        print("GPIO.input(loop1)", GPIO.input(loop1))
+        print("stateButton", stateButton)
+        print("stateGate", stateGate)
+
         if GPIO.input(button) == GPIO.LOW and GPIO.input(loop1) == GPIO.LOW and not stateButton and not stateGate:
             
             # send datetime to server
