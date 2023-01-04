@@ -105,6 +105,9 @@ try:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     s.connect((host, port))
+    sockets_list = [sys.stdin, s]
+
+    print("socket list: " , sockets_list)
 
     s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
     print("GPIO handshake success")
