@@ -218,4 +218,4 @@ class GPIOHandler:
 
 
 
-
+obj = GPIOHandler()
