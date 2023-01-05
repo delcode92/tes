@@ -135,8 +135,10 @@ class GPIOHandler:
 
                 print(dict_txt)  
 
-                self.s.sendall( bytes(dict_txt, 'utf-8') )
-                
+                try:
+                    self.s.sendall( bytes(dict_txt, 'utf-8') )
+                except Exception as e:
+                    print(str(e))
                 # get return from server
 
                 
