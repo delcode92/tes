@@ -134,11 +134,11 @@ class GPIOHandler:
                 dict_txt = f"pushButton#barcode"
 
                 print(dict_txt)  
+                self.s.sendall( bytes(dict_txt, 'utf-8') )
 
-                try:
-                    self.s.sendall( bytes(dict_txt, 'utf-8') )
-                except Exception:
-                    print("something error")
+                # try:
+                # except Exception:
+                #     print("something error")
                 # get return from server
 
                 
