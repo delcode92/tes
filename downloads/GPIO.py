@@ -15,6 +15,10 @@ class GPIOHandler:
 
         self.stateLoop1, self.stateLoop2, self.stateButton, self.stateGate = False, False, False, False
         
+        # read config file
+        file = self.getPath("config.cfg")
+        self.config = ConfigParser()
+        self.config.read(file)
 
         # buat koneksi socket utk GPIO
         host = sys.argv[1]
@@ -55,23 +59,20 @@ class GPIOHandler:
 
 
     def print_barcode(self,barcode):
-        file = self.getPath("config.cfg")
-        config = ConfigParser()
-        config.read(file)
-
-        vid = int(config['PRINTER']['VID'], 16)
-        pid = int(config['PRINTER']['PID'], 16)
-        in_ep = int(config['PRINTER']['IN'], 16)
-        out_ep = int(config['PRINTER']['OUT'], 16)
-        location = config['ID']['LOKASI']
-        company = config['ID']['PERUSAHAAN']
-        gate_num = config['POSISI']['PINTU']
-        gate_name = config['POSISI']['NAMA']
-        vehicle_type = config['POSISI']['KENDARAAN']
-        footer1 = config['KARCIS']['FOOTER1']
-        footer2 = config['KARCIS']['FOOTER2']
-        footer3 = config['KARCIS']['FOOTER3']
-        footer4 = config['KARCIS']['FOOTER4']
+        
+        vid = int( self.config['PRINTER']['VID'], 16 )
+        pid = int( self.config['PRINTER']['PID'], 16 )
+        in_ep = int( self.config['PRINTER']['IN'], 16 )
+        out_ep = int( self.config['PRINTER']['OUT'], 16 )
+        location = self.config['ID']['LOKASI']
+        company = self.config['ID']['PERUSAHAAN']
+        gate_num = self.config['POSISI']['PINTU']
+        gate_name = self.config['POSISI']['NAMA']
+        vehicle_type = self.config['POSISI']['KENDARAAN']
+        footer1 = self.config['KARCIS']['FOOTER1']
+        footer2 = self.config['KARCIS']['FOOTER2']
+        footer3 = self.config['KARCIS']['FOOTER3']
+        footer4 = self.config['KARCIS']['FOOTER4']
 
         new_time_text = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         p = Usb(vid, pid , timeout = 0, in_ep = in_ep, out_ep = out_ep)
@@ -123,30 +124,14 @@ class GPIOHandler:
                 self.stateGate = False
                 GPIO.output(self.led1,GPIO.LOW)
 
-            # print("GPIO.input(button)", GPIO.input(button))
-            # print("GPIO.LOW", GPIO.LOW)
-            # print("GPIO.input(loop1)", GPIO.input(loop1))
-            # print("stateButton", stateButton)
-            # print("stateGate", stateGate)
-
-            # GPIO.input(button) 1
-            # GPIO.LOW 0
-            # GPIO.input(loop1) 0
-            # stateButton False
-            # stateGate False
-
-            # LOOP 1 OFF (Vehicle Start Moving)
-            # GPIO.input(button) 1
-            # GPIO.LOW 0
-            # GPIO.input(loop1) 1
-            # stateButton False
-            # stateGate False
-
             if GPIO.input(self.button) == GPIO.LOW and GPIO.input(self.loop1) == GPIO.LOW and not self.stateButton and not self.stateGate:
                 
                 # send datetime to server
                 time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
-                self.s.sendall( bytes(f'datetime#{time_now}', 'utf-8') )
+
+                dict_txt = "pushButton#{ 'barcode':'"+time_now+"', 'gate':"+self.config['GATE']['NOMOR']+", 'ip_cam':["+self.config['IP_CAM']['IP']+"] }"
+
+                self.s.sendall( bytes(dict_txt, 'utf-8') )
                 
                 # get return from server
 
@@ -203,11 +188,16 @@ class GPIOHandler:
                 for socks in read_sockets:
                     if socks == self.s:
                         try:
-                            message = socks.recv(2048)
+                            message = socks.recv(1024)
                             message = message.decode("utf-8")
 
                             if message == "rfid-true":
                                 print("open Gate Utk Karyawan")
+
+                                GPIO.output(self.gate,GPIO.HIGH)
+                                sleep(1)
+                                GPIO.output(self.gate,GPIO.LOW)
+
                             elif message == "rfid-false":
                                 print("RFID not match !")
 
