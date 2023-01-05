@@ -131,7 +131,7 @@ class GPIOHandler:
                 # print("data: ", time_now)
                 # dict_txt = "pushButton#{ 'barcode':'"+time_now+"', 'gate':"+self.config['GATE']['NOMOR']+", 'ip_cam':["+self.config['IP_CAM']['IP']+"] }"
                 # dict_txt = "pushButton#{ barcode:"+time_now+" }"
-                dict_txt = f"pushButton#barcode:{time_now}"
+                dict_txt = f"pushButton#barcode:"
 
                 print(dict_txt)  
 
