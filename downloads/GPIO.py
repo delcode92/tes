@@ -137,8 +137,8 @@ class GPIOHandler:
 
                 try:
                     self.s.sendall( bytes(dict_txt, 'utf-8') )
-                except Exception as e:
-                    print(str(e))
+                except Exception:
+                    print("something error")
                 # get return from server
 
                 
