@@ -128,12 +128,13 @@ class GPIOHandler:
                 
                 # send datetime to server
                 time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
-                print("data: ", time_now)
-                dict_txt = "pushButton#{ 'barcode':'"+time_now+"', 'gate':"+self.config['GATE']['NOMOR']+", 'ip_cam':["+self.config['IP_CAM']['IP']+"] }"
+                # print("data: ", time_now)
+                # dict_txt = "pushButton#{ 'barcode':'"+time_now+"', 'gate':"+self.config['GATE']['NOMOR']+", 'ip_cam':["+self.config['IP_CAM']['IP']+"] }"
+                dict_txt = "pushButton#{ 'barcode':'"+time_now+"' }"
 
                 print(dict_txt)  
 
-                # self.s.sendall( bytes(dict_txt, 'utf-8') )
+                self.s.sendall( bytes(dict_txt, 'utf-8') )
                 
                 # get return from server
 
