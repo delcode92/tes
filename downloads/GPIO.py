@@ -129,6 +129,7 @@ class GPIOHandler:
                 # send datetime to server
                 time_now = datetime.now().strftime("%d%m%Y%H%M%S%f")
                 # print("data: ", time_now)
+                # { "barcode":"05012023090939685057", "gate":2, "ip_cam":['192.168.10.10', '192.168.10.12'] }
                 dict_txt = 'pushButton#{ "barcode":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "ip_cam":['+self.config['IP_CAM']['IP']+'] }'
                 # dict_txt = "pushButton#{ barcode:"+time_now+" }"
                 # dict_txt = f"pushButton#barcode\:"
