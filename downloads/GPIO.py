@@ -139,7 +139,7 @@ class GPIOHandler:
                 try:
                     self.s.sendall( bytes(dict_txt, 'utf-8') )
                 except Exception:
-                    print("someething")
+                    print("something error")
                 # get return from server
 
                 
@@ -210,7 +210,7 @@ class GPIOHandler:
 
                             elif message == "printer-true":
                                 print("print struct here ...")
-
+                                self.print_barcode("1234567890")
                                 print("BUTTON ON (Printing Ticket)")
                     
                                 self.stateButton = True
