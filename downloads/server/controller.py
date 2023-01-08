@@ -290,7 +290,7 @@ class Controller():
                 self.AdminDashboard()
             
             case "kelola rfid":
-                sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 850) }
+                sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
                 cols = 5
 
                 # create table
@@ -402,7 +402,7 @@ class Controller():
             
             
             case "kelola user":
-                sub_window_setter = { "title": "Kelola User", "style":self.bg_white, "size":(800, 850) }
+                sub_window_setter = { "title": "Kelola User", "style":self.bg_white, "size":(800, 600) }
                 cols = 5
 
                 # create table
@@ -441,16 +441,18 @@ class Controller():
                     edit_ico = self.getPath("edit.png")
                     btn.setIcon(QIcon(edit_ico))
                     btn.setStyleSheet( self.edit_btn_action )
-                    btn.clicked.connect(lambda: self.editData(table, "users"))
+                    # btn.clicked.connect(lambda: self.editData(table, "users"))
                     table.setCellWidget(rows, 3, btn)
-                    
+                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
+
                     # create delete button
                     btn_del = QPushButton(table)
                     del_ico = self.getPath("trash.png")
                     btn_del.setIcon(QIcon(del_ico))
                     btn_del.setStyleSheet(self.del_btn_action)
-                    btn_del.clicked.connect(lambda: self.deleteData(table, "users"))
+                    # btn_del.clicked.connect(lambda: self.deleteData(table, "users"))
                     table.setCellWidget(rows, 4, btn_del)
+                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "users"))
 
 
                 rows_count = math.floor(rows_count/2)
@@ -465,7 +467,7 @@ class Controller():
                 self.SubWinVerticalTable(sub_window_setter, [table])
 
             case "tambah user":
-                sub_window_setter = { "title": "Tambah User", "style":self.bg_white, "size":(600, 700) }
+                sub_window_setter = { "title": "Tambah User", "style":self.bg_white, "size":(600, 600) }
 
                 # components
                 components_setter = [
@@ -536,7 +538,7 @@ class Controller():
                 self.components["lbl_success"].setHidden(True)
 
             case "kelola kasir":
-                sub_window_setter = { "title": "Kelola Kasir", "style":self.bg_white, "size":(1200, 850)}
+                sub_window_setter = { "title": "Kelola Kasir", "style":self.bg_white, "size":(1200, 600)}
                 cols = 10
                 
                 # create table
@@ -574,16 +576,18 @@ class Controller():
                     edit_ico = self.getPath("edit.png")
                     btn.setIcon(QIcon(edit_ico))
                     btn.setStyleSheet( self.edit_btn_action )
-                    btn.clicked.connect(lambda: self.editData(table, "kasir"))
+                    # btn.clicked.connect(lambda: self.editData(table, "kasir"))
                     table.setCellWidget(rows, 8, btn)
+                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "kasir"))
                     
                     # create delete button
                     btn_del = QPushButton(table)
                     del_ico = self.getPath("trash.png")
                     btn_del.setIcon(QIcon(del_ico))
                     btn_del.setStyleSheet(self.del_btn_action)
-                    btn_del.clicked.connect(lambda: self.deleteData(table, "kasir"))
+                    # btn_del.clicked.connect(lambda: self.deleteData(table, "kasir"))
                     table.setCellWidget(rows, 9, btn_del)
+                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "kasir"))
 
 
                 rows_count = math.floor(rows_count/2)
@@ -603,7 +607,7 @@ class Controller():
                 self.SubWinVerticalTable(sub_window_setter, [table])
 
             case "tambah kasir":
-                sub_window_setter = { "title": "Tambah Kasir", "style":self.bg_white, "size":(800, 900) }
+                sub_window_setter = { "title": "Tambah Kasir", "style":self.bg_white, "size":(800, 600) }
 
                 # components
                 components_setter = [
@@ -711,7 +715,7 @@ class Controller():
                 self.components["lbl_success"].setHidden(True)
 
             case "kelola gate":
-                sub_window_setter = { "title": "Kelola Gate", "style":self.bg_white, "size":(1200, 800) }
+                sub_window_setter = { "title": "Kelola Gate", "style":self.bg_white, "size":(1200, 600) }
                 cols = 7
                 
                 # create table
@@ -749,16 +753,18 @@ class Controller():
                     edit_ico = self.getPath("edit.png")
                     btn.setIcon(QIcon(edit_ico))
                     btn.setStyleSheet( self.edit_btn_action )
-                    btn.clicked.connect(lambda: self.editData(table, "gate"))
+                    # btn.clicked.connect(lambda: self.editData(table, "gate"))
                     table.setCellWidget(rows, 5, btn)
+                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "gate"))
                     
                     # create delete button
                     btn_del = QPushButton(table)
                     del_ico = self.getPath("trash.png")
                     btn_del.setIcon(QIcon(del_ico))
                     btn_del.setStyleSheet(self.del_btn_action)
-                    btn_del.clicked.connect(lambda: self.deleteData(table, "gate"))
+                    # btn_del.clicked.connect(lambda: self.deleteData(table, "gate"))
                     table.setCellWidget(rows, 6, btn_del)
+                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "gate"))
 
 
                 rows_count = math.floor(rows_count/2)
@@ -775,7 +781,7 @@ class Controller():
                 self.SubWinVerticalTable(sub_window_setter, [table])
 
             case "tambah gate":
-                sub_window_setter = { "title": "Tambah Pos/Gate", "style":self.bg_white, "size":(600, 650) }
+                sub_window_setter = { "title": "Tambah Pos/Gate", "style":self.bg_white, "size":(600, 600) }
 
                 # components
                 components_setter = [{
@@ -850,7 +856,7 @@ class Controller():
                 ...
 
             case "kelola tarif":
-                sub_window_setter = { "title": "Kelola Tarif", "style":self.bg_white, "size":(900, 850) }
+                sub_window_setter = { "title": "Kelola Tarif", "style":self.bg_white, "size":(900, 600) }
 
                 cols = 7
                 
@@ -889,16 +895,18 @@ class Controller():
                     edit_ico = self.getPath("edit.png")
                     btn.setIcon(QIcon(edit_ico))
                     btn.setStyleSheet( self.edit_btn_action )
-                    btn.clicked.connect(lambda: self.editData(table, "tarif"))
+                    # btn.clicked.connect(lambda: self.editData(table, "tarif"))
                     table.setCellWidget(rows, 5, btn)
+                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "tarif"))
                     
                     # create delete button
                     btn_del = QPushButton(table)
                     del_ico = self.getPath("trash.png")
                     btn_del.setIcon(QIcon(del_ico))
                     btn_del.setStyleSheet(self.del_btn_action)
-                    btn_del.clicked.connect(lambda: self.deleteData(table, "tarif"))
+                    # btn_del.clicked.connect(lambda: self.deleteData(table, "tarif"))
                     table.setCellWidget(rows, 6, btn_del)
+                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "tarif"))
 
 
                 rows_count = math.floor(rows_count/2)
