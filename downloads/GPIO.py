@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import sys, socket, select, os
+import sys, socket, select, random
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -210,7 +210,8 @@ class GPIOHandler:
 
                             elif message == "printer-true":
                                 print("print struct here ...")
-                                self.print_barcode("1234567890")
+                                rand = random.randint(0,6)
+                                self.print_barcode(str(rand))
                                 print("BUTTON ON (Printing Ticket)")
                     
                                 self.stateButton = True

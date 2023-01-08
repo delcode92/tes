@@ -226,14 +226,16 @@ class Server:
                             print("checking RFID ...")
                             # self.db_cursor.execute("select count(*) as count from rfid where rfid='123'")
                             res = self.exec_query(f"select count(*) as count from rfid where rfid='{msg}'", "select")
-                            print("RFID result: ", res[0])
+                            print("RFID result: ", res[0][0])
 
-                            if res[0] == 1:
+                            if res[0][0] == 1:
+                                print("success rfid")
                                 conn.sendall( bytes("rfid-true", 'utf-8') )
                             else:
-                                print("gagal rfid")
+                                print("fail rfid")
                                 conn.sendall( bytes("rfid-false", 'utf-8') )
                             print("==================================")
+
 
                         elif "pushButton#" in msg:
                             msg = msg.replace("pushButton#", "")
