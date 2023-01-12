@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 import sys, socket, select, random, os
 from time import sleep
 from datetime import datetime
@@ -100,81 +100,6 @@ class GPIOHandler:
         p.cut()
         p.close()
 
-    def run_GPIO(self):
-        
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(self.loop1, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.loop2, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.button, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.led1, GPIO.OUT)
-        GPIO.setup(self.led2, GPIO.OUT)
-        GPIO.setup(self.led3, GPIO.OUT)
-        GPIO.setup(self.gate, GPIO.OUT)
-        
-        while True:
-            if GPIO.input(self.loop1) == GPIO.LOW and not self.stateLoop1:
-                print("LOOP 1 ON (Vehicle Incoming)")
-                self.stateLoop1 = True
-                GPIO.output(self.led1,GPIO.HIGH)
-                
-            elif GPIO.input(self.loop1) == GPIO.HIGH and self.stateLoop1:  
-                print("LOOP 1 OFF (Vehicle Start Moving)")
-                self.stateLoop1 = False
-                self.stateGate = False
-                GPIO.output(self.led1,GPIO.LOW)
-
-            if GPIO.input(self.button) == GPIO.LOW and GPIO.input(self.loop1) == GPIO.LOW and not self.stateButton and not self.stateGate:
-                
-                # send datetime to server & self.time_now save to property --> can be called when print
-                time_now = datetime.now().strftime("%Y%m%d%H%M%S")
-                # print("data: ", time_now)
-                # { "barcode":"05012023090939685057", "gate":2, "ip_cam":['192.168.10.10', '192.168.10.12'] }
-                
-                # send barcode and datetime here
-                # barcode --> shorten datetime
-                #  2.023.011  - 2.246.060 = 901501
-                self.barcode = int(time_now[0:7]) - int(time_now[7:14])
-                if self.barcode<0 : self.barcode=self.barcode * -1
-                
-                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "gate":'+self.config['GATE']['NOMOR']+', "ip_cam":['+self.config['IP_CAM']['IP']+'] }'
-                print(dict_txt)  
-
-                try:
-                    self.s.sendall( bytes(dict_txt, 'utf-8') )
-                except Exception:
-                    print("something error")
-                # get return from server
-
-                
-                # print("self.button ON (Printing Ticket)")
-                
-                # self.stateButton = True
-                # stateGate = True
-                # GPIO.output(led2,GPIO.HIGH)
-                # print("RELAY ON (Gate Open)")
-                # GPIO.output(gate,GPIO.HIGH)
-                # sleep(1)
-                # GPIO.output(gate,GPIO.LOW)
-                # print("RELAY OFF")
-                
-            elif GPIO.input(self.button) == GPIO.HIGH and GPIO.input(self.loop1) == GPIO.LOW and self.stateButton:
-                print("BUTTON OFF")
-                self.stateButton = False
-                GPIO.output(self.led2,GPIO.LOW)
-                                
-            if GPIO.input(self.loop2) == GPIO.LOW and not self.stateLoop2:
-                print("LOOP 2 ON (Vehicle Moving In)")
-                self.stateLoop2 = True
-                
-            elif GPIO.input(self.loop2) == GPIO.HIGH and self.stateLoop2:
-                print("LOOP 2 OFF (Vehicle In)")
-                print(".........(Gate Close)")
-                self.stateLoop2 = False 
-                self.stateGate = False
-                                        
-            sleep(0.5)
-
     def rfid_input(self):
         while True:
             rfid = input("input RFID: ")
@@ -206,10 +131,6 @@ class GPIOHandler:
                             if message == "rfid-true":
                                 print("open Gate Utk Karyawan")
 
-                                GPIO.output(self.gate,GPIO.HIGH)
-                                sleep(1)
-                                GPIO.output(self.gate,GPIO.LOW)
-
                             elif message == "rfid-false":
                                 print("RFID not match !")
 
@@ -218,17 +139,9 @@ class GPIOHandler:
                                 
                                 self.print_barcode(self.barcode)
                                 
-                                
-                                
                                 print("BUTTON ON (Printing Ticket)")
                     
-                                self.stateButton = True
-                                self.stateGate = True
-                                GPIO.output(self.led2,GPIO.HIGH)
-                                print("RELAY ON (Gate Open)")
-                                GPIO.output(self.gate,GPIO.HIGH)
-                                sleep(1)
-                                GPIO.output(self.gate,GPIO.LOW)
+                               
                                 print("RELAY OFF")
                         except:
                             print("Server not connected ...")
