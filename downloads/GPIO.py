@@ -51,7 +51,7 @@ class GPIOHandler:
                 except:
                     print("GPIO handshake fail")
         
-                # sleep(5)
+                sleep(5)
 
     def getPath(self,fileName):
         path = os.path.dirname(os.path.realpath(__file__))
