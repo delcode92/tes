@@ -28,7 +28,6 @@ class GPIOHandler:
 
             try:
                 self.s.sendall( bytes(f"client({host}) connected", 'utf-8') )
-                sleep(5)
             except:
                 print("GPIO handshake fail")
 
@@ -52,6 +51,7 @@ class GPIOHandler:
                 except:
                     print("GPIO handshake fail")
         
+            sleep(5)
 
     def getPath(self,fileName):
         path = os.path.dirname(os.path.realpath(__file__))
@@ -142,11 +142,10 @@ class GPIOHandler:
                                 
                                 print("BUTTON ON (Printing Ticket)")
                     
-                               
                                 print("RELAY OFF")
-                        except:
-                            print("Server not connected ...")
-                            self.__init__()
+
+                        except Exception as e:
+                            print("error:", str(e))
 
 
 

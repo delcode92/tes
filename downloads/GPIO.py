@@ -184,7 +184,7 @@ class GPIOHandler:
                 # send to server
 
                 try:
-                    self.s.sendall( bytes(f"rfid#{rfid}", 'utf-8') )
+                    self.s.sendall( bytes(f"rfid#{rfid}#end", 'utf-8') )
                 except:
                     print("send RFID to server fail")
 
