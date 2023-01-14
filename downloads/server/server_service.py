@@ -1,4 +1,5 @@
-import sys, socket, psycopg2, logging, datetime, json, multiprocessing
+import sys, re, socket, psycopg2, logging, datetime, json, multiprocessing
+from cv2 import add
 from _thread import start_new_thread
 from framework import *
 
@@ -7,23 +8,30 @@ class Thread(QThread):
     changePixmap = pyqtSignal(QImage)
 
     def run(self):
-        cap = cv2.VideoCapture('rtsp://admin:admin@192.168.10.21')
-        while True:
-            ret, frame = cap.read()
-            if ret:
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-           
-                h, w, ch = rgbImage.shape
-                bytesPerLine = ch * w
-                convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                self.changePixmap.emit(p)
-
+        cap = cv2.VideoCapture('rtsp://admin:admin@192.168.100.21')
+        
+        while(cap.isOpened()):
+            try:        
+                while True:
+                    ret, frame = cap.read()
+                    if ret:
+                        rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                
+                        h, w, ch = rgbImage.shape
+                        bytesPerLine = ch * w
+                        convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                        p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                        self.changePixmap.emit(p)
+            except cv2.error as e:
+            # except Exception as e:
+                print(str(e))
+        else:
+            print("IP CAM not connected ... ")
 
 class IPCam(Util, View):
-    def __init__(self, conn) -> None:
-        self.process_conn = conn
-        self.snap_stat = False
+    def __init__(self, multiproc_conn) -> None:
+        self.process_conn = multiproc_conn
+        # self.snap_stat = False
         # self.snapshot = conn.recv()
         # print("data snap: " , self.snapshot)
 
@@ -100,10 +108,10 @@ class IPCam(Util, View):
         status_layout.addRow(ip_lbl, ip_val)
         status_layout.addRow(stat_lbl, stat_val)
 
-        snap_button = QPushButton("snap")
-        status_layout.addRow(stat_lbl, snap_button)
+        # snap_button = QPushButton("snap")
+        # status_layout.addRow(stat_lbl, snap_button)
 
-        snap_button.clicked.connect(self.snap_func)
+        # snap_button.clicked.connect(self.snap_func)
 
         # web cam image here with label helper
         self.lbl1 = QLabel()
@@ -124,8 +132,6 @@ class IPCam(Util, View):
         # add cam layout(from layout) to main layout
         main_layout.addLayout(cam_layout)
         
-
-        
         widget = QWidget()
         widget.setLayout(main_layout)
         
@@ -140,8 +146,8 @@ class IPCam(Util, View):
         self.window.show()
         sys.exit(self.app.exec_())
 
-    def snap_func(self):
-        self.snap_stat = True
+    # def snap_func(self):
+    #     self.snap_stat = True
 
     def snap_thread(self, image):
         if self.process_conn.recv() == "snapshot":
@@ -150,15 +156,17 @@ class IPCam(Util, View):
 
     # @pyqtSlot(QtGui.QImage)
     def setImage(self, image):
-        # print(image)
-        self.lbl1.setPixmap(QPixmap.fromImage(image))
+        try:
+            self.lbl1.setPixmap(QPixmap.fromImage(image))
+        except Exception as e:
+            print(str(e))
 
         # start_new_thread(self.snap_thread, (image,))
-        if self.snap_stat:
-            image.save("meong_capture.jpg","JPG");
-            print("save snapshot image ...", type(image))
-            self.snap_stat = False
-            image = QImage()
+        # if self.snap_stat:
+        #     image.save("meong_capture.jpg","JPG");
+        #     print("save snapshot image ...", type(image))
+        #     self.snap_stat = False
+        #     image = QImage()
 
         
 
@@ -168,10 +176,10 @@ class IPCam(Util, View):
 class Server:
 
     db_cursor = None
-    list_of_clients = []
+    list_of_clients = {}
     
-    def __init__(self, host, port, conn ) -> None:
-        self.process_conn = conn
+    def __init__(self, host, port, multiproc_conn ) -> None:
+        self.process_conn = multiproc_conn
         # print(host, type(host))
         # print(port, type(port))
 
@@ -192,7 +200,6 @@ class Server:
             # sementara pada penamaan komponen label harus ada hubungan/integrasi antara client yg konek dengan name 
             # komponent tersebut
 
-            self.list_of_clients.append(addr)
             print(f"Connected by {addr}")
             
             # create label component
@@ -219,26 +226,41 @@ class Server:
                         # print(msg)
 
                         if "rfid#" in msg:
-
-                            msg = msg.replace("rfid#", "")
                             
+                            try:
+                                msg = re.search('rfid#(.+?)#end', msg).group(1)
+                            except AttributeError:
+                                print("rfid between substring not found ... ")
+
                             print("==================================")
                             print("checking RFID ...")
+
                             # self.db_cursor.execute("select count(*) as count from rfid where rfid='123'")
                             res = self.exec_query(f"select count(*) as count from rfid where rfid='{msg}'", "select")
                             print("RFID result: ", res[0][0])
 
                             if res[0][0] == 1:
                                 print("success rfid")
+
+                                # get conn obj based on ip
+                            
+                                # self.list_of_clients[f"{addr}"].sendall( bytes("rfid-true", 'utf-8') )
                                 conn.sendall( bytes("rfid-true", 'utf-8') )
                             else:
                                 print("fail rfid")
+                                # self.list_of_clients[f"{addr}"].sendall( bytes("rfid-false", 'utf-8') )
                                 conn.sendall( bytes("rfid-false", 'utf-8') )
                             print("==================================")
 
 
                         elif "pushButton#" in msg:
-                            msg = msg.replace("pushButton#", "")
+                            # msg = msg.replace("pushButton#", "")
+                            
+                            try:
+                                msg = re.search('pushButton#(.+?)#end', msg).group(1)
+                            except AttributeError:
+                                print("JSON between substring not found ... ")
+
                             try:
                                 
                                 print("get json string : ",msg)
@@ -248,22 +270,23 @@ class Server:
 
                                 # get data from json
                                 barcode = res["barcode"]
+                                time = res["time"]
+                                time = res["time"]
                                 gate = res["gate"]
                                 ip = res["ip_cam"]
 
                                 # save to db
-                                Y = barcode[0:4]
-                                M = barcode[4:6]
-                                D = barcode[6:8]
+                                Y = time[0:4]
+                                M = time[4:6]
+                                D = time[6:8]
 
-                                h = barcode[8:10]
-                                m = barcode[10:12]
-                                s = barcode[12:14]
-                                ms = barcode[14:20]
-
-                                barcode = int(barcode)
+                                h = time[8:10]
+                                m = time[10:12]
+                                s = time[12:14]
+                                
+                                time = int(time)
                                 # insert into karcis (datetime) values('2023-01-05 10:43:50.866085');
-                                dt = f'{Y}-{M}-{D} {h}:{m}:{s}.{ms}'
+                                dt = f'{Y}-{M}-{D} {h}:{m}:{s}'
                                 q = f"insert into karcis (barcode, datetime, gate) values ('{barcode}', '{dt}', '{gate}')";
                                 exec = self.exec_query(q)
 
@@ -272,6 +295,12 @@ class Server:
                                 print("server ask to snapshot ....")
                                 self.process_conn.send("snapshot")
                                 
+                                print("Save Date Time & capture cam image success ....")
+                                print(f"send return value to raspi( {addr} )....")
+                                
+                                # self.list_of_clients[f"{addr}"].sendall( bytes("printer-true", 'utf-8') )
+                                conn.sendall( bytes("printer-true", 'utf-8') )
+                            
                             except Exception as e:
                                 print(str(e))
                             
@@ -286,8 +315,6 @@ class Server:
                             # save to db
                             # id|barcode|date_time|gate|images_path  --->  table ini nantinya akan dipakai utk mencari perhitungan harga parkir
 
-                            print("Save Date Time & capture cam image here ....")
-                            conn.sendall( bytes("printer-true", 'utf-8') )
                     
                     if not data:
                         break
@@ -301,7 +328,6 @@ class Server:
         
         # while true -> fro server socket always stanby, event after client connection break/fail
         while True:
-            print("looop")
             # start_new_thread(self.gui,())    
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -309,6 +335,9 @@ class Server:
                 s.listen()
                 conn, addr = s.accept()
                 
+                # save conn obj based on ip
+                self.list_of_clients[f"{addr}"] = conn
+
                 t = start_new_thread(self.client_thread, (conn, addr))
                 
                         

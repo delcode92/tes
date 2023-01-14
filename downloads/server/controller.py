@@ -853,7 +853,72 @@ class Controller():
                 self.components["lbl_success"].setHidden(True)
 
             case "setting karcis":
-                ...
+                sub_window_setter = { "title": "Setting Karcis", "style":self.bg_white, "size":(600, 600) }
+
+                # components
+                components_setter = [{
+                                        "name":"lbl_success",
+                                        "category":"label",
+                                        "text": "Data Saved",
+                                        "style":self.success_lbl
+                                    },
+                                    {
+                                        "name":"lbl_nm_tempat",
+                                        "category":"label",
+                                        "text": "Nama Tempat",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tempat",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_nm_perusahaan",
+                                        "category":"label",
+                                        "text": "Nama Perusahaan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_perusahaan",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_pintu_masuk",
+                                        "category":"label",
+                                        "text": "Pintu Masuk",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_per_24jam",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_tarif_jns_kendaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_jns_kendaraan",
+                                        "category":"comboBox",
+                                        "items":["Motor", "Mobil"],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_tarif",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_tarif
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
+                self.SubWinVerticalForm(sub_window_setter, components_setter)
 
             case "kelola tarif":
                 sub_window_setter = { "title": "Kelola Tarif", "style":self.bg_white, "size":(900, 600) }
@@ -992,6 +1057,13 @@ class Controller():
 
                 self.components["lbl_success"].setAlignment(Qt.AlignCenter)
                 self.components["lbl_success"].setHidden(True)
+            
+            case "kelola voucher":
+                ...
+            
+            case "aturan voucher":
+                ...
+            
             case "kelola laporan":
                 sub_window_setter = { "title": "Kelola Laporan" }
             
@@ -1473,7 +1545,4 @@ class Controller():
                     case default:
                         pass     
                 
-    def test_click(self):
-        print("from test clicked")
-        # l = QtWidgets.QLabel("test label 123")
-        # layout.addWidget(l)
+    

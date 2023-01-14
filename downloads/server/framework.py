@@ -5,7 +5,7 @@ QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea,
 )
 
 from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor
-from PyQt5.QtCore import QThread, Qt, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QThread, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 
@@ -263,11 +263,31 @@ class View:
         center_vetical = int((screenHeight/2)-(windowHeight/2))    
         return center_vetical
 
-class Util(Controller):
+class EventBinder(QObject):
+
+    def __init__(self, target, event_target):
+        super().__init__(target)
+        self._target = target
+        self.eventTarget = event_target
+        self.target.installEventFilter(self)
+    
+    @property
+    def target(self):
+        return self._target
+
+    def eventFilter(self, source, event):
+        if event.type() == QEvent.KeyPress and source is self.target:
+            if event.key() == Qt.Key_Return and self.target.hasFocus():
+                print('Enter pressed')
+                self.eventTarget()
+
+        return super().eventFilter(source, event)
+
+class Util(Controller ):
     def __init__(self) -> None:
+        self.app = QApplication(sys.argv)
         super().__init__()
           
-        self.app = QApplication(sys.argv)
         
         self.screenSize = self.ScreenSize(self.app)
         self.components = {}
@@ -278,7 +298,9 @@ class Util(Controller):
         print("run QApplication .......")
         print("init screensize .......")
         print("init components dict .......\n")
-        
+
+     
+
     def setCenter(self, window_reference, screen_size:tuple, window_size:tuple):
         center_horizontal = self.GetCenterHorizontal(screen_size[0], window_size[0])
         center_vetical = self.GetCenterVertical(screen_size[1], window_size[1])
@@ -557,7 +579,11 @@ class Util(Controller):
                                     self.components[i["name"]].clicked.connect( lambda: method_name(i["clicked"]["arguments"]) )
                                 elif "arguments" not in i["clicked"]:
                                     self.components[i["name"]].clicked.connect( method_name )
-                            
+                            case "event":
+                                method_name = i["event"]["method_name"]
+                                EventBinder(self.components[i["name"]], lambda: method_name(i["clicked"]["arguments"])  )
+                                                           
+
                             case "items":
                                 self.components[i["name"]].addItems(i["items"])
                             case "children":
@@ -566,6 +592,16 @@ class Util(Controller):
             else:
                 print("name - category not available/empty")
                 sys.exit()
+
+
+    # def eventFilter(self, source, event):
+    #     print("masuk")
+    #     #     # if event.type() == QEvent.KeyPress and obj is self.components["input_pass"]:
+    #     #     #     if event.key() == Qt.Key_Return and self.components["input_pass"].hasFocus():
+    #     #     #         print('Enter pressed')
+    #     return super().eventFilter(source, event)   
+    
+
 
     def SubWinVerticalForm(self, sub_window_setter:dict, components_setter:list, type=""):
         # create subwindows
@@ -616,3 +652,9 @@ class Util(Controller):
         if index >= 0:
             return index
             # combo.setCurrentIndex(index)
+
+    def eventFilter(self, component, obj, event):
+        if event.type() == QEvent.KeyPress and obj is self.text_box:
+            if event.key() == Qt.Key_Return and self.text_box.hasFocus():
+                print('Enter pressed')
+        return super().eventFilter(obj, event)

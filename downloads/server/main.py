@@ -1,4 +1,3 @@
-from os import stat
 import sys
 from framework import *
 
@@ -58,7 +57,11 @@ class Main( Util, View):
                         "min_width":320,
                         "move":(30,140),
                         "style": "border:1px solid #ecf0f1;" + self.bg_grey,
-                        "font":self.helvetica_12
+                        "font":self.helvetica_12,
+                        "event": {
+                            "method_name": self.login_ctrl, 
+                            "arguments": (self.window,self)
+                        }
                     },
                     {
                         "name":"btn_login",
@@ -81,7 +84,7 @@ class Main( Util, View):
        
         self.window.show()
         sys.exit(self.app.exec_())
-    
+   
     def AdminDashboard(self):
         window_setter = {
             "title":"Admin Dashboard", 
@@ -95,6 +98,7 @@ class Main( Util, View):
             {"Kasir":("Kelola Kasir", "Tambah Kasir")},
             {"Gate":("Kelola Gate", "Tambah Gate", "Setting Karcis")},
             {"Tarif":("Kelola Tarif", "Aturan Tarif")},
+            {"Voucher":("Kelola Voucher", "Aturan Voucher")},
             {"Laporan":("Kelola Laporan")},
             {"App":("Logout")}
         ]
