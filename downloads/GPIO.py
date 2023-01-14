@@ -138,7 +138,7 @@ class GPIOHandler:
                 self.barcode = int(time_now[0:7]) - int(time_now[7:14])
                 if self.barcode<0 : self.barcode=self.barcode * -1
                 
-                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "gate":'+self.config['GATE']['NOMOR']+', "ip_cam":['+self.config['IP_CAM']['IP']+'] }#end'
+                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "time":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "ip_cam":['+self.config['IP_CAM']['IP']+'] }#end'
                 print(dict_txt)  
 
                 try:
