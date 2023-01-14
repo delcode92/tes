@@ -230,9 +230,10 @@ class GPIOHandler:
                                 sleep(1)
                                 GPIO.output(self.gate,GPIO.LOW)
                                 print("RELAY OFF")
-                        except:
-                            print("Server not connected ...")
-                            self.__init__()
+                        except Exception as e:
+                            print("error:", str(e))
+                            # print("Server not connected ...")
+                            # self.__init__()
 
 
 
