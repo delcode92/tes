@@ -216,10 +216,9 @@ class GPIOHandler:
 
                             elif message == "printer-true":
                                 print("print struct here ...")
-                                
+                                print("barcode", self.barcode)
+
                                 self.print_barcode(self.barcode)
-                                
-                                
                                 
                                 print("BUTTON ON (Printing Ticket)")
                     
