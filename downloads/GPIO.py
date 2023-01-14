@@ -218,7 +218,7 @@ class GPIOHandler:
                                 print("print struct here ...")
                                 print("barcode", self.barcode)
 
-                                self.print_barcode(self.barcode)
+                                self.print_barcode(str(self.barcode))
                                 
                                 print("BUTTON ON (Printing Ticket)")
                     
