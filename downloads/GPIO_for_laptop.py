@@ -147,7 +147,7 @@ class GPIOHandler:
                             elif "config#" in message :
                                 print("========== change config =============")
                                 print("get message ...")
-                                message = re.search('rfid#(.+?)#end', message).group(1)
+                                message = re.search('config#(.+?)#end', message).group(1)
                                 print(message)
                                 print(type(message))
 
