@@ -241,10 +241,14 @@ class GPIOHandler:
 
                                 print("write to file ... ")
                                 config = ConfigParser()
+                                config.read('config.cfg')
 
-                                config.add_section('ID')
-                                # config['ID']['LOKASI'] = message['tempat']                                
-                                config.set('ID','LOKASI', message['tempat'])
+                                # ID =config['ID'] 
+                                # ID['LOKASI'] = message['tempat']
+
+                                # config.add_section('ID')
+                                config['ID']['LOKASI'] = message['tempat']                                
+                                # config.set('ID','LOKASI', message['tempat'])
 
                                 # config.add_section('KARCIS')
                                 # config['KARCIS']['FOOTER1'] = message['footer1']                                
