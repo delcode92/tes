@@ -1,5 +1,5 @@
 # import RPi.GPIO as GPIO
-import sys, socket, select, random, os, re
+import sys, socket, select, random, os, re, json
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -148,6 +148,7 @@ class GPIOHandler:
                                 print("========== change config =============")
                                 print("get message ...")
                                 message = re.search('config#(.+?)#end', message).group(1)
+                                message = json.loads(message)
                                 print(message)
                                 print(type(message))
 
