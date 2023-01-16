@@ -44,11 +44,12 @@ class GPIOHandler:
 
                     # stanby data yg dikirim dari server disini
                     start_new_thread( self.recv_server,() )
-
+                    
                     # run input RFID thread
                     start_new_thread( self.rfid_input,() )
                     # self.run_GPIO()
-                except:
+                except Exception  as e:
+                    print(str(e))
                     print("GPIO handshake fail")
         
             sleep(5)
@@ -156,12 +157,13 @@ class GPIOHandler:
                                 config = ConfigParser()
                                 
                                 config.add_section('ID')
-                                config['ID']['LOKASI'] = message['tempat']                                
-                                                                
-                                config.add_section('KARCIS')
-                                config['KARCIS']['FOOTER1'] = message['footer1']                                
-                                config['KARCIS']['FOOTER2'] = message['footer2']                                
-                                config['KARCIS']['FOOTER3'] = message['footer3']
+                                # config['ID']['LOKASI'] = message['tempat']                                
+                                config.set('ID','LOKASI', message['tempat'])
+
+                                # config.add_section('KARCIS')
+                                # config['KARCIS']['FOOTER1'] = message['footer1']                                
+                                # config['KARCIS']['FOOTER2'] = message['footer2']                                
+                                # config['KARCIS']['FOOTER3'] = message['footer3']
 
                                 with open('config.cfg', 'w') as configfile:
                                     config.write(configfile)
