@@ -47,7 +47,7 @@ class GPIOHandler:
 
                     # run input RFID thread
                     start_new_thread( self.rfid_input,() )
-                    self.run_GPIO()
+                    # self.run_GPIO()
                 except:
                     print("GPIO handshake fail")
         
@@ -109,7 +109,7 @@ class GPIOHandler:
                 # send to server
 
                 try:
-                    self.s.sendall( bytes(f"rfid#{rfid}", 'utf-8') )
+                    self.s.sendall( bytes(f"rfid#{rfid}#end", 'utf-8') )
                 except:
                     print("send RFID to server fail")
 
