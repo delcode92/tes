@@ -243,17 +243,10 @@ class GPIOHandler:
                                 config = ConfigParser()
                                 config.read('config.cfg')
 
-                                # ID =config['ID'] 
-                                # ID['LOKASI'] = message['tempat']
-
-                                # config.add_section('ID')
                                 config['ID']['LOKASI'] = message['tempat']                                
-                                # config.set('ID','LOKASI', message['tempat'])
-
-                                # config.add_section('KARCIS')
-                                # config['KARCIS']['FOOTER1'] = message['footer1']                                
-                                # config['KARCIS']['FOOTER2'] = message['footer2']                                
-                                # config['KARCIS']['FOOTER3'] = message['footer3']
+                                config['KARCIS']['FOOTER1'] = message['footer1']                                
+                                config['KARCIS']['FOOTER2'] = message['footer2']                                
+                                config['KARCIS']['FOOTER3'] = message['footer3']
 
                                 with open('config.cfg', 'w') as configfile:
                                     config.write(configfile)
