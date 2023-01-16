@@ -240,10 +240,17 @@ class GPIOHandler:
                                 print(type(message))
 
                                 print("write to file ... ")
-                                # config = ConfigParser()
-                                # config['ID']['LOKASI'] =                                 
-                                print("=====================================")
+                                config = ConfigParser()
+                                config['ID']['LOKASI'] = message['tempat']                                
+                                                                
+                                config['KARCIS']['FOOTER1'] = message['footer1']                                
+                                config['KARCIS']['FOOTER2'] = message['footer2']                                
+                                config['KARCIS']['FOOTER3'] = message['footer3']
 
+                                with open('config.cfg', 'w') as configfile:
+                                    config.write(configfile)
+
+                                print("=====================================")
 
                         except Exception as e:
                             print("error:", str(e))
