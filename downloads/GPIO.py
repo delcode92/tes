@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import sys, socket, select, random, os
+import sys, socket, select, random, os, re
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -230,6 +230,12 @@ class GPIOHandler:
                                 sleep(1)
                                 GPIO.output(self.gate,GPIO.LOW)
                                 print("RELAY OFF")
+
+                            elif "config#" in message :
+                                print("========== change config =============")
+                                message = re.search('rfid#(.+?)#end', message).group(1)
+                                print(message)
+
                         except Exception as e:
                             print("error:", str(e))
                             # print("Server not connected ...")
