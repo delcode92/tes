@@ -237,7 +237,7 @@ class GPIOHandler:
                             elif message == "open-true":
                                 print("OPEN GATE KELUAR ... ")
                                 GPIO.output(self.gate_out,GPIO.HIGH)
-                                sleep(1)
+                                sleep(5)
                                 GPIO.output(self.gate_out,GPIO.LOW)
 
                             elif "config#" in message :
