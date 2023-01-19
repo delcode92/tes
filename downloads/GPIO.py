@@ -10,7 +10,7 @@ from configparser import ConfigParser
 class GPIOHandler:
     def __init__(self) -> None:
         # global variable
-        self.led1, self.led2, self.led3, self.gate = 8,10,11,18
+        self.led1, self.led2, self.led3, self.gate, self.gate_out = 8,10,11,18,16
         self.loop1, self.loop2, self.button = 12,13,7
 
         self.stateLoop1, self.stateLoop2, self.stateButton, self.stateGate = False, False, False, False
@@ -112,6 +112,7 @@ class GPIOHandler:
         GPIO.setup(self.led2, GPIO.OUT)
         GPIO.setup(self.led3, GPIO.OUT)
         GPIO.setup(self.gate, GPIO.OUT)
+        GPIO.setup(self.gate_out, GPIO.OUT)
         
         while True:
             if GPIO.input(self.loop1) == GPIO.LOW and not self.stateLoop1:
@@ -235,9 +236,9 @@ class GPIOHandler:
 
                             elif message == "open-true":
                                 print("OPEN GATE KELUAR ... ")
-                                # GPIO.output(self.gate_out,GPIO.HIGH)
-                                # sleep(1)
-                                # GPIO.output(self.gate_out,GPIO.LOW)
+                                GPIO.output(self.gate_out,GPIO.HIGH)
+                                sleep(1)
+                                GPIO.output(self.gate_out,GPIO.LOW)
 
                             elif "config#" in message :
                                 print("========== change config =============")
