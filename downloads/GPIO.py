@@ -27,7 +27,7 @@ class GPIOHandler:
         while True:
 
             try:
-                self.s.sendall( bytes(f"client({host}) connected", 'utf-8') )
+                self.s.sendall( bytes(f"server({host}) connected", 'utf-8') )
             except:
                 print("GPIO handshake fail")
 
@@ -140,7 +140,7 @@ class GPIOHandler:
                 
                 jns_kendaraan = self.config['POSISI']['KENDARAAN']
                 jns_kendaraan = jns_kendaraan.lower()
-                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "time":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "jns_kendaraan":"'+jns_kendaraan+'","ip_cam":['+self.config['IP_CAM']['IP']+'] }#end'
+                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "time":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "jns_kendaraan":"'+jns_kendaraan+'","ip_raspi":['+self.config['GATE']['IP']+'] }#end'
                 print(dict_txt)  
 
                 try:
@@ -232,6 +232,12 @@ class GPIOHandler:
                                 sleep(1)
                                 GPIO.output(self.gate,GPIO.LOW)
                                 print("RELAY OFF")
+
+                            elif message == "open-true":
+                                print("OPEN GATE KELUAR ... ")
+                                # GPIO.output(self.gate_out,GPIO.HIGH)
+                                # sleep(1)
+                                # GPIO.output(self.gate_out,GPIO.LOW)
 
                             elif "config#" in message :
                                 print("========== change config =============")

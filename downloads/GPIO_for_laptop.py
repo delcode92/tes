@@ -27,7 +27,7 @@ class GPIOHandler:
         while True:
 
             try:
-                self.s.sendall( bytes(f"client({host}) connected", 'utf-8') )
+                self.s.sendall( bytes(f"server({host}) connected", 'utf-8') )
             except:
                 print("GPIO handshake fail")
 
