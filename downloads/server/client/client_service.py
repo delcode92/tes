@@ -6,9 +6,8 @@ from time import sleep
 
 class Client:
     
-    s = None
-    
     def __init__(self, host, port) -> None:
+        self.s = None
         self.connect_client(host, port)
 
     def connect_client(self, h, p):
@@ -18,6 +17,7 @@ class Client:
             try:
                 self.s.sendall( bytes(f"client({h}) connected", 'utf-8') )
             except:
+                p = int(p)
                 print("can't connect to server")
 
                 try:
@@ -28,36 +28,9 @@ class Client:
                     self.s.sendall( bytes(f"client({h}) connected", 'utf-8') )
                     print("success connect to server")
 
-                except:
-                    print("can't connect to server")
-
-            # if(connect_stat == False):
-            #     try:
-            #         self.s.sendall( bytes("client-server connected", 'utf-8') )
-            #         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            #         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            #         self.s.connect((h, p))
-
-            #         self.s.sendall( bytes("client-server connected", 'utf-8') )
-            #         print("success connect to server")
-
-            #         connect_stat = True
-            #     except:
-            #         print("can't connect to server")                        
-
-                
-            # elif(connect_stat == True):
-                # try:
-                #     self.s.sendall( bytes("client-server connected", 'utf-8') )
-                # except:
-                #     try:
-                #         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                #         self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                #         self.s.connect((h, p))
-                #         self.s.sendall( bytes("client-server connected", 'utf-8') )
-                #         print("success connect to server")
-                #     except:
-                #         print("can't connect to server 123")
+                except Exception as e:
+                    print(str(e))
+                    # print("can't connect to server")
 
             sleep(1)
 
