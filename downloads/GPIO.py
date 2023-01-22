@@ -141,7 +141,7 @@ class GPIOHandler:
                 
                 jns_kendaraan = self.config['POSISI']['KENDARAAN']
                 jns_kendaraan = jns_kendaraan.lower()
-                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "time":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "jns_kendaraan":"'+jns_kendaraan+'","ip_raspi":['+self.config['GATE']['IP']+'] }#end'
+                dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "time":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "jns_kendaraan":"'+jns_kendaraan+'","ip_raspi":"'+self.config['GATE']['IP']+'" }#end'
                 print(dict_txt)  
 
                 try:
