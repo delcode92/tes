@@ -1,11 +1,11 @@
 import sys,cv2,os
-# from client.client_service import Client
+
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
-from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor
-from PyQt5.QtCore import QThread, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon
+from PyQt5.QtCore import QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 
@@ -60,6 +60,21 @@ class View:
     # button styling
     primary_button ="""QPushButton {
                     margin-top:60px; 
+                    height:45px; 
+                    background-color: #50cedd; 
+                    color:#fff; 
+                    border:none;
+
+                    font-family: Helvetica;
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+                QPushButton:hover {
+                    background-color: #4CB0BC;
+    """
+
+    primary_button2 ="""QPushButton {
+                    margin-top:20px; 
                     height:45px; 
                     background-color: #50cedd; 
                     color:#fff; 
@@ -133,7 +148,9 @@ class View:
     primary_lbl = """QLabel{
                         font-family: Helvetica;
                         font-size: 16px;
-                        background-color: #fff;                  
+                        font-weight:500;                  
+                        background-color: #fff;
+                        color:#34495e;
     """
     
     
@@ -152,7 +169,7 @@ class View:
     primary_input = """QLineEdit{
                         height:40px; 
                         border:1px solid #ecf0f1;
-                        background-color: #f4f4f4;
+                        background-color: #FFE8BF;
 
                         font-family: Helvetica;
                         font-size: 14px;
@@ -542,9 +559,19 @@ class Util(Controller ):
                                 self.components[i["name"]].move( i["move"][0], i["move"][1] )
                             case "text":
                                 self.components[i["name"]].setText( i["text"] )
+                            case "placeholder":
+                                self.components[i["name"]].setPlaceholderText( i["placeholder"] )
+                            case "hidden":
+                                self.components[i["name"]].setAlignment(Qt.AlignCenter)
+                                self.components[i["name"]].setHidden(True)
                             case "editable":
                                 if i["editable"] == False:
-                                    self.components[i["name"]].setReadOnly(True)    
+                                    self.components[i["name"]].setReadOnly(True)
+                            
+                            case "enabled":
+                                if i["enabled"] == False:
+                                    self.components[i["name"]].setEnabled(False)
+
                             case "title":
                                 self.components[i["name"]].setTitle( i["title"] )
                             case "min_height":
@@ -572,18 +599,25 @@ class Util(Controller ):
                                 font.setWeight( i["font"][2] )
 
                                 self.components[i["name"]].setFont( font )
+
                             case "clicked":
                                 method_name = i["clicked"]["method_name"]
-                                
+
                                 if "arguments" in i["clicked"]:
-                                    self.components[i["name"]].clicked.connect( lambda: method_name(i["clicked"]["arguments"]) )
+                                    arg = i["clicked"]["arguments"]
+                                    self.components[i["name"]].clicked.connect( lambda: method_name(arg) )
                                 elif "arguments" not in i["clicked"]:
                                     self.components[i["name"]].clicked.connect( method_name )
+                            
                             case "event":
                                 method_name = i["event"]["method_name"]
-                                EventBinder(self.components[i["name"]], lambda: method_name(i["clicked"]["arguments"])  )
-                                                           
-
+                                
+                                if "arguments" in i["event"]:
+                                    arg = i["event"]["arguments"]
+                                    EventBinder(self.components[i["name"]], lambda: method_name(arg) )
+                                elif "arguments" not in i["event"]:
+                                    EventBinder(self.components[i["name"]], method_name )
+                                     
                             case "items":
                                 self.components[i["name"]].addItems(i["items"])
                             case "children":
