@@ -1,11 +1,11 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
 from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor
-from PyQt5.QtCore import QThread, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 

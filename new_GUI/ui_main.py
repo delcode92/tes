@@ -17,22 +17,30 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
+
         MainWindow.resize(1000, 500)
         MainWindow.setMinimumSize(QSize(1000, 500))
         MainWindow.setStyleSheet(u"background-color: rgb(45, 45, 45);")
         
+        # in windows there is main widget -> centralWidget
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        
+        # centralWidget has vertical layout
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        
+        # top bar QFrame in centralWidget
         self.Top_Bar = QFrame(self.centralwidget)
         self.Top_Bar.setObjectName(u"Top_Bar")
         self.Top_Bar.setMaximumSize(QSize(16777215, 40))
-        self.Top_Bar.setStyleSheet(u"background-color: rgb(35, 35, 35);")
+        self.Top_Bar.setStyleSheet(u"background-color: rgb(35, 35, 35); border: 2px solid red;")
         self.Top_Bar.setFrameShape(QFrame.NoFrame)
         self.Top_Bar.setFrameShadow(QFrame.Raised)
+        
+        # inside top bar QFrame has horizontal box layout
         self.horizontalLayout = QHBoxLayout(self.Top_Bar)
         self.horizontalLayout.setSpacing(0)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
@@ -49,8 +57,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
+        
         self.Btn_Toggle = QPushButton(self.frame_toggle)
         self.Btn_Toggle.setObjectName(u"Btn_Toggle")
+        
         sizePolicy = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
