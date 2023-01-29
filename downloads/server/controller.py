@@ -286,9 +286,18 @@ class Controller():
 
         match bar_action:
             case "dashboard":
-                self.closeWindow(self.window)
-                self.AdminDashboard()
-            
+                # self.closeWindow(self.window)
+                # self.AdminDashboard()
+                x = QLabel("coba test 123")
+                x.setStyleSheet("color: red; font-size: 30px; background: grey;")
+
+                # print(self.right_content_lay.count())
+                # print(self.right_content_lay.itemAt(0))
+
+                widget_before = self.right_content_lay.itemAt(0).widget()
+                self.right_content_lay.removeWidget(widget_before)
+                self.right_content_lay.addWidget(x)
+                
             case "kelola rfid":
                 sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
                 cols = 5

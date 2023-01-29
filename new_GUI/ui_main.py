@@ -111,8 +111,8 @@ class Ui_MainWindow(object):
         
         self.frame_left_menu = QFrame(self.Content)
         self.frame_left_menu.setObjectName(u"frame_left_menu")
-        self.frame_left_menu.setMinimumSize(QSize(70, 0))
-        self.frame_left_menu.setMaximumSize(QSize(70, 16777215))
+        self.frame_left_menu.setMinimumSize(70, 0)
+        self.frame_left_menu.setMaximumSize(70, 2000)
         self.frame_left_menu.setStyleSheet(u"background-color: rgb(35, 35, 35);")
         self.frame_left_menu.setFrameShape(QFrame.StyledPanel)
         self.frame_left_menu.setFrameShadow(QFrame.Raised)

@@ -1,11 +1,11 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
-from PyQt5.QtGui import QPalette, QColor, QImage, QPixmap, QFont, QCursor
-from PyQt5.QtCore import QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon
+from PyQt5.QtCore import QPropertyAnimation, QEasingCurve, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 
@@ -56,6 +56,17 @@ class View:
                         background-color: rgb(30,30,30);
 
                 """
+    
+    # admin left menu styling
+    left_menu_lbl = """QLabel{
+                background:#2c3e50; 
+                color:#fff;margin-left: 
+                12px; 
+                border-bottom: 1px solid #8395a7;
+            }
+            QLabel:hover{
+                background: #525A62;
+            }"""
 
     # button styling
     primary_button ="""QPushButton {
