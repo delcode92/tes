@@ -2,7 +2,7 @@ import sys, psycopg2, os, math, threading
 
 from client.client_service import Client
 from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget ,QHeaderView, QLabel, QPushButton, QTableWidget, QTableWidgetItem)
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QRect, QEasingCurve
 from PyQt5.QtGui import QColor, QIcon
 from configparser import ConfigParser
 # from framework import View
@@ -284,82 +284,94 @@ class Controller():
         margin_top = "margin-top:30px;"
         cell_bg_color = QColor(243,243,243)
 
+        self.stacked_animation.setDuration(400)
+        self.stacked_animation.setStartValue(self.stacked_widget.geometry())
+        self.stacked_animation.setEndValue(QRect(self.stacked_widget.x(), self.stacked_widget.y(), self.stacked_widget.width(), self.stacked_widget.height()))
+        self.stacked_animation.setEasingCurve(QEasingCurve.InOutQuart)
+        self.stacked_animation.start()
+
         match bar_action:
             case "dashboard":
                 # self.closeWindow(self.window)
                 # self.AdminDashboard()
-                x = QLabel("coba test 123")
-                x.setStyleSheet("color: red; font-size: 30px; background: grey;")
-
-                # print(self.right_content_lay.count())
-                # print(self.right_content_lay.itemAt(0))
-
-                widget_before = self.right_content_lay.itemAt(0).widget()
-                self.right_content_lay.removeWidget(widget_before)
-                self.right_content_lay.addWidget(x)
                 
+                ########### solution replace widget ########
+                # x = QLabel("coba test 123")
+                # x.setStyleSheet("color: red; font-size: 30px; background: grey;")
+
+                # widget_before = self.right_content_lay.itemAt(0).widget()
+                # self.right_content_lay.removeWidget(widget_before)
+                # self.right_content_lay.addWidget(x)
+                ##################################
+
+                # solution stacked widget
+                # self.stacked_widget.setCurrentIndex(0)
+                self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+
             case "kelola rfid":
-                sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
-                cols = 5
+                self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
+                # self.stacked_widget.setCurrentIndex(1)
+                # sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
+                # cols = 5
 
-                # create table
-                table = QTableWidget()
-                table.resizeRowsToContents()
-                table.setColumnCount(5)
-                table.setHorizontalHeaderLabels(["id", "RFID", "Nama", "Edit", "Del"])
-                table.setStyleSheet(self.table_style)
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # # create table
+                # table = QTableWidget()
                 # table.resizeRowsToContents()
+                # table.setColumnCount(5)
+                # table.setHorizontalHeaderLabels(["id", "RFID", "Nama", "Edit", "Del"])
+                # table.setStyleSheet(self.table_style)
+                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                # table.setColumnHidden(0, True) #hide id column
+                # # table.resizeRowsToContents()
 
-                header = table.horizontalHeader()
+                # header = table.horizontalHeader()
 
-                # set header stretch
-                for i in range(cols-3):
-                    header.setSectionResizeMode(i+1, QHeaderView.Stretch)
+                # # set header stretch
+                # for i in range(cols-3):
+                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
                 
-                # run query & set column value
-                query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
+                # # run query & set column value
+                # query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
 
-                for l in query:
-                    rows = table.rowCount()
-                    rows_count = rows + 1
-                    table.setRowCount(rows_count)
+                # for l in query:
+                #     rows = table.rowCount()
+                #     rows_count = rows + 1
+                #     table.setRowCount(rows_count)
                     
-                    # set item on table column
-                    for i in range(cols-2):
+                #     # set item on table column
+                #     for i in range(cols-2):
                         
-                        item = QTableWidgetItem( str(l[i]) )
-                        item.setFlags(Qt.ItemIsEnabled)
-                        table.setItem(rows, i, item)
+                #         item = QTableWidgetItem( str(l[i]) )
+                #         item.setFlags(Qt.ItemIsEnabled)
+                #         table.setItem(rows, i, item)
                     
-                    # create edit button
-                    btn = QPushButton(table)
-                    edit_ico = self.getPath("edit.png")
-                    btn.setIcon(QIcon(edit_ico))
-                    btn.setStyleSheet( self.edit_btn_action )
-                    table.setCellWidget(rows, 3, btn)
-                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "rfid"))
+                #     # create edit button
+                #     btn = QPushButton(table)
+                #     edit_ico = self.getPath("edit.png")
+                #     btn.setIcon(QIcon(edit_ico))
+                #     btn.setStyleSheet( self.edit_btn_action )
+                #     table.setCellWidget(rows, 3, btn)
+                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "rfid"))
                     
-                    # create delete button
-                    btn_del = QPushButton(table)
-                    del_ico = self.getPath("trash.png")
-                    btn_del.setIcon(QIcon(del_ico))
-                    btn_del.setStyleSheet(self.del_btn_action)
-                    table.setCellWidget(rows, 4, btn_del)
-                    btn_del.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "rfid"))
+                #     # create delete button
+                #     btn_del = QPushButton(table)
+                #     del_ico = self.getPath("trash.png")
+                #     btn_del.setIcon(QIcon(del_ico))
+                #     btn_del.setStyleSheet(self.del_btn_action)
+                #     table.setCellWidget(rows, 4, btn_del)
+                #     btn_del.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "rfid"))
 
                 
-                rows_count = math.floor(rows_count/2)
+                # rows_count = math.floor(rows_count/2)
                
-                for r in range(rows_count):
-                    n = 2*r+1
+                # for r in range(rows_count):
+                #     n = 2*r+1
                 
-                    table.item(n, 1).setBackground(cell_bg_color)
-                    table.item(n, 2).setBackground(cell_bg_color)
+                #     table.item(n, 1).setBackground(cell_bg_color)
+                #     table.item(n, 2).setBackground(cell_bg_color)
                 
-                table.setShowGrid(False)
-                self.SubWinVerticalTable(sub_window_setter, [table])
+                # table.setShowGrid(False)
+                # self.SubWinVerticalTable(sub_window_setter, [table])
  
             case "tambah rfid":
                 sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }

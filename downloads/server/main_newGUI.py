@@ -1,6 +1,5 @@
 import sys,cv2,os
 
-from traitlets import default
 from framework import *
 
 
@@ -93,8 +92,12 @@ class Main(Util, View):
             
             # Get path
             path = os.path.dirname(os.path.realpath(__file__))
-            icon_path = '\icons'.join([path, "\\"])
-            # print("path", icon_path)
+            os_name = os.name
+
+            if os_name == 'posix':
+                icon_path = '/icons'.join([path, "/"])
+            elif os_name == 'nt':
+                icon_path = '\icons'.join([path, "\\"])
             
             self.burger_menu = QPushButton()
             self.burger_menu.setIcon(QIcon(icon_path+"menu-burger.png"))
@@ -117,6 +120,13 @@ class Main(Util, View):
             welcome_lbl.setAlignment(Qt.AlignCenter)
             welcome_lbl.setStyleSheet("background-color:#bada55; color:#fff;")
             
+            # welcome label 2
+            welcome_lbl2 = QLabel("Another Page")
+            welcome_lbl2.setFont( self.fontStyle("Helvetica", 50, 80) )
+            welcome_lbl2.setAlignment(Qt.AlignCenter)
+            welcome_lbl2.setStyleSheet("background-color:#bada55; color:#fff;")
+
+            
             # add component to layout
             # main_win_layout.addStretch(1)
             main_win_layout.setContentsMargins(0, 0, 0, 0)
@@ -130,6 +140,7 @@ class Main(Util, View):
             right_widget = QFrame()
             left_menu_lay =  QVBoxLayout()
             self.right_content_lay =  QVBoxLayout()
+            self.stacked_widget = QStackedWidget()
             
             left_menu_lay.setContentsMargins(0, 0, 0, 0)
             left_menu_lay.setSpacing(0)
@@ -157,7 +168,7 @@ class Main(Util, View):
             rfid_btn.setFixedSize(30,30)
             rfid_btn.setIcon( QIcon(icon_path+"share.png") )
             rfid_btn.setStyleSheet("background:#2c3e50;margin-top: 3px;")
-            rfid_lbl = QLabel("RFID")
+            rfid_lbl = ClickableLabel("RFID")
             rfid_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
             rfid_lbl.setStyleSheet(View.left_menu_lbl)
 
@@ -165,6 +176,7 @@ class Main(Util, View):
             left_menu_h2.addWidget(rfid_btn)
             left_menu_h2.addWidget(rfid_lbl)
             left_menu_lay.addLayout(left_menu_h2)
+            rfid_lbl.clicked.connect(lambda: self.windowBarAction("kelola rfid"))
             ###########################################
             
             
@@ -205,9 +217,20 @@ class Main(Util, View):
             # spacer = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
             # left_menu_lay.addSpacerItem(spacer)
 
+            ################ QStackedWidget here #################
+            self.stacked_widget.addWidget(welcome_lbl)
+            self.stacked_widget.addWidget(welcome_lbl2)
+            self.stacked_widget.setCurrentIndex(0)
+            
+            # set the animation stacked widget
+            self.stacked_animation = QPropertyAnimation(self.stacked_widget, b"geometry")
+            self.stacked_animation.setDuration(1000)
+            
+            ###########################################
+
             self.right_content_lay.setContentsMargins(0, 0, 0, 0)
             self.right_content_lay.setSpacing(0)
-            self.right_content_lay.addWidget(welcome_lbl)
+            self.right_content_lay.addWidget(self.stacked_widget)
             
             # self.left_widget.setMinimumSize(40, 0)
             self.left_widget.setMaximumSize(30, 2000)
