@@ -53,3 +53,6 @@ if __name__ == '__main__':
     win = SampleWindow()
     win.show()
     sys.exit(app.exec_())
+
+    # https://stackoverflow.com/questions/60476632/qtabwidget-access-actual-tab-not-the-content-widget
+    # https://stackoverflow.com/questions/6952852/qpropertyanimation-doesnt-work-with-a-child-widget
