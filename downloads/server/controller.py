@@ -285,10 +285,8 @@ class Controller():
         cell_bg_color = QColor(243,243,243)
 
         self.stacked_animation.setDuration(800)
-       
         self.stacked_animation.setStartValue(QRect(0, 0, 0, self.stacked_widget.height()))
         self.stacked_animation.setEndValue(QRect(self.stacked_widget.x(), self.stacked_widget.y(), self.stacked_widget.width(), self.stacked_widget.height()))
-       
         self.stacked_animation.setEasingCurve(QEasingCurve.InOutQuart)
         
 
@@ -312,9 +310,9 @@ class Controller():
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
             case "kelola rfid":
-                # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
                 self.stacked_widget.setCurrentIndex(1)
                 self.stacked_animation.start()
+                # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
                 # sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
                 # cols = 5
 

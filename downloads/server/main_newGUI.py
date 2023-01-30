@@ -120,20 +120,55 @@ class Main(Util, View):
             welcome_lbl.setAlignment(Qt.AlignCenter)
             welcome_lbl.setStyleSheet("background-color:#bada55; color:#fff;")
             
-            # page layout
-            page_layout = QHBoxLayout()
 
-            # RFID Page
-            rfid_page = QWidget()
+            ################ Home #################
+            # page_layout = QHBoxLayout()
+            ###########################################
 
 
-            # welcome label 2
-            welcome_lbl2 = QLabel("Another Page")
-            welcome_lbl2.setFont( self.fontStyle("Helvetica", 50, 80) )
-            welcome_lbl2.setAlignment(Qt.AlignCenter)
-            welcome_lbl2.setStyleSheet("background-color:#bada55; color:#fff;")
-
+            ################ RFID page #################
             
+            # rfid widget
+            # rfid_page = QWidget()
+            # rfid_page.setLayout(page_layout)
+
+            # rfid content
+            rfid_tabs = QTabWidget()
+            rfid_tab1 = QWidget()
+            rfid_tab2 = QWidget()
+
+            # add tabs
+            rfid_tabs.addTab(rfid_tab1, "Page Tab 1")
+            rfid_tabs.addTab(rfid_tab2, "Page Tab 2")
+
+            # set widget and layout
+            rfid_tab1_lay = QVBoxLayout()
+            rfid_tab1.setLayout( rfid_tab1_lay )
+            
+            # set widget and layout
+            rfid_tab2_lay = QVBoxLayout()
+            rfid_tab2.setLayout( rfid_tab2_lay )
+
+            # set widget for tab1 layout
+            rfid_content1 = QLabel("Another Page 1")
+            rfid_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
+            rfid_content1.setAlignment(Qt.AlignCenter)
+            rfid_content1.setStyleSheet("background-color:#bada55; color:#fff;")
+            rfid_tab1_lay.addWidget(rfid_content1)
+
+            # set widget for tab2 layout
+            rfid_content2 = QLabel("Another Page 2")
+            rfid_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+            rfid_content2.setAlignment(Qt.AlignCenter)
+            rfid_content2.setStyleSheet("background-color:#bada55; color:#fff;")
+            rfid_tab2_lay.addWidget(rfid_content2)
+            
+            # add rfid tabs widget into main page layout
+            # page_layout.addWidget(rfid_tabs)
+            ###########################################
+
+
+
             # add component to layout
             # main_win_layout.addStretch(1)
             main_win_layout.setContentsMargins(0, 0, 0, 0)
@@ -225,14 +260,13 @@ class Main(Util, View):
             # left_menu_lay.addSpacerItem(spacer)
 
             ################ QStackedWidget here #################
+            rfid_tabs.setCurrentIndex(0)
             self.stacked_widget.addWidget(welcome_lbl)
-            self.stacked_widget.addWidget(rfid_page)
+            self.stacked_widget.addWidget(rfid_tabs)
             self.stacked_widget.setCurrentIndex(0)
             
             # set the animation stacked widget
             self.stacked_animation = QPropertyAnimation(self.stacked_widget, b"geometry")
-            self.stacked_animation.setDuration(1000)
-            
             ###########################################
 
             self.right_content_lay.setContentsMargins(0, 0, 0, 0)
