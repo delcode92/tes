@@ -120,6 +120,13 @@ class Main(Util, View):
             welcome_lbl.setAlignment(Qt.AlignCenter)
             welcome_lbl.setStyleSheet("background-color:#bada55; color:#fff;")
             
+            # page layout
+            page_layout = QHBoxLayout()
+
+            # RFID Page
+            rfid_page = QWidget()
+
+
             # welcome label 2
             welcome_lbl2 = QLabel("Another Page")
             welcome_lbl2.setFont( self.fontStyle("Helvetica", 50, 80) )
@@ -219,7 +226,7 @@ class Main(Util, View):
 
             ################ QStackedWidget here #################
             self.stacked_widget.addWidget(welcome_lbl)
-            self.stacked_widget.addWidget(welcome_lbl2)
+            self.stacked_widget.addWidget(rfid_page)
             self.stacked_widget.setCurrentIndex(0)
             
             # set the animation stacked widget
