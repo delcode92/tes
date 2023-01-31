@@ -133,35 +133,54 @@ class Main(Util, View):
             # rfid_page.setLayout(page_layout)
 
             # rfid content
-            rfid_tabs = QTabWidget()
-            rfid_tab1 = QWidget()
-            rfid_tab2 = QWidget()
+            rfid_container = QWidget()
+            rfid_container_lay = QVBoxLayout()
+            rfid_tabs_container_widget = QWidget()
+            rfid_tabs_container = QHBoxLayout()
+            rfid_tab1 = QPushButton("Tab 1")
+            rfid_tab2 = QPushButton("Tab 2")
+            rfid_stack = QStackedWidget()
+            rfid_content1 = QWidget()
+            rfid_content2 = QWidget()
+
+            # tabs
+            rfid_tab1.setStyleSheet("background: #fff; color: #000;")
+            rfid_tab2.setStyleSheet("background: #fff; color: #000;")
+            rfid_tabs_container.addWidget(rfid_tab1)
+            rfid_tabs_container.addWidget(rfid_tab2)
+
+            # set rfid layout & widget
+            rfid_container.setLayout(rfid_container_lay)
+            rfid_tabs_container_widget.setLayout(rfid_tabs_container)
+
+            rfid_container_lay.addWidget(rfid_tabs_container_widget)
+            rfid_container_lay.addWidget(rfid_stack)
 
             # add tabs
-            rfid_tabs.addTab(rfid_tab1, "Page Tab 1")
-            rfid_tabs.addTab(rfid_tab2, "Page Tab 2")
-
+            rfid_stack.addWidget(rfid_content1)
+            rfid_stack.addWidget(rfid_content2)
+           
             # set widget and layout
-            rfid_tab1_lay = QVBoxLayout()
-            rfid_tab1.setLayout( rfid_tab1_lay )
+            rfid_content1_lay = QVBoxLayout()
+            rfid_content1.setLayout( rfid_content1_lay )
             
             # set widget and layout
-            rfid_tab2_lay = QVBoxLayout()
-            rfid_tab2.setLayout( rfid_tab2_lay )
+            rfid_content2_lay = QVBoxLayout()
+            rfid_content2.setLayout( rfid_content2_lay )
 
             # set widget for tab1 layout
             rfid_content1 = QLabel("Another Page 1")
             rfid_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
             rfid_content1.setAlignment(Qt.AlignCenter)
             rfid_content1.setStyleSheet("background-color:#bada55; color:#fff;")
-            rfid_tab1_lay.addWidget(rfid_content1)
+            rfid_content1_lay.addWidget(rfid_content1)
 
             # set widget for tab2 layout
             rfid_content2 = QLabel("Another Page 2")
             rfid_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
             rfid_content2.setAlignment(Qt.AlignCenter)
             rfid_content2.setStyleSheet("background-color:#bada55; color:#fff;")
-            rfid_tab2_lay.addWidget(rfid_content2)
+            rfid_content2_lay.addWidget(rfid_content2)
             
             # add rfid tabs widget into main page layout
             # page_layout.addWidget(rfid_tabs)
@@ -260,9 +279,9 @@ class Main(Util, View):
             # left_menu_lay.addSpacerItem(spacer)
 
             ################ QStackedWidget here #################
-            rfid_tabs.setCurrentIndex(0)
+            rfid_stack.setCurrentIndex(0)
             self.stacked_widget.addWidget(welcome_lbl)
-            self.stacked_widget.addWidget(rfid_tabs)
+            self.stacked_widget.addWidget(rfid_container)
             self.stacked_widget.setCurrentIndex(0)
             
             # set the animation stacked widget
