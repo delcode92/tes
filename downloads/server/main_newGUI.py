@@ -2,7 +2,6 @@ import sys,cv2,os
 
 from framework import *
 
-
 class ClickableLabel(QLabel):
     def __init__(self, text):
         super().__init__(text)
@@ -26,35 +25,6 @@ class Main(Util, View):
         self.window = QMainWindow()
         self.mdi = None
         self.app_stat = False  
-
-    def toggleMenu(self, maxWidth, enable, path=""):
-        if enable:
-
-            # GET WIDTH
-            width = self.left_widget.width()
-            maxExtend = maxWidth
-            standard = 30
-
-            # SET MAX WIDTH
-            if width == 30:
-                # change burger icon
-                self.burger_menu.setIcon(QIcon(path+"cross.png"))
-
-                widthExtended = maxExtend
-            else:
-                self.burger_menu.setIcon(QIcon(path+"menu-burger.png"))
-                widthExtended = standard
-
-            # ANIMATION
-            self.animation = QPropertyAnimation(self.left_widget, b"minimumWidth")
-            self.animation.setDuration(400)
-            self.animation.setStartValue(width)
-            self.animation.setEndValue(widthExtended)
-            self.animation.setEasingCurve(QEasingCurve.InOutQuart)
-            self.animation.start()
-
-    def Tabs(self, stacked_widget=None, index=0):
-        stacked_widget.setCurrentIndex(index)    
 
     def AdminDashboard(self):
             window_setter = {
@@ -231,28 +201,30 @@ class Main(Util, View):
             left_menu_lay.setSpacing(0)
             
             ################ Home #################
-            home_btn =QPushButton()
-            home_btn.setFixedSize(30,30)
-            home_btn.setIcon( QIcon(icon_path+"home.png") )
-            home_btn.setStyleSheet("background:#2c3e50;margin-top: 3px;")
-            home_lbl = ClickableLabel("Home")
-            home_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
-            home_lbl.setStyleSheet(View.left_menu_lbl)
+            self.home_btn =QPushButton()
+            self.home_btn.setFixedSize(30,30)
+            self.home_btn.setIcon( QIcon(icon_path+"home.png") )
+            self.home_btn.setStyleSheet("background:#2c3e50;margin-top: 3px;")
+            self.home_btn.clicked.connect(lambda: self.windowBarAction("dashboard"))
+            self.home_lbl = ClickableLabel("Home")
+            self.home_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
+            self.home_lbl.setStyleSheet(View.left_menu_lbl)
 
             left_menu_h1 = QHBoxLayout()
-            left_menu_h1.addWidget(home_btn)
-            left_menu_h1.addWidget(home_lbl)
+            left_menu_h1.addWidget(self.home_btn)
+            left_menu_h1.addWidget(self.home_lbl)
             left_menu_lay.addLayout(left_menu_h1)
 
-            home_lbl.clicked.connect(lambda: self.windowBarAction("dashboard"))
+            self.home_lbl.clicked.connect(lambda: self.windowBarAction("dashboard"))
             ###########################################
             
             
-            ################ Home #################
+            ################ RFID #################
             rfid_btn =QPushButton()
             rfid_btn.setFixedSize(30,30)
             rfid_btn.setIcon( QIcon(icon_path+"share.png") )
             rfid_btn.setStyleSheet("background:#2c3e50;margin-top: 3px;")
+            rfid_btn.clicked.connect(lambda: self.windowBarAction("kelola rfid"))
             rfid_lbl = ClickableLabel("RFID")
             rfid_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
             rfid_lbl.setStyleSheet(View.left_menu_lbl)
@@ -265,7 +237,7 @@ class Main(Util, View):
             ###########################################
             
             
-            ################ Home #################
+            ################ Users #################
             users_btn =QPushButton()
             users_btn.setFixedSize(30,30)
             users_btn.setIcon( QIcon(icon_path+"users.png") )
@@ -281,7 +253,7 @@ class Main(Util, View):
             ###########################################
             
             
-            ################ Home #################
+            ################ Cashier #################
             kasir_btn =QPushButton()
             kasir_btn.setFixedSize(30,30)
             kasir_btn.setIcon( QIcon(icon_path+"usd-circle.png") )

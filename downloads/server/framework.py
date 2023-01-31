@@ -5,7 +5,7 @@ QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea,
 )
 
 from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon
-from PyQt5.QtCore import QPropertyAnimation, QEasingCurve, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 
@@ -66,7 +66,11 @@ class View:
             }
             QLabel:hover{
                 background: #525A62;
-            }"""
+            }
+            QLabel[active="true"]{
+                background: #525A62;
+            }
+            """
 
     # button styling
     primary_button ="""QPushButton {

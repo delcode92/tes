@@ -2,7 +2,7 @@ import sys, psycopg2, os, math, threading
 
 from client.client_service import Client
 from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget ,QHeaderView, QLabel, QPushButton, QTableWidget, QTableWidgetItem)
-from PyQt5.QtCore import Qt, QRect, QEasingCurve
+from PyQt5.QtCore import Qt, QRect,QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QColor, QIcon
 from configparser import ConfigParser
 # from framework import View
@@ -274,6 +274,35 @@ class Controller():
         # call table table list again
         self.windowBarAction("kelola tarif")
 
+    def toggleMenu(self, maxWidth, enable, path=""):
+        if enable:
+
+            # GET WIDTH
+            width = self.left_widget.width()
+            maxExtend = maxWidth
+            standard = 30
+
+            # SET MAX WIDTH
+            if width == 30:
+                # change burger icon
+                self.burger_menu.setIcon(QIcon(path+"cross.png"))
+
+                widthExtended = maxExtend
+            else:
+                self.burger_menu.setIcon(QIcon(path+"menu-burger.png"))
+                widthExtended = standard
+
+            # ANIMATION
+            self.animation = QPropertyAnimation(self.left_widget, b"minimumWidth")
+            self.animation.setDuration(400)
+            self.animation.setStartValue(width)
+            self.animation.setEndValue(widthExtended)
+            self.animation.setEasingCurve(QEasingCurve.InOutQuart)
+            self.animation.start()
+
+    def Tabs(self, stacked_widget=None, index=0):
+        stacked_widget.setCurrentIndex(index)    
+
     def windowBarAction(self, q):
         
         try:
@@ -289,7 +318,6 @@ class Controller():
         self.stacked_animation.setEndValue(QRect(self.stacked_widget.x(), self.stacked_widget.y(), self.stacked_widget.width(), self.stacked_widget.height()))
         self.stacked_animation.setEasingCurve(QEasingCurve.InOutQuart)
         
-
         match bar_action:
             case "dashboard":
                 # self.closeWindow(self.window)
@@ -304,9 +332,15 @@ class Controller():
                 # self.right_content_lay.addWidget(x)
                 ##################################
 
+                # set active button
+                print("btn", self.home_btn)
+                print("label", self.home_lbl)
+                self.home_lbl.setProperty("active", True)
+
                 # solution stacked widget
                 self.stacked_widget.setCurrentIndex(0)
                 self.stacked_animation.start()
+                # print("masuk")
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
             case "kelola rfid":
