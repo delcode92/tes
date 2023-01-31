@@ -1,19 +1,6 @@
 {
-    "editor.fontSize": 16,
-    "explorer.confirmDelete": false,
-    "editor.occurrencesHighlight": false,
-
-    "highlight-matching-tag.styles": {
-        "opening": {
-            "full": {
-                "custom": {
-                    "backgroundColor": "rgba(34, 47, 62,0.15)"
-                }
-            }
-        }
-    },
-    "workbench.preferredHighContrastColorTheme": "Atom One Dark",
-
+    "editor.lineHeight": 30,
+    "editor.fontFamily": "JetBrains Mono",
     "editor.semanticTokenColorCustomizations": {
         "[One Dark Pro Flat]": {
           "rules": {
@@ -28,8 +15,7 @@
           }
         }
       },
-
-    "editor.tokenColorCustomizations":{
+      "editor.tokenColorCustomizations":{
         "[One Dark Pro Flat]": {
             "textMateRules": [
                 {
@@ -93,59 +79,4 @@
             
 
     },
-
-    
-    "workbench.colorCustomizations": {
-    
-
-        "[Shades of Purple]": {
-            "editor.background": "#272241",
-            
-        },
-
-        "[One Dark Pro Flat]": {
-            "editor.background": "#282c34"
-        }
-
-
-    },
-    "less.compile": {
-        "compress":  false,  // true => remove surplus whitespace
-         "sourceMap": true,  // true => generate source maps (.css.map files)
-    },
-    "liveServer.settings.donotShowInfoMsg": true,
-    "files.autoSave": "onFocusChange",
-    "[html]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "editor.maxTokenizationLineLength": 200000000,
-    "git.confirmSync": false,
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter-notebook"
-    },
-    "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
-    },
-    "files.associations": {
-        "*.bkr": "xml"
-    },
-    "terminal.integrated.fontSize": 17,
-    "terminal.integrated.fontFamily":"'Fira Code', monospace",
-    "workbench.preferredDarkColorTheme": "One Dark Pro Flat",
-    "oneDarkPro.vivid": true,
-    "oneDarkPro.editorTheme": "oneDarkProFlat",
-    "git.enableSmartCommit": true,
-    "pythonPreview.dark.dict-class-instKey.bgColor": "#232323",
-    "pythonPreview.dark.dict-class-instVal.bgColor": "#282828",
-    "json.maxItemsComputed": 5000000,
-    "workbench.colorTheme": "One Dark Pro Flat",
-    "editor.lineHeight": 30,
-    "editor.fontFamily": "JetBrains Mono",
-    // "editor.codeActionsOnSave": null,
-    
-
 }

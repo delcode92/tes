@@ -78,18 +78,24 @@ class Main(Util, View):
             main_win_widget.setLayout(main_win_layout)
 
             # QFrame
-            self.Top_Bar = QFrame()
-            self.Top_Bar.setObjectName(u"Top_Bar")
-            # self.Top_Bar.setMaximumSize(QSize(16777215, 40))
-            self.Top_Bar.setStyleSheet(u"background-color: red;")
-            self.Top_Bar.setFrameShape(QFrame.NoFrame)
-            self.Top_Bar.setFrameShadow(QFrame.Raised)
-             # self.Top_Bar.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-            self.Top_Bar.setFixedHeight(30)
+            # self.Top_Bar = QFrame()
+            # self.Top_Bar.setObjectName(u"Top_Bar")
+            # # self.Top_Bar.setMaximumSize(QSize(16777215, 40))
+            # self.Top_Bar.setStyleSheet(u"background-color: red;")
+            # self.Top_Bar.setFrameShape(QFrame.NoFrame)
+            # self.Top_Bar.setFrameShadow(QFrame.Raised)
+            #  # self.Top_Bar.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+            # self.Top_Bar.setFixedHeight(30)
 
             # top layout
+            top_lay_widget = QWidget()
             top_lay = QHBoxLayout()
             
+            top_lay.setContentsMargins(0, 0, 0, 0)
+            top_lay.setSpacing(0)
+            top_lay_widget.setStyleSheet("background: #363A3E;")
+            top_lay_widget.setLayout(top_lay)
+
             # Get path
             path = os.path.dirname(os.path.realpath(__file__))
             os_name = os.name
@@ -108,12 +114,14 @@ class Main(Util, View):
             dashboard_lbl = QLabel()
             dashboard_lbl.setText("Admin Dashboard")
             dashboard_lbl.setFont( self.fontStyle("Helvetica", 11, 500) )
-            dashboard_lbl.setStyleSheet("background:#363A3E; color: #FFF; padding-top:8px; padding-bottom:8px;")
+            dashboard_lbl.setStyleSheet("background:#363A3E; color: #FFF; margin-left:10px; padding-top:8px; padding-bottom:8px;")
             dashboard_lbl.setAlignment(Qt.AlignCenter)
             
             top_lay.addWidget(self.burger_menu)
             top_lay.addWidget(dashboard_lbl)
-            
+            # dashboard_lbl.setFixedWidth(dashboard_lbl.width()+610)
+            # print("lbl width", dashboard_lbl.width())
+
             # welcome label
             welcome_lbl = QLabel("Manless Parking System")
             welcome_lbl.setFont( self.fontStyle("Helvetica", 50, 80) )
@@ -150,6 +158,18 @@ class Main(Util, View):
             rfid_tabs_container.addWidget(rfid_tab2)
 
             # set rfid layout & widget
+            # rfid_tabs_container.setContentsMargins(0,0,0,0)
+            # rfid_tabs_container.setSpacing(0)
+            rfid_container_lay.setContentsMargins(0,0,0,0)
+            rfid_container_lay.setSpacing(0)
+
+            rfid_tabs_container_widget.setStyleSheet("background: #bada55;")
+            rfid_stack.setStyleSheet("background: #bada55;")
+            # rfid_stack.setContentsMargins(-100,0,0,0)
+            # rfid_stack.setSpacing(0)
+
+            
+
             rfid_container.setLayout(rfid_container_lay)
             rfid_tabs_container_widget.setLayout(rfid_tabs_container)
 
@@ -193,7 +213,8 @@ class Main(Util, View):
             main_win_layout.setContentsMargins(0, 0, 0, 0)
             main_win_layout.setSpacing(0)
             # main_win_layout.addWidget(self.Top_Bar)
-            main_win_layout.addLayout(top_lay)
+            # main_win_layout.addLayout(top_lay)
+            main_win_layout.addWidget(top_lay_widget)
           
             horizontal_lay = QHBoxLayout()
             horizontal_widget = QFrame()
@@ -203,6 +224,7 @@ class Main(Util, View):
             self.right_content_lay =  QVBoxLayout()
             self.stacked_widget = QStackedWidget()
             
+            # self.left_widget.setStyleSheet("border-right: 0.5px solid #ffffff;")
             left_menu_lay.setContentsMargins(0, 0, 0, 0)
             left_menu_lay.setSpacing(0)
             
