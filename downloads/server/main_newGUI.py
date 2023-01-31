@@ -53,12 +53,8 @@ class Main(Util, View):
             self.animation.setEasingCurve(QEasingCurve.InOutQuart)
             self.animation.start()
 
-    # def menu_func(self, type=""):
-    #     match type:
-    #         case "home":
-    #             ...
-    #         case default:
-    #             pass    
+    def Tabs(self, stacked_widget=None, index=0):
+        stacked_widget.setCurrentIndex(index)    
 
     def AdminDashboard(self):
             window_setter = {
@@ -152,8 +148,14 @@ class Main(Util, View):
             rfid_content2 = QWidget()
 
             # tabs
+            rfid_tab1.setMaximumWidth(180)
+            rfid_tab2.setMaximumWidth(180)
             rfid_tab1.setStyleSheet("background: #fff; color: #000;")
             rfid_tab2.setStyleSheet("background: #fff; color: #000;")
+            rfid_tab1.clicked.connect(lambda: self.Tabs(rfid_stack, index=0))
+            rfid_tab2.clicked.connect(lambda: self.Tabs(rfid_stack, index=1))
+
+            rfid_tabs_container.setAlignment(Qt.AlignLeft)
             rfid_tabs_container.addWidget(rfid_tab1)
             rfid_tabs_container.addWidget(rfid_tab2)
 
