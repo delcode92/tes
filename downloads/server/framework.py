@@ -58,11 +58,22 @@ class View:
                 """
     
     # admin left menu styling
+    left_menu_btn = """QPushButton{
+        background:#2c3e50;
+    }
+    QPushButton:hover{
+        background:#fdcb6e;
+    }
+    QPushButton[active="true"]{
+        background:#fdcb6e;
+    }
+    """
     left_menu_lbl = """QLabel{
                 background:#2c3e50; 
-                color:#fff;margin-left: 
-                12px; 
+                color:#fff;margin-left:12px; 
                 border-bottom: 1px solid #8395a7;
+                padding-top: 8px;
+                padding-bottom: 8px;
             }
             QLabel:hover{
                 background: #525A62;

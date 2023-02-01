@@ -300,6 +300,17 @@ class Controller():
             self.animation.setEasingCurve(QEasingCurve.InOutQuart)
             self.animation.start()
 
+    def updateStyle(self, target=(), non_target=()):
+        for nt in non_target:
+            nt.setProperty("active", False)
+            nt.style().unpolish(nt)
+            nt.style().polish(nt)
+        
+        for t in target:
+            t.setProperty("active", True)
+            t.style().unpolish(t)
+            t.style().polish(t)
+        
     def Tabs(self, stacked_widget=None, index=0):
         stacked_widget.setCurrentIndex(index)    
 
@@ -332,18 +343,50 @@ class Controller():
                 # self.right_content_lay.addWidget(x)
                 ##################################
 
-                # set active button
-                print("btn", self.home_btn)
-                print("label", self.home_lbl)
-                self.home_lbl.setProperty("active", True)
-
+                # set active button and label
+                self.updateStyle(
+                    target=(self.home_btn, self.home_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.users_btn, 
+                                self.kasir_btn, 
+                                self.tarif_btn, 
+                                self.voucher_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.users_lbl, 
+                                self.kasir_lbl, 
+                                self.tarif_lbl, 
+                                self.voucher_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
+                
                 # solution stacked widget
                 self.stacked_widget.setCurrentIndex(0)
                 self.stacked_animation.start()
-                # print("masuk")
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
             case "kelola rfid":
+                # set active button and label
+                self.updateStyle(
+                    target=(self.rfid_btn, self.rfid_lbl), 
+                    non_target=(self.home_btn, 
+                                self.users_btn, 
+                                self.kasir_btn, 
+                                self.tarif_btn, 
+                                self.voucher_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.home_lbl, 
+                                self.users_lbl, 
+                                self.kasir_lbl, 
+                                self.tarif_lbl, 
+                                self.voucher_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
+
                 self.stacked_widget.setCurrentIndex(1)
                 self.stacked_animation.start()
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
@@ -410,258 +453,306 @@ class Controller():
                 # self.SubWinVerticalTable(sub_window_setter, [table])
  
             case "tambah rfid":
-                sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }
+                ...
+                # sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }
 
-                # components
-                components_setter = [
-                                    {
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_add_rfid",
-                                        "category":"label",
-                                        "text": "RFID",
-                                        "style":self.primary_lbl
-                                    },
-                                    {
-                                        "name":"add_rfid",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_rfid_owner",
-                                        "category":"label",
-                                        "text": "Name",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_rfid_owner",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"btn_add_rfid",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_rfid
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
+                # # components
+                # components_setter = [
+                #                     {
+                #                         "name":"lbl_success",
+                #                         "category":"label",
+                #                         "text": "Data Saved",
+                #                         "style":self.success_lbl
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_rfid",
+                #                         "category":"label",
+                #                         "text": "RFID",
+                #                         "style":self.primary_lbl
+                #                     },
+                #                     {
+                #                         "name":"add_rfid",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_rfid_owner",
+                #                         "category":"label",
+                #                         "text": "Name",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_rfid_owner",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"btn_add_rfid",
+                #                         "category":"pushButton",
+                #                         "text": "Save",
+                #                         "clicked": {
+                #                                 "method_name": self.add_rfid
+                #                         },
+                #                         "style": self.primary_button
+                #                     }
+                #                 ]
 
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
-                self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                self.components["lbl_success"].setHidden(True)
+                # self.SubWinVerticalForm(sub_window_setter, components_setter)
+                # self.components["lbl_success"].setAlignment(Qt.AlignCenter)
+                # self.components["lbl_success"].setHidden(True)
             
             
             case "kelola user":
-                sub_window_setter = { "title": "Kelola User", "style":self.bg_white, "size":(800, 600) }
-                cols = 5
+                # set active button and label
+                self.updateStyle(
+                    target=(self.users_btn, self.users_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.home_btn, 
+                                self.kasir_btn, 
+                                self.tarif_btn, 
+                                self.voucher_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.home_lbl, 
+                                self.kasir_lbl, 
+                                self.tarif_lbl, 
+                                self.voucher_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
+                
+                # solution stacked widget
+                self.stacked_widget.setCurrentIndex(0)
+                self.stacked_animation.start()
 
-                # create table
-                table = QTableWidget()
-                table.resizeRowsToContents()
-                table.setColumnCount(5)
-                table.setHorizontalHeaderLabels(["id", "Username", "level", "Action", " "])
-                table.setStyleSheet(self.table_style)
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # sub_window_setter = { "title": "Kelola User", "style":self.bg_white, "size":(800, 600) }
+                # cols = 5
+
+                # # create table
+                # table = QTableWidget()
                 # table.resizeRowsToContents()
+                # table.setColumnCount(5)
+                # table.setHorizontalHeaderLabels(["id", "Username", "level", "Action", " "])
+                # table.setStyleSheet(self.table_style)
+                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                # table.setColumnHidden(0, True) #hide id column
+                # # table.resizeRowsToContents()
 
-                header = table.horizontalHeader()
+                # header = table.horizontalHeader()
 
-                # set header stretch
-                for i in range(cols-3):
-                    header.setSectionResizeMode(i+1, QHeaderView.Stretch)
+                # # set header stretch
+                # for i in range(cols-3):
+                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
                 
-                # run query & set column value
-                query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
+                # # run query & set column value
+                # query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
 
-                for l in query:
-                    rows = table.rowCount()
-                    rows_count = rows + 1
-                    table.setRowCount(rows_count)
+                # for l in query:
+                #     rows = table.rowCount()
+                #     rows_count = rows + 1
+                #     table.setRowCount(rows_count)
                     
-                    # set item on table column
-                    for i in range(cols-2):
+                #     # set item on table column
+                #     for i in range(cols-2):
                         
-                        item = QTableWidgetItem( str(l[i]) )
-                        item.setFlags(Qt.ItemIsEnabled)
-                        table.setItem(rows, i, item)
+                #         item = QTableWidgetItem( str(l[i]) )
+                #         item.setFlags(Qt.ItemIsEnabled)
+                #         table.setItem(rows, i, item)
                     
-                    # create edit button
-                    btn = QPushButton(table)
-                    edit_ico = self.getPath("edit.png")
-                    btn.setIcon(QIcon(edit_ico))
-                    btn.setStyleSheet( self.edit_btn_action )
-                    # btn.clicked.connect(lambda: self.editData(table, "users"))
-                    table.setCellWidget(rows, 3, btn)
-                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
+                #     # create edit button
+                #     btn = QPushButton(table)
+                #     edit_ico = self.getPath("edit.png")
+                #     btn.setIcon(QIcon(edit_ico))
+                #     btn.setStyleSheet( self.edit_btn_action )
+                #     # btn.clicked.connect(lambda: self.editData(table, "users"))
+                #     table.setCellWidget(rows, 3, btn)
+                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
 
-                    # create delete button
-                    btn_del = QPushButton(table)
-                    del_ico = self.getPath("trash.png")
-                    btn_del.setIcon(QIcon(del_ico))
-                    btn_del.setStyleSheet(self.del_btn_action)
-                    # btn_del.clicked.connect(lambda: self.deleteData(table, "users"))
-                    table.setCellWidget(rows, 4, btn_del)
-                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "users"))
+                #     # create delete button
+                #     btn_del = QPushButton(table)
+                #     del_ico = self.getPath("trash.png")
+                #     btn_del.setIcon(QIcon(del_ico))
+                #     btn_del.setStyleSheet(self.del_btn_action)
+                #     # btn_del.clicked.connect(lambda: self.deleteData(table, "users"))
+                #     table.setCellWidget(rows, 4, btn_del)
+                #     btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "users"))
 
 
-                rows_count = math.floor(rows_count/2)
+                # rows_count = math.floor(rows_count/2)
                
-                for r in range(rows_count):
-                    n = 2*r+1
+                # for r in range(rows_count):
+                #     n = 2*r+1
 
-                    table.item(n, 1).setBackground(cell_bg_color)
-                    table.item(n, 2).setBackground(cell_bg_color)
+                #     table.item(n, 1).setBackground(cell_bg_color)
+                #     table.item(n, 2).setBackground(cell_bg_color)
                 
-                table.setShowGrid(False)
-                self.SubWinVerticalTable(sub_window_setter, [table])
+                # table.setShowGrid(False)
+                # self.SubWinVerticalTable(sub_window_setter, [table])
 
             case "tambah user":
-                sub_window_setter = { "title": "Tambah User", "style":self.bg_white, "size":(600, 600) }
+                ...
+                # sub_window_setter = { "title": "Tambah User", "style":self.bg_white, "size":(600, 600) }
 
-                # components
-                components_setter = [
-                                    {
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_add_uname",
-                                        "category":"label",
-                                        "text": "Username",
-                                        "style":self.primary_lbl
-                                    },
-                                    {
-                                        "name":"add_uname",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_pass",
-                                        "category":"label",
-                                        "text": "Password",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_pass",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_retype_pass",
-                                        "category":"label",
-                                        "text": "Retype Password",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"retype_pass",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_user_level",
-                                        "category":"label",
-                                        "text": "Level",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"input_user_level",
-                                        "category":"comboBox",
-                                        "items": ["Admin","Pegawai", "Kasir"],
-                                        "style":self.primary_combobox
-                                    },
-                                    {
-                                        "name":"btn_add_user",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_user
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
+                # # components
+                # components_setter = [
+                #                     {
+                #                         "name":"lbl_success",
+                #                         "category":"label",
+                #                         "text": "Data Saved",
+                #                         "style":self.success_lbl
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_uname",
+                #                         "category":"label",
+                #                         "text": "Username",
+                #                         "style":self.primary_lbl
+                #                     },
+                #                     {
+                #                         "name":"add_uname",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_pass",
+                #                         "category":"label",
+                #                         "text": "Password",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_pass",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_retype_pass",
+                #                         "category":"label",
+                #                         "text": "Retype Password",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"retype_pass",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_user_level",
+                #                         "category":"label",
+                #                         "text": "Level",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"input_user_level",
+                #                         "category":"comboBox",
+                #                         "items": ["Admin","Pegawai", "Kasir"],
+                #                         "style":self.primary_combobox
+                #                     },
+                #                     {
+                #                         "name":"btn_add_user",
+                #                         "category":"pushButton",
+                #                         "text": "Save",
+                #                         "clicked": {
+                #                                 "method_name": self.add_user
+                #                         },
+                #                         "style": self.primary_button
+                #                     }
+                #                 ]
 
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
-                self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                self.components["lbl_success"].setHidden(True)
+                # self.SubWinVerticalForm(sub_window_setter, components_setter)
+                # self.components["lbl_success"].setAlignment(Qt.AlignCenter)
+                # self.components["lbl_success"].setHidden(True)
 
             case "kelola kasir":
-                sub_window_setter = { "title": "Kelola Kasir", "style":self.bg_white, "size":(1200, 600)}
-                cols = 10
-                
-                # create table
-                table = QTableWidget()
-                table.resizeRowsToContents()
-                table.setColumnCount(10)
-                table.setHorizontalHeaderLabels(["id", "NIK", "Nama", "HP", "Alamat", "Jam Masuk", "Jam Keluar", "No Pos", "Action", " "])
-                table.setStyleSheet(self.table_style)
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
-                
-                header = table.horizontalHeader()
+                # set active button and label
+                self.updateStyle(
+                    target=(self.kasir_btn, self.kasir_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.home_btn, 
+                                self.users_btn, 
+                                self.tarif_btn, 
+                                self.voucher_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.home_lbl, 
+                                self.users_lbl, 
+                                self.tarif_lbl, 
+                                self.voucher_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
 
-                # set header stretch
-                for i in range(cols-3):
-                    header.setSectionResizeMode(i+1, QHeaderView.Stretch)
-                
-                # run query & set column value
-                query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+                # solution stacked widget
+                self.stacked_widget.setCurrentIndex(0)
+                self.stacked_animation.start()
 
-                for l in query:
-                    rows = table.rowCount()
-                    rows_count = rows + 1
-                    table.setRowCount(rows_count)
+                # sub_window_setter = { "title": "Kelola Kasir", "style":self.bg_white, "size":(1200, 600)}
+                # cols = 10
+                
+                # # create table
+                # table = QTableWidget()
+                # table.resizeRowsToContents()
+                # table.setColumnCount(10)
+                # table.setHorizontalHeaderLabels(["id", "NIK", "Nama", "HP", "Alamat", "Jam Masuk", "Jam Keluar", "No Pos", "Action", " "])
+                # table.setStyleSheet(self.table_style)
+                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                # table.setColumnHidden(0, True) #hide id column
+                
+                # header = table.horizontalHeader()
+
+                # # set header stretch
+                # for i in range(cols-3):
+                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
+                
+                # # run query & set column value
+                # query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+
+                # for l in query:
+                #     rows = table.rowCount()
+                #     rows_count = rows + 1
+                #     table.setRowCount(rows_count)
                     
-                    # set item on table column
-                    for i in range(cols-2):
+                #     # set item on table column
+                #     for i in range(cols-2):
                         
-                        item = QTableWidgetItem( str(l[i]) )
-                        item.setFlags(Qt.ItemIsEnabled)
-                        table.setItem(rows, i, item)
+                #         item = QTableWidgetItem( str(l[i]) )
+                #         item.setFlags(Qt.ItemIsEnabled)
+                #         table.setItem(rows, i, item)
                     
-                    # create edit button
-                    btn = QPushButton(table)
-                    edit_ico = self.getPath("edit.png")
-                    btn.setIcon(QIcon(edit_ico))
-                    btn.setStyleSheet( self.edit_btn_action )
-                    # btn.clicked.connect(lambda: self.editData(table, "kasir"))
-                    table.setCellWidget(rows, 8, btn)
-                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "kasir"))
+                #     # create edit button
+                #     btn = QPushButton(table)
+                #     edit_ico = self.getPath("edit.png")
+                #     btn.setIcon(QIcon(edit_ico))
+                #     btn.setStyleSheet( self.edit_btn_action )
+                #     # btn.clicked.connect(lambda: self.editData(table, "kasir"))
+                #     table.setCellWidget(rows, 8, btn)
+                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "kasir"))
                     
-                    # create delete button
-                    btn_del = QPushButton(table)
-                    del_ico = self.getPath("trash.png")
-                    btn_del.setIcon(QIcon(del_ico))
-                    btn_del.setStyleSheet(self.del_btn_action)
-                    # btn_del.clicked.connect(lambda: self.deleteData(table, "kasir"))
-                    table.setCellWidget(rows, 9, btn_del)
-                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "kasir"))
+                #     # create delete button
+                #     btn_del = QPushButton(table)
+                #     del_ico = self.getPath("trash.png")
+                #     btn_del.setIcon(QIcon(del_ico))
+                #     btn_del.setStyleSheet(self.del_btn_action)
+                #     # btn_del.clicked.connect(lambda: self.deleteData(table, "kasir"))
+                #     table.setCellWidget(rows, 9, btn_del)
+                #     btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "kasir"))
 
 
-                rows_count = math.floor(rows_count/2)
+                # rows_count = math.floor(rows_count/2)
                
-                for r in range(rows_count):
-                    n = 2*r+1
+                # for r in range(rows_count):
+                #     n = 2*r+1
 
-                    table.item(n, 1).setBackground(cell_bg_color)
-                    table.item(n, 2).setBackground(cell_bg_color)
-                    table.item(n, 3).setBackground(cell_bg_color)
-                    table.item(n, 4).setBackground(cell_bg_color)
-                    table.item(n, 5).setBackground(cell_bg_color)
-                    table.item(n, 6).setBackground(cell_bg_color)
-                    table.item(n, 7).setBackground(cell_bg_color)
+                #     table.item(n, 1).setBackground(cell_bg_color)
+                #     table.item(n, 2).setBackground(cell_bg_color)
+                #     table.item(n, 3).setBackground(cell_bg_color)
+                #     table.item(n, 4).setBackground(cell_bg_color)
+                #     table.item(n, 5).setBackground(cell_bg_color)
+                #     table.item(n, 6).setBackground(cell_bg_color)
+                #     table.item(n, 7).setBackground(cell_bg_color)
                 
-                table.setShowGrid(False)
-                self.SubWinVerticalTable(sub_window_setter, [table])
+                # table.setShowGrid(False)
+                # self.SubWinVerticalTable(sub_window_setter, [table])
 
             case "tambah kasir":
                 sub_window_setter = { "title": "Tambah Kasir", "style":self.bg_white, "size":(800, 600) }
@@ -771,143 +862,143 @@ class Controller():
                 self.components["lbl_success"].setAlignment(Qt.AlignCenter)
                 self.components["lbl_success"].setHidden(True)
 
-            case "kelola gate":
-                sub_window_setter = { "title": "Kelola Gate", "style":self.bg_white, "size":(1200, 600) }
-                cols = 7
+            # case "kelola gate":
+            #     sub_window_setter = { "title": "Kelola Gate", "style":self.bg_white, "size":(1200, 600) }
+            #     cols = 7
                 
-                # create table
-                table = QTableWidget()
-                table.resizeRowsToContents()
-                table.setColumnCount(cols)
-                table.setHorizontalHeaderLabels(["id", "Nomor Pos/Gate", "Tipe Pos", "Jenis Kendaraan", "IP Cam", "Edit", "Del"])
-                table.setStyleSheet(self.table_style)
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+            #     # create table
+            #     table = QTableWidget()
+            #     table.resizeRowsToContents()
+            #     table.setColumnCount(cols)
+            #     table.setHorizontalHeaderLabels(["id", "Nomor Pos/Gate", "Tipe Pos", "Jenis Kendaraan", "IP Cam", "Edit", "Del"])
+            #     table.setStyleSheet(self.table_style)
+            #     table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+            #     table.setColumnHidden(0, True) #hide id column
                 
-                header = table.horizontalHeader()
+            #     header = table.horizontalHeader()
 
-                # set header stretch
-                for i in range(cols-3):
-                    header.setSectionResizeMode(i+1, QHeaderView.Stretch)
+            #     # set header stretch
+            #     for i in range(cols-3):
+            #         header.setSectionResizeMode(i+1, QHeaderView.Stretch)
                     
-                # run query & set column value
-                query = self.exec_query("SELECT id, no_pos, tipe_pos, jns_kendaraan, ip_cam FROM gate", "SELECT")
+            #     # run query & set column value
+            #     query = self.exec_query("SELECT id, no_pos, tipe_pos, jns_kendaraan, ip_cam FROM gate", "SELECT")
 
-                for l in query:
-                    rows = table.rowCount()
-                    rows_count = rows + 1
-                    table.setRowCount(rows_count)
+            #     for l in query:
+            #         rows = table.rowCount()
+            #         rows_count = rows + 1
+            #         table.setRowCount(rows_count)
                     
-                    # set item on table column
-                    for i in range(cols-2):
+            #         # set item on table column
+            #         for i in range(cols-2):
                         
-                        item = QTableWidgetItem( str(l[i]) )
-                        item.setFlags(Qt.ItemIsEnabled)
-                        table.setItem(rows, i, item)
+            #             item = QTableWidgetItem( str(l[i]) )
+            #             item.setFlags(Qt.ItemIsEnabled)
+            #             table.setItem(rows, i, item)
                     
-                    # create edit button
-                    btn = QPushButton(table)
-                    edit_ico = self.getPath("edit.png")
-                    btn.setIcon(QIcon(edit_ico))
-                    btn.setStyleSheet( self.edit_btn_action )
-                    # btn.clicked.connect(lambda: self.editData(table, "gate"))
-                    table.setCellWidget(rows, 5, btn)
-                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "gate"))
+            #         # create edit button
+            #         btn = QPushButton(table)
+            #         edit_ico = self.getPath("edit.png")
+            #         btn.setIcon(QIcon(edit_ico))
+            #         btn.setStyleSheet( self.edit_btn_action )
+            #         # btn.clicked.connect(lambda: self.editData(table, "gate"))
+            #         table.setCellWidget(rows, 5, btn)
+            #         btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "gate"))
                     
-                    # create delete button
-                    btn_del = QPushButton(table)
-                    del_ico = self.getPath("trash.png")
-                    btn_del.setIcon(QIcon(del_ico))
-                    btn_del.setStyleSheet(self.del_btn_action)
-                    # btn_del.clicked.connect(lambda: self.deleteData(table, "gate"))
-                    table.setCellWidget(rows, 6, btn_del)
-                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "gate"))
+            #         # create delete button
+            #         btn_del = QPushButton(table)
+            #         del_ico = self.getPath("trash.png")
+            #         btn_del.setIcon(QIcon(del_ico))
+            #         btn_del.setStyleSheet(self.del_btn_action)
+            #         # btn_del.clicked.connect(lambda: self.deleteData(table, "gate"))
+            #         table.setCellWidget(rows, 6, btn_del)
+            #         btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "gate"))
 
 
-                rows_count = math.floor(rows_count/2)
+            #     rows_count = math.floor(rows_count/2)
                
-                for r in range(rows_count):
-                    n = 2*r+1
+            #     for r in range(rows_count):
+            #         n = 2*r+1
 
-                    table.item(n, 1).setBackground(cell_bg_color)
-                    table.item(n, 2).setBackground(cell_bg_color)
-                    table.item(n, 3).setBackground(cell_bg_color)
-                    table.item(n, 4).setBackground(cell_bg_color)
+            #         table.item(n, 1).setBackground(cell_bg_color)
+            #         table.item(n, 2).setBackground(cell_bg_color)
+            #         table.item(n, 3).setBackground(cell_bg_color)
+            #         table.item(n, 4).setBackground(cell_bg_color)
                 
-                table.setShowGrid(False)
-                self.SubWinVerticalTable(sub_window_setter, [table])
+            #     table.setShowGrid(False)
+            #     self.SubWinVerticalTable(sub_window_setter, [table])
 
-            case "tambah gate":
-                sub_window_setter = { "title": "Tambah Pos/Gate", "style":self.bg_white, "size":(600, 600) }
+            # case "tambah gate":
+            #     sub_window_setter = { "title": "Tambah Pos/Gate", "style":self.bg_white, "size":(600, 600) }
 
-                # components
-                components_setter = [{
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_add_pos",
-                                        "category":"label",
-                                        "text": "No Pos/Gate",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_pos",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_tipe_pos",
-                                        "category":"label",
-                                        "text": "Tipe Pos/Gate",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tipe_pos",
-                                        "category":"comboBox",
-                                        "items": ["Masuk", "Keluar"],
-                                        "style":self.primary_combobox
-                                    },
-                                    {
-                                        "name":"lbl_add_jenis_kendaraan",
-                                        "category":"label",
-                                        "text": "Jenis Kendaraan",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_jenis_kendaraan",
-                                        "category":"comboBox",
-                                        "items": ["Motor", "Mobil"],
-                                        "style":self.primary_combobox
-                                    },
-                                    {
-                                        "name":"lbl_add_ipcam",
-                                        "category":"label",
-                                        "text": "IP Cam",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_ipcam",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"btn_add_pos",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_gate
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
+            #     # components
+            #     components_setter = [{
+            #                             "name":"lbl_success",
+            #                             "category":"label",
+            #                             "text": "Data Saved",
+            #                             "style":self.success_lbl
+            #                         },
+            #                         {
+            #                             "name":"lbl_add_pos",
+            #                             "category":"label",
+            #                             "text": "No Pos/Gate",
+            #                             "style":self.primary_lbl + margin_top
+            #                         },
+            #                         {
+            #                             "name":"add_pos",
+            #                             "category":"lineEdit",
+            #                             "style":self.primary_input
+            #                         },
+            #                         {
+            #                             "name":"lbl_add_tipe_pos",
+            #                             "category":"label",
+            #                             "text": "Tipe Pos/Gate",
+            #                             "style":self.primary_lbl + margin_top
+            #                         },
+            #                         {
+            #                             "name":"add_tipe_pos",
+            #                             "category":"comboBox",
+            #                             "items": ["Masuk", "Keluar"],
+            #                             "style":self.primary_combobox
+            #                         },
+            #                         {
+            #                             "name":"lbl_add_jenis_kendaraan",
+            #                             "category":"label",
+            #                             "text": "Jenis Kendaraan",
+            #                             "style":self.primary_lbl + margin_top
+            #                         },
+            #                         {
+            #                             "name":"add_jenis_kendaraan",
+            #                             "category":"comboBox",
+            #                             "items": ["Motor", "Mobil"],
+            #                             "style":self.primary_combobox
+            #                         },
+            #                         {
+            #                             "name":"lbl_add_ipcam",
+            #                             "category":"label",
+            #                             "text": "IP Cam",
+            #                             "style":self.primary_lbl + margin_top
+            #                         },
+            #                         {
+            #                             "name":"add_ipcam",
+            #                             "category":"lineEdit",
+            #                             "style":self.primary_input
+            #                         },
+            #                         {
+            #                             "name":"btn_add_pos",
+            #                             "category":"pushButton",
+            #                             "text": "Save",
+            #                             "clicked": {
+            #                                     "method_name": self.add_gate
+            #                             },
+            #                             "style": self.primary_button
+            #                         }
+            #                     ]
 
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
+            #     self.SubWinVerticalForm(sub_window_setter, components_setter)
                 
-                self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                self.components["lbl_success"].setHidden(True)
+            #     self.components["lbl_success"].setAlignment(Qt.AlignCenter)
+            #     self.components["lbl_success"].setHidden(True)
 
             case "setting karcis":
                 sub_window_setter = { "title": "Setting Karcis", "style":self.bg_white, "size":(600, 600) }

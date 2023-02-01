@@ -1,0 +1,6 @@
+main stacked widget:
+
+################ QStackedWidget here #################
+...
+self.stacked_widget.addWidget(rfid_container) --> each page has it's own container except welcome dashboard
+...
