@@ -82,6 +82,15 @@ class View:
                 background: #525A62;
             }
             """
+    tab_button = """QPushButton{
+        background: #636e72;
+        border: none;
+        padding: 8px;
+    }
+    QPushButton:hover{
+        background: #636eee;
+    }
+    """
 
     # button styling
     primary_button ="""QPushButton {

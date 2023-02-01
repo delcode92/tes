@@ -324,7 +324,7 @@ class Controller():
         margin_top = "margin-top:30px;"
         cell_bg_color = QColor(243,243,243)
 
-        self.stacked_animation.setDuration(800)
+        self.stacked_animation.setDuration(600)
         self.stacked_animation.setStartValue(QRect(0, 0, 0, self.stacked_widget.height()))
         self.stacked_animation.setEndValue(QRect(self.stacked_widget.x(), self.stacked_widget.y(), self.stacked_widget.width(), self.stacked_widget.height()))
         self.stacked_animation.setEasingCurve(QEasingCurve.InOutQuart)

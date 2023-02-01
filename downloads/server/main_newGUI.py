@@ -29,6 +29,24 @@ class Main(Util, View):
     def setMenuClicked(self, button=None, label=None, page=""):
         button.clicked.connect(lambda: self.windowBarAction(page))
         label.clicked.connect(lambda: self.windowBarAction(page))
+    
+    def setTabButton(self, tab1=None, tab2=None , tabsContainer=None):
+        tab1.setMaximumWidth(180)
+        tab2.setMaximumWidth(180)
+        
+        tab1.setIcon(QIcon(self.icon_path+"table-columns.png"))
+        tab2.setIcon(QIcon(self.icon_path+"apps-add.png"))
+    
+        tab1.setStyleSheet(View.tab_button)
+        tab2.setStyleSheet(View.tab_button)
+
+        tab1.clicked.connect(lambda: self.Tabs(self.rfid_stack, index=0))
+        tab2.clicked.connect(lambda: self.Tabs(self.rfid_stack, index=1))
+
+        tabsContainer.setAlignment(Qt.AlignLeft)
+        tabsContainer.addWidget(tab1)
+        tabsContainer.addWidget(tab2)
+
 
     def createPage(self, page=""):
         match page:
@@ -56,24 +74,16 @@ class Main(Util, View):
                 self.rfid_container_lay = QVBoxLayout()
                 rfid_tabs_container_widget = QWidget()
                 rfid_tabs_container = QHBoxLayout()
-                rfid_tab1 = QPushButton("Tab 1")
-                rfid_tab2 = QPushButton("Tab 2")
+                rfid_tab1 = QPushButton("Kelola RFID")
+                rfid_tab2 = QPushButton("Tambah RFID")
+
                 self.rfid_stack = QStackedWidget()
                 rfid_content1 = QWidget()
                 rfid_content2 = QWidget()
 
                 # tabs
-                rfid_tab1.setMaximumWidth(180)
-                rfid_tab2.setMaximumWidth(180)
-                rfid_tab1.setStyleSheet("background: #fff; color: #000;")
-                rfid_tab2.setStyleSheet("background: #fff; color: #000;")
-                rfid_tab1.clicked.connect(lambda: self.Tabs(self.rfid_stack, index=0))
-                rfid_tab2.clicked.connect(lambda: self.Tabs(self.rfid_stack, index=1))
-
-                rfid_tabs_container.setAlignment(Qt.AlignLeft)
-                rfid_tabs_container.addWidget(rfid_tab1)
-                rfid_tabs_container.addWidget(rfid_tab2)
-
+                self.setTabButton(tab1=rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container)
+                
                 # set rfid layout & widget
                 self.rfid_container_lay.setContentsMargins(0,0,0,0)
                 self.rfid_container_lay.setSpacing(0)
@@ -126,16 +136,7 @@ class Main(Util, View):
                 users_content2 = QWidget()
 
                 # tabs
-                users_tab1.setMaximumWidth(180)
-                users_tab2.setMaximumWidth(180)
-                users_tab1.setStyleSheet("background: #fff; color: #000;")
-                users_tab2.setStyleSheet("background: #fff; color: #000;")
-                users_tab1.clicked.connect(lambda: self.Tabs(self.users_stack, index=0))
-                users_tab2.clicked.connect(lambda: self.Tabs(self.users_stack, index=1))
-
-                users_tabs_container.setAlignment(Qt.AlignLeft)
-                users_tabs_container.addWidget(users_tab1)
-                users_tabs_container.addWidget(users_tab2)
+                self.setTabButton(tab1=users_tab1, tab2=users_tab2, tabsContainer=users_tabs_container)
 
                 # set users layout & widget
                 self.users_container_lay.setContentsMargins(0,0,0,0)
@@ -189,16 +190,7 @@ class Main(Util, View):
                 kasir_content2 = QWidget()
 
                 # tabs
-                kasir_tab1.setMaximumWidth(180)
-                kasir_tab2.setMaximumWidth(180)
-                kasir_tab1.setStyleSheet("background: #fff; color: #000;")
-                kasir_tab2.setStyleSheet("background: #fff; color: #000;")
-                kasir_tab1.clicked.connect(lambda: self.Tabs(self.kasir_stack, index=0))
-                kasir_tab2.clicked.connect(lambda: self.Tabs(self.kasir_stack, index=1))
-
-                kasir_tabs_container.setAlignment(Qt.AlignLeft)
-                kasir_tabs_container.addWidget(kasir_tab1)
-                kasir_tabs_container.addWidget(kasir_tab2)
+                self.setTabButton(tab1=kasir_tab1, tab2=kasir_tab2, tabsContainer=kasir_tabs_container)
 
                 # set kasir layout & widget
                 self.kasir_container_lay.setContentsMargins(0,0,0,0)
@@ -252,16 +244,7 @@ class Main(Util, View):
                 karcis_content2 = QWidget()
 
                 # tabs
-                karcis_tab1.setMaximumWidth(180)
-                karcis_tab2.setMaximumWidth(180)
-                karcis_tab1.setStyleSheet("background: #fff; color: #000;")
-                karcis_tab2.setStyleSheet("background: #fff; color: #000;")
-                karcis_tab1.clicked.connect(lambda: self.Tabs(self.karcis_stack, index=0))
-                karcis_tab2.clicked.connect(lambda: self.Tabs(self.karcis_stack, index=1))
-
-                karcis_tabs_container.setAlignment(Qt.AlignLeft)
-                karcis_tabs_container.addWidget(karcis_tab1)
-                karcis_tabs_container.addWidget(karcis_tab2)
+                self.setTabButton(tab1=karcis_tab1, tab2=karcis_tab2, tabsContainer=karcis_tabs_container)
 
                 # set karcis layout & widget
                 self.karcis_container_lay.setContentsMargins(0,0,0,0)
@@ -315,16 +298,7 @@ class Main(Util, View):
                 tarif_content2 = QWidget()
 
                 # tabs
-                tarif_tab1.setMaximumWidth(180)
-                tarif_tab2.setMaximumWidth(180)
-                tarif_tab1.setStyleSheet("background: #fff; color: #000;")
-                tarif_tab2.setStyleSheet("background: #fff; color: #000;")
-                tarif_tab1.clicked.connect(lambda: self.Tabs(self.tarif_stack, index=0))
-                tarif_tab2.clicked.connect(lambda: self.Tabs(self.tarif_stack, index=1))
-
-                tarif_tabs_container.setAlignment(Qt.AlignLeft)
-                tarif_tabs_container.addWidget(tarif_tab1)
-                tarif_tabs_container.addWidget(tarif_tab2)
+                self.setTabButton(tab1=tarif_tab1, tab2=tarif_tab2, tabsContainer=tarif_tabs_container)
 
                 # set tarif layout & widget
                 self.tarif_container_lay.setContentsMargins(0,0,0,0)
@@ -378,16 +352,7 @@ class Main(Util, View):
                 voucher_content2 = QWidget()
 
                 # tabs
-                voucher_tab1.setMaximumWidth(180)
-                voucher_tab2.setMaximumWidth(180)
-                voucher_tab1.setStyleSheet("background: #fff; color: #000;")
-                voucher_tab2.setStyleSheet("background: #fff; color: #000;")
-                voucher_tab1.clicked.connect(lambda: self.Tabs(self.voucher_stack, index=0))
-                voucher_tab2.clicked.connect(lambda: self.Tabs(self.voucher_stack, index=1))
-
-                voucher_tabs_container.setAlignment(Qt.AlignLeft)
-                voucher_tabs_container.addWidget(voucher_tab1)
-                voucher_tabs_container.addWidget(voucher_tab2)
+                self.setTabButton(tab1=voucher_tab1, tab2=voucher_tab2, tabsContainer=voucher_tabs_container)
 
                 # set voucher layout & widget
                 self.voucher_container_lay.setContentsMargins(0,0,0,0)
@@ -441,16 +406,7 @@ class Main(Util, View):
                 laporan_content2 = QWidget()
 
                 # tabs
-                laporan_tab1.setMaximumWidth(180)
-                laporan_tab2.setMaximumWidth(180)
-                laporan_tab1.setStyleSheet("background: #fff; color: #000;")
-                laporan_tab2.setStyleSheet("background: #fff; color: #000;")
-                laporan_tab1.clicked.connect(lambda: self.Tabs(self.laporan_stack, index=0))
-                laporan_tab2.clicked.connect(lambda: self.Tabs(self.laporan_stack, index=1))
-
-                laporan_tabs_container.setAlignment(Qt.AlignLeft)
-                laporan_tabs_container.addWidget(laporan_tab1)
-                laporan_tabs_container.addWidget(laporan_tab2)
+                self.setTabButton(tab1=laporan_tab1, tab2=laporan_tab2, tabsContainer=laporan_tabs_container)
 
                 # set laporan layout & widget
                 self.laporan_container_lay.setContentsMargins(0,0,0,0)
@@ -491,9 +447,6 @@ class Main(Util, View):
                 laporan_content2.setStyleSheet("background-color:#badaff; color:#fff;")
                 laporan_content2_lay.addWidget(laporan_content2)
             
-            case "logout":
-                ...
-
             case default:
                 pass    
 
@@ -529,15 +482,15 @@ class Main(Util, View):
             os_name = os.name
 
             if os_name == 'posix':
-                icon_path = '/icons'.join([path, "/"])
+                self.icon_path = '/icons'.join([path, "/"])
             elif os_name == 'nt':
-                icon_path = '\icons'.join([path, "\\"])
+                self.icon_path = '\icons'.join([path, "\\"])
             
             self.burger_menu = QPushButton()
-            self.burger_menu.setIcon(QIcon(icon_path+"menu-burger.png"))
+            self.burger_menu.setIcon(QIcon(self.icon_path+"menu-burger.png"))
             self.burger_menu.setFixedSize(30, 30)
             self.burger_menu.setStyleSheet("background-color: #1d262d;")
-            self.burger_menu.clicked.connect(lambda: self.toggleMenu(250, True, icon_path))
+            self.burger_menu.clicked.connect(lambda: self.toggleMenu(250, True, self.icon_path))
 
             # add component to layout
             main_win_layout.setContentsMargins(0, 0, 0, 0)
@@ -558,7 +511,7 @@ class Main(Util, View):
             ################ Home #################
             self.home_btn =QPushButton()
             self.home_btn.setFixedSize(30,30)
-            self.home_btn.setIcon( QIcon(icon_path+"home.png") )
+            self.home_btn.setIcon( QIcon(self.icon_path+"home.png") )
             self.home_btn.setStyleSheet(View.left_menu_btn)
             self.home_lbl = ClickableLabel("Home")
             self.home_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -578,7 +531,7 @@ class Main(Util, View):
             ################ RFID #################
             self.rfid_btn =QPushButton()
             self.rfid_btn.setFixedSize(30,30)
-            self.rfid_btn.setIcon( QIcon(icon_path+"share.png") )
+            self.rfid_btn.setIcon( QIcon(self.icon_path+"share.png") )
             self.rfid_btn.setStyleSheet(View.left_menu_btn)
             self.rfid_lbl = ClickableLabel("RFID")
             self.rfid_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -598,7 +551,7 @@ class Main(Util, View):
             ################ Users #################
             self.users_btn =QPushButton()
             self.users_btn.setFixedSize(30,30)
-            self.users_btn.setIcon( QIcon(icon_path+"users.png") )
+            self.users_btn.setIcon( QIcon(self.icon_path+"users.png") )
             self.users_btn.setStyleSheet(View.left_menu_btn)
             self.users_lbl = ClickableLabel("Users")
             self.users_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -616,7 +569,7 @@ class Main(Util, View):
             ################ Cashier #################
             self.kasir_btn =QPushButton()
             self.kasir_btn.setFixedSize(30,30)
-            self.kasir_btn.setIcon( QIcon(icon_path+"computer.png") )
+            self.kasir_btn.setIcon( QIcon(self.icon_path+"computer.png") )
             self.kasir_btn.setStyleSheet(View.left_menu_btn)
             self.kasir_lbl = ClickableLabel("Kasir")
             self.kasir_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -634,7 +587,7 @@ class Main(Util, View):
             ################ Karcis #################
             self.karcis_btn =QPushButton()
             self.karcis_btn.setFixedSize(30,30)
-            self.karcis_btn.setIcon( QIcon(icon_path+"receipt.png") )
+            self.karcis_btn.setIcon( QIcon(self.icon_path+"receipt.png") )
             self.karcis_btn.setStyleSheet(View.left_menu_btn)
             self.karcis_lbl = ClickableLabel("karcis")
             self.karcis_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -652,7 +605,7 @@ class Main(Util, View):
             ################ Tarif #################
             self.tarif_btn =QPushButton()
             self.tarif_btn.setFixedSize(30,30)
-            self.tarif_btn.setIcon( QIcon(icon_path+"usd-circle.png") )
+            self.tarif_btn.setIcon( QIcon(self.icon_path+"usd-circle.png") )
             self.tarif_btn.setStyleSheet(View.left_menu_btn)
             self.tarif_lbl = ClickableLabel("Tarif")
             self.tarif_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -670,7 +623,7 @@ class Main(Util, View):
             ################ Voucher #################
             self.voucher_btn =QPushButton()
             self.voucher_btn.setFixedSize(30,30)
-            self.voucher_btn.setIcon( QIcon(icon_path+"ticket.png") )
+            self.voucher_btn.setIcon( QIcon(self.icon_path+"ticket.png") )
             self.voucher_btn.setStyleSheet(View.left_menu_btn)
             self.voucher_lbl = ClickableLabel("Voucher")
             self.voucher_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -688,7 +641,7 @@ class Main(Util, View):
             ################ Laporan #################
             self.laporan_btn =QPushButton()
             self.laporan_btn.setFixedSize(30,30)
-            self.laporan_btn.setIcon( QIcon(icon_path+"document-signed.png") )
+            self.laporan_btn.setIcon( QIcon(self.icon_path+"document-signed.png") )
             self.laporan_btn.setStyleSheet(View.left_menu_btn)
             self.laporan_lbl = ClickableLabel("Laporan")
             self.laporan_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -706,7 +659,7 @@ class Main(Util, View):
             ################ Logout #################
             self.logout_btn =QPushButton()
             self.logout_btn.setFixedSize(30,30)
-            self.logout_btn.setIcon( QIcon(icon_path+"sign-out-alt.png") )
+            self.logout_btn.setIcon( QIcon(self.icon_path+"sign-out-alt.png") )
             self.logout_btn.setStyleSheet(View.left_menu_btn)
             self.logout_lbl = ClickableLabel("Logout")
             self.logout_lbl.setFont( self.fontStyle("Helvetica", 10, 500) )
@@ -736,7 +689,6 @@ class Main(Util, View):
             self.createPage(page="tarif")
             self.createPage(page="voucher")
             self.createPage(page="laporan")
-            self.createPage(page="logout")
             
             self.rfid_stack.setCurrentIndex(0)
             self.stacked_widget.addWidget(self.welcome_lbl)     # --> 0
