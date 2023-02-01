@@ -177,19 +177,319 @@ class Main(Util, View):
                 users_content2_lay.addWidget(users_content2)
             
             case "kasir":
-                ...
+                # kasir content
+                self.kasir_container = QWidget()
+                self.kasir_container_lay = QVBoxLayout()
+                kasir_tabs_container_widget = QWidget()
+                kasir_tabs_container = QHBoxLayout()
+                kasir_tab1 = QPushButton("Tab 1")
+                kasir_tab2 = QPushButton("Tab 2")
+                self.kasir_stack = QStackedWidget()
+                kasir_content1 = QWidget()
+                kasir_content2 = QWidget()
+
+                # tabs
+                kasir_tab1.setMaximumWidth(180)
+                kasir_tab2.setMaximumWidth(180)
+                kasir_tab1.setStyleSheet("background: #fff; color: #000;")
+                kasir_tab2.setStyleSheet("background: #fff; color: #000;")
+                kasir_tab1.clicked.connect(lambda: self.Tabs(self.kasir_stack, index=0))
+                kasir_tab2.clicked.connect(lambda: self.Tabs(self.kasir_stack, index=1))
+
+                kasir_tabs_container.setAlignment(Qt.AlignLeft)
+                kasir_tabs_container.addWidget(kasir_tab1)
+                kasir_tabs_container.addWidget(kasir_tab2)
+
+                # set kasir layout & widget
+                self.kasir_container_lay.setContentsMargins(0,0,0,0)
+                self.kasir_container_lay.setSpacing(0)
+
+                kasir_tabs_container_widget.setStyleSheet("background: #bada55;")
+                self.kasir_stack.setStyleSheet("background: #bada55;")
+                
+                self.kasir_container.setLayout(self.kasir_container_lay)
+                kasir_tabs_container_widget.setLayout(kasir_tabs_container)
+
+                self.kasir_container_lay.addWidget(kasir_tabs_container_widget)
+                self.kasir_container_lay.addWidget(self.kasir_stack)
+
+                # add tabs
+                self.kasir_stack.addWidget(kasir_content1)
+                self.kasir_stack.addWidget(kasir_content2)
+                
+                # set widget and layout
+                kasir_content1_lay = QVBoxLayout()
+                kasir_content1.setLayout( kasir_content1_lay )
+                
+                # set widget and layout
+                kasir_content2_lay = QVBoxLayout()
+                kasir_content2.setLayout( kasir_content2_lay )
+
+                # set widget for tab1 layout
+                kasir_content1 = QLabel("Another Page 1")
+                kasir_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
+                kasir_content1.setAlignment(Qt.AlignCenter)
+                kasir_content1.setStyleSheet("background-color:#badaee; color:#fff;")
+                kasir_content1_lay.addWidget(kasir_content1)
+
+                # set widget for tab2 layout
+                kasir_content2 = QLabel("Another Page 2")
+                kasir_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+                kasir_content2.setAlignment(Qt.AlignCenter)
+                kasir_content2.setStyleSheet("background-color:#badaff; color:#fff;")
+                kasir_content2_lay.addWidget(kasir_content2)
             
             case "karcis":
-                ...
+                # karcis content
+                self.karcis_container = QWidget()
+                self.karcis_container_lay = QVBoxLayout()
+                karcis_tabs_container_widget = QWidget()
+                karcis_tabs_container = QHBoxLayout()
+                karcis_tab1 = QPushButton("Tab 1")
+                karcis_tab2 = QPushButton("Tab 2")
+                self.karcis_stack = QStackedWidget()
+                karcis_content1 = QWidget()
+                karcis_content2 = QWidget()
+
+                # tabs
+                karcis_tab1.setMaximumWidth(180)
+                karcis_tab2.setMaximumWidth(180)
+                karcis_tab1.setStyleSheet("background: #fff; color: #000;")
+                karcis_tab2.setStyleSheet("background: #fff; color: #000;")
+                karcis_tab1.clicked.connect(lambda: self.Tabs(self.karcis_stack, index=0))
+                karcis_tab2.clicked.connect(lambda: self.Tabs(self.karcis_stack, index=1))
+
+                karcis_tabs_container.setAlignment(Qt.AlignLeft)
+                karcis_tabs_container.addWidget(karcis_tab1)
+                karcis_tabs_container.addWidget(karcis_tab2)
+
+                # set karcis layout & widget
+                self.karcis_container_lay.setContentsMargins(0,0,0,0)
+                self.karcis_container_lay.setSpacing(0)
+
+                karcis_tabs_container_widget.setStyleSheet("background: #bada55;")
+                self.karcis_stack.setStyleSheet("background: #bada55;")
+                
+                self.karcis_container.setLayout(self.karcis_container_lay)
+                karcis_tabs_container_widget.setLayout(karcis_tabs_container)
+
+                self.karcis_container_lay.addWidget(karcis_tabs_container_widget)
+                self.karcis_container_lay.addWidget(self.karcis_stack)
+
+                # add tabs
+                self.karcis_stack.addWidget(karcis_content1)
+                self.karcis_stack.addWidget(karcis_content2)
+                
+                # set widget and layout
+                karcis_content1_lay = QVBoxLayout()
+                karcis_content1.setLayout( karcis_content1_lay )
+                
+                # set widget and layout
+                karcis_content2_lay = QVBoxLayout()
+                karcis_content2.setLayout( karcis_content2_lay )
+
+                # set widget for tab1 layout
+                karcis_content1 = QLabel("Another Page 1")
+                karcis_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
+                karcis_content1.setAlignment(Qt.AlignCenter)
+                karcis_content1.setStyleSheet("background-color:#badaee; color:#fff;")
+                karcis_content1_lay.addWidget(karcis_content1)
+
+                # set widget for tab2 layout
+                karcis_content2 = QLabel("Another Page 2")
+                karcis_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+                karcis_content2.setAlignment(Qt.AlignCenter)
+                karcis_content2.setStyleSheet("background-color:#badaff; color:#fff;")
+                karcis_content2_lay.addWidget(karcis_content2)
             
             case "tarif":
-                ...
+                # tarif content
+                self.tarif_container = QWidget()
+                self.tarif_container_lay = QVBoxLayout()
+                tarif_tabs_container_widget = QWidget()
+                tarif_tabs_container = QHBoxLayout()
+                tarif_tab1 = QPushButton("Tab 1")
+                tarif_tab2 = QPushButton("Tab 2")
+                self.tarif_stack = QStackedWidget()
+                tarif_content1 = QWidget()
+                tarif_content2 = QWidget()
+
+                # tabs
+                tarif_tab1.setMaximumWidth(180)
+                tarif_tab2.setMaximumWidth(180)
+                tarif_tab1.setStyleSheet("background: #fff; color: #000;")
+                tarif_tab2.setStyleSheet("background: #fff; color: #000;")
+                tarif_tab1.clicked.connect(lambda: self.Tabs(self.tarif_stack, index=0))
+                tarif_tab2.clicked.connect(lambda: self.Tabs(self.tarif_stack, index=1))
+
+                tarif_tabs_container.setAlignment(Qt.AlignLeft)
+                tarif_tabs_container.addWidget(tarif_tab1)
+                tarif_tabs_container.addWidget(tarif_tab2)
+
+                # set tarif layout & widget
+                self.tarif_container_lay.setContentsMargins(0,0,0,0)
+                self.tarif_container_lay.setSpacing(0)
+
+                tarif_tabs_container_widget.setStyleSheet("background: #bada55;")
+                self.tarif_stack.setStyleSheet("background: #bada55;")
+                
+                self.tarif_container.setLayout(self.tarif_container_lay)
+                tarif_tabs_container_widget.setLayout(tarif_tabs_container)
+
+                self.tarif_container_lay.addWidget(tarif_tabs_container_widget)
+                self.tarif_container_lay.addWidget(self.tarif_stack)
+
+                # add tabs
+                self.tarif_stack.addWidget(tarif_content1)
+                self.tarif_stack.addWidget(tarif_content2)
+                
+                # set widget and layout
+                tarif_content1_lay = QVBoxLayout()
+                tarif_content1.setLayout( tarif_content1_lay )
+                
+                # set widget and layout
+                tarif_content2_lay = QVBoxLayout()
+                tarif_content2.setLayout( tarif_content2_lay )
+
+                # set widget for tab1 layout
+                tarif_content1 = QLabel("Another Page 1")
+                tarif_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
+                tarif_content1.setAlignment(Qt.AlignCenter)
+                tarif_content1.setStyleSheet("background-color:#badaee; color:#fff;")
+                tarif_content1_lay.addWidget(tarif_content1)
+
+                # set widget for tab2 layout
+                tarif_content2 = QLabel("Another Page 2")
+                tarif_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+                tarif_content2.setAlignment(Qt.AlignCenter)
+                tarif_content2.setStyleSheet("background-color:#badaff; color:#fff;")
+                tarif_content2_lay.addWidget(tarif_content2)
             
             case "voucher":
-                ...
+                # voucher content
+                self.voucher_container = QWidget()
+                self.voucher_container_lay = QVBoxLayout()
+                voucher_tabs_container_widget = QWidget()
+                voucher_tabs_container = QHBoxLayout()
+                voucher_tab1 = QPushButton("Tab 1")
+                voucher_tab2 = QPushButton("Tab 2")
+                self.voucher_stack = QStackedWidget()
+                voucher_content1 = QWidget()
+                voucher_content2 = QWidget()
+
+                # tabs
+                voucher_tab1.setMaximumWidth(180)
+                voucher_tab2.setMaximumWidth(180)
+                voucher_tab1.setStyleSheet("background: #fff; color: #000;")
+                voucher_tab2.setStyleSheet("background: #fff; color: #000;")
+                voucher_tab1.clicked.connect(lambda: self.Tabs(self.voucher_stack, index=0))
+                voucher_tab2.clicked.connect(lambda: self.Tabs(self.voucher_stack, index=1))
+
+                voucher_tabs_container.setAlignment(Qt.AlignLeft)
+                voucher_tabs_container.addWidget(voucher_tab1)
+                voucher_tabs_container.addWidget(voucher_tab2)
+
+                # set voucher layout & widget
+                self.voucher_container_lay.setContentsMargins(0,0,0,0)
+                self.voucher_container_lay.setSpacing(0)
+
+                voucher_tabs_container_widget.setStyleSheet("background: #bada55;")
+                self.voucher_stack.setStyleSheet("background: #bada55;")
+                
+                self.voucher_container.setLayout(self.voucher_container_lay)
+                voucher_tabs_container_widget.setLayout(voucher_tabs_container)
+
+                self.voucher_container_lay.addWidget(voucher_tabs_container_widget)
+                self.voucher_container_lay.addWidget(self.voucher_stack)
+
+                # add tabs
+                self.voucher_stack.addWidget(voucher_content1)
+                self.voucher_stack.addWidget(voucher_content2)
+                
+                # set widget and layout
+                voucher_content1_lay = QVBoxLayout()
+                voucher_content1.setLayout( voucher_content1_lay )
+                
+                # set widget and layout
+                voucher_content2_lay = QVBoxLayout()
+                voucher_content2.setLayout( voucher_content2_lay )
+
+                # set widget for tab1 layout
+                voucher_content1 = QLabel("Another Page 1")
+                voucher_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
+                voucher_content1.setAlignment(Qt.AlignCenter)
+                voucher_content1.setStyleSheet("background-color:#badaee; color:#fff;")
+                voucher_content1_lay.addWidget(voucher_content1)
+
+                # set widget for tab2 layout
+                voucher_content2 = QLabel("Another Page 2")
+                voucher_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+                voucher_content2.setAlignment(Qt.AlignCenter)
+                voucher_content2.setStyleSheet("background-color:#badaff; color:#fff;")
+                voucher_content2_lay.addWidget(voucher_content2)
             
             case "laporan":
-                ...
+                # laporan content
+                self.laporan_container = QWidget()
+                self.laporan_container_lay = QVBoxLayout()
+                laporan_tabs_container_widget = QWidget()
+                laporan_tabs_container = QHBoxLayout()
+                laporan_tab1 = QPushButton("Tab 1")
+                laporan_tab2 = QPushButton("Tab 2")
+                self.laporan_stack = QStackedWidget()
+                laporan_content1 = QWidget()
+                laporan_content2 = QWidget()
+
+                # tabs
+                laporan_tab1.setMaximumWidth(180)
+                laporan_tab2.setMaximumWidth(180)
+                laporan_tab1.setStyleSheet("background: #fff; color: #000;")
+                laporan_tab2.setStyleSheet("background: #fff; color: #000;")
+                laporan_tab1.clicked.connect(lambda: self.Tabs(self.laporan_stack, index=0))
+                laporan_tab2.clicked.connect(lambda: self.Tabs(self.laporan_stack, index=1))
+
+                laporan_tabs_container.setAlignment(Qt.AlignLeft)
+                laporan_tabs_container.addWidget(laporan_tab1)
+                laporan_tabs_container.addWidget(laporan_tab2)
+
+                # set laporan layout & widget
+                self.laporan_container_lay.setContentsMargins(0,0,0,0)
+                self.laporan_container_lay.setSpacing(0)
+
+                laporan_tabs_container_widget.setStyleSheet("background: #bada55;")
+                self.laporan_stack.setStyleSheet("background: #bada55;")
+                
+                self.laporan_container.setLayout(self.laporan_container_lay)
+                laporan_tabs_container_widget.setLayout(laporan_tabs_container)
+
+                self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
+                self.laporan_container_lay.addWidget(self.laporan_stack)
+
+                # add tabs
+                self.laporan_stack.addWidget(laporan_content1)
+                self.laporan_stack.addWidget(laporan_content2)
+                
+                # set widget and layout
+                laporan_content1_lay = QVBoxLayout()
+                laporan_content1.setLayout( laporan_content1_lay )
+                
+                # set widget and layout
+                laporan_content2_lay = QVBoxLayout()
+                laporan_content2.setLayout( laporan_content2_lay )
+
+                # set widget for tab1 layout
+                laporan_content1 = QLabel("Another Page 1")
+                laporan_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
+                laporan_content1.setAlignment(Qt.AlignCenter)
+                laporan_content1.setStyleSheet("background-color:#badaee; color:#fff;")
+                laporan_content1_lay.addWidget(laporan_content1)
+
+                # set widget for tab2 layout
+                laporan_content2 = QLabel("Another Page 2")
+                laporan_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+                laporan_content2.setAlignment(Qt.AlignCenter)
+                laporan_content2.setStyleSheet("background-color:#badaff; color:#fff;")
+                laporan_content2_lay.addWidget(laporan_content2)
             
             case "logout":
                 ...
@@ -439,8 +739,14 @@ class Main(Util, View):
             self.createPage(page="logout")
             
             self.rfid_stack.setCurrentIndex(0)
-            self.stacked_widget.addWidget(self.welcome_lbl)
-            self.stacked_widget.addWidget(self.rfid_container)
+            self.stacked_widget.addWidget(self.welcome_lbl)     # --> 0
+            self.stacked_widget.addWidget(self.rfid_container)  # --> 1
+            self.stacked_widget.addWidget(self.users_container) # --> 2
+            self.stacked_widget.addWidget(self.kasir_container) # --> 3
+            self.stacked_widget.addWidget(self.karcis_container)    # --> 4
+            self.stacked_widget.addWidget(self.tarif_container)     # --> 5
+            self.stacked_widget.addWidget(self.voucher_container)   # --> 6
+            self.stacked_widget.addWidget(self.laporan_container)   # --> 7
             self.stacked_widget.setCurrentIndex(0)
             
             # set the animation stacked widget

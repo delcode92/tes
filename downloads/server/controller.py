@@ -349,6 +349,7 @@ class Controller():
                     non_target=(self.rfid_btn, 
                                 self.users_btn, 
                                 self.kasir_btn, 
+                                self.karcis_btn, 
                                 self.tarif_btn, 
                                 self.voucher_btn, 
                                 self.laporan_btn, 
@@ -356,6 +357,7 @@ class Controller():
                                 self.rfid_lbl, 
                                 self.users_lbl, 
                                 self.kasir_lbl, 
+                                self.karcis_lbl, 
                                 self.tarif_lbl, 
                                 self.voucher_lbl, 
                                 self.laporan_lbl, 
@@ -374,6 +376,7 @@ class Controller():
                     non_target=(self.home_btn, 
                                 self.users_btn, 
                                 self.kasir_btn, 
+                                self.karcis_btn, 
                                 self.tarif_btn, 
                                 self.voucher_btn, 
                                 self.laporan_btn, 
@@ -381,6 +384,7 @@ class Controller():
                                 self.home_lbl, 
                                 self.users_lbl, 
                                 self.kasir_lbl, 
+                                self.karcis_lbl, 
                                 self.tarif_lbl, 
                                 self.voucher_lbl, 
                                 self.laporan_lbl, 
@@ -509,6 +513,7 @@ class Controller():
                     non_target=(self.rfid_btn, 
                                 self.home_btn, 
                                 self.kasir_btn, 
+                                self.karcis_btn, 
                                 self.tarif_btn, 
                                 self.voucher_btn, 
                                 self.laporan_btn, 
@@ -516,6 +521,7 @@ class Controller():
                                 self.rfid_lbl, 
                                 self.home_lbl, 
                                 self.kasir_lbl, 
+                                self.karcis_lbl, 
                                 self.tarif_lbl, 
                                 self.voucher_lbl, 
                                 self.laporan_lbl, 
@@ -523,7 +529,7 @@ class Controller():
                 )
                 
                 # solution stacked widget
-                self.stacked_widget.setCurrentIndex(0)
+                self.stacked_widget.setCurrentIndex(2)
                 self.stacked_animation.start()
 
                 # sub_window_setter = { "title": "Kelola User", "style":self.bg_white, "size":(800, 600) }
@@ -669,6 +675,7 @@ class Controller():
                     non_target=(self.rfid_btn, 
                                 self.home_btn, 
                                 self.users_btn, 
+                                self.karcis_btn, 
                                 self.tarif_btn, 
                                 self.voucher_btn, 
                                 self.laporan_btn, 
@@ -676,6 +683,7 @@ class Controller():
                                 self.rfid_lbl, 
                                 self.home_lbl, 
                                 self.users_lbl, 
+                                self.karcis_lbl, 
                                 self.tarif_lbl, 
                                 self.voucher_lbl, 
                                 self.laporan_lbl, 
@@ -683,7 +691,7 @@ class Controller():
                 )
 
                 # solution stacked widget
-                self.stacked_widget.setCurrentIndex(0)
+                self.stacked_widget.setCurrentIndex(3)
                 self.stacked_animation.start()
 
                 # sub_window_setter = { "title": "Kelola Kasir", "style":self.bg_white, "size":(1200, 600)}
@@ -1001,139 +1009,190 @@ class Controller():
             #     self.components["lbl_success"].setHidden(True)
 
             case "setting karcis":
-                sub_window_setter = { "title": "Setting Karcis", "style":self.bg_white, "size":(600, 600) }
+                # set active button and label
+                self.updateStyle(
+                    target=(self.karcis_btn, self.karcis_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.home_btn, 
+                                self.users_btn,
+                                self.kasir_btn, 
+                                self.tarif_btn, 
+                                self.voucher_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.home_lbl, 
+                                self.users_lbl, 
+                                self.kasir_lbl, 
+                                self.tarif_lbl, 
+                                self.voucher_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
 
-                # components
-                components_setter = [{
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_nm_tempat",
-                                        "category":"label",
-                                        "text": "Nama Tempat",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tempat",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_nm_perusahaan",
-                                        "category":"label",
-                                        "text": "Nama Perusahaan",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_perusahaan",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_pintu_masuk",
-                                        "category":"label",
-                                        "text": "Pintu Masuk",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_per_24jam",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_tarif_jns_kendaraan",
-                                        "category":"label",
-                                        "text": "Jenis Kendaraan",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_jns_kendaraan",
-                                        "category":"comboBox",
-                                        "items":["Motor", "Mobil"],
-                                        "style":self.primary_combobox
-                                    },
-                                    {
-                                        "name":"btn_add_tarif",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_tarif
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
+                # solution stacked widget
+                self.stacked_widget.setCurrentIndex(4)
+                self.stacked_animation.start()
 
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
+                # sub_window_setter = { "title": "Setting Karcis", "style":self.bg_white, "size":(600, 600) }
+
+                # # components
+                # components_setter = [{
+                #                         "name":"lbl_success",
+                #                         "category":"label",
+                #                         "text": "Data Saved",
+                #                         "style":self.success_lbl
+                #                     },
+                #                     {
+                #                         "name":"lbl_nm_tempat",
+                #                         "category":"label",
+                #                         "text": "Nama Tempat",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_tempat",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_nm_perusahaan",
+                #                         "category":"label",
+                #                         "text": "Nama Perusahaan",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_perusahaan",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_pintu_masuk",
+                #                         "category":"label",
+                #                         "text": "Pintu Masuk",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_tarif_per_24jam",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_tarif_jns_kendaraan",
+                #                         "category":"label",
+                #                         "text": "Jenis Kendaraan",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_tarif_jns_kendaraan",
+                #                         "category":"comboBox",
+                #                         "items":["Motor", "Mobil"],
+                #                         "style":self.primary_combobox
+                #                     },
+                #                     {
+                #                         "name":"btn_add_tarif",
+                #                         "category":"pushButton",
+                #                         "text": "Save",
+                #                         "clicked": {
+                #                                 "method_name": self.add_tarif
+                #                         },
+                #                         "style": self.primary_button
+                #                     }
+                #                 ]
+
+                # self.SubWinVerticalForm(sub_window_setter, components_setter)
 
             case "kelola tarif":
-                sub_window_setter = { "title": "Kelola Tarif", "style":self.bg_white, "size":(900, 600) }
 
-                cols = 7
+                # set active button and label
+                self.updateStyle(
+                    target=(self.tarif_btn, self.tarif_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.home_btn, 
+                                self.users_btn,
+                                self.kasir_btn, 
+                                self.karcis_btn, 
+                                self.voucher_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.home_lbl, 
+                                self.users_lbl, 
+                                self.kasir_lbl, 
+                                self.karcis_lbl, 
+                                self.voucher_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
+
+                # solution stacked widget
+                self.stacked_widget.setCurrentIndex(5)
+                self.stacked_animation.start()
+
+                # sub_window_setter = { "title": "Kelola Tarif", "style":self.bg_white, "size":(900, 600) }
+
+                # cols = 7
                 
-                # create table
-                table = QTableWidget()
-                table.resizeRowsToContents()
-                table.setColumnCount(cols)
-                table.setHorizontalHeaderLabels(["id", "Nomor Pos/Gate", "Tarif/jam", "Tarif/24jam", "Jenis Kendaraan", "Edit", "Del"])
-                table.setStyleSheet(self.table_style)
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # # create table
+                # table = QTableWidget()
+                # table.resizeRowsToContents()
+                # table.setColumnCount(cols)
+                # table.setHorizontalHeaderLabels(["id", "Nomor Pos/Gate", "Tarif/jam", "Tarif/24jam", "Jenis Kendaraan", "Edit", "Del"])
+                # table.setStyleSheet(self.table_style)
+                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                # table.setColumnHidden(0, True) #hide id column
                 
-                header = table.horizontalHeader()
+                # header = table.horizontalHeader()
 
-                # set header stretch
-                for i in range(cols-3):
-                    header.setSectionResizeMode(i+1, QHeaderView.Stretch)
+                # # set header stretch
+                # for i in range(cols-3):
+                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
                     
-                # run query & set column value
-                query = self.exec_query("SELECT id, no_pos, tarif_perjam, tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
+                # # run query & set column value
+                # query = self.exec_query("SELECT id, no_pos, tarif_perjam, tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
 
-                for l in query:
-                    rows = table.rowCount()
-                    rows_count = rows + 1
-                    table.setRowCount(rows_count)
+                # for l in query:
+                #     rows = table.rowCount()
+                #     rows_count = rows + 1
+                #     table.setRowCount(rows_count)
                     
-                    # set item on table column
-                    for i in range(cols-2):
+                #     # set item on table column
+                #     for i in range(cols-2):
                         
-                        item = QTableWidgetItem( str(l[i]) )
-                        item.setFlags(Qt.ItemIsEnabled)
-                        table.setItem(rows, i, item)
+                #         item = QTableWidgetItem( str(l[i]) )
+                #         item.setFlags(Qt.ItemIsEnabled)
+                #         table.setItem(rows, i, item)
                     
-                    # create edit button
-                    btn = QPushButton(table)
-                    edit_ico = self.getPath("edit.png")
-                    btn.setIcon(QIcon(edit_ico))
-                    btn.setStyleSheet( self.edit_btn_action )
-                    # btn.clicked.connect(lambda: self.editData(table, "tarif"))
-                    table.setCellWidget(rows, 5, btn)
-                    btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "tarif"))
+                #     # create edit button
+                #     btn = QPushButton(table)
+                #     edit_ico = self.getPath("edit.png")
+                #     btn.setIcon(QIcon(edit_ico))
+                #     btn.setStyleSheet( self.edit_btn_action )
+                #     # btn.clicked.connect(lambda: self.editData(table, "tarif"))
+                #     table.setCellWidget(rows, 5, btn)
+                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "tarif"))
                     
-                    # create delete button
-                    btn_del = QPushButton(table)
-                    del_ico = self.getPath("trash.png")
-                    btn_del.setIcon(QIcon(del_ico))
-                    btn_del.setStyleSheet(self.del_btn_action)
-                    # btn_del.clicked.connect(lambda: self.deleteData(table, "tarif"))
-                    table.setCellWidget(rows, 6, btn_del)
-                    btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "tarif"))
+                #     # create delete button
+                #     btn_del = QPushButton(table)
+                #     del_ico = self.getPath("trash.png")
+                #     btn_del.setIcon(QIcon(del_ico))
+                #     btn_del.setStyleSheet(self.del_btn_action)
+                #     # btn_del.clicked.connect(lambda: self.deleteData(table, "tarif"))
+                #     table.setCellWidget(rows, 6, btn_del)
+                #     btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "tarif"))
 
 
-                rows_count = math.floor(rows_count/2)
+                # rows_count = math.floor(rows_count/2)
                
-                for r in range(rows_count):
-                    n = 2*r+1
+                # for r in range(rows_count):
+                #     n = 2*r+1
 
-                    table.item(n, 1).setBackground(cell_bg_color)
-                    table.item(n, 2).setBackground(cell_bg_color)
-                    table.item(n, 3).setBackground(cell_bg_color)
-                    table.item(n, 4).setBackground(cell_bg_color)
+                #     table.item(n, 1).setBackground(cell_bg_color)
+                #     table.item(n, 2).setBackground(cell_bg_color)
+                #     table.item(n, 3).setBackground(cell_bg_color)
+                #     table.item(n, 4).setBackground(cell_bg_color)
                 
-                table.setShowGrid(False)
-                self.SubWinVerticalTable(sub_window_setter, [table])
+                # table.setShowGrid(False)
+                # self.SubWinVerticalTable(sub_window_setter, [table])
             
             case "aturan tarif":
                 sub_window_setter = { "title": "Aturan Tarif Parkir", "style":self.bg_white, "size":(600, 600) }
@@ -1207,13 +1266,63 @@ class Controller():
                 self.components["lbl_success"].setHidden(True)
             
             case "kelola voucher":
-                ...
+                # set active button and label
+                self.updateStyle(
+                    target=(self.voucher_btn, self.voucher_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.home_btn, 
+                                self.users_btn,
+                                self.kasir_btn, 
+                                self.tarif_btn, 
+                                self.karcis_btn, 
+                                self.laporan_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.home_lbl, 
+                                self.users_lbl, 
+                                self.kasir_lbl, 
+                                self.tarif_lbl, 
+                                self.karcis_lbl, 
+                                self.laporan_lbl, 
+                                self.logout_lbl)
+                )
+
+                # solution stacked widget
+                self.stacked_widget.setCurrentIndex(6)
+                self.stacked_animation.start()
+
             
             case "aturan voucher":
                 ...
             
             case "kelola laporan":
-                sub_window_setter = { "title": "Kelola Laporan" }
+
+                # set active button and label
+                self.updateStyle(
+                    target=(self.laporan_btn, self.laporan_lbl), 
+                    non_target=(self.rfid_btn, 
+                                self.home_btn, 
+                                self.users_btn,
+                                self.kasir_btn, 
+                                self.tarif_btn, 
+                                self.voucher_btn, 
+                                self.karcis_btn, 
+                                self.logout_btn, 
+                                self.rfid_lbl, 
+                                self.home_lbl, 
+                                self.users_lbl, 
+                                self.kasir_lbl, 
+                                self.tarif_lbl, 
+                                self.voucher_lbl, 
+                                self.karcis_lbl, 
+                                self.logout_lbl)
+                )
+
+                # solution stacked widget
+                self.stacked_widget.setCurrentIndex(7)
+                self.stacked_animation.start()
+
+                # sub_window_setter = { "title": "Kelola Laporan" }
             
             case "logout":
                 sys.exit()
