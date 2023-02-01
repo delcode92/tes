@@ -86,10 +86,16 @@ class View:
         background: #636e72;
         border: none;
         padding: 8px;
+        border-radius: 15px;
     }
     QPushButton:hover{
         background: #636eee;
     }
+
+    QPushButton[active="true"]{
+        background: #636eee;
+    }
+
     """
 
     # button styling

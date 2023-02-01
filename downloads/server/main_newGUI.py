@@ -30,7 +30,7 @@ class Main(Util, View):
         button.clicked.connect(lambda: self.windowBarAction(page))
         label.clicked.connect(lambda: self.windowBarAction(page))
     
-    def setTabButton(self, tab1=None, tab2=None , tabsContainer=None):
+    def setTabButton(self, tab1=None, tab2=None , tabsContainer=None, stackedWidget=None):
         tab1.setMaximumWidth(180)
         tab2.setMaximumWidth(180)
         
@@ -39,9 +39,10 @@ class Main(Util, View):
     
         tab1.setStyleSheet(View.tab_button)
         tab2.setStyleSheet(View.tab_button)
-
-        tab1.clicked.connect(lambda: self.Tabs(self.rfid_stack, index=0))
-        tab2.clicked.connect(lambda: self.Tabs(self.rfid_stack, index=1))
+        
+        # connect tabs to method
+        tab1.clicked.connect(lambda: self.Tabs(tabs=(tab1,tab2), stacked_widget=stackedWidget, index=0))
+        tab2.clicked.connect(lambda: self.Tabs(tabs=(tab2,tab1), stacked_widget=stackedWidget, index=1))
 
         tabsContainer.setAlignment(Qt.AlignLeft)
         tabsContainer.addWidget(tab1)
@@ -52,15 +53,6 @@ class Main(Util, View):
         match page:
             
             case "home":
-                dashboard_lbl = QLabel()
-                dashboard_lbl.setText("Admin Dashboard")
-                dashboard_lbl.setFont( self.fontStyle("Helvetica", 11, 500) )
-                dashboard_lbl.setStyleSheet("background:#363A3E; color: #FFF; margin-left:10px; padding-top:8px; padding-bottom:8px;")
-                dashboard_lbl.setAlignment(Qt.AlignCenter)
-                
-                self.top_lay.addWidget(self.burger_menu)
-                self.top_lay.addWidget(dashboard_lbl)
-                
                 # welcome label
                 self.welcome_lbl = QLabel("Manless Parking System")
                 self.welcome_lbl.setFont( self.fontStyle("Helvetica", 50, 80) )
@@ -82,7 +74,7 @@ class Main(Util, View):
                 rfid_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container)
+                self.setTabButton(tab1=rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container, stackedWidget=self.rfid_stack)
                 
                 # set rfid layout & widget
                 self.rfid_container_lay.setContentsMargins(0,0,0,0)
@@ -110,14 +102,14 @@ class Main(Util, View):
                 rfid_content2.setLayout( rfid_content2_lay )
 
                 # set widget for tab1 layout
-                rfid_content1 = QLabel("Another Page 1")
+                rfid_content1 = QLabel("Kelola RFID Page")
                 rfid_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
                 rfid_content1.setAlignment(Qt.AlignCenter)
                 rfid_content1.setStyleSheet("background-color:#bada55; color:#fff;")
                 rfid_content1_lay.addWidget(rfid_content1)
 
                 # set widget for tab2 layout
-                rfid_content2 = QLabel("Another Page 2")
+                rfid_content2 = QLabel("Add RFID Page")
                 rfid_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
                 rfid_content2.setAlignment(Qt.AlignCenter)
                 rfid_content2.setStyleSheet("background-color:#bada55; color:#fff;")
@@ -131,12 +123,13 @@ class Main(Util, View):
                 users_tabs_container = QHBoxLayout()
                 users_tab1 = QPushButton("Tab 1")
                 users_tab2 = QPushButton("Tab 2")
+                
                 self.users_stack = QStackedWidget()
                 users_content1 = QWidget()
                 users_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=users_tab1, tab2=users_tab2, tabsContainer=users_tabs_container)
+                self.setTabButton(tab1=users_tab1, tab2=users_tab2, tabsContainer=users_tabs_container, stackedWidget=self.users_stack)
 
                 # set users layout & widget
                 self.users_container_lay.setContentsMargins(0,0,0,0)
@@ -190,7 +183,7 @@ class Main(Util, View):
                 kasir_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=kasir_tab1, tab2=kasir_tab2, tabsContainer=kasir_tabs_container)
+                self.setTabButton(tab1=kasir_tab1, tab2=kasir_tab2, tabsContainer=kasir_tabs_container, stackedWidget=self.kasir_stack)
 
                 # set kasir layout & widget
                 self.kasir_container_lay.setContentsMargins(0,0,0,0)
@@ -244,7 +237,7 @@ class Main(Util, View):
                 karcis_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=karcis_tab1, tab2=karcis_tab2, tabsContainer=karcis_tabs_container)
+                self.setTabButton(tab1=karcis_tab1, tab2=karcis_tab2, tabsContainer=karcis_tabs_container, stackedWidget=self.karcis_stack)
 
                 # set karcis layout & widget
                 self.karcis_container_lay.setContentsMargins(0,0,0,0)
@@ -298,7 +291,7 @@ class Main(Util, View):
                 tarif_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=tarif_tab1, tab2=tarif_tab2, tabsContainer=tarif_tabs_container)
+                self.setTabButton(tab1=tarif_tab1, tab2=tarif_tab2, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
 
                 # set tarif layout & widget
                 self.tarif_container_lay.setContentsMargins(0,0,0,0)
@@ -352,7 +345,7 @@ class Main(Util, View):
                 voucher_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=voucher_tab1, tab2=voucher_tab2, tabsContainer=voucher_tabs_container)
+                self.setTabButton(tab1=voucher_tab1, tab2=voucher_tab2, tabsContainer=voucher_tabs_container, stackedWidget=self.voucher_stack)
 
                 # set voucher layout & widget
                 self.voucher_container_lay.setContentsMargins(0,0,0,0)
@@ -406,7 +399,7 @@ class Main(Util, View):
                 laporan_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=laporan_tab1, tab2=laporan_tab2, tabsContainer=laporan_tabs_container)
+                self.setTabButton(tab1=laporan_tab1, tab2=laporan_tab2, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
 
                 # set laporan layout & widget
                 self.laporan_container_lay.setContentsMargins(0,0,0,0)
@@ -457,26 +450,6 @@ class Main(Util, View):
                 "style":self.win_dashboard
             }
             
-            # # create window
-            self.CreateWindow(window_setter, self.window)
-            self.window.setWindowFlags(Qt.FramelessWindowHint)
-
-            # create layouts
-            main_win_layout = self.CreateLayout(("VBoxLayout", False))
-            
-            # create and set widget for layout
-            main_win_widget = QWidget()
-            main_win_widget.setLayout(main_win_layout)
-
-            # top layout
-            self.top_lay_widget = QWidget()
-            self.top_lay = QHBoxLayout()
-            
-            self.top_lay.setContentsMargins(0, 0, 0, 0)
-            self.top_lay.setSpacing(0)
-            self.top_lay_widget.setStyleSheet("background: #363A3E;")
-            self.top_lay_widget.setLayout(self.top_lay)
-
             # Get path
             path = os.path.dirname(os.path.realpath(__file__))
             os_name = os.name
@@ -485,18 +458,52 @@ class Main(Util, View):
                 self.icon_path = '/icons'.join([path, "/"])
             elif os_name == 'nt':
                 self.icon_path = '\icons'.join([path, "\\"])
+
+            # create window
+            self.CreateWindow(window_setter, self.window)
+            self.window.setWindowFlags(Qt.FramelessWindowHint)
+
+            # create main layouts
+            main_win_layout = self.CreateLayout(("VBoxLayout", False))
+            main_win_layout.setContentsMargins(0, 0, 0, 0)
+            main_win_layout.setSpacing(0)
             
+            # create and set widget for layout
+            main_win_widget = QWidget()
+            main_win_widget.setLayout(main_win_layout)
+
+
+            ###################### top layout ###################
+            self.top_lay_widget = QWidget()
+            self.top_lay = QHBoxLayout()
+            
+            self.top_lay.setContentsMargins(0, 0, 0, 0)
+            self.top_lay.setSpacing(0)
+            self.top_lay_widget.setStyleSheet("background: #363A3E;")
+            self.top_lay_widget.setLayout(self.top_lay)
+
+            # burger menu
             self.burger_menu = QPushButton()
             self.burger_menu.setIcon(QIcon(self.icon_path+"menu-burger.png"))
             self.burger_menu.setFixedSize(30, 30)
             self.burger_menu.setStyleSheet("background-color: #1d262d;")
             self.burger_menu.clicked.connect(lambda: self.toggleMenu(250, True, self.icon_path))
+            self.top_lay.addWidget(self.burger_menu)
+            
+            # top label
+            dashboard_lbl = QLabel()
+            dashboard_lbl.setText("Admin Dashboard")
+            dashboard_lbl.setFont( self.fontStyle("Helvetica", 11, 500) )
+            dashboard_lbl.setStyleSheet("background:#363A3E; color: #FFF; margin-left:10px; padding-top:8px; padding-bottom:8px;")
+            dashboard_lbl.setAlignment(Qt.AlignCenter)
+            self.top_lay.addWidget(dashboard_lbl)
+            #############################################
 
-            # add component to layout
-            main_win_layout.setContentsMargins(0, 0, 0, 0)
-            main_win_layout.setSpacing(0)
+
+            # add top component to main layout
             main_win_layout.addWidget(self.top_lay_widget)
-          
+
+            # set layout & widget for bottom component
             horizontal_lay = QHBoxLayout()
             horizontal_widget = QFrame()
             self.left_widget = QFrame()
@@ -508,6 +515,24 @@ class Main(Util, View):
             left_menu_lay.setContentsMargins(0, 0, 0, 0)
             left_menu_lay.setSpacing(0)
             
+            self.right_content_lay.setContentsMargins(0, 0, 0, 0)
+            self.right_content_lay.setSpacing(0)
+            self.right_content_lay.addWidget(self.stacked_widget)
+            
+            self.left_widget.setMaximumSize(30, 2000)
+            self.left_widget.setLayout(left_menu_lay)
+            right_widget.setLayout(self.right_content_lay)
+
+            horizontal_lay.setContentsMargins(0, 0, 0, 0)
+            horizontal_lay.setSpacing(0)
+            horizontal_lay.addWidget(self.left_widget)
+            horizontal_lay.addWidget(right_widget)
+
+            horizontal_widget.setLayout(horizontal_lay)
+            horizontal_widget.setStyleSheet("background-color:#2c3e50;")
+
+            main_win_layout.addWidget(horizontal_widget)
+
             ################ Home #################
             self.home_btn =QPushButton()
             self.home_btn.setFixedSize(30,30)
@@ -523,8 +548,6 @@ class Main(Util, View):
             left_menu_lay.addLayout(left_menu_horizontal)
 
             self.setMenuClicked(button=self.home_btn, label=self.home_lbl, page="dashboard")
-            # self.home_btn.clicked.connect(lambda: self.windowBarAction("dashboard"))
-            # self.home_lbl.clicked.connect(lambda: self.windowBarAction("dashboard"))
             ###########################################
             
             
@@ -680,7 +703,7 @@ class Main(Util, View):
 
             ################ QStackedWidget here #################
             
-            # pages
+            # pages -> set pages container
             self.createPage(page="home")
             self.createPage(page="rfid")
             self.createPage(page="users")
@@ -690,7 +713,9 @@ class Main(Util, View):
             self.createPage(page="voucher")
             self.createPage(page="laporan")
             
-            self.rfid_stack.setCurrentIndex(0)
+            # self.rfid_stack.setCurrentIndex(0)
+
+            # put page container into stacked widget
             self.stacked_widget.addWidget(self.welcome_lbl)     # --> 0
             self.stacked_widget.addWidget(self.rfid_container)  # --> 1
             self.stacked_widget.addWidget(self.users_container) # --> 2
@@ -705,25 +730,6 @@ class Main(Util, View):
             self.stacked_animation = QPropertyAnimation(self.stacked_widget, b"geometry")
             ###########################################
 
-            self.right_content_lay.setContentsMargins(0, 0, 0, 0)
-            self.right_content_lay.setSpacing(0)
-            self.right_content_lay.addWidget(self.stacked_widget)
-            
-            # self.left_widget.setMinimumSize(40, 0)
-            self.left_widget.setMaximumSize(30, 2000)
-            self.left_widget.setLayout(left_menu_lay)
-            right_widget.setLayout(self.right_content_lay)
-
-            horizontal_lay.setContentsMargins(0, 0, 0, 0)
-            horizontal_lay.setSpacing(0)
-            horizontal_lay.addWidget(self.left_widget)
-            horizontal_lay.addWidget(right_widget)
-
-            horizontal_widget.setLayout(horizontal_lay)
-            horizontal_widget.setStyleSheet("background-color:#2c3e50;")
-
-            main_win_layout.addWidget(horizontal_widget)
-            
             # menubar
             # self.createMenuBar(menubar)
             

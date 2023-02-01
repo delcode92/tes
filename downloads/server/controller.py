@@ -300,7 +300,7 @@ class Controller():
             self.animation.setEasingCurve(QEasingCurve.InOutQuart)
             self.animation.start()
 
-    def updateStyle(self, target=(), non_target=()):
+    def updateStyle(self, target=(None,), non_target=(None,)):
         for nt in non_target:
             nt.setProperty("active", False)
             nt.style().unpolish(nt)
@@ -311,7 +311,8 @@ class Controller():
             t.style().unpolish(t)
             t.style().polish(t)
         
-    def Tabs(self, stacked_widget=None, index=0):
+    def Tabs(self, tabs=(None,), stacked_widget=None, index=0):
+        self.updateStyle(target=(tabs[0],), non_target=(tabs[1],))
         stacked_widget.setCurrentIndex(index)    
 
     def windowBarAction(self, q):
