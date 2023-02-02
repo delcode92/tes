@@ -66,7 +66,7 @@ class Main(Util, View):
                 self.rfid_container_lay = QVBoxLayout()
                 rfid_tabs_container_widget = QWidget()
                 rfid_tabs_container = QHBoxLayout()
-                rfid_tab1 = QPushButton("Kelola RFID")
+                self.rfid_tab1 = QPushButton("Kelola RFID")
                 rfid_tab2 = QPushButton("Tambah RFID")
 
                 self.rfid_stack = QStackedWidget()
@@ -74,14 +74,14 @@ class Main(Util, View):
                 rfid_content2 = QWidget()
 
                 # tabs
-                self.setTabButton(tab1=rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container, stackedWidget=self.rfid_stack)
+                self.setTabButton(tab1=self.rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container, stackedWidget=self.rfid_stack)
                 
                 # set rfid layout & widget
                 self.rfid_container_lay.setContentsMargins(0,0,0,0)
                 self.rfid_container_lay.setSpacing(0)
 
-                rfid_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.rfid_stack.setStyleSheet("background: #bada55;")
+                rfid_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.rfid_stack.setStyleSheet("background: #151930;")
                 
                 self.rfid_container.setLayout(self.rfid_container_lay)
                 rfid_tabs_container_widget.setLayout(rfid_tabs_container)
@@ -102,11 +102,89 @@ class Main(Util, View):
                 rfid_content2.setLayout( rfid_content2_lay )
 
                 # set widget for tab1 layout
-                rfid_content1 = QLabel("Kelola RFID Page")
-                rfid_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                rfid_content1.setAlignment(Qt.AlignCenter)
-                rfid_content1.setStyleSheet("background-color:#bada55; color:#fff;")
-                rfid_content1_lay.addWidget(rfid_content1)
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                tab1_h_layout.setContentsMargins(0,0,0,0)
+
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+
+                action_lay.setContentsMargins(0,0,0,0)
+                
+                # action lineedit and button
+                row_label = QLabel("No Baris")
+                row_info = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet
+
+                # row_label.setStyleSheet("color:#fff;")
+                row_info.setReadOnly(True)
+                row_info.setStyleSheet("background:#fff;")
+                row_edit.setStyleSheet("background:#fa0;")
+                row_delete.setStyleSheet("background:#ff3d71;")
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(row_info)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(4)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "RFID", "Nama"])
+                table.setStyleSheet("""
+                            QTableView {
+                                background-color: white;
+                                color: black;
+                                gridline-color: #e0e0e0;
+                                selection-background-color: #008080;
+                                selection-color: white;
+                                border: none;
+                            }
+                            QHeaderView{
+                                background-color: #008080;
+                            }
+                            QTableView QTableCornerButton::section {
+                                background-color: #008080;
+                            }
+                            QHeaderView::section {
+                                background-color: #008080;
+                                color: white;
+                                padding: 4px;
+                            }
+                            """)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "test" ))
+                table.setItem(0, 1, QTableWidgetItem( "test" ))
+                table.setItem(0, 2, QTableWidgetItem( "test" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "test" ))
+                table.setItem(1, 1, QTableWidgetItem( "test" ))
+                table.setItem(1, 2, QTableWidgetItem( "test" ))
+
+                # create edit & delete section 
+
+                # rfid_content1_lay.addWidget(table)
+                rfid_content1_lay.addWidget(tab1_h_widget)
 
                 # set widget for tab2 layout
                 rfid_content2 = QLabel("Add RFID Page")
@@ -713,8 +791,6 @@ class Main(Util, View):
             self.createPage(page="voucher")
             self.createPage(page="laporan")
             
-            # self.rfid_stack.setCurrentIndex(0)
-
             # put page container into stacked widget
             self.stacked_widget.addWidget(self.welcome_lbl)     # --> 0
             self.stacked_widget.addWidget(self.rfid_container)  # --> 1

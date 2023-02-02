@@ -1,6 +1,6 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QTableWidget, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
@@ -62,10 +62,10 @@ class View:
         background:#2c3e50;
     }
     QPushButton:hover{
-        background:#fdcb6e;
+        background:#fa0;
     }
     QPushButton[active="true"]{
-        background:#fdcb6e;
+        background:#fa0;
     }
     """
     left_menu_lbl = """QLabel{
@@ -83,17 +83,17 @@ class View:
             }
             """
     tab_button = """QPushButton{
-        background: #636e72;
+        background: #7f89ff;
         border: none;
         padding: 8px;
         border-radius: 15px;
     }
     QPushButton:hover{
-        background: #636eee;
+        background: #ff7675;
     }
 
     QPushButton[active="true"]{
-        background: #636eee;
+        background: #ff7675;
     }
 
     """

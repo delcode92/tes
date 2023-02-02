@@ -392,6 +392,13 @@ class Controller():
                                 self.logout_lbl)
                 )
 
+                # set rfid first tab active
+                
+                # self.rfid_tab1.setProperty("active", True)
+                # self.rfid_tab1.style().unpolish(self.rfid_tab1)
+                # self.rfid_tab1.style().polish(self.rfid_tab1)
+
+
                 self.stacked_widget.setCurrentIndex(1)
                 self.stacked_animation.start()
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
