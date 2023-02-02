@@ -114,34 +114,52 @@ class View:
                     background-color: #4CB0BC;
     """
 
+    # edit_btn_action = """QPushButton {
+    #                     background-color:#DDF9FF; 
+    #                     color: #fff; 
+    #                     font-weight:500; 
+    #                     font-size: 14px; 
+    #                     border:none; 
+    #                     border-radius:8px; 
+    #                     margin-top: 3px;
+    #                 }
+    #                 QPushButton:hover {
+    #                     background-color: #58D5F1;
+    #                 }
+    # """
     edit_btn_action = """QPushButton {
-                        background-color:#DDF9FF; 
-                        color: #fff; 
-                        font-weight:500; 
-                        font-size: 14px; 
-                        border:none; 
-                        border-radius:8px; 
-                        margin-top: 3px;
+                        background:#fa0; 
+                        padding:5px; 
+                        margin-bottom:5px;
                     }
                     QPushButton:hover {
-                        background-color: #58D5F1;
+                        background-color: #9A711E;
                     }
     """
 
     del_btn_action = """QPushButton {
-                        background-color: #FFE4DE; 
-                        color: #fff; 
-                        font-weight:500; 
-                        font-size: 14px; 
-                        border-radius:8px; 
-                        border:none; 
-                        margin-top: 3px; 
-                        margin-left:3px;
+                        background:#ff3d71; 
+                        padding:5px;
                     }
                     QPushButton:hover {
-                        background-color: #f88369;
+                        background-color: #951C3C;
                     }
     """
+
+    # del_btn_action = """QPushButton {
+    #                     background-color: #FFE4DE; 
+    #                     color: #fff; 
+    #                     font-weight:500; 
+    #                     font-size: 14px; 
+    #                     border-radius:8px; 
+    #                     border:none; 
+    #                     margin-top: 3px; 
+    #                     margin-left:3px;
+    #                 }
+    #                 QPushButton:hover {
+    #                     background-color: #f88369;
+    #                 }
+    # """
 
     login_button ="""QPushButton {
                     height:45px; 

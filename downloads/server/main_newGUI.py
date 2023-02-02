@@ -113,24 +113,23 @@ class Main(Util, View):
                 action_lay = QVBoxLayout()
                 action_widget.setLayout(action_lay)
                 action_widget.setMaximumWidth(180)
-
+                action_widget.setStyleSheet("border: none;")
                 action_lay.setContentsMargins(0,0,0,0)
-                
+                action_lay.setSpacing(0)
+
                 # action lineedit and button
-                row_label = QLabel("No Baris")
+                row_label = QLabel("No Baris:")
                 row_info = QLineEdit()
                 row_edit = QPushButton("edit")
                 row_delete = QPushButton("delete")
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
-                row_label.setStyleSheet
-
-                # row_label.setStyleSheet("color:#fff;")
+                row_label.setStyleSheet("background:#384F67; margin-bottom: 5px; padding:5px;")
                 row_info.setReadOnly(True)
-                row_info.setStyleSheet("background:#fff;")
-                row_edit.setStyleSheet("background:#fa0;")
-                row_delete.setStyleSheet("background:#ff3d71;")
+                row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
