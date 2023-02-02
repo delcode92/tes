@@ -48,6 +48,10 @@ class Main(Util, View):
         tabsContainer.addWidget(tab1)
         tabsContainer.addWidget(tab2)
 
+    def getCellVal(self, t):
+        row = t.currentRow()
+        id = t.item(row, 0).text()
+        self.row_info.setText(id)
 
     def createPage(self, page=""):
         match page:
@@ -65,6 +69,7 @@ class Main(Util, View):
                 self.rfid_container = QWidget()
                 self.rfid_container_lay = QVBoxLayout()
                 rfid_tabs_container_widget = QWidget()
+                
                 rfid_tabs_container = QHBoxLayout()
                 self.rfid_tab1 = QPushButton("Kelola RFID")
                 rfid_tab2 = QPushButton("Tambah RFID")
@@ -85,6 +90,7 @@ class Main(Util, View):
                 
                 self.rfid_container.setLayout(self.rfid_container_lay)
                 rfid_tabs_container_widget.setLayout(rfid_tabs_container)
+                rfid_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.rfid_container_lay.addWidget(rfid_tabs_container_widget)
                 self.rfid_container_lay.addWidget(self.rfid_stack)
@@ -106,7 +112,7 @@ class Main(Util, View):
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
                 table = QTableWidget()
-                tab1_h_layout.setContentsMargins(0,0,0,0)
+                # tab1_h_layout.setContentsMargins(0,0,0,0)
 
                 # action layout
                 action_widget = QWidget()
@@ -119,21 +125,21 @@ class Main(Util, View):
 
                 # action lineedit and button
                 row_label = QLabel("No Baris:")
-                row_info = QLineEdit()
+                self.row_info = QLineEdit()
                 row_edit = QPushButton("edit")
                 row_delete = QPushButton("delete")
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
                 row_label.setStyleSheet("background:#384F67; margin-bottom: 5px; padding:5px;")
-                row_info.setReadOnly(True)
-                row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                self.row_info.setReadOnly(True)
+                self.row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_edit.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
-                action_lay.addWidget(row_info)
+                action_lay.addWidget(self.row_info)
                 action_lay.addWidget(row_edit)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
@@ -144,7 +150,7 @@ class Main(Util, View):
 
                 # create table widget
                 table.resizeRowsToContents()
-                table.setRowCount(4)
+                table.setRowCount(2)
                 table.setColumnCount(3)
                 table.setHorizontalHeaderLabels(["id", "RFID", "Nama"])
                 table.setStyleSheet("""
@@ -156,6 +162,8 @@ class Main(Util, View):
                                 selection-color: white;
                                 border: none;
                             }
+                            QTableView::item:selected{ background-color: #00A3A3; }
+
                             QHeaderView{
                                 background-color: #008080;
                             }
@@ -172,15 +180,18 @@ class Main(Util, View):
                 table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "test" ))
-                table.setItem(0, 1, QTableWidgetItem( "test" ))
-                table.setItem(0, 2, QTableWidgetItem( "test" ))
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
                 
-                table.setItem(1, 0, QTableWidgetItem( "test" ))
-                table.setItem(1, 1, QTableWidgetItem( "test" ))
-                table.setItem(1, 2, QTableWidgetItem( "test" ))
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
 
-                # create edit & delete section 
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "rfid"))
 
                 # rfid_content1_lay.addWidget(table)
                 rfid_content1_lay.addWidget(tab1_h_widget)
