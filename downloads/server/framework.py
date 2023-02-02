@@ -83,6 +83,10 @@ class View:
             }
             """
     tab_button = """QPushButton{
+        color:#fff; 
+        font-size:13px; 
+        font-weight:600;
+
         background: #7f89ff;
         border: none;
         padding: 8px;

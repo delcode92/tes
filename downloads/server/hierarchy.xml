@@ -73,6 +73,7 @@
                         <self.stacked_widget>
                             <self.welcome_lbl/>
                             
+                            <!-- RFID -->
                             <self.rfid_container>
                                 <self.rfid_container_lay>
 
@@ -87,17 +88,69 @@
                                     </rfid_tabs_container_widget>    
                                     
                                     <self.rfid_stack>
+                                        <rfid_content1>
+                                            <rfid_content1_lay>
+                                                <tab1_h_widget>
+                                                    <tab1_h_layout>
+                                                        <table/>
+                                                        <action_widget>
+                                                            <action_lay>
+                                                                <row_label/>
+                                                                <row_info/>
+                                                                <row_edit/>
+                                                                <row_delete/>
+                                                            </action_lay>
+                                                        </action_widget>
+                                                    </tab1_h_layout>
+                                                </tab1_h_widget>
+                                            </rfid_content1_lay>
+                                        </rfid_content1>
+                                        
+                                        <!-- rfid_content2 as widget container -->
+                                        <rfid_content2>
+                                            <rfid_content2_lay>
+                                                
+                                                <!-- rfid_content2 as QLabel -->
+                                                <rfid_content2/>
+                                                    
+                                            </rfid_content2_lay>    
+                                        </rfid_content2>
+
                                     </self.rfid_stack>
 
                                 </self.rfid_container_lay>    
                             </self.rfid_container>
 
-                            <self.users_container/>
-                            <self.kasir_container/>
-                            <self.karcis_container/>
-                            <self.tarif_container/>
-                            <self.voucher_container/>
-                            <self.laporan_container/>
+                            <!-- USERS -->
+                            <self.users_container>
+                                ...
+                            </self.users_container>
+
+                            <!-- KASIR -->
+                            <self.kasir_container>
+                                ...
+                            </self.kasir_container>
+                            
+                            <!-- KARCIS -->
+                            <self.karcis_container>
+                                ...
+                            </self.karcis_container>
+                            
+                            <!-- TARIF -->
+                            <self.tarif_container>
+                                ...
+                            </self.tarif_container>
+                            
+                            <!-- VOUCHER -->
+                            <self.voucher_container>
+                                ...
+                            </self.voucher_container>
+                            
+                            <!-- LAPORAN -->
+                            <self.laporan_container>
+                                ...
+                            </self.laporan_container>
+
                         </self.stacked_widget>
                     </self.right_content_lay>
                 </right_widget>

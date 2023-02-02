@@ -68,7 +68,7 @@ class Main(Util, View):
                 rfid_tabs_container = QHBoxLayout()
                 self.rfid_tab1 = QPushButton("Kelola RFID")
                 rfid_tab2 = QPushButton("Tambah RFID")
-
+                
                 self.rfid_stack = QStackedWidget()
                 rfid_content1 = QWidget()
                 rfid_content2 = QWidget()
