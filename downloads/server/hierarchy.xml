@@ -1,0 +1,110 @@
+<!-- main -->
+<main_win_widget>
+    <main_win_layout>
+        
+        <!-- top section -->
+        <self.top_lay_widget>
+            <self.top_lay>
+                <self.burger_menu>
+                </self.burger_menu>
+            </self.top_lay>
+        </self.top_lay_widget>
+    
+        <!-- content section -->
+        <horizontal_widget>
+            <horizontal_lay>
+
+                <self.left_widget>
+                    <left_menu_lay>
+                        <!-- layout -->
+                        
+                        <left_menu_horizontal>
+                            <self.home_btn/>
+                            <self.home_lbl/>
+                        </left_menu_horizontal>    
+                        
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.rfid_btn/>
+                            <self.rfid_lbl/>
+                        </left_menu_horizontal>
+                        
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.users_btn/>
+                            <self.users_lbl/>
+                        </left_menu_horizontal>
+
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.kasir_btn/>
+                            <self.kasir_lbl/>
+                        </left_menu_horizontal>
+
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.karcis_btn/>
+                            <self.karcis_lbl/>
+                        </left_menu_horizontal>
+
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.tarif_btn/>
+                            <self.tarif_lbl/>
+                        </left_menu_horizontal>
+
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.voucher_btn/>
+                            <self.voucher_lbl/>
+                        </left_menu_horizontal>
+
+                        <!-- re-initialize -->
+                        <left_menu_horizontal>
+                            <self.laporan_btn/>
+                            <self.laporan_lbl/>
+                        </left_menu_horizontal>
+
+                    </left_menu_lay>    
+                </self.left_widget>
+                
+                <right_widget>
+                    <self.right_content_lay>
+                        <self.stacked_widget>
+                            <self.welcome_lbl/>
+                            
+                            <self.rfid_container>
+                                <self.rfid_container_lay>
+
+                                    <rfid_tabs_container_widget>
+                                        
+                                        <!-- add widgets via method setTabButton() -->
+                                        <rfid_tabs_container>
+                                            <tab1/>
+                                            <tab2/>
+                                        </rfid_tabs_container>
+
+                                    </rfid_tabs_container_widget>    
+                                    
+                                    <self.rfid_stack>
+                                    </self.rfid_stack>
+
+                                </self.rfid_container_lay>    
+                            </self.rfid_container>
+
+                            <self.users_container/>
+                            <self.kasir_container/>
+                            <self.karcis_container/>
+                            <self.tarif_container/>
+                            <self.voucher_container/>
+                            <self.laporan_container/>
+                        </self.stacked_widget>
+                    </self.right_content_lay>
+                </right_widget>
+
+            </horizontal_lay>
+        </horizontal_widget>
+
+    </main_win_layout>
+</main_win_widget>
+
