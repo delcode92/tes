@@ -1,7 +1,5 @@
 import sys,cv2,os
 
-from traitlets import default
-
 from framework import *
 
 class ClickableLabel(QLabel):
