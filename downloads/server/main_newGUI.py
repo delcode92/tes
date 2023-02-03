@@ -77,6 +77,7 @@ class Main(Util, View):
                 self.rfid_stack = QStackedWidget()
                 rfid_content1 = QWidget()
                 rfid_content2 = QWidget()
+                rfid_content2.setMaximumWidth(700)
 
                 # tabs
                 self.setTabButton(tab1=self.rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container, stackedWidget=self.rfid_stack)
@@ -102,10 +103,11 @@ class Main(Util, View):
                 # set widget and layout
                 rfid_content1_lay = QVBoxLayout()
                 rfid_content1.setLayout( rfid_content1_lay )
-                
+
                 # set widget and layout
                 rfid_content2_lay = QVBoxLayout()
                 rfid_content2.setLayout( rfid_content2_lay )
+                rfid_content2_lay.setContentsMargins(25,25,25,25)
 
                 # set widget for tab1 layout
                 tab1_h_widget = QWidget()
@@ -131,7 +133,7 @@ class Main(Util, View):
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
-                row_label.setStyleSheet("background:#384F67; margin-bottom: 5px; padding:5px;")
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info.setReadOnly(True)
                 self.row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_edit.setStyleSheet(View.edit_btn_action)
@@ -161,11 +163,16 @@ class Main(Util, View):
                                 selection-background-color: #008080;
                                 selection-color: white;
                                 border: none;
+                                font-size: 13px; 
+                                font-weight: 500;
                             }
                             QTableView::item:selected{ background-color: #00A3A3; }
 
                             QHeaderView{
                                 background-color: #008080;
+                                color:#fff;
+                                font-size:14px; 
+                                font-weight: 500;
                             }
                             QTableView QTableCornerButton::section {
                                 background-color: #008080;
@@ -197,12 +204,50 @@ class Main(Util, View):
                 rfid_content1_lay.addWidget(tab1_h_widget)
 
                 # set widget for tab2 layout
-                rfid_content2 = QLabel("Add RFID Page")
-                rfid_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                rfid_content2.setAlignment(Qt.AlignCenter)
-                rfid_content2.setStyleSheet("background-color:#bada55; color:#fff;")
-                rfid_content2_lay.addWidget(rfid_content2)
-            
+                # rfid_content2 = QLabel("Add RFID Page")
+                # rfid_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
+                # rfid_content2.setAlignment(Qt.AlignCenter)
+                # rfid_content2.setStyleSheet("background-color:#bada55; color:#fff;")
+                # rfid_content2_lay.addWidget(rfid_content2)
+                
+                # components
+                components_setter = [
+                                    {
+                                        "name":"lbl_add_rfid",
+                                        "category":"label",
+                                        "text": "RFID",
+                                        "style":self.primary_lbl
+                                    },
+                                    {
+                                        "name":"add_rfid",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_rfid_owner",
+                                        "category":"label",
+                                        "text": "Name",
+                                        "style":self.primary_lbl + "margin-top:15px;"
+                                    },
+                                    {
+                                        "name":"add_rfid_owner",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"btn_add_rfid",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_rfid
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+                
+                self.CreateComponentLayout(components_setter, rfid_content2_lay)
+                rfid_content2_lay.addStretch(1)
+
             case "users":
                 # users content
                 self.users_container = QWidget()

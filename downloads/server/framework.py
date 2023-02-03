@@ -104,14 +104,14 @@ class View:
 
     # button styling
     primary_button ="""QPushButton {
-                    margin-top:60px; 
-                    height:45px; 
+                    margin-top:15px; 
+                    height:35px; 
                     background-color: #50cedd; 
                     color:#fff; 
                     border:none;
 
                     font-family: Helvetica;
-                    font-size: 18px;
+                    font-size: 13px;
                     font-weight: 500;
                 }
                 QPushButton:hover {
@@ -135,6 +135,9 @@ class View:
                         background:#fa0; 
                         padding:5px; 
                         margin-bottom:5px;
+                        color:#fff;
+                        font-size:13px; 
+                        font-weight: 500;
                     }
                     QPushButton:hover {
                         background-color: #9A711E;
@@ -144,6 +147,9 @@ class View:
     del_btn_action = """QPushButton {
                         background:#ff3d71; 
                         padding:5px;
+                        color:#fff;
+                        font-size:13px; 
+                        font-weight: 500;
                     }
                     QPushButton:hover {
                         background-color: #951C3C;
@@ -195,16 +201,19 @@ class View:
     # primary label
     primary_lbl = """QLabel{
                         font-family: Helvetica;
-                        font-size: 16px;
-                        background-color: #fff;                  
+                        font-size: 13px;
+                        font-weight:600;
+                        background:#2C3E50;
+                        color: #fff;
+                        padding:8px;               
     """
     
     
     # success label
     success_lbl = """QLabel{
                         font-family: Helvetica;
-                        font-size: 18px;
-                        padding: 6px;
+                        font-size: 13px;
+                        padding: 5px;
                         color: #fff;
                         font-weight: 500;
                         background-color: #0CD0AA;
@@ -213,7 +222,7 @@ class View:
     
     # lineedit styling
     primary_input = """QLineEdit{
-                        height:40px; 
+                        height:30px; 
                         border:1px solid #ecf0f1;
                         background-color: #f4f4f4;
 
