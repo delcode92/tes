@@ -203,9 +203,10 @@ class View:
                         font-family: Helvetica;
                         font-size: 13px;
                         font-weight:600;
-                        background:#2C3E50;
+                        margin-bottom: 5px;
+                        /* background:#2C3E50; */
                         color: #fff;
-                        padding:8px;               
+                        /* padding:8px; */               
     """
     
     
@@ -223,9 +224,9 @@ class View:
     # lineedit styling
     primary_input = """QLineEdit{
                         height:30px; 
-                        border:1px solid #ecf0f1;
-                        background-color: #f4f4f4;
-
+                        border:1px solid #192038;
+                        background-color: #192038;
+                        color: #ffffff;
                         font-family: Helvetica;
                         font-size: 14px;
     """
@@ -233,9 +234,13 @@ class View:
     # comboBox styling
     primary_combobox = """QComboBox{
                         height:40px; 
+                        
+                        /*
                         border:1px solid #ecf0f1;
                         background-color: #f4f4f4;
-
+                        */
+                        selection-background-color: #192038;
+                        color: #fff;
                         font-family: Helvetica;
                         font-size: 14px;
     """
