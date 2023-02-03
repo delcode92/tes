@@ -1,5 +1,7 @@
 import sys,cv2,os
 
+from traitlets import default
+
 from framework import *
 
 class ClickableLabel(QLabel):
@@ -48,11 +50,29 @@ class Main(Util, View):
         tabsContainer.addWidget(tab1)
         tabsContainer.addWidget(tab2)
 
-    def getCellVal(self, t):
-        row = t.currentRow()
-        id = t.item(row, 0).text()
-        self.row_info.setText(id)
+    def getCellVal(self, table, page=""):
+        row = table.currentRow()
+        id = table.item(row, 0).text()
+        
+        match page:
+            case "rfid":
+                self.row_info_rfid.setText(id)
+            case "users":
+                self.row_info_users.setText(id)
+            case "kasir":
+                self.row_info_kasir.setText(id)
+            case "karcis":
+                self.row_info_karcis.setText(id)
+            case "tarif":
+                self.row_info_tarif.setText(id)
+            case "voucher":
+                self.row_info_voucher.setText(id)
+            case "laporan":
+                self.row_info_laporan.setText(id)
+            case default:
+                pass
 
+        
     def createFormContainer(self):
         form_container = QWidget()
         form_container_lay = QVBoxLayout()
@@ -63,6 +83,26 @@ class Main(Util, View):
 
         return form_container,form_container_lay
 
+    def editPopUp(self):
+        self.win = QMainWindow()
+        central_widget = QWidget()
+        central_lay = QVBoxLayout()
+        lbl1 = QLabel("label 1")
+        lbl2 = QLabel("label 2")
+        
+        central_widget.setLayout(central_lay)
+        self.win.setCentralWidget(central_widget)
+
+        self.win.setWindowTitle("test 123")
+        self.win.resize(400, 500)
+        
+        central_lay.addWidget(lbl1)
+        central_lay.addWidget(lbl2)
+        
+        self.win.show()
+    
+
+        
     def createPage(self, page=""):
         
         margin_top = "margin-top:30px;"
@@ -146,21 +186,23 @@ class Main(Util, View):
 
                 # action lineedit and button
                 row_label = QLabel("No Baris:")
-                self.row_info = QLineEdit()
+                self.row_info_rfid = QLineEdit()
                 row_edit = QPushButton("edit")
                 row_delete = QPushButton("delete")
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
+                row_edit.clicked.connect(self.editPopUp)
+
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                self.row_info.setReadOnly(True)
-                self.row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                self.row_info_rfid.setReadOnly(True)
+                self.row_info_rfid.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_edit.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
-                action_lay.addWidget(self.row_info)
+                action_lay.addWidget(self.row_info_rfid)
                 action_lay.addWidget(row_edit)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
@@ -189,7 +231,7 @@ class Main(Util, View):
 
                 # create edit & delete section
                 table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table))
+                table.clicked.connect(lambda: self.getCellVal(table, page="rfid"))
                 # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "rfid"))
 
                 # rfid_content1_lay.addWidget(table)
@@ -302,21 +344,21 @@ class Main(Util, View):
 
                 # action lineedit and button
                 row_label = QLabel("No Baris:")
-                self.row_info = QLineEdit()
+                self.row_info_users = QLineEdit()
                 row_edit = QPushButton("edit")
                 row_delete = QPushButton("delete")
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                self.row_info.setReadOnly(True)
-                self.row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                self.row_info_users.setReadOnly(True)
+                self.row_info_users.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_edit.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
-                action_lay.addWidget(self.row_info)
+                action_lay.addWidget(self.row_info_users)
                 action_lay.addWidget(row_edit)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
@@ -345,7 +387,7 @@ class Main(Util, View):
 
                 # create edit & delete section
                 table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table))
+                table.clicked.connect(lambda: self.getCellVal(table, page="users"))
                 # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
 
                 # users_content1_lay.addWidget(table)
@@ -412,22 +454,23 @@ class Main(Util, View):
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 users_content2_lay.addStretch(1)
 
-            
             case "kasir":
                 # kasir content
                 self.kasir_container = QWidget()
                 self.kasir_container_lay = QVBoxLayout()
                 kasir_tabs_container_widget = QWidget()
+                
                 kasir_tabs_container = QHBoxLayout()
-                kasir_tab1 = QPushButton("Tab 1")
-                kasir_tab2 = QPushButton("Tab 2")
+                self.kasir_tab1 = QPushButton("Kelola kasir")
+                kasir_tab2 = QPushButton("Tambah kasir")
+                
                 self.kasir_stack = QStackedWidget()
                 kasir_content1 = QWidget()
                 kasir_content2 = QWidget()
-
+                
                 # tabs
-                self.setTabButton(tab1=kasir_tab1, tab2=kasir_tab2, tabsContainer=kasir_tabs_container, stackedWidget=self.kasir_stack)
-
+                self.setTabButton(tab1=self.kasir_tab1, tab2=kasir_tab2, tabsContainer=kasir_tabs_container, stackedWidget=self.kasir_stack)
+                
                 # set kasir layout & widget
                 self.kasir_container_lay.setContentsMargins(0,0,0,0)
                 self.kasir_container_lay.setSpacing(0)
@@ -437,6 +480,7 @@ class Main(Util, View):
                 
                 self.kasir_container.setLayout(self.kasir_container_lay)
                 kasir_tabs_container_widget.setLayout(kasir_tabs_container)
+                kasir_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.kasir_container_lay.addWidget(kasir_tabs_container_widget)
                 self.kasir_container_lay.addWidget(self.kasir_stack)
@@ -448,40 +492,202 @@ class Main(Util, View):
                 # set widget and layout
                 kasir_content1_lay = QVBoxLayout()
                 kasir_content1.setLayout( kasir_content1_lay )
-                
+
                 # set widget and layout
                 kasir_content2_lay = QVBoxLayout()
                 kasir_content2.setLayout( kasir_content2_lay )
 
-                # set widget for tab1 layout
-                kasir_content1 = QLabel("Another Page 1")
-                kasir_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                kasir_content1.setAlignment(Qt.AlignCenter)
-                kasir_content1.setStyleSheet("background-color:#badaee; color:#fff;")
-                kasir_content1_lay.addWidget(kasir_content1)
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
 
-                # set widget for tab2 layout
-                kasir_content2 = QLabel("Another Page 2")
-                kasir_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                kasir_content2.setAlignment(Qt.AlignCenter)
-                kasir_content2.setStyleSheet("background-color:#badaff; color:#fff;")
-                kasir_content2_lay.addWidget(kasir_content2)
-            
+                kasir_content2_lay.setContentsMargins(25,25,25,25)
+                kasir_content2_lay.addWidget(form_container)
+
+                # set widget for tab1 layout
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+                action_widget.setStyleSheet("border: none;")
+                action_lay.setContentsMargins(0,0,0,0)
+                action_lay.setSpacing(0)
+
+                # action lineedit and button
+                row_label = QLabel("No Baris:")
+                self.row_info_kasir = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info_kasir.setReadOnly(True)
+                self.row_info_kasir.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info_kasir)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(2)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                table.setStyleSheet(View.table_style)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table, page="kasir"))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "kasir"))
+
+                # kasir_content1_lay.addWidget(table)
+                kasir_content1_lay.addWidget(tab1_h_widget)
+
+                # components
+                components_setter = [
+                                    {
+                                        "name":"lbl_add_nik",
+                                        "category":"label",
+                                        "text": "NIK",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_nik",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_nama",
+                                        "category":"label",
+                                        "text": "Nama",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_nama",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_hp",
+                                        "category":"label",
+                                        "text": "Nomor HP",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_hp",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_alamat",
+                                        "category":"label",
+                                        "text": "Alamat",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_alamat",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_jam_masuk",
+                                        "category":"label",
+                                        "text": "Jam Masuk",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_jam_masuk",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_jam_keluar",
+                                        "category":"label",
+                                        "text": "Jam Keluar",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_jam_keluar",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_nmr_pos",
+                                        "category":"label",
+                                        "text": "Nomor Pos/Gate",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_nmr_pos",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"btn_add_kasir",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_kasir
+                                        },
+                                        "style": self.primary_button
+                                    },
+                                    {
+                                        "name":"lbl_space",
+                                        "category":"label",
+                                        "min_height":20
+                                    }
+                                ]
+
+
+                self.CreateComponentLayout(components_setter, form_container_lay)
+                kasir_content2_lay.addStretch(1)
+
             case "karcis":
                 # karcis content
                 self.karcis_container = QWidget()
                 self.karcis_container_lay = QVBoxLayout()
                 karcis_tabs_container_widget = QWidget()
+                
                 karcis_tabs_container = QHBoxLayout()
-                karcis_tab1 = QPushButton("Tab 1")
-                karcis_tab2 = QPushButton("Tab 2")
+                self.karcis_tab1 = QPushButton("Kelola karcis")
+                karcis_tab2 = QPushButton("Tambah karcis")
+                
                 self.karcis_stack = QStackedWidget()
                 karcis_content1 = QWidget()
                 karcis_content2 = QWidget()
-
+                
                 # tabs
-                self.setTabButton(tab1=karcis_tab1, tab2=karcis_tab2, tabsContainer=karcis_tabs_container, stackedWidget=self.karcis_stack)
-
+                self.setTabButton(tab1=self.karcis_tab1, tab2=karcis_tab2, tabsContainer=karcis_tabs_container, stackedWidget=self.karcis_stack)
+                
                 # set karcis layout & widget
                 self.karcis_container_lay.setContentsMargins(0,0,0,0)
                 self.karcis_container_lay.setSpacing(0)
@@ -491,6 +697,7 @@ class Main(Util, View):
                 
                 self.karcis_container.setLayout(self.karcis_container_lay)
                 karcis_tabs_container_widget.setLayout(karcis_tabs_container)
+                karcis_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.karcis_container_lay.addWidget(karcis_tabs_container_widget)
                 self.karcis_container_lay.addWidget(self.karcis_stack)
@@ -502,40 +709,163 @@ class Main(Util, View):
                 # set widget and layout
                 karcis_content1_lay = QVBoxLayout()
                 karcis_content1.setLayout( karcis_content1_lay )
-                
+
                 # set widget and layout
                 karcis_content2_lay = QVBoxLayout()
                 karcis_content2.setLayout( karcis_content2_lay )
 
-                # set widget for tab1 layout
-                karcis_content1 = QLabel("Another Page 1")
-                karcis_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                karcis_content1.setAlignment(Qt.AlignCenter)
-                karcis_content1.setStyleSheet("background-color:#badaee; color:#fff;")
-                karcis_content1_lay.addWidget(karcis_content1)
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
 
-                # set widget for tab2 layout
-                karcis_content2 = QLabel("Another Page 2")
-                karcis_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                karcis_content2.setAlignment(Qt.AlignCenter)
-                karcis_content2.setStyleSheet("background-color:#badaff; color:#fff;")
-                karcis_content2_lay.addWidget(karcis_content2)
-            
+                karcis_content2_lay.setContentsMargins(25,25,25,25)
+                karcis_content2_lay.addWidget(form_container)
+
+                # set widget for tab1 layout
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+                action_widget.setStyleSheet("border: none;")
+                action_lay.setContentsMargins(0,0,0,0)
+                action_lay.setSpacing(0)
+
+                # action lineedit and button
+                row_label = QLabel("No Baris:")
+                self.row_info_karcis = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info_karcis.setReadOnly(True)
+                self.row_info_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info_karcis)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(2)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                table.setStyleSheet(View.table_style)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table, page="karcis"))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "karcis"))
+
+                # karcis_content1_lay.addWidget(table)
+                karcis_content1_lay.addWidget(tab1_h_widget)
+
+                # components
+                components_setter = [{
+                                        "name":"lbl_nm_tempat",
+                                        "category":"label",
+                                        "text": "Nama Tempat",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tempat",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_nm_perusahaan",
+                                        "category":"label",
+                                        "text": "Nama Perusahaan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_perusahaan",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_pintu_masuk",
+                                        "category":"label",
+                                        "text": "Pintu Masuk",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_per_24jam",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_tarif_jns_kendaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_jns_kendaraan",
+                                        "category":"comboBox",
+                                        "items":["Motor", "Mobil"],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_tarif",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_tarif
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
+                self.CreateComponentLayout(components_setter, form_container_lay)
+                karcis_content2_lay.addStretch(1)
+
             case "tarif":
                 # tarif content
                 self.tarif_container = QWidget()
                 self.tarif_container_lay = QVBoxLayout()
                 tarif_tabs_container_widget = QWidget()
+                
                 tarif_tabs_container = QHBoxLayout()
-                tarif_tab1 = QPushButton("Tab 1")
-                tarif_tab2 = QPushButton("Tab 2")
+                self.tarif_tab1 = QPushButton("Kelola tarif")
+                tarif_tab2 = QPushButton("Tambah tarif")
+                
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
                 tarif_content2 = QWidget()
-
+                
                 # tabs
-                self.setTabButton(tab1=tarif_tab1, tab2=tarif_tab2, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
-
+                self.setTabButton(tab1=self.tarif_tab1, tab2=tarif_tab2, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
+                
                 # set tarif layout & widget
                 self.tarif_container_lay.setContentsMargins(0,0,0,0)
                 self.tarif_container_lay.setSpacing(0)
@@ -545,6 +875,7 @@ class Main(Util, View):
                 
                 self.tarif_container.setLayout(self.tarif_container_lay)
                 tarif_tabs_container_widget.setLayout(tarif_tabs_container)
+                tarif_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.tarif_container_lay.addWidget(tarif_tabs_container_widget)
                 self.tarif_container_lay.addWidget(self.tarif_stack)
@@ -556,40 +887,164 @@ class Main(Util, View):
                 # set widget and layout
                 tarif_content1_lay = QVBoxLayout()
                 tarif_content1.setLayout( tarif_content1_lay )
-                
+
                 # set widget and layout
                 tarif_content2_lay = QVBoxLayout()
                 tarif_content2.setLayout( tarif_content2_lay )
 
-                # set widget for tab1 layout
-                tarif_content1 = QLabel("Another Page 1")
-                tarif_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                tarif_content1.setAlignment(Qt.AlignCenter)
-                tarif_content1.setStyleSheet("background-color:#badaee; color:#fff;")
-                tarif_content1_lay.addWidget(tarif_content1)
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
 
-                # set widget for tab2 layout
-                tarif_content2 = QLabel("Another Page 2")
-                tarif_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                tarif_content2.setAlignment(Qt.AlignCenter)
-                tarif_content2.setStyleSheet("background-color:#badaff; color:#fff;")
-                tarif_content2_lay.addWidget(tarif_content2)
-            
+                tarif_content2_lay.setContentsMargins(25,25,25,25)
+                tarif_content2_lay.addWidget(form_container)
+
+                # set widget for tab1 layout
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+                action_widget.setStyleSheet("border: none;")
+                action_lay.setContentsMargins(0,0,0,0)
+                action_lay.setSpacing(0)
+
+                # action lineedit and button
+                row_label = QLabel("No Baris:")
+                self.row_info_tarif = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info_tarif.setReadOnly(True)
+                self.row_info_tarif.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info_tarif)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(2)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                table.setStyleSheet(View.table_style)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table, page="tarif"))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "tarif"))
+
+                # tarif_content1_lay.addWidget(table)
+                tarif_content1_lay.addWidget(tab1_h_widget)
+
+                # components
+                components_setter = [{
+                                        "name":"lbl_add_tarif_pos",
+                                        "category":"label",
+                                        "text": "Nomor Pos",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_pos",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_tarif_per_1jam",
+                                        "category":"label",
+                                        "text": "Tarif / jam",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_per_1jam",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_tarif_per_24jam",
+                                        "category":"label",
+                                        "text": "Tarif / 24 jam",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_per_24jam",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_tarif_jns_kendaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_tarif_jns_kendaraan",
+                                        "category":"comboBox",
+                                        "items":["Motor", "Mobil"],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_tarif",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_tarif
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
+
+                self.CreateComponentLayout(components_setter, form_container_lay)
+                tarif_content2_lay.addStretch(1)
+
             case "voucher":
                 # voucher content
                 self.voucher_container = QWidget()
                 self.voucher_container_lay = QVBoxLayout()
                 voucher_tabs_container_widget = QWidget()
+                
                 voucher_tabs_container = QHBoxLayout()
-                voucher_tab1 = QPushButton("Tab 1")
-                voucher_tab2 = QPushButton("Tab 2")
+                self.voucher_tab1 = QPushButton("Kelola voucher")
+                voucher_tab2 = QPushButton("Tambah voucher")
+                
                 self.voucher_stack = QStackedWidget()
                 voucher_content1 = QWidget()
                 voucher_content2 = QWidget()
-
+                
                 # tabs
-                self.setTabButton(tab1=voucher_tab1, tab2=voucher_tab2, tabsContainer=voucher_tabs_container, stackedWidget=self.voucher_stack)
-
+                self.setTabButton(tab1=self.voucher_tab1, tab2=voucher_tab2, tabsContainer=voucher_tabs_container, stackedWidget=self.voucher_stack)
+                
                 # set voucher layout & widget
                 self.voucher_container_lay.setContentsMargins(0,0,0,0)
                 self.voucher_container_lay.setSpacing(0)
@@ -599,6 +1054,7 @@ class Main(Util, View):
                 
                 self.voucher_container.setLayout(self.voucher_container_lay)
                 voucher_tabs_container_widget.setLayout(voucher_tabs_container)
+                voucher_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.voucher_container_lay.addWidget(voucher_tabs_container_widget)
                 self.voucher_container_lay.addWidget(self.voucher_stack)
@@ -610,40 +1066,164 @@ class Main(Util, View):
                 # set widget and layout
                 voucher_content1_lay = QVBoxLayout()
                 voucher_content1.setLayout( voucher_content1_lay )
-                
+
                 # set widget and layout
                 voucher_content2_lay = QVBoxLayout()
                 voucher_content2.setLayout( voucher_content2_lay )
 
-                # set widget for tab1 layout
-                voucher_content1 = QLabel("Another Page 1")
-                voucher_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                voucher_content1.setAlignment(Qt.AlignCenter)
-                voucher_content1.setStyleSheet("background-color:#badaee; color:#fff;")
-                voucher_content1_lay.addWidget(voucher_content1)
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
 
-                # set widget for tab2 layout
-                voucher_content2 = QLabel("Another Page 2")
-                voucher_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                voucher_content2.setAlignment(Qt.AlignCenter)
-                voucher_content2.setStyleSheet("background-color:#badaff; color:#fff;")
-                voucher_content2_lay.addWidget(voucher_content2)
-            
+                voucher_content2_lay.setContentsMargins(25,25,25,25)
+                voucher_content2_lay.addWidget(form_container)
+
+                # set widget for tab1 layout
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+                action_widget.setStyleSheet("border: none;")
+                action_lay.setContentsMargins(0,0,0,0)
+                action_lay.setSpacing(0)
+
+                # action lineedit and button
+                row_label = QLabel("No Baris:")
+                self.row_info_voucher = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info_voucher.setReadOnly(True)
+                self.row_info_voucher.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info_voucher)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(2)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                table.setStyleSheet(View.table_style)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table, page="voucher"))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "voucher"))
+
+                # voucher_content1_lay.addWidget(table)
+                voucher_content1_lay.addWidget(tab1_h_widget)
+
+                # components
+                components_setter = [{
+                                        "name":"lbl_add_voucher_pos",
+                                        "category":"label",
+                                        "text": "Nomor Pos",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_pos",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_per_1jam",
+                                        "category":"label",
+                                        "text": "voucher / jam",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_per_1jam",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_per_24jam",
+                                        "category":"label",
+                                        "text": "voucher / 24 jam",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_per_24jam",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_jns_kendaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_jns_kendaraan",
+                                        "category":"comboBox",
+                                        "items":["Motor", "Mobil"],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_voucher",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_tarif
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
+
+                self.CreateComponentLayout(components_setter, form_container_lay)
+                voucher_content2_lay.addStretch(1)
+
             case "laporan":
                 # laporan content
                 self.laporan_container = QWidget()
                 self.laporan_container_lay = QVBoxLayout()
                 laporan_tabs_container_widget = QWidget()
+                
                 laporan_tabs_container = QHBoxLayout()
-                laporan_tab1 = QPushButton("Tab 1")
-                laporan_tab2 = QPushButton("Tab 2")
+                self.laporan_tab1 = QPushButton("Kelola laporan")
+                laporan_tab2 = QPushButton("Tambah laporan")
+                
                 self.laporan_stack = QStackedWidget()
                 laporan_content1 = QWidget()
                 laporan_content2 = QWidget()
-
+                
                 # tabs
-                self.setTabButton(tab1=laporan_tab1, tab2=laporan_tab2, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
-
+                self.setTabButton(tab1=self.laporan_tab1, tab2=laporan_tab2, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
+                
                 # set laporan layout & widget
                 self.laporan_container_lay.setContentsMargins(0,0,0,0)
                 self.laporan_container_lay.setSpacing(0)
@@ -653,6 +1233,7 @@ class Main(Util, View):
                 
                 self.laporan_container.setLayout(self.laporan_container_lay)
                 laporan_tabs_container_widget.setLayout(laporan_tabs_container)
+                laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
                 self.laporan_container_lay.addWidget(self.laporan_stack)
@@ -664,25 +1245,87 @@ class Main(Util, View):
                 # set widget and layout
                 laporan_content1_lay = QVBoxLayout()
                 laporan_content1.setLayout( laporan_content1_lay )
-                
+
                 # set widget and layout
                 laporan_content2_lay = QVBoxLayout()
                 laporan_content2.setLayout( laporan_content2_lay )
 
-                # set widget for tab1 layout
-                laporan_content1 = QLabel("Another Page 1")
-                laporan_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                laporan_content1.setAlignment(Qt.AlignCenter)
-                laporan_content1.setStyleSheet("background-color:#badaee; color:#fff;")
-                laporan_content1_lay.addWidget(laporan_content1)
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
 
-                # set widget for tab2 layout
-                laporan_content2 = QLabel("Another Page 2")
-                laporan_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                laporan_content2.setAlignment(Qt.AlignCenter)
-                laporan_content2.setStyleSheet("background-color:#badaff; color:#fff;")
-                laporan_content2_lay.addWidget(laporan_content2)
-            
+                laporan_content2_lay.setContentsMargins(25,25,25,25)
+                laporan_content2_lay.addWidget(form_container)
+
+                # set widget for tab1 layout
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+                action_widget.setStyleSheet("border: none;")
+                action_lay.setContentsMargins(0,0,0,0)
+                action_lay.setSpacing(0)
+
+                # action lineedit and button
+                row_label = QLabel("No Baris:")
+                self.row_info_laporan = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info_laporan.setReadOnly(True)
+                self.row_info_laporan.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info_laporan)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(2)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                table.setStyleSheet(View.table_style)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table, page="laporan"))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "laporan"))
+
+                # laporan_content1_lay.addWidget(table)
+                laporan_content1_lay.addWidget(tab1_h_widget)
+
+                
             case default:
                 pass    
 
