@@ -264,6 +264,14 @@ class View:
                         background-color:#e74c3c;
     """
 
+    tbl_font_weight = ""
+    os_name = os.name
+    
+    if os_name == 'posix':
+        tbl_font_weight = "400"      
+    elif os_name == 'nt':
+        tbl_font_weight = "500"
+
     table_style = """
                             QTableView {
                                 background-color: white;
@@ -273,7 +281,7 @@ class View:
                                 selection-color: white;
                                 border: none;
                                 font-size: 13px; 
-                                font-weight: 500;
+                                font-weight:"""+tbl_font_weight+""";
                             }
                             QTableView::item:selected{ background-color: #00A3A3; }
 
