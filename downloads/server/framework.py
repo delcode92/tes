@@ -106,7 +106,7 @@ class View:
     primary_button ="""QPushButton {
                     margin-top:15px; 
                     height:35px; 
-                    background-color: #50cedd; 
+                    background-color: #36f; 
                     color:#fff; 
                     border:none;
 
@@ -115,7 +115,7 @@ class View:
                     font-weight: 500;
                 }
                 QPushButton:hover {
-                    background-color: #4CB0BC;
+                    background-color: #4B78FF;
     """
 
     # edit_btn_action = """QPushButton {
@@ -259,43 +259,34 @@ class View:
                         background-color:#e74c3c;
     """
 
-    table_style = """QTableView {
-                        border: 1px solid #30c2a5;
-                        border-radius: 5px;
+    table_style = """
+                            QTableView {
+                                background-color: white;
+                                color: black;
+                                gridline-color: #e0e0e0;
+                                selection-background-color: #008080;
+                                selection-color: white;
+                                border: none;
+                                font-size: 13px; 
+                                font-weight: 500;
+                            }
+                            QTableView::item:selected{ background-color: #00A3A3; }
 
-                        padding: 0;
-                        font-family: sans-serif;
-                        font-size: 14px;
-                        background-color: #fff;
-                        margin-top: 40px;
-                        min-height: 700px;
-                    }
-
-                    
-                    QTableView QTableCornerButton::section {
-                        background-color: #30c2a5;
-                        border: none;
-                    }
-                    
-                    QHeaderView{
-                        background-color: #30c2a5;
-                        margin:0;
-                        padding: 0;
-                    }
-                    QHeaderView::section {
-                        background-color: #30c2a5;
-                        border:1px solid #75d6c3;
-                        font-size: 16px;
-                        font-weight:600;
-                        font-size: 15px;
-                        text-align: left;
-                        color: #fff;
-                        padding: 6px ;
-                        margin:0;
-                    }
-
-                    
-                """
+                            QHeaderView{
+                                background-color: #008080;
+                                color:#fff;
+                                font-size:14px; 
+                                font-weight: 500;
+                            }
+                            QTableView QTableCornerButton::section {
+                                background-color: #008080;
+                            }
+                            QHeaderView::section {
+                                background-color: #008080;
+                                color: white;
+                                padding: 4px;
+                            }
+                            """
 
    
     def __init__(self) -> None:

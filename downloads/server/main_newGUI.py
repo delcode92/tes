@@ -53,7 +53,20 @@ class Main(Util, View):
         id = t.item(row, 0).text()
         self.row_info.setText(id)
 
+    def createFormContainer(self):
+        form_container = QWidget()
+        form_container_lay = QVBoxLayout()
+        form_container_lay.setContentsMargins(25,25,25,25)
+        form_container.setLayout(form_container_lay)
+        form_container.setMaximumWidth(700)
+        form_container.setStyleSheet("background:#222b45;")
+
+        return form_container,form_container_lay
+
     def createPage(self, page=""):
+        
+        margin_top = "margin-top:30px;"
+
         match page:
             
             case "home":
@@ -61,7 +74,7 @@ class Main(Util, View):
                 self.welcome_lbl = QLabel("Manless Parking System")
                 self.welcome_lbl.setFont( self.fontStyle("Helvetica", 50, 80) )
                 self.welcome_lbl.setAlignment(Qt.AlignCenter)
-                self.welcome_lbl.setStyleSheet("background-color:#bada55; color:#fff;")
+                self.welcome_lbl.setStyleSheet("background-color:#151930; color:#fff;")
             
             
             case "rfid":
@@ -77,8 +90,7 @@ class Main(Util, View):
                 self.rfid_stack = QStackedWidget()
                 rfid_content1 = QWidget()
                 rfid_content2 = QWidget()
-                rfid_content2.setMaximumWidth(700)
-
+                
                 # tabs
                 self.setTabButton(tab1=self.rfid_tab1, tab2=rfid_tab2, tabsContainer=rfid_tabs_container, stackedWidget=self.rfid_stack)
                 
@@ -107,15 +119,22 @@ class Main(Util, View):
                 # set widget and layout
                 rfid_content2_lay = QVBoxLayout()
                 rfid_content2.setLayout( rfid_content2_lay )
+
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
+
                 rfid_content2_lay.setContentsMargins(25,25,25,25)
+                rfid_content2_lay.addWidget(form_container)
 
                 # set widget for tab1 layout
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
                 table = QTableWidget()
-                # tab1_h_layout.setContentsMargins(0,0,0,0)
-
+                
                 # action layout
                 action_widget = QWidget()
                 action_lay = QVBoxLayout()
@@ -155,34 +174,7 @@ class Main(Util, View):
                 table.setRowCount(2)
                 table.setColumnCount(3)
                 table.setHorizontalHeaderLabels(["id", "RFID", "Nama"])
-                table.setStyleSheet("""
-                            QTableView {
-                                background-color: white;
-                                color: black;
-                                gridline-color: #e0e0e0;
-                                selection-background-color: #008080;
-                                selection-color: white;
-                                border: none;
-                                font-size: 13px; 
-                                font-weight: 500;
-                            }
-                            QTableView::item:selected{ background-color: #00A3A3; }
-
-                            QHeaderView{
-                                background-color: #008080;
-                                color:#fff;
-                                font-size:14px; 
-                                font-weight: 500;
-                            }
-                            QTableView QTableCornerButton::section {
-                                background-color: #008080;
-                            }
-                            QHeaderView::section {
-                                background-color: #008080;
-                                color: white;
-                                padding: 4px;
-                            }
-                            """)
+                table.setStyleSheet(View.table_style)
 
                 table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 table.setColumnHidden(0, True) #hide id column
@@ -203,13 +195,6 @@ class Main(Util, View):
                 # rfid_content1_lay.addWidget(table)
                 rfid_content1_lay.addWidget(tab1_h_widget)
 
-                # set widget for tab2 layout
-                # rfid_content2 = QLabel("Add RFID Page")
-                # rfid_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                # rfid_content2.setAlignment(Qt.AlignCenter)
-                # rfid_content2.setStyleSheet("background-color:#bada55; color:#fff;")
-                # rfid_content2_lay.addWidget(rfid_content2)
-                
                 # components
                 components_setter = [
                                     {
@@ -227,7 +212,7 @@ class Main(Util, View):
                                         "name":"lbl_add_rfid_owner",
                                         "category":"label",
                                         "text": "Name",
-                                        "style":self.primary_lbl + "margin-top:15px;"
+                                        "style":self.primary_lbl + margin_top
                                     },
                                     {
                                         "name":"add_rfid_owner",
@@ -245,34 +230,36 @@ class Main(Util, View):
                                     }
                                 ]
                 
-                self.CreateComponentLayout(components_setter, rfid_content2_lay)
-                rfid_content2_lay.addStretch(1)
-
+                self.CreateComponentLayout(components_setter, form_container_lay)
+                rfid_content2_lay.addStretch(1)            
+            
             case "users":
                 # users content
                 self.users_container = QWidget()
                 self.users_container_lay = QVBoxLayout()
                 users_tabs_container_widget = QWidget()
+                
                 users_tabs_container = QHBoxLayout()
-                users_tab1 = QPushButton("Tab 1")
-                users_tab2 = QPushButton("Tab 2")
+                self.users_tab1 = QPushButton("Kelola users")
+                users_tab2 = QPushButton("Tambah users")
                 
                 self.users_stack = QStackedWidget()
                 users_content1 = QWidget()
                 users_content2 = QWidget()
-
+                
                 # tabs
-                self.setTabButton(tab1=users_tab1, tab2=users_tab2, tabsContainer=users_tabs_container, stackedWidget=self.users_stack)
-
+                self.setTabButton(tab1=self.users_tab1, tab2=users_tab2, tabsContainer=users_tabs_container, stackedWidget=self.users_stack)
+                
                 # set users layout & widget
                 self.users_container_lay.setContentsMargins(0,0,0,0)
                 self.users_container_lay.setSpacing(0)
 
-                users_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.users_stack.setStyleSheet("background: #bada55;")
+                users_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.users_stack.setStyleSheet("background: #151930;")
                 
                 self.users_container.setLayout(self.users_container_lay)
                 users_tabs_container_widget.setLayout(users_tabs_container)
+                users_tabs_container.setContentsMargins(25, 20, 0, 0)
 
                 self.users_container_lay.addWidget(users_tabs_container_widget)
                 self.users_container_lay.addWidget(self.users_stack)
@@ -284,24 +271,147 @@ class Main(Util, View):
                 # set widget and layout
                 users_content1_lay = QVBoxLayout()
                 users_content1.setLayout( users_content1_lay )
-                
+
                 # set widget and layout
                 users_content2_lay = QVBoxLayout()
                 users_content2.setLayout( users_content2_lay )
 
-                # set widget for tab1 layout
-                users_content1 = QLabel("Another Page 1")
-                users_content1.setFont( self.fontStyle("Helvetica", 50, 80) )
-                users_content1.setAlignment(Qt.AlignCenter)
-                users_content1.setStyleSheet("background-color:#badaee; color:#fff;")
-                users_content1_lay.addWidget(users_content1)
+                ############### FORM CONTAINER ##############
+                res = self.createFormContainer()
+                form_container = res[0]
+                form_container_lay = res[1]
+                ############################################
 
-                # set widget for tab2 layout
-                users_content2 = QLabel("Another Page 2")
-                users_content2.setFont( self.fontStyle("Helvetica", 50, 80) )
-                users_content2.setAlignment(Qt.AlignCenter)
-                users_content2.setStyleSheet("background-color:#badaff; color:#fff;")
-                users_content2_lay.addWidget(users_content2)
+                users_content2_lay.setContentsMargins(25,25,25,25)
+                users_content2_lay.addWidget(form_container)
+
+                # set widget for tab1 layout
+                tab1_h_widget = QWidget()
+                tab1_h_layout = QHBoxLayout()
+                tab1_h_widget.setLayout(tab1_h_layout)
+                table = QTableWidget()
+                
+                # action layout
+                action_widget = QWidget()
+                action_lay = QVBoxLayout()
+                action_widget.setLayout(action_lay)
+                action_widget.setMaximumWidth(180)
+                action_widget.setStyleSheet("border: none;")
+                action_lay.setContentsMargins(0,0,0,0)
+                action_lay.setSpacing(0)
+
+                # action lineedit and button
+                row_label = QLabel("No Baris:")
+                self.row_info = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info.setReadOnly(True)
+                self.row_info.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
+
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
+
+                # add table and action widget into tab1_h_layout
+                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(action_widget)
+
+                # create table widget
+                table.resizeRowsToContents()
+                table.setRowCount(2)
+                table.setColumnCount(3)
+                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                table.setStyleSheet(View.table_style)
+
+                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                table.setColumnHidden(0, True) #hide id column
+                
+                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                
+                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+
+                # create edit & delete section
+                table.setSelectionBehavior(QTableWidget.SelectRows)
+                table.clicked.connect(lambda: self.getCellVal(table))
+                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
+
+                # users_content1_lay.addWidget(table)
+                users_content1_lay.addWidget(tab1_h_widget)
+
+                # components
+                components_setter = [
+                                    {
+                                        "name":"lbl_add_uname",
+                                        "category":"label",
+                                        "text": "Username",
+                                        "style":self.primary_lbl
+                                    },
+                                    {
+                                        "name":"add_uname",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_pass",
+                                        "category":"label",
+                                        "text": "Password",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_pass",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_retype_pass",
+                                        "category":"label",
+                                        "text": "Retype Password",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"retype_pass",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_user_level",
+                                        "category":"label",
+                                        "text": "Level",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"input_user_level",
+                                        "category":"comboBox",
+                                        "items": ["Admin","Pegawai", "Kasir"],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_user",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.add_user
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+                
+                self.CreateComponentLayout(components_setter, form_container_lay)
+                users_content2_lay.addStretch(1)
+
             
             case "kasir":
                 # kasir content
@@ -322,8 +432,8 @@ class Main(Util, View):
                 self.kasir_container_lay.setContentsMargins(0,0,0,0)
                 self.kasir_container_lay.setSpacing(0)
 
-                kasir_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.kasir_stack.setStyleSheet("background: #bada55;")
+                kasir_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.kasir_stack.setStyleSheet("background: #151930;")
                 
                 self.kasir_container.setLayout(self.kasir_container_lay)
                 kasir_tabs_container_widget.setLayout(kasir_tabs_container)
@@ -376,8 +486,8 @@ class Main(Util, View):
                 self.karcis_container_lay.setContentsMargins(0,0,0,0)
                 self.karcis_container_lay.setSpacing(0)
 
-                karcis_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.karcis_stack.setStyleSheet("background: #bada55;")
+                karcis_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.karcis_stack.setStyleSheet("background: #151930;")
                 
                 self.karcis_container.setLayout(self.karcis_container_lay)
                 karcis_tabs_container_widget.setLayout(karcis_tabs_container)
@@ -430,8 +540,8 @@ class Main(Util, View):
                 self.tarif_container_lay.setContentsMargins(0,0,0,0)
                 self.tarif_container_lay.setSpacing(0)
 
-                tarif_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.tarif_stack.setStyleSheet("background: #bada55;")
+                tarif_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.tarif_stack.setStyleSheet("background: #151930;")
                 
                 self.tarif_container.setLayout(self.tarif_container_lay)
                 tarif_tabs_container_widget.setLayout(tarif_tabs_container)
@@ -484,8 +594,8 @@ class Main(Util, View):
                 self.voucher_container_lay.setContentsMargins(0,0,0,0)
                 self.voucher_container_lay.setSpacing(0)
 
-                voucher_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.voucher_stack.setStyleSheet("background: #bada55;")
+                voucher_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.voucher_stack.setStyleSheet("background: #151930;")
                 
                 self.voucher_container.setLayout(self.voucher_container_lay)
                 voucher_tabs_container_widget.setLayout(voucher_tabs_container)
@@ -538,8 +648,8 @@ class Main(Util, View):
                 self.laporan_container_lay.setContentsMargins(0,0,0,0)
                 self.laporan_container_lay.setSpacing(0)
 
-                laporan_tabs_container_widget.setStyleSheet("background: #bada55;")
-                self.laporan_stack.setStyleSheet("background: #bada55;")
+                laporan_tabs_container_widget.setStyleSheet("background: #151930;")
+                self.laporan_stack.setStyleSheet("background: #151930;")
                 
                 self.laporan_container.setLayout(self.laporan_container_lay)
                 laporan_tabs_container_widget.setLayout(laporan_tabs_container)

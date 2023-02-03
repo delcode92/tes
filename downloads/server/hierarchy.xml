@@ -110,6 +110,18 @@
                                         <rfid_content2>
                                             <rfid_content2_lay>
                                                 
+                                                <form_container>
+                                                    <form_container_lay>
+
+                                                        <!-- component setter here -->
+                                                        ....
+
+                                                        <!-- create components here-->
+                                                        <self.CreateComponentLayout(components_setter, form_container_lay)/>
+
+                                                    </form_container_lay>
+                                                </form_container>
+                                                
                                                 <!-- rfid_content2 as QLabel -->
                                                 <rfid_content2/>
                                                     
@@ -121,10 +133,67 @@
                                 </self.rfid_container_lay>    
                             </self.rfid_container>
 
+
                             <!-- USERS -->
                             <self.users_container>
-                                ...
+                                <self.users_container_lay>
+
+                                    <users_tabs_container_widget>
+                                        
+                                        <!-- add widgets via method setTabButton() -->
+                                        <users_tabs_container>
+                                            <tab1/>
+                                            <tab2/>
+                                        </users_tabs_container>
+
+                                    </users_tabs_container_widget>    
+                                    
+                                    <self.users_stack>
+                                        <users_content1>
+                                            <users_content1_lay>
+                                                <tab1_h_widget>
+                                                    <tab1_h_layout>
+                                                        <table/>
+                                                        <action_widget>
+                                                            <action_lay>
+                                                                <row_label/>
+                                                                <row_info/>
+                                                                <row_edit/>
+                                                                <row_delete/>
+                                                            </action_lay>
+                                                        </action_widget>
+                                                    </tab1_h_layout>
+                                                </tab1_h_widget>
+                                            </users_content1_lay>
+                                        </users_content1>
+                                        
+                                        <!-- users_content2 as widget container -->
+                                        <users_content2>
+                                            <users_content2_lay>
+                                                
+                                                <form_container>
+                                                    <form_container_lay>
+
+                                                        <!-- component setter here -->
+                                                        ....
+
+                                                        <!-- create components here-->
+                                                        <self.CreateComponentLayout(components_setter, form_container_lay)/>
+
+                                                    </form_container_lay>
+                                                </form_container>
+                                                
+                                                <!-- users_content2 as QLabel -->
+                                                <users_content2/>
+                                                    
+                                            </users_content2_lay>    
+                                        </users_content2>
+
+                                    </self.users_stack>
+
+                                </self.users_container_lay>  
                             </self.users_container>
+
 
                             <!-- KASIR -->
                             <self.kasir_container>

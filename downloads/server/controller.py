@@ -465,50 +465,51 @@ class Controller():
                 # self.SubWinVerticalTable(sub_window_setter, [table])
  
             case "tambah rfid":
-                sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }
+                ...
+                # sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }
 
-                # components
-                components_setter = [
-                                    {
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_add_rfid",
-                                        "category":"label",
-                                        "text": "RFID",
-                                        "style":self.primary_lbl
-                                    },
-                                    {
-                                        "name":"add_rfid",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_rfid_owner",
-                                        "category":"label",
-                                        "text": "Name",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_rfid_owner",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"btn_add_rfid",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_rfid
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
+                # # components
+                # components_setter = [
+                #                     {
+                #                         "name":"lbl_success",
+                #                         "category":"label",
+                #                         "text": "Data Saved",
+                #                         "style":self.success_lbl
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_rfid",
+                #                         "category":"label",
+                #                         "text": "RFID",
+                #                         "style":self.primary_lbl
+                #                     },
+                #                     {
+                #                         "name":"add_rfid",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"lbl_add_rfid_owner",
+                #                         "category":"label",
+                #                         "text": "Name",
+                #                         "style":self.primary_lbl + margin_top
+                #                     },
+                #                     {
+                #                         "name":"add_rfid_owner",
+                #                         "category":"lineEdit",
+                #                         "style":self.primary_input
+                #                     },
+                #                     {
+                #                         "name":"btn_add_rfid",
+                #                         "category":"pushButton",
+                #                         "text": "Save",
+                #                         "clicked": {
+                #                                 "method_name": self.add_rfid
+                #                         },
+                #                         "style": self.primary_button
+                #                     }
+                #                 ]
 
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
+                # self.SubWinVerticalForm(sub_window_setter, components_setter)
                 # self.components["lbl_success"].setAlignment(Qt.AlignCenter)
                 # self.components["lbl_success"].setHidden(True)
             
