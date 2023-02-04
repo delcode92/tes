@@ -46,8 +46,9 @@ class Controller():
             if type.lower() != "select":    
                 return True
 
-        except Exception:
+        except Exception as e:
             print("\nexecute query fail")
+            print( str(e) )
 
 
 
@@ -234,8 +235,41 @@ class Controller():
             timer = threading.Timer(1.0, self.hideSuccess)
             timer.start()        
 
-    def print_voucher(self):
-        print("print voucher here")
+    def add_voucher(self):
+        print("add voucher here")
+        id_pel = self.components["add_voucher_idpel"].text()    
+        lokasi = self.components["add_voucher_lokasi"].text()    
+        tarif = self.components["add_voucher_tarif"].text()    
+        masa_berlaku = self.components["add_voucher_masa_berlaku"].text()    
+        jns_kendaraan = self.components["add_voucher_jns_kendaraan"].currentText()
+
+        # save data
+        query = f"insert into voucher (id_pel, lokasi, tarif, masa_berlaku, jns_kendaraan) values ('{id_pel}', '{lokasi}', '{tarif}', '{masa_berlaku}', '{jns_kendaraan}');"
+        print(query)
+        res = self.exec_query(query)
+        
+        if res:
+
+            # reset table value
+            query = self.exec_query("SELECT id, id_pel, lokasi, tarif, masa_berlaku, jns_kendaraan FROM voucher", "SELECT")
+            cols = 6
+
+            self.fillTable(self.voucher_table, cols, query, len(query))
+
+            # clear all input
+            id_pel = self.components["add_voucher_idpel"].setText("")    
+            lokasi = self.components["add_voucher_lokasi"].setText("")    
+            tarif = self.components["add_voucher_tarif"].setText("")    
+            
+            # show success message
+            
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Data Saved")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()    
 
     def save_edit_rfid(self):
         # get data from edit form
@@ -373,42 +407,44 @@ class Controller():
         except Exception as e:
             print(str(e))
 
-
-
-    def set_tarif(self, vehicle):
-        print("kendaraan: ", vehicle)
+    def set_tarif(self):
+        
+        vehicle = self.components["add_tarif_jns_kendaraan"].currentText() 
         tarif_perjam = self.components["add_tarif_per_1jam"].text()    
         tarif_per24jam = self.components["add_tarif_per_24jam"].text()    
         
-        if vehicle == "motor":
-            jns_kendaraan = "motor"    
-        elif vehicle == "mobil":
-            jns_kendaraan = "mobil"    
-        
         # save data
-        q_count = f"select count(*) from tarif where jns_kendaraan='{jns_kendaraan}'"
+        q_count = f"select count(*) from tarif where jns_kendaraan='{vehicle}'"
         res = self.exec_query(q_count, "select")
         
         if res[0][0] == 0:
-            query = f"insert into tarif (tarif_perjam, tarif_per24jam, jns_kendaraan) values ('{tarif_perjam}', '{tarif_per24jam}', '{jns_kendaraan}');"
+            query = f"insert into tarif (tarif_perjam, tarif_per24jam, jns_kendaraan) values ('{tarif_perjam}', '{tarif_per24jam}', '{vehicle}');"
             res = self.exec_query(query)
         elif res[0][0] > 0:
-            query = f"update tarif set tarif_perjam={tarif_perjam}, tarif_per24jam={tarif_per24jam} where jns_kendaraan='{jns_kendaraan}'"
+            query = f"update tarif set tarif_perjam={tarif_perjam}, tarif_per24jam={tarif_per24jam} where jns_kendaraan='{vehicle}'"
             res = self.exec_query(query)
 
         if res:
-        #     # clear all input
-        #     # self.components["add_tarif_pos"].setText("")    
-        #     # self.components["add_tarif_per_1jam"].setText("")    
-        #     # self.components["add_tarif_per_24jam"].setText("")    
-        
-            # show success message
-            self.components["lbl_success"].setHidden(False)
+            
+            # close window edit
+            self.win.close()
 
-            timer = threading.Timer(1.0, self.hideSuccess)
-            timer.start()        
+            # reset table value
+            query = self.exec_query("SELECT id, tarif_perjam,  tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
+            cols = 4
 
+            self.fillTable(self.tarif_table, cols, query)
+            
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Data Updated")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()      
 
+    def save_edit_voucher(self):
+        ...
     # def save_edit_tarif(self):
     #     # get data from edit form
     #     id = self.components["hidden_id"].text()

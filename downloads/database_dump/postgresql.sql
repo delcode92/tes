@@ -53,4 +53,4 @@ CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime time
 insert into karcis (datetime) values(to_timestamp(1672912953.570569));
 
 
-CREATE TABLE voucher ( id serial primary key, id_pel varchar(30), lokasi varchar(255), tarif serial, masa_berlaku timestamp(6) with time zone, jns_kendaraan varchar(20) );
+CREATE TABLE voucher ( id serial primary key, id_pel varchar(30), lokasi varchar(255), tarif serial, masa_berlaku date, jns_kendaraan varchar(20) );

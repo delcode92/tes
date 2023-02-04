@@ -37,15 +37,18 @@ class Main(Util, View):
             tab1.setMaximumWidth(180)
             tab1.setIcon(QIcon(self.icon_path+"table-columns.png"))
             tab1.setStyleSheet(View.tab_button)
-            tab1.clicked.connect(lambda: self.Tabs(tabs=(tab1,tab2), stacked_widget=stackedWidget, index=0))
             tabsContainer.addWidget(tab1)
         
         if tab2 != None:
             tab2.setMaximumWidth(180)
             tab2.setIcon(QIcon(self.icon_path+"apps-add.png"))
             tab2.setStyleSheet(View.tab_button)
-            tab2.clicked.connect(lambda: self.Tabs(tabs=(tab2,tab1), stacked_widget=stackedWidget, index=1))
             tabsContainer.addWidget(tab2)
+
+        if tab1 != None and tab2 != None:
+            tab1.clicked.connect(lambda: self.Tabs(tabs=(tab1,tab2), stacked_widget=stackedWidget, index=0))
+            tab2.clicked.connect(lambda: self.Tabs(tabs=(tab2,tab1), stacked_widget=stackedWidget, index=1))
+
         
         tabsContainer.setAlignment(Qt.AlignLeft)
 
@@ -313,6 +316,134 @@ class Main(Util, View):
                                         }
                                     ]
                 
+                case "tarif":
+                    res = self.exec_query("select * from tarif where id="+id, "select")
+                    print("selected", res[0][4])
+                    # components
+                    components = [
+                                        {
+                                            "name":"lbl_add_tarif_per_1jam",
+                                            "category":"label",
+                                            "text": "Tarif / jam",
+                                            "style":self.primary_lbl
+                                        },
+                                        {
+                                            "name":"add_tarif_per_1jam",
+                                            "category":"lineEdit",
+                                            "text":str(res[0][2]),
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_tarif_per_24jam",
+                                            "category":"label",
+                                            "text": "Tarif / 24 jam",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_tarif_per_24jam",
+                                            "category":"lineEdit",
+                                            "text":str(res[0][3]),
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_tarif_jns_kendaraan",
+                                            "category":"label",
+                                            "text": "Jenis Kendaraan",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_tarif_jns_kendaraan",
+                                            "category":"comboBox",
+                                            "items":["Motor", "Mobil"],
+                                            "selected_item":res[0][4],
+                                            "style":self.primary_combobox
+                                        },
+                                        {
+                                            "name":"btn_add_tarif",
+                                            "category":"pushButton",
+                                            "text": "Save",
+                                            "clicked": {
+                                                    "method_name": self.set_tarif
+                                            },
+                                            "style": self.primary_button
+                                        }
+                                    ]
+
+                case "voucher":
+                    res = self.exec_query("select * from voucher where id="+id, "select")
+
+                    components = [{
+                                        "name":"lbl_add_voucher_idpel",
+                                        "category":"label",
+                                        "text": "ID Pel",
+                                        "style":self.primary_lbl
+                                    },
+                                    {
+                                        "name":"add_voucher_idpel",
+                                        "category":"lineEditInt",
+                                        "text":str(res[0][1]),
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_lokasi",
+                                        "category":"label",
+                                        "text": "Lokasi",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_lokasi",
+                                        "category":"lineEdit",
+                                        "text":res[0][2],
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_tarif",
+                                        "category":"label",
+                                        "text": "Tarif",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_tarif",
+                                        "category":"lineEditInt",
+                                        "text":str(res[0][3]),
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_masa_berlaku",
+                                        "category":"label",
+                                        "text": "Masa Berlaku",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_masa_berlaku",
+                                        "category":"date",
+                                        "reg_gate":res[0][4],
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_jns_kendaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_jns_kendaraan",
+                                        "category":"comboBox",
+                                        "items":["Motor", "Mobil"],
+                                        "selected_item":res[0][5],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_voucher",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.save_edit_voucher
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
                 case default:
                     pass    
 
@@ -1224,29 +1355,24 @@ class Main(Util, View):
                 row_label = QLabel("No Baris:")
                 self.row_info_tarif = QLineEdit()
                 row_edit = QPushButton("edit")
-                row_delete = QPushButton("delete")
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
-
+                
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_tarif.setReadOnly(True)
                 self.row_info_tarif.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_edit.setStyleSheet(View.edit_btn_action)
-                row_delete.setStyleSheet(View.del_btn_action)
-
+                
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_tarif)
                 action_lay.addWidget(row_edit)
-                action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
 
                 ##################### action edit & delete ###################
                 
                 row_edit.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 400)))
-                row_delete.clicked.connect(lambda: self.deleteData("tarif"))
-
+                
                 ##############################################################
 
 
@@ -1421,20 +1547,24 @@ class Main(Util, View):
                 self.row_info_voucher = QLineEdit()
                 row_edit = QPushButton("edit")
                 row_delete = QPushButton("delete")
+                row_print = QPushButton("PRINT")
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+                row_print.setIcon(QIcon(self.icon_path+"print.png"))
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_voucher.setReadOnly(True)
                 self.row_info_voucher.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_edit.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
+                row_print.setStyleSheet(View.print_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_voucher)
                 action_lay.addWidget(row_edit)
                 action_lay.addWidget(row_delete)
+                action_lay.addWidget(row_print)
                 action_lay.addStretch(1)
 
 
@@ -1485,6 +1615,7 @@ class Main(Util, View):
                 ###################### voucher Form ######################
 
                 # components
+
                 components_setter = [{
                                         "name":"lbl_add_voucher_idpel",
                                         "category":"label",
@@ -1493,7 +1624,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_voucher_idpel",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
                                     },
                                     {
@@ -1515,7 +1646,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_voucher_tarif",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
                                     },
                                     {
@@ -1526,7 +1657,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_voucher_masa_berlaku",
-                                        "category":"lineEdit",
+                                        "category":"date",
                                         "style":self.primary_input
                                     },
                                     {
@@ -1544,9 +1675,9 @@ class Main(Util, View):
                                     {
                                         "name":"btn_add_voucher",
                                         "category":"pushButton",
-                                        "text": "Print",
+                                        "text": "Save",
                                         "clicked": {
-                                                "method_name": self.add_tarif
+                                                "method_name": self.add_voucher
                                         },
                                         "style": self.primary_button
                                     }

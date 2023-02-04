@@ -1,11 +1,11 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
-from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon
-from PyQt5.QtCore import QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon, QIntValidator
+from PyQt5.QtCore import QDate,QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 
@@ -153,6 +153,20 @@ class View:
                     }
                     QPushButton:hover {
                         background-color: #951C3C;
+                    }
+    """
+    
+    print_btn_action = """QPushButton {
+                        background:#36f; 
+                        padding:12px;
+                        color:#fff;
+                        font-size:13px; 
+                        font-weight: 500;
+                        margin-top: 50px;
+                        border-radius: 8px;
+                    }
+                    QPushButton:hover {
+                        background-color: #4B78FF;
                     }
     """
 
@@ -601,6 +615,16 @@ class Util(Controller ):
                     case "lineeditpassword":
                         self.components[i["name"]] = QLineEdit(parent)
                         self.components[i["name"]].setEchoMode(QLineEdit.Password)
+                    case "lineeditint":
+                        self.components[i["name"]] = QLineEdit(parent)
+                        self.components[i["name"]].setValidator(QIntValidator())
+
+                    case "date":
+                        self.components[i["name"]] = QDateEdit(parent)
+                        self.components[i["name"]].setDisplayFormat("yyyy-MM-dd")
+                        # self.components[i["name"]].setMinimumDate(QDate.currentDate())
+                        self.components[i["name"]].setCalendarPopup(True)
+
                     case "radiobutton":
                         self.components[i["name"]] = QRadioButton(parent)
                         
@@ -666,6 +690,9 @@ class Util(Controller ):
                             case "selected_item":
                                 combo_box = self.components[i["name"]]
                                 combo_box.setCurrentText( i["selected_item"] )
+                            
+                            case "reg_date":
+                                self.components[i["name"]].setDateTime(i["reg_date"])
                                 
                             case "children":
                                 self.CreateComponent(value, self.components[i["name"]])
