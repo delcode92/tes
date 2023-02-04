@@ -224,9 +224,9 @@ class View:
     # lineedit styling
     primary_input = """QLineEdit{
                         height:30px; 
-                        border:1px solid #192038;
-                        background-color: #192038;
-                        color: #ffffff;
+                        border:1px solid #dfe6e9;
+                        background-color: #dfe6e9;
+                        color: #000;
                         font-family: Helvetica;
                         font-size: 14px;
     """

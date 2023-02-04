@@ -24,7 +24,8 @@ class Main(Util, View):
         # create one main window object for all
         self.window = QMainWindow()
         self.mdi = None
-        self.app_stat = False  
+        self.app_stat = False
+        self.hidden_id = -1  
     
     def setMenuClicked(self, button=None, label=None, page=""):
         button.clicked.connect(lambda: self.windowBarAction(page))
@@ -50,23 +51,24 @@ class Main(Util, View):
 
     def getCellVal(self, table, page=""):
         row = table.currentRow()
-        id = table.item(row, 0).text()
+        self.hidden_id = table.item(row, 0).text()
         
         match page:
             case "rfid":
-                self.row_info_rfid.setText(id)
+                self.row_info_rfid.setText(str(row+1))
             case "users":
-                self.row_info_users.setText(id)
+                self.row_info_users.setText(str(row+1))
             case "kasir":
-                self.row_info_kasir.setText(id)
+                self.row_info_kasir.setText(str(row+1))
             case "karcis":
-                self.row_info_karcis.setText(id)
+                ...
+                # self.row_info_karcis.setText(str(row+1))
             case "tarif":
-                self.row_info_tarif.setText(id)
+                self.row_info_tarif.setText(str(row+1))
             case "voucher":
-                self.row_info_voucher.setText(id)
+                self.row_info_voucher.setText(str(row+1))
             case "laporan":
-                self.row_info_laporan.setText(id)
+                self.row_info_laporan.setText(str(row+1))
             case default:
                 pass
 
@@ -81,21 +83,25 @@ class Main(Util, View):
 
         return form_container,form_container_lay
 
-    def editPopUp(self):
+    def editPopUp(self, components=[], form_type="", form_size=(400,400) ):
+        
+        print("ID", self.hidden_id)
+
         self.win = QMainWindow()
         central_widget = QWidget()
         central_lay = QVBoxLayout()
-        lbl1 = QLabel("label 1")
-        lbl2 = QLabel("label 2")
+        
+        central_lay.setContentsMargins(25,25,25,25)
+        central_widget.setStyleSheet("background:#222b45;")
+
+        self.CreateComponentLayout(components, central_lay)
+        central_lay.addStretch(1)
         
         central_widget.setLayout(central_lay)
         self.win.setCentralWidget(central_widget)
 
-        self.win.setWindowTitle("test 123")
-        self.win.resize(400, 500)
-        
-        central_lay.addWidget(lbl1)
-        central_lay.addWidget(lbl2)
+        self.win.setWindowTitle(f"Edit Form {form_type}")
+        self.win.resize(form_size[0], form_size[1])
         
         self.win.show()
     
@@ -114,7 +120,7 @@ class Main(Util, View):
                 self.welcome_lbl.setAlignment(Qt.AlignCenter)
                 self.welcome_lbl.setStyleSheet("background-color:#151930; color:#fff;")
             
-            
+            # disini bro
             case "rfid":
                 # rfid content
                 self.rfid_container = QWidget()
@@ -182,7 +188,9 @@ class Main(Util, View):
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
 
-                # action lineedit and button
+                
+                
+                ################# action lineedit and button #####################
                 row_label = QLabel("No Baris:")
                 self.row_info_rfid = QLineEdit()
                 row_edit = QPushButton("edit")
@@ -190,7 +198,6 @@ class Main(Util, View):
                 row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
-                row_edit.clicked.connect(self.editPopUp)
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_rfid.setReadOnly(True)
@@ -205,36 +212,97 @@ class Main(Util, View):
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
+
+                # components
+                components_setter = [
+                                    {
+                                        "name":"hidden_id",
+                                        "category":"lineEdit",
+                                    },
+                                    {
+                                        "name":"lbl_add_rfid",
+                                        "category":"label",
+                                        "text": "RFID",
+                                        "style":self.primary_lbl
+                                    },
+                                    {
+                                        "name":"add_rfid",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_rfid_owner",
+                                        "category":"label",
+                                        "text": "Name",
+                                        "style":self.primary_lbl
+                                    },
+                                    {
+                                        "name":"add_rfid_owner",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"btn_add_rfid",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.save_edit_rfid
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
+                row_edit.clicked.connect(lambda: self.editPopUp(components=components_setter, form_type="RFID", form_size=(400, 300)))
+
+                ###################################################################
+
+
+
+                ######################### RFID Table ##############################
                 # add table and action widget into tab1_h_layout
                 tab1_h_layout.addWidget(table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
+                
+                # fetch data from DB
+                query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
+                rows_count = len(query)
+                cols = 3
+
                 table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
+                table.setRowCount(rows_count)
+                table.setColumnCount(cols)
+                # table.setRowCount(2)
+                # table.setColumnCount(3)
                 table.setHorizontalHeaderLabels(["id", "RFID", "Nama"])
                 table.setStyleSheet(View.table_style)
 
                 table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
-                
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                r = 0
+
+                for l in query:
+                    
+                    # set item on table column
+                    for i in range(cols):
+                        item = QTableWidgetItem( str(l[i]) )
+                        table.setItem(r, i, item)
+                    
+                    r = r + 1
 
                 # create edit & delete section
                 table.setSelectionBehavior(QTableWidget.SelectRows)
                 table.clicked.connect(lambda: self.getCellVal(table, page="rfid"))
-                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "rfid"))
-
-                # rfid_content1_lay.addWidget(table)
+                
                 rfid_content1_lay.addWidget(tab1_h_widget)
 
+                ###################################################################
+
+
+
+                ###################### RFID Form ######################
                 # components
                 components_setter = [
                                     {
@@ -271,7 +339,8 @@ class Main(Util, View):
                                 ]
                 
                 self.CreateComponentLayout(components_setter, form_container_lay)
-                rfid_content2_lay.addStretch(1)            
+                rfid_content2_lay.addStretch(1)
+                #######################################################            
             
             case "users":
                 # users content
@@ -360,6 +429,75 @@ class Main(Util, View):
                 action_lay.addWidget(row_edit)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
+
+
+                ##################### action edit & delete ###################
+                # components
+                components_setter = [
+                                    {
+                                        "name":"hidden_id",
+                                        "category":"lineEdit",
+                                    },
+                                    {
+                                        "name":"lbl_add_uname",
+                                        "category":"label",
+                                        "text": "Username",
+                                        "style":self.primary_lbl
+                                    },
+                                    {
+                                        "name":"add_uname",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_pass",
+                                        "category":"label",
+                                        "text": "Password",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_pass",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_retype_pass",
+                                        "category":"label",
+                                        "text": "Retype Password",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"retype_pass",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_user_level",
+                                        "category":"label",
+                                        "text": "Level",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"input_user_level",
+                                        "category":"comboBox",
+                                        "items": ["Admin","Pegawai", "Kasir"],
+                                        "style":self.primary_combobox
+                                    },
+                                    {
+                                        "name":"btn_add_user",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.save_edit_user
+                                        },
+                                        "style": self.primary_button
+                                    }
+                                ]
+
+                row_edit.clicked.connect(lambda: self.editPopUp(components=components_setter, form_type="User", form_size=(400, 400)))
+
+                ##############################################################
+
 
                 # add table and action widget into tab1_h_layout
                 tab1_h_layout.addWidget(table)
@@ -540,6 +678,112 @@ class Main(Util, View):
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
+
+                ##################### action edit & delete ###################
+                
+                # components
+                components_setter = [{
+                                        "name":"hidden_id",
+                                        "category":"lineEdit",
+                                    },
+                                    {
+                                        "name":"lbl_add_nik",
+                                        "category":"label",
+                                        "text": "NIK",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_nik",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_nama",
+                                        "category":"label",
+                                        "text": "Nama",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_nama",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_hp",
+                                        "category":"label",
+                                        "text": "Nomor HP",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_hp",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_alamat",
+                                        "category":"label",
+                                        "text": "Alamat",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_alamat",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_jam_masuk",
+                                        "category":"label",
+                                        "text": "Jam Masuk",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_jam_masuk",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_jam_keluar",
+                                        "category":"label",
+                                        "text": "Jam Keluar",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_jam_keluar",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_nmr_pos",
+                                        "category":"label",
+                                        "text": "Nomor Pos/Gate",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_nmr_pos",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"btn_add_kasir",
+                                        "category":"pushButton",
+                                        "text": "Save",
+                                        "clicked": {
+                                                "method_name": self.save_edit_kasir
+                                        },
+                                        "style": self.primary_button
+                                    },
+                                    {
+                                        "name":"lbl_space",
+                                        "category":"label",
+                                        "min_height":20
+                                    }
+                                ]
+
+                row_edit.clicked.connect(lambda: self.editPopUp(components=components_setter, form_type="Kasir", form_size=(500, 600)))
+
+                ##############################################################
+
+
                 # add table and action widget into tab1_h_layout
                 tab1_h_layout.addWidget(table)
                 tab1_h_layout.addWidget(action_widget)
@@ -677,7 +921,7 @@ class Main(Util, View):
                 
                 karcis_tabs_container = QHBoxLayout()
                 self.karcis_tab1 = QPushButton("Kelola karcis")
-                karcis_tab2 = QPushButton("Tambah karcis")
+                karcis_tab2 = QPushButton("Setting karcis")
                 
                 self.karcis_stack = QStackedWidget()
                 karcis_content1 = QWidget()
@@ -737,26 +981,27 @@ class Main(Util, View):
                 action_lay.setSpacing(0)
 
                 # action lineedit and button
-                row_label = QLabel("No Baris:")
-                self.row_info_karcis = QLineEdit()
-                row_edit = QPushButton("edit")
-                row_delete = QPushButton("delete")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+                # row_label = QLabel("No Baris:")
+                # self.row_info_karcis = QLineEdit()
+                # row_edit = QPushButton("edit")
+                # row_delete = QPushButton("delete")
+                # row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                # row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
-                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                self.row_info_karcis.setReadOnly(True)
-                self.row_info_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
-                row_delete.setStyleSheet(View.del_btn_action)
+                # row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                # self.row_info_karcis.setReadOnly(True)
+                # self.row_info_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                # row_edit.setStyleSheet(View.edit_btn_action)
+                # row_delete.setStyleSheet(View.del_btn_action)
 
-                # add lineedit and button into action_lay
-                action_lay.addWidget(row_label)
-                action_lay.addWidget(self.row_info_karcis)
-                action_lay.addWidget(row_edit)
-                action_lay.addWidget(row_delete)
-                action_lay.addStretch(1)
+                # # add lineedit and button into action_lay
+                # action_lay.addWidget(row_label)
+                # action_lay.addWidget(self.row_info_karcis)
+                # action_lay.addWidget(row_edit)
+                # action_lay.addWidget(row_delete)
+                # action_lay.addStretch(1)
 
+                
                 # add table and action widget into tab1_h_layout
                 tab1_h_layout.addWidget(table)
                 tab1_h_layout.addWidget(action_widget)
@@ -792,7 +1037,7 @@ class Main(Util, View):
                                         "name":"lbl_nm_tempat",
                                         "category":"label",
                                         "text": "Nama Tempat",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl
                                     },
                                     {
                                         "name":"add_tempat",
@@ -800,45 +1045,47 @@ class Main(Util, View):
                                         "style":self.primary_input
                                     },
                                     {
-                                        "name":"lbl_nm_perusahaan",
+                                        "name":"lbl_footer1",
                                         "category":"label",
-                                        "text": "Nama Perusahaan",
+                                        "text": "Footer-1",
                                         "style":self.primary_lbl + margin_top
                                     },
                                     {
-                                        "name":"add_perusahaan",
+                                        "name":"add_footer1",
                                         "category":"lineEdit",
+                                        "text": "Simpan Karcis Anda",
                                         "style":self.primary_input
                                     },
                                     {
-                                        "name":"lbl_pintu_masuk",
+                                        "name":"lbl_footer2",
                                         "category":"label",
-                                        "text": "Pintu Masuk",
+                                        "text": "Footer-2",
                                         "style":self.primary_lbl + margin_top
                                     },
                                     {
-                                        "name":"add_tarif_per_24jam",
+                                        "name":"add_footer2",
                                         "category":"lineEdit",
+                                        "text": "Hilang Karcis Dikenakan Denda Rp 15.000",
                                         "style":self.primary_input
                                     },
                                     {
-                                        "name":"lbl_add_tarif_jns_kendaraan",
+                                        "name":"lbl_footer3",
                                         "category":"label",
-                                        "text": "Jenis Kendaraan",
+                                        "text": "Footer-3",
                                         "style":self.primary_lbl + margin_top
                                     },
                                     {
-                                        "name":"add_tarif_jns_kendaraan",
-                                        "category":"comboBox",
-                                        "items":["Motor", "Mobil"],
-                                        "style":self.primary_combobox
+                                        "name":"add_footer3",
+                                        "category":"lineEdit",
+                                        "text": "Jangan Tinggalkan Barang Berharga",
+                                        "style":self.primary_input
                                     },
                                     {
                                         "name":"btn_add_tarif",
                                         "category":"pushButton",
                                         "text": "Save",
                                         "clicked": {
-                                                "method_name": self.add_tarif
+                                                "method_name": self.save_edit_karcis
                                         },
                                         "style": self.primary_button
                                     }
@@ -855,7 +1102,7 @@ class Main(Util, View):
                 
                 tarif_tabs_container = QHBoxLayout()
                 self.tarif_tab1 = QPushButton("Kelola tarif")
-                tarif_tab2 = QPushButton("Tambah tarif")
+                tarif_tab2 = QPushButton("Setting tarif")
                 
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
@@ -970,7 +1217,7 @@ class Main(Util, View):
                                         "name":"lbl_add_tarif_pos",
                                         "category":"label",
                                         "text": "Nomor Pos",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl
                                     },
                                     {
                                         "name":"add_tarif_pos",
@@ -1146,35 +1393,46 @@ class Main(Util, View):
 
                 # components
                 components_setter = [{
-                                        "name":"lbl_add_voucher_pos",
+                                        "name":"lbl_add_voucher_idpel",
                                         "category":"label",
-                                        "text": "Nomor Pos",
-                                        "style":self.primary_lbl + margin_top
+                                        "text": "ID Pel",
+                                        "style":self.primary_lbl
                                     },
                                     {
-                                        "name":"add_voucher_pos",
+                                        "name":"add_voucher_idpel",
                                         "category":"lineEdit",
                                         "style":self.primary_input
                                     },
                                     {
-                                        "name":"lbl_add_voucher_per_1jam",
+                                        "name":"lbl_add_voucher_lokasi",
                                         "category":"label",
-                                        "text": "voucher / jam",
+                                        "text": "Lokasi",
                                         "style":self.primary_lbl + margin_top
                                     },
                                     {
-                                        "name":"add_voucher_per_1jam",
+                                        "name":"add_voucher_lokasi",
                                         "category":"lineEdit",
                                         "style":self.primary_input
                                     },
                                     {
-                                        "name":"lbl_add_voucher_per_24jam",
+                                        "name":"lbl_add_voucher_tarif",
                                         "category":"label",
-                                        "text": "voucher / 24 jam",
+                                        "text": "Tarif",
                                         "style":self.primary_lbl + margin_top
                                     },
                                     {
-                                        "name":"add_voucher_per_24jam",
+                                        "name":"add_voucher_tarif",
+                                        "category":"lineEdit",
+                                        "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_add_voucher_masa_berlaku",
+                                        "category":"label",
+                                        "text": "Masa Berlaku",
+                                        "style":self.primary_lbl + margin_top
+                                    },
+                                    {
+                                        "name":"add_voucher_masa_berlaku",
                                         "category":"lineEdit",
                                         "style":self.primary_input
                                     },
@@ -1193,7 +1451,7 @@ class Main(Util, View):
                                     {
                                         "name":"btn_add_voucher",
                                         "category":"pushButton",
-                                        "text": "Save",
+                                        "text": "Print",
                                         "clicked": {
                                                 "method_name": self.add_tarif
                                         },

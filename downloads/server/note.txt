@@ -4,3 +4,9 @@ main stacked widget:
 ...
 self.stacked_widget.addWidget(rfid_container) --> each page has it's own container except welcome dashboard
 ...
+
+
+important method:
+
+def getCellVal --> clickable row
+def editPopUp --> edit form popup

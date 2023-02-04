@@ -200,6 +200,9 @@ class Controller():
             timer = threading.Timer(1.0, self.hideSuccess)
             timer.start()        
 
+    def print_voucher(self):
+        print("print voucher here")
+
     def save_edit_rfid(self):
         # get data from edit form
         id = self.components["hidden_id"].text()
@@ -259,20 +262,85 @@ class Controller():
         # call table table list again
         self.windowBarAction("kelola gate")
     
-    def save_edit_tarif(self):
-        # get data from edit form
-        id = self.components["hidden_id"].text()
+    def save_edit_karcis(self):
 
-        pos = self.components["add_tarif_pos"].text()
-        tarif_perjam = self.components["add_tarif_per_1jam"].text()
-        tarif_per24jam = self.components["add_tarif_per_24jam"].text()
-        jns_kendaraan = self.components["add_tarif_jns_kendaraan"].currentText()
+        try:
+            print("send JSON config to client ... ")
+            
+            # get data from form
+            nm_tempat = self.components["add_tempat"].text()
+            # nm_gate = self.components["add_nm_gate"].text()
+            # jns_kendaraan = self.components["add_jns_kendaraan"].currentText()
+            footer1 = self.components["add_footer1"].text()
+            footer2 = self.components["add_footer2"].text()
+            footer3 = self.components["add_footer3"].text()
+            
+            # send data JSON to raspi via socket
+            # config_json = 'config#{"tempat":"'+nm_tempat+'", "gate":"'+nm_gate+'", "jns_kendaraan":"'+jns_kendaraan+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
+            config_json = 'config#{"tempat":"'+nm_tempat+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
+            self.s.sendall( bytes(config_json, 'utf-8') )
+
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("broadcast success")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
+
+        except Exception as e:
+            print(str(e))
+
+
+
+    def set_tarif(self, vehicle):
+        print("kendaraan: ", vehicle)
+        tarif_perjam = self.components["add_tarif_per_1jam"].text()    
+        tarif_per24jam = self.components["add_tarif_per_24jam"].text()    
         
-        # run update query
-        self.exec_query(f"update tarif set no_pos='{pos}', tarif_perjam='{tarif_perjam}', tarif_per24jam='{tarif_per24jam}', jns_kendaraan='{jns_kendaraan}' where id="+id)
+        if vehicle == "motor":
+            jns_kendaraan = "motor"    
+        elif vehicle == "mobil":
+            jns_kendaraan = "mobil"    
         
-        # call table table list again
-        self.windowBarAction("kelola tarif")
+        # save data
+        q_count = f"select count(*) from tarif where jns_kendaraan='{jns_kendaraan}'"
+        res = self.exec_query(q_count, "select")
+        
+        if res[0][0] == 0:
+            query = f"insert into tarif (tarif_perjam, tarif_per24jam, jns_kendaraan) values ('{tarif_perjam}', '{tarif_per24jam}', '{jns_kendaraan}');"
+            res = self.exec_query(query)
+        elif res[0][0] > 0:
+            query = f"update tarif set tarif_perjam={tarif_perjam}, tarif_per24jam={tarif_per24jam} where jns_kendaraan='{jns_kendaraan}'"
+            res = self.exec_query(query)
+
+        if res:
+        #     # clear all input
+        #     # self.components["add_tarif_pos"].setText("")    
+        #     # self.components["add_tarif_per_1jam"].setText("")    
+        #     # self.components["add_tarif_per_24jam"].setText("")    
+        
+            # show success message
+            self.components["lbl_success"].setHidden(False)
+
+            timer = threading.Timer(1.0, self.hideSuccess)
+            timer.start()        
+
+
+    # def save_edit_tarif(self):
+    #     # get data from edit form
+    #     id = self.components["hidden_id"].text()
+
+    #     pos = self.components["add_tarif_pos"].text()
+    #     tarif_perjam = self.components["add_tarif_per_1jam"].text()
+    #     tarif_per24jam = self.components["add_tarif_per_24jam"].text()
+    #     jns_kendaraan = self.components["add_tarif_jns_kendaraan"].currentText()
+        
+    #     # run update query
+    #     self.exec_query(f"update tarif set no_pos='{pos}', tarif_perjam='{tarif_perjam}', tarif_per24jam='{tarif_per24jam}', jns_kendaraan='{jns_kendaraan}' where id="+id)
+        
+    #     # call table table list again
+    #     self.windowBarAction("kelola tarif")
 
     def toggleMenu(self, maxWidth, enable, path=""):
         if enable:
@@ -371,6 +439,7 @@ class Controller():
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(0))
 
             case "kelola rfid":
+                
                 # set active button and label
                 self.updateStyle(
                     target=(self.rfid_btn, self.rfid_lbl), 
@@ -392,14 +461,10 @@ class Controller():
                                 self.logout_lbl)
                 )
 
-                # set rfid first tab active
-                
-                # self.rfid_tab1.setProperty("active", True)
-                # self.rfid_tab1.style().unpolish(self.rfid_tab1)
-                # self.rfid_tab1.style().polish(self.rfid_tab1)
-
-
                 self.stacked_widget.setCurrentIndex(1)
+                
+
+                
                 self.stacked_animation.start()
                 # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
                 # sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
