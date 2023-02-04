@@ -92,16 +92,32 @@ class Controller():
         res = self.exec_query(query)
         
         if res:
-            
+
+            # reset table value
+            query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
+            cols = 3
+
+            self.fillTable(self.rfid_table, cols, query, len(query))
+
+             
             # clear all input
             self.components["add_rfid"].setText("")
             self.components["add_rfid_owner"].setText("")
 
             # show success message
-            self.components["lbl_success"].setHidden(False)
 
-            timer = threading.Timer(1.0, self.hideSuccess)
-            timer.start()
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Data Saved")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
+
+            # self.components["lbl_success"].setHidden(False)
+
+            # timer = threading.Timer(1.0, self.hideSuccess)
+            # timer.start()
 
 
     def add_user(self):
