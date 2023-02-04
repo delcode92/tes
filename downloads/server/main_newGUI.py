@@ -32,22 +32,22 @@ class Main(Util, View):
         label.clicked.connect(lambda: self.windowBarAction(page))
     
     def setTabButton(self, tab1=None, tab2=None , tabsContainer=None, stackedWidget=None):
-        tab1.setMaximumWidth(180)
-        tab2.setMaximumWidth(180)
         
-        tab1.setIcon(QIcon(self.icon_path+"table-columns.png"))
-        tab2.setIcon(QIcon(self.icon_path+"apps-add.png"))
-    
-        tab1.setStyleSheet(View.tab_button)
-        tab2.setStyleSheet(View.tab_button)
+        if tab1 != None:
+            tab1.setMaximumWidth(180)
+            tab1.setIcon(QIcon(self.icon_path+"table-columns.png"))
+            tab1.setStyleSheet(View.tab_button)
+            tab1.clicked.connect(lambda: self.Tabs(tabs=(tab1,tab2), stacked_widget=stackedWidget, index=0))
+            tabsContainer.addWidget(tab1)
         
-        # connect tabs to method
-        tab1.clicked.connect(lambda: self.Tabs(tabs=(tab1,tab2), stacked_widget=stackedWidget, index=0))
-        tab2.clicked.connect(lambda: self.Tabs(tabs=(tab2,tab1), stacked_widget=stackedWidget, index=1))
-
+        if tab2 != None:
+            tab2.setMaximumWidth(180)
+            tab2.setIcon(QIcon(self.icon_path+"apps-add.png"))
+            tab2.setStyleSheet(View.tab_button)
+            tab2.clicked.connect(lambda: self.Tabs(tabs=(tab2,tab1), stacked_widget=stackedWidget, index=1))
+            tabsContainer.addWidget(tab2)
+        
         tabsContainer.setAlignment(Qt.AlignLeft)
-        tabsContainer.addWidget(tab1)
-        tabsContainer.addWidget(tab2)
 
     def getCellVal(self, table, page=""):
         row = table.currentRow()
@@ -1162,14 +1162,13 @@ class Main(Util, View):
                 
                 tarif_tabs_container = QHBoxLayout()
                 self.tarif_tab1 = QPushButton("Kelola tarif")
-                tarif_tab2 = QPushButton("Tambah tarif")
                 
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
                 tarif_content2 = QWidget()
                 
                 # tabs
-                self.setTabButton(tab1=self.tarif_tab1, tab2=tarif_tab2, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
+                self.setTabButton(tab1=self.tarif_tab1, tab2=None, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
                 
                 # set tarif layout & widget
                 self.tarif_container_lay.setContentsMargins(0,0,0,0)
