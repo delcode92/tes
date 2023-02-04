@@ -19,3 +19,9 @@ def editPopUp --> edit form popup
 
 
 CreateComponentLayout --> type "formlayout"
+
+- tarif tidak perlu tambah dan delete,cuma perlu edit
+
+
+- karcis tidak perlu edit/delete, yg perlu searching data
+- karcis yg ada setting karcis, bukan tambah karcis
