@@ -147,11 +147,10 @@ class Main(Util, View):
                                     ]
 
                 case "user":
+                    
+                    res = self.exec_query("select * from users where id="+id, "select")
+
                     components = [
-                                        {
-                                            "name":"hidden_id",
-                                            "category":"lineEdit",
-                                        },
                                         {
                                             "name":"lbl_add_uname",
                                             "category":"label",
@@ -161,6 +160,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_uname",
                                             "category":"lineEdit",
+                                            "text":res[0][1],
                                             "style":self.primary_input
                                         },
                                         {
@@ -171,7 +171,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_pass",
-                                            "category":"lineEdit",
+                                            "category":"lineeditpassword",
                                             "style":self.primary_input
                                         },
                                         {
@@ -182,7 +182,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"retype_pass",
-                                            "category":"lineEdit",
+                                            "category":"lineeditpassword",
                                             "style":self.primary_input
                                         },
                                         {
@@ -195,6 +195,7 @@ class Main(Util, View):
                                             "name":"input_user_level",
                                             "category":"comboBox",
                                             "items": ["Admin","Pegawai", "Kasir"],
+                                            "selected_item": res[0][2],
                                             "style":self.primary_combobox
                                         },
                                         {
@@ -433,6 +434,8 @@ class Main(Util, View):
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
+                ##################### action edit & delete ###################
+
                 row_edit.clicked.connect(lambda: self.editPopUp(form_type="RFID", form_size=(400, 300)))
                 row_delete.clicked.connect(lambda: self.deleteData("RFID"))
                 
@@ -454,8 +457,7 @@ class Main(Util, View):
 
                 self.rfid_table.resizeRowsToContents()
                 self.rfid_table.horizontalHeader().setStretchLastSection(True)
-                # self.rfid_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        
+                
 
                 self.rfid_table.setRowCount(rows_count)
                 self.rfid_table.setColumnCount(cols)
@@ -574,7 +576,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.user_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -585,7 +587,7 @@ class Main(Util, View):
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
 
-                # action lineedit and button
+                ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_users = QLineEdit()
                 row_edit = QPushButton("edit")
@@ -609,42 +611,49 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="User", form_size=(400, 400)))
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="user", form_size=(400, 400)))
+                row_delete.clicked.connect(lambda: self.deleteData("user"))
 
                 ##############################################################
 
 
+                ######################### User Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.user_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
-                table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
-                table.setStyleSheet(View.table_style)
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # fetch data from DB
+                query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
+                rows_count = len(query)
+                cols = 3
+
+                self.user_table.resizeRowsToContents()
+                self.user_table.horizontalHeader().setStretchLastSection(True)
+
+                self.user_table.setRowCount(rows_count)
+                self.user_table.setColumnCount(cols)
+
+                self.user_table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                self.user_table.setStyleSheet(View.table_style)
+
+                self.user_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.user_table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
-                
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                self.fillTable(self.user_table, cols, query)
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="users"))
-                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
-
+                self.user_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.user_table.clicked.connect(lambda: self.getCellVal(self.user_table, page="users"))
+                
                 # users_content1_lay.addWidget(table)
                 users_content1_lay.addWidget(tab1_h_widget)
 
+                ###########################################################
+
+
+                ###################### users Form ######################
                 # components
                 components_setter = [
                                     {
@@ -705,7 +714,8 @@ class Main(Util, View):
                 
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 users_content2_lay.addStretch(1)
-
+                #######################################################
+            
             case "kasir":
                 # kasir content
                 self.kasir_container = QWidget()
@@ -762,7 +772,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.kasir_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -773,7 +783,7 @@ class Main(Util, View):
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
 
-                # action lineedit and button
+                ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_kasir = QLineEdit()
                 row_edit = QPushButton("edit")
@@ -797,40 +807,49 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="Kasir", form_size=(500, 600)))
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(400, 400)))
+                row_delete.clicked.connect(lambda: self.deleteData("kasir"))
 
                 ##############################################################
 
 
+                ######################### kasir Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.kasir_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
-                table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
-                table.setStyleSheet(View.table_style)
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # fetch data from DB
+                query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+                rows_count = len(query)
+                cols = 8
+
+                self.kasir_table.resizeRowsToContents()
+                self.kasir_table.horizontalHeader().setStretchLastSection(True)
+
+                self.kasir_table.setRowCount(rows_count)
+                self.kasir_table.setColumnCount(cols)
+
+                self.kasir_table.setHorizontalHeaderLabels(["id", "NIK", "Nama", "HP", "Alamat", "Jam Masuk", "Jam Kel", "POS/GATE"])
+                self.kasir_table.setStyleSheet(View.table_style)
+
+                self.kasir_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.kasir_table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
-                
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                self.fillTable(self.kasir_table, cols, query)
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="kasir"))
-                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "kasir"))
-
+                self.kasir_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.kasir_table.clicked.connect(lambda: self.getCellVal(self.kasir_table, page="kasir"))
+                
                 # kasir_content1_lay.addWidget(table)
                 kasir_content1_lay.addWidget(tab1_h_widget)
+
+                ###########################################################
+
+
+                ###################### kasir Form ######################
 
                 # components
                 components_setter = [
@@ -927,9 +946,9 @@ class Main(Util, View):
                                     }
                                 ]
 
-
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 kasir_content2_lay.addStretch(1)
+                #######################################################
 
             case "karcis":
                 # karcis content
@@ -939,7 +958,7 @@ class Main(Util, View):
                 
                 karcis_tabs_container = QHBoxLayout()
                 self.karcis_tab1 = QPushButton("Kelola karcis")
-                karcis_tab2 = QPushButton("Setting karcis")
+                karcis_tab2 = QPushButton("Tambah karcis")
                 
                 self.karcis_stack = QStackedWidget()
                 karcis_content1 = QWidget()
@@ -987,7 +1006,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.karcis_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -998,57 +1017,73 @@ class Main(Util, View):
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
 
-                # action lineedit and button
-                # row_label = QLabel("No Baris:")
-                # self.row_info_karcis = QLineEdit()
-                # row_edit = QPushButton("edit")
-                # row_delete = QPushButton("delete")
-                # row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                # row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+                ################# action lineedit and button ###################
+                row_label = QLabel("No Baris:")
+                self.row_info_karcis = QLineEdit()
+                row_edit = QPushButton("edit")
+                row_delete = QPushButton("delete")
+                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
-                # row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                # self.row_info_karcis.setReadOnly(True)
-                # self.row_info_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                # row_edit.setStyleSheet(View.edit_btn_action)
-                # row_delete.setStyleSheet(View.del_btn_action)
+                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                self.row_info_karcis.setReadOnly(True)
+                self.row_info_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_edit.setStyleSheet(View.edit_btn_action)
+                row_delete.setStyleSheet(View.del_btn_action)
 
-                # # add lineedit and button into action_lay
-                # action_lay.addWidget(row_label)
-                # action_lay.addWidget(self.row_info_karcis)
-                # action_lay.addWidget(row_edit)
-                # action_lay.addWidget(row_delete)
-                # action_lay.addStretch(1)
+                # add lineedit and button into action_lay
+                action_lay.addWidget(row_label)
+                action_lay.addWidget(self.row_info_karcis)
+                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_delete)
+                action_lay.addStretch(1)
 
+
+                ##################### action edit & delete ###################
                 
+                # row_edit.clicked.connect(lambda: self.editPopUp(form_type="karcis", form_size=(400, 400)))
+                # row_delete.clicked.connect(lambda: self.deleteData("karcis"))
+
+                ##############################################################
+
+
+                ######################### karcis Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.karcis_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
-                table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
-                table.setStyleSheet(View.table_style)
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # fetch data from DB
+                query = self.exec_query("SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis", "SELECT")
+                rows_count = len(query)
+                cols = 6
+
+                self.karcis_table.resizeRowsToContents()
+                self.karcis_table.horizontalHeader().setStretchLastSection(True)
+
+                self.karcis_table.setRowCount(rows_count)
+                self.karcis_table.setColumnCount(cols)
+
+                self.karcis_table.setHorizontalHeaderLabels(["id", "Barcode", "Tanggal", "Gate", "Status Parkir", "Jenis Kendaraan"])
+                self.karcis_table.setStyleSheet(View.table_style)
+
+                self.karcis_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.karcis_table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
-                
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                self.fillTable(self.karcis_table, cols, query)
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="karcis"))
-                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "karcis"))
-
+                self.karcis_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.karcis_table.clicked.connect(lambda: self.getCellVal(self.karcis_table, page="karcis"))
+                
                 # karcis_content1_lay.addWidget(table)
                 karcis_content1_lay.addWidget(tab1_h_widget)
+
+                ###########################################################
+
+
+                ###################### karcis Form ######################
 
                 # components
                 components_setter = [{
@@ -1111,6 +1146,7 @@ class Main(Util, View):
 
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 karcis_content2_lay.addStretch(1)
+                #######################################################
 
             case "tarif":
                 # tarif content
@@ -1120,7 +1156,7 @@ class Main(Util, View):
                 
                 tarif_tabs_container = QHBoxLayout()
                 self.tarif_tab1 = QPushButton("Kelola tarif")
-                tarif_tab2 = QPushButton("Setting tarif")
+                tarif_tab2 = QPushButton("Tambah tarif")
                 
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
@@ -1168,7 +1204,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.tarif_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -1179,7 +1215,7 @@ class Main(Util, View):
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
 
-                # action lineedit and button
+                ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_tarif = QLineEdit()
                 row_edit = QPushButton("edit")
@@ -1200,35 +1236,52 @@ class Main(Util, View):
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
+
+                ##################### action edit & delete ###################
+                
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 400)))
+                row_delete.clicked.connect(lambda: self.deleteData("tarif"))
+
+                ##############################################################
+
+
+                ######################### tarif Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.tarif_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
-                table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
-                table.setStyleSheet(View.table_style)
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # fetch data from DB
+                query = self.exec_query("SELECT id, tarif_perjam,  tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
+                rows_count = len(query)
+                cols = 4
+
+                self.tarif_table.resizeRowsToContents()
+                self.tarif_table.horizontalHeader().setStretchLastSection(True)
+
+                self.tarif_table.setRowCount(rows_count)
+                self.tarif_table.setColumnCount(cols)
+
+                self.tarif_table.setHorizontalHeaderLabels(["id", "Tarif Perjam", "Tarif Per-24jam", "Jenis Kendaraan"])
+                self.tarif_table.setStyleSheet(View.table_style)
+
+                self.tarif_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.tarif_table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
-                
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                self.fillTable(self.tarif_table, cols, query)
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="tarif"))
-                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "tarif"))
-
+                self.tarif_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.tarif_table.clicked.connect(lambda: self.getCellVal(self.tarif_table, page="tarif"))
+                
                 # tarif_content1_lay.addWidget(table)
                 tarif_content1_lay.addWidget(tab1_h_widget)
+
+                ###########################################################
+
+
+                ###################### tarif Form ######################
 
                 # components
                 components_setter = [{
@@ -1287,9 +1340,9 @@ class Main(Util, View):
                                     }
                                 ]
 
-
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 tarif_content2_lay.addStretch(1)
+                #######################################################
 
             case "voucher":
                 # voucher content
@@ -1347,7 +1400,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.voucher_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -1358,7 +1411,7 @@ class Main(Util, View):
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
 
-                # action lineedit and button
+                ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_voucher = QLineEdit()
                 row_edit = QPushButton("edit")
@@ -1379,35 +1432,52 @@ class Main(Util, View):
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
+
+                ##################### action edit & delete ###################
+                
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="voucher", form_size=(400, 400)))
+                row_delete.clicked.connect(lambda: self.deleteData("voucher"))
+
+                ##############################################################
+
+
+                ######################### voucher Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.voucher_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
-                table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
-                table.setStyleSheet(View.table_style)
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                # fetch data from DB
+                query = self.exec_query("SELECT id, id_pel, lokasi, tarif, masa_berlaku, jns_kendaraan FROM voucher", "SELECT")
+                rows_count = len(query)
+                cols = 6
+
+                self.voucher_table.resizeRowsToContents()
+                self.voucher_table.horizontalHeader().setStretchLastSection(True)
+
+                self.voucher_table.setRowCount(rows_count)
+                self.voucher_table.setColumnCount(cols)
+
+                self.voucher_table.setHorizontalHeaderLabels(["id", "ID Pel", "Lokasi", "Tarif", "Masa Berlaku", "Jenis Kendaraan"])
+                self.voucher_table.setStyleSheet(View.table_style)
+
+                self.voucher_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.voucher_table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
-                
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                self.fillTable(self.voucher_table, cols, query)
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="voucher"))
-                # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "voucher"))
-
+                self.voucher_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.voucher_table.clicked.connect(lambda: self.getCellVal(self.voucher_table, page="voucher"))
+                
                 # voucher_content1_lay.addWidget(table)
                 voucher_content1_lay.addWidget(tab1_h_widget)
+
+                ###########################################################
+
+
+                ###################### voucher Form ######################
 
                 # components
                 components_setter = [{
@@ -1477,10 +1547,11 @@ class Main(Util, View):
                                     }
                                 ]
 
-
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 voucher_content2_lay.addStretch(1)
+                #######################################################
 
+            
             case "laporan":
                 # laporan content
                 self.laporan_container = QWidget()
@@ -1537,7 +1608,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.laporan_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -1570,30 +1641,30 @@ class Main(Util, View):
                 action_lay.addStretch(1)
 
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.laporan_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
-                table.resizeRowsToContents()
-                table.setRowCount(2)
-                table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "Username", "Level"])
-                table.setStyleSheet(View.table_style)
+                self.laporan_table.resizeRowsToContents()
+                self.laporan_table.setRowCount(2)
+                self.laporan_table.setColumnCount(3)
+                self.laporan_table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                self.laporan_table.setStyleSheet(View.table_style)
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                self.laporan_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.laporan_table.setColumnHidden(0, True) #hide id column
                 
-                table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                self.laporan_table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                self.laporan_table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                self.laporan_table.setItem(0, 2, QTableWidgetItem( "test 3" ))
                 
-                table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                self.laporan_table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                self.laporan_table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                self.laporan_table.setItem(1, 2, QTableWidgetItem( "test 6" ))
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="laporan"))
+                self.laporan_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.laporan_table.clicked.connect(lambda: self.getCellVal(self.laporan_table, page="laporan"))
                 # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "laporan"))
 
                 # laporan_content1_lay.addWidget(table)

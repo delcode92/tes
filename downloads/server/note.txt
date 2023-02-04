@@ -7,7 +7,11 @@ self.stacked_widget.addWidget(rfid_container) --> each page has it's own contain
 
 * add every table var with self keyword
 
+* harus buat lazy loading agar gak lambat karena load banyak data dari table
+
 important method:
+
+def createPage --> crete page for each stacked group(table list , form ... etc)
 
 def fillTable() --> fill table in first load and after update
 def getCellVal --> clickable row

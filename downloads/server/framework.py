@@ -662,6 +662,11 @@ class Util(Controller ):
 
                             case "items":
                                 self.components[i["name"]].addItems(i["items"])
+
+                            case "selected_item":
+                                combo_box = self.components[i["name"]]
+                                combo_box.setCurrentText( i["selected_item"] )
+                                
                             case "children":
                                 self.CreateComponent(value, self.components[i["name"]])
 

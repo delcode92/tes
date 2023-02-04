@@ -51,3 +51,6 @@ CREATE TABLE clients_socket ( id serial primary key, ip character varying(20) NO
 -- id|barcode|date_time|gate|images_path 
 CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255) );
 insert into karcis (datetime) values(to_timestamp(1672912953.570569));
+
+
+CREATE TABLE voucher ( id serial primary key, id_pel varchar(30), lokasi varchar(255), tarif serial, masa_berlaku timestamp(6) with time zone, jns_kendaraan varchar(20) );

@@ -98,7 +98,6 @@ class Controller():
             cols = 3
 
             self.fillTable(self.rfid_table, cols, query, len(query))
-
              
             # clear all input
             self.components["add_rfid"].setText("")
@@ -114,10 +113,6 @@ class Controller():
             dlg.setIcon(QMessageBox.Information)
             dlg.exec()
 
-            # self.components["lbl_success"].setHidden(False)
-
-            # timer = threading.Timer(1.0, self.hideSuccess)
-            # timer.start()
 
 
     def add_user(self):
@@ -230,8 +225,6 @@ class Controller():
         # run update query
         self.exec_query(f"update rfid set rfid='{rfid}', nama='{owner}' where id="+id)
         
-        print("--> RFID updated")
-        
         # close window edit
         self.win.close()
 
@@ -240,13 +233,20 @@ class Controller():
         cols = 3
 
         self.fillTable(self.rfid_table, cols, query)
-
-        # call table table list again
-        # self.windowBarAction("kelola rfid")
+        
+        # modal
+        dlg = QMessageBox(self.window)
+        
+        dlg.setWindowTitle("Alert")
+        dlg.setText("Data Updated")
+        dlg.setIcon(QMessageBox.Information)
+        dlg.exec()
     
+        
     def save_edit_user(self):
+
         # get data from edit form
-        id = self.components["hidden_id"].text()
+        id = str(self.hidden_id)
         uname = self.components["add_uname"].text()
         level = self.components["input_user_level"].currentText()
         passwd = self.components["add_pass"].text()
@@ -257,8 +257,22 @@ class Controller():
             # run update query
             self.exec_query(f"update users set username='{uname}', user_level='{level}', password='{passwd}' where id="+id)
             
-            # call table table list again
-            self.windowBarAction("kelola user")
+            # close window edit
+            self.win.close()
+
+            # reset table value
+            query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
+            cols = 3
+
+            self.fillTable(self.user_table, cols, query)
+            
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Data Updated")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
     
     def save_edit_kasir(self):
         # get data from edit form
@@ -1875,7 +1889,7 @@ class Controller():
     def deleteData(self, target):
         # r = table.currentRow()
         # id = table.item(row, 0).text()
-        id = self.hidden_id
+        id = str(self.hidden_id)
 
         # modal
         dlg = QMessageBox(self.window)
@@ -1891,27 +1905,36 @@ class Controller():
             res = self.exec_query(f"delete from {target} where id="+id)
 
             if res:
+                self.hidden_id = -1
                 match target.lower():
+                    
                     case "rfid":
+                        
                         # reset table value
                         query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
                         rows_count = len(query)
                         cols = 3
                         self.fillTable(self.rfid_table, cols, query, rows_count)
-                        print("masuk")
+                        print("--> RFID delete success")
 
                     case "users":
-                        # self.windowBarAction("kelola user")
-                        ...
+                        
+                        # reset table value
+                        query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
+                        rows_count = len(query)
+                        cols = 3
+                        self.fillTable(self.user_table, cols, query, rows_count)
+                        print("--> User delete success")
+                       
                     case "kasir":
-                        # self.windowBarAction("kelola kasir")
-                        ...
-                    case "gate":
-                        # self.windowBarAction("kelola gate")
-                        ...
-                    case "tarif":
-                        # self.windowBarAction("kelola tarif")
-                        ...
+
+                        # reset table value
+                        query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+                        rows_count = len(query)
+                        cols = 8
+                        self.fillTable(self.kasir_table, cols, query, rows_count)
+                        print("--> Kasir delete success")
+                    
                     case default:
                         pass     
                 
