@@ -25,7 +25,7 @@ class Main(Util, View):
         self.window = QMainWindow()
         self.mdi = None
         self.app_stat = False
-        self.hidden_id = -1  
+        self.hidden_id = -1 # hidden id
     
     def setMenuClicked(self, button=None, label=None, page=""):
         button.clicked.connect(lambda: self.windowBarAction(page))
