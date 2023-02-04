@@ -128,16 +128,28 @@ class Controller():
             res = self.exec_query(query)
             
             if res:
+                
+                # reset table value
+                query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
+                cols = 3
+
+                self.fillTable(self.user_table, cols, query, len(query))
+
                  # clear all input
                 self.components["add_uname"].setText("")
                 self.components["add_pass"].setText("")
                 self.components["retype_pass"].setText("")
+
                 
                 # show success message
-                self.components["lbl_success"].setHidden(False)
 
-                timer = threading.Timer(1.0, self.hideSuccess)
-                timer.start()
+                # modal
+                dlg = QMessageBox(self.window)
+                
+                dlg.setWindowTitle("Alert")
+                dlg.setText("Data Saved")
+                dlg.setIcon(QMessageBox.Information)
+                dlg.exec()
     
     def add_kasir(self):
         nik = self.components["add_nik"].text()    
@@ -153,6 +165,13 @@ class Controller():
         res = self.exec_query(query)
         
         if res:
+
+            # reset table value
+            query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+            cols = 8
+
+            self.fillTable(self.kasir_table, cols, query, len(query))
+
             # clear all input
             self.components["add_nik"].setText("")    
             self.components["add_nama"].setText("")    
@@ -163,10 +182,14 @@ class Controller():
             self.components["add_nmr_pos"].setText("")
             
             # show success message
-            self.components["lbl_success"].setHidden(False)
-
-            timer = threading.Timer(1.0, self.hideSuccess)
-            timer.start()
+            
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Data Saved")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
 
     def add_gate(self):
         pos = self.components["add_pos"].text()    
@@ -275,8 +298,9 @@ class Controller():
             dlg.exec()
     
     def save_edit_kasir(self):
+
         # get data from edit form
-        id = self.components["hidden_id"].text()
+        id = str(self.hidden_id)
         nik = self.components["add_nik"].text()
         nama = self.components["add_nama"].text()
         hp = self.components["add_hp"].text()
@@ -288,8 +312,23 @@ class Controller():
         # run update query
         self.exec_query(f"update kasir set nik='{nik}', nama='{nama}', hp='{hp}', alamat='{alamat}', jm_masuk='{jm_masuk}', jm_keluar='{jm_keluar}', no_pos='{no_pos}'  where id="+id)
         
-        # call table table list again
-        self.windowBarAction("kelola kasir")
+
+        # close window edit
+        self.win.close()
+
+        # reset table value
+        query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+        cols = 8
+
+        self.fillTable(self.kasir_table, cols, query)
+
+        # modal
+        dlg = QMessageBox(self.window)
+        
+        dlg.setWindowTitle("Alert")
+        dlg.setText("Data Updated")
+        dlg.setIcon(QMessageBox.Information)
+        dlg.exec()
     
     def save_edit_gate(self):
         # get data from edit form

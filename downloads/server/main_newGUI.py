@@ -210,19 +210,19 @@ class Main(Util, View):
                                     ]
                 
                 case "kasir":
-                    components = [{
-                                            "name":"hidden_id",
-                                            "category":"lineEdit",
-                                        },
-                                        {
+                    
+                    res = self.exec_query("select * from kasir where id="+id, "select")
+
+                    components = [      {
                                             "name":"lbl_add_nik",
                                             "category":"label",
                                             "text": "NIK",
-                                            "style":self.primary_lbl + margin_top
+                                            "style":self.primary_lbl
                                         },
                                         {
                                             "name":"add_nik",
                                             "category":"lineEdit",
+                                            "text":res[0][1],
                                             "style":self.primary_input
                                         },
                                         {
@@ -234,6 +234,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_nama",
                                             "category":"lineEdit",
+                                            "text":res[0][2],
                                             "style":self.primary_input
                                         },
                                         {
@@ -245,6 +246,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_hp",
                                             "category":"lineEdit",
+                                            "text":res[0][3],
                                             "style":self.primary_input
                                         },
                                         {
@@ -256,6 +258,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_alamat",
                                             "category":"lineEdit",
+                                            "text":res[0][4],
                                             "style":self.primary_input
                                         },
                                         {
@@ -267,6 +270,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_jam_masuk",
                                             "category":"lineEdit",
+                                            "text":res[0][5],
                                             "style":self.primary_input
                                         },
                                         {
@@ -278,6 +282,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_jam_keluar",
                                             "category":"lineEdit",
+                                            "text":res[0][6],
                                             "style":self.primary_input
                                         },
                                         {
@@ -289,6 +294,7 @@ class Main(Util, View):
                                         {
                                             "name":"add_nmr_pos",
                                             "category":"lineEdit",
+                                            "text":res[0][7],
                                             "style":self.primary_input
                                         },
                                         {
@@ -675,7 +681,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_pass",
-                                        "category":"lineEdit",
+                                        "category":"lineeditpassword",
                                         "style":self.primary_input
                                     },
                                     {
@@ -686,7 +692,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"retype_pass",
-                                        "category":"lineEdit",
+                                        "category":"lineeditpassword",
                                         "style":self.primary_input
                                     },
                                     {
@@ -807,7 +813,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(400, 400)))
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(500, 400)))
                 row_delete.clicked.connect(lambda: self.deleteData("kasir"))
 
                 ##############################################################
@@ -958,7 +964,7 @@ class Main(Util, View):
                 
                 karcis_tabs_container = QHBoxLayout()
                 self.karcis_tab1 = QPushButton("Kelola karcis")
-                karcis_tab2 = QPushButton("Tambah karcis")
+                karcis_tab2 = QPushButton("Setting karcis")
                 
                 self.karcis_stack = QStackedWidget()
                 karcis_content1 = QWidget()
