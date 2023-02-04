@@ -5,10 +5,11 @@ main stacked widget:
 self.stacked_widget.addWidget(rfid_container) --> each page has it's own container except welcome dashboard
 ...
 
+* add every table var with self keyword
 
 important method:
 
-
+def fillTable() --> fill table in first load and after update
 def getCellVal --> clickable row
 def editPopUp --> edit form popup
 

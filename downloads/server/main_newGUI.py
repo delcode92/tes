@@ -72,7 +72,24 @@ class Main(Util, View):
             case default:
                 pass
 
-        
+    def fillTable(self, table, cols, query, rows=0):
+        print("lets fill table")
+
+        if rows != 0:
+            table.setRowCount(rows)
+            
+        # table.setColumnCount(cols)
+
+        r = 0
+        for l in query:
+            
+            # set item on table column
+            for i in range(cols):
+                item = QTableWidgetItem( str(l[i]) )
+                table.setItem(r, i, item)
+            
+            r = r + 1
+
     def createFormContainer(self):
         form_container = QWidget()
         form_container_lay = QVBoxLayout()
@@ -417,7 +434,8 @@ class Main(Util, View):
                 action_lay.addStretch(1)
 
                 row_edit.clicked.connect(lambda: self.editPopUp(form_type="RFID", form_size=(400, 300)))
-
+                row_delete.clicked.connect(lambda: self.deleteData("RFID"))
+                
                 ###################################################################
 
 
@@ -448,17 +466,8 @@ class Main(Util, View):
                 self.rfid_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 self.rfid_table.setColumnHidden(0, True) #hide id column
                 
-                r = 0
-
-                for l in query:
-                    
-                    # set item on table column
-                    for i in range(cols):
-                        item = QTableWidgetItem( str(l[i]) )
-                        self.rfid_table.setItem(r, i, item)
-                    
-                    r = r + 1
-
+                self.fillTable(self.rfid_table, cols, query)
+               
                 # create edit & delete section
                 self.rfid_table.setSelectionBehavior(QTableWidget.SelectRows)
                 self.rfid_table.clicked.connect(lambda: self.getCellVal(self.rfid_table, page="rfid"))

@@ -218,8 +218,12 @@ class Controller():
         
         # close window edit
         self.win.close()
-        
+
         # reset table value
+        query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
+        cols = 3
+
+        self.fillTable(self.rfid_table, cols, query)
 
         # call table table list again
         # self.windowBarAction("kelola rfid")
@@ -1852,9 +1856,10 @@ class Controller():
             case default:
                 pass
 
-    def deleteData(self, row, table, target):
+    def deleteData(self, target):
         # r = table.currentRow()
-        id = table.item(row, 0).text()
+        # id = table.item(row, 0).text()
+        id = self.hidden_id
 
         # modal
         dlg = QMessageBox(self.window)
@@ -1870,17 +1875,27 @@ class Controller():
             res = self.exec_query(f"delete from {target} where id="+id)
 
             if res:
-                match target:
+                match target.lower():
                     case "rfid":
-                        self.windowBarAction("kelola rfid")
+                        # reset table value
+                        query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
+                        rows_count = len(query)
+                        cols = 3
+                        self.fillTable(self.rfid_table, cols, query, rows_count)
+                        print("masuk")
+
                     case "users":
-                        self.windowBarAction("kelola user")
+                        # self.windowBarAction("kelola user")
+                        ...
                     case "kasir":
-                        self.windowBarAction("kelola kasir")
+                        # self.windowBarAction("kelola kasir")
+                        ...
                     case "gate":
-                        self.windowBarAction("kelola gate")
+                        # self.windowBarAction("kelola gate")
+                        ...
                     case "tarif":
-                        self.windowBarAction("kelola tarif")
+                        # self.windowBarAction("kelola tarif")
+                        ...
                     case default:
                         pass     
                 
