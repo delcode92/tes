@@ -8,5 +8,9 @@ self.stacked_widget.addWidget(rfid_container) --> each page has it's own contain
 
 important method:
 
+
 def getCellVal --> clickable row
 def editPopUp --> edit form popup
+
+
+CreateComponentLayout --> type "formlayout"

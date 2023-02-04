@@ -83,27 +83,232 @@ class Main(Util, View):
 
         return form_container,form_container_lay
 
-    def editPopUp(self, components=[], form_type="", form_size=(400,400) ):
+    def editPopUp(self, form_type="", form_size=(400,400) ):
         
-        print("ID", self.hidden_id)
+        if self.hidden_id != -1:
+            margin_top = "margin-top:30px;"
+            id = str(self.hidden_id)
 
-        self.win = QMainWindow()
-        central_widget = QWidget()
-        central_lay = QVBoxLayout()
-        
-        central_lay.setContentsMargins(25,25,25,25)
-        central_widget.setStyleSheet("background:#222b45;")
+            match form_type.lower():
+                case "rfid":
+                    res = self.exec_query("select * from rfid where id="+id, "select")
+                    
+                    components = [
+                                        {
+                                            "name":"lbl_add_rfid",
+                                            "category":"label",
+                                            "text": "RFID",
+                                            "style":self.primary_lbl
+                                        },
+                                        {
+                                            "name":"add_rfid",
+                                            "category":"lineEdit",
+                                            "text":res[0][1],
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_rfid_owner",
+                                            "category":"label",
+                                            "text": "Name",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_rfid_owner",
+                                            "category":"lineEdit",
+                                            "text":res[0][2],
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"btn_add_rfid",
+                                            "category":"pushButton",
+                                            "text": "Save",
+                                            "clicked": {
+                                                    "method_name": self.save_edit_rfid
+                                            },
+                                            "style": self.primary_button
+                                        }
+                                    ]
 
-        self.CreateComponentLayout(components, central_lay)
-        central_lay.addStretch(1)
-        
-        central_widget.setLayout(central_lay)
-        self.win.setCentralWidget(central_widget)
+                case "user":
+                    components = [
+                                        {
+                                            "name":"hidden_id",
+                                            "category":"lineEdit",
+                                        },
+                                        {
+                                            "name":"lbl_add_uname",
+                                            "category":"label",
+                                            "text": "Username",
+                                            "style":self.primary_lbl
+                                        },
+                                        {
+                                            "name":"add_uname",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_pass",
+                                            "category":"label",
+                                            "text": "Password",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_pass",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_retype_pass",
+                                            "category":"label",
+                                            "text": "Retype Password",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"retype_pass",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_user_level",
+                                            "category":"label",
+                                            "text": "Level",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"input_user_level",
+                                            "category":"comboBox",
+                                            "items": ["Admin","Pegawai", "Kasir"],
+                                            "style":self.primary_combobox
+                                        },
+                                        {
+                                            "name":"btn_add_user",
+                                            "category":"pushButton",
+                                            "text": "Save",
+                                            "clicked": {
+                                                    "method_name": self.save_edit_user
+                                            },
+                                            "style": self.primary_button
+                                        }
+                                    ]
+                
+                case "kasir":
+                    components = [{
+                                            "name":"hidden_id",
+                                            "category":"lineEdit",
+                                        },
+                                        {
+                                            "name":"lbl_add_nik",
+                                            "category":"label",
+                                            "text": "NIK",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_nik",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_nama",
+                                            "category":"label",
+                                            "text": "Nama",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_nama",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_hp",
+                                            "category":"label",
+                                            "text": "Nomor HP",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_hp",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_alamat",
+                                            "category":"label",
+                                            "text": "Alamat",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_alamat",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_jam_masuk",
+                                            "category":"label",
+                                            "text": "Jam Masuk",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_jam_masuk",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_jam_keluar",
+                                            "category":"label",
+                                            "text": "Jam Keluar",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_jam_keluar",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_nmr_pos",
+                                            "category":"label",
+                                            "text": "Nomor Pos/Gate",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_nmr_pos",
+                                            "category":"lineEdit",
+                                            "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"btn_add_kasir",
+                                            "category":"pushButton",
+                                            "text": "Save",
+                                            "clicked": {
+                                                    "method_name": self.save_edit_kasir
+                                            },
+                                            "style": self.primary_button
+                                        },
+                                        {
+                                            "name":"lbl_space",
+                                            "category":"label",
+                                            "min_height":20
+                                        }
+                                    ]
+                
+                case default:
+                    pass    
 
-        self.win.setWindowTitle(f"Edit Form {form_type}")
-        self.win.resize(form_size[0], form_size[1])
-        
-        self.win.show()
+            self.win = QMainWindow()
+            central_widget = QWidget()
+            central_lay = QVBoxLayout()
+            
+            central_lay.setContentsMargins(25,25,25,25)
+            central_widget.setStyleSheet("background:#222b45;")
+
+            self.CreateComponentLayout(components, central_lay)
+            central_lay.addStretch(1)
+            
+            central_widget.setLayout(central_lay)
+            self.win.setCentralWidget(central_widget)
+
+            self.win.setWindowTitle(f"Edit Form {form_type}")
+            self.win.resize(form_size[0], form_size[1])
+            
+            self.win.show()
     
 
         
@@ -120,7 +325,6 @@ class Main(Util, View):
                 self.welcome_lbl.setAlignment(Qt.AlignCenter)
                 self.welcome_lbl.setStyleSheet("background-color:#151930; color:#fff;")
             
-            # disini bro
             case "rfid":
                 # rfid content
                 self.rfid_container = QWidget()
@@ -177,7 +381,7 @@ class Main(Util, View):
                 tab1_h_widget = QWidget()
                 tab1_h_layout = QHBoxLayout()
                 tab1_h_widget.setLayout(tab1_h_layout)
-                table = QTableWidget()
+                self.rfid_table = QTableWidget()
                 
                 # action layout
                 action_widget = QWidget()
@@ -212,47 +416,7 @@ class Main(Util, View):
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
-
-                # components
-                components_setter = [
-                                    {
-                                        "name":"hidden_id",
-                                        "category":"lineEdit",
-                                    },
-                                    {
-                                        "name":"lbl_add_rfid",
-                                        "category":"label",
-                                        "text": "RFID",
-                                        "style":self.primary_lbl
-                                    },
-                                    {
-                                        "name":"add_rfid",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_rfid_owner",
-                                        "category":"label",
-                                        "text": "Name",
-                                        "style":self.primary_lbl
-                                    },
-                                    {
-                                        "name":"add_rfid_owner",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"btn_add_rfid",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.save_edit_rfid
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
-
-                row_edit.clicked.connect(lambda: self.editPopUp(components=components_setter, form_type="RFID", form_size=(400, 300)))
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="RFID", form_size=(400, 300)))
 
                 ###################################################################
 
@@ -260,7 +424,7 @@ class Main(Util, View):
 
                 ######################### RFID Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(table)
+                tab1_h_layout.addWidget(self.rfid_table)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
@@ -270,16 +434,19 @@ class Main(Util, View):
                 rows_count = len(query)
                 cols = 3
 
-                table.resizeRowsToContents()
-                table.setRowCount(rows_count)
-                table.setColumnCount(cols)
-                # table.setRowCount(2)
-                # table.setColumnCount(3)
-                table.setHorizontalHeaderLabels(["id", "RFID", "Nama"])
-                table.setStyleSheet(View.table_style)
+                self.rfid_table.resizeRowsToContents()
+                self.rfid_table.horizontalHeader().setStretchLastSection(True)
+                # self.rfid_table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        
 
-                table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                table.setColumnHidden(0, True) #hide id column
+                self.rfid_table.setRowCount(rows_count)
+                self.rfid_table.setColumnCount(cols)
+                
+                self.rfid_table.setHorizontalHeaderLabels(["id", "RFID", "Nama Karyawan"])
+                self.rfid_table.setStyleSheet(View.table_style)
+
+                self.rfid_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
+                self.rfid_table.setColumnHidden(0, True) #hide id column
                 
                 r = 0
 
@@ -288,13 +455,13 @@ class Main(Util, View):
                     # set item on table column
                     for i in range(cols):
                         item = QTableWidgetItem( str(l[i]) )
-                        table.setItem(r, i, item)
+                        self.rfid_table.setItem(r, i, item)
                     
                     r = r + 1
 
                 # create edit & delete section
-                table.setSelectionBehavior(QTableWidget.SelectRows)
-                table.clicked.connect(lambda: self.getCellVal(table, page="rfid"))
+                self.rfid_table.setSelectionBehavior(QTableWidget.SelectRows)
+                self.rfid_table.clicked.connect(lambda: self.getCellVal(self.rfid_table, page="rfid"))
                 
                 rfid_content1_lay.addWidget(tab1_h_widget)
 
@@ -432,69 +599,9 @@ class Main(Util, View):
 
 
                 ##################### action edit & delete ###################
-                # components
-                components_setter = [
-                                    {
-                                        "name":"hidden_id",
-                                        "category":"lineEdit",
-                                    },
-                                    {
-                                        "name":"lbl_add_uname",
-                                        "category":"label",
-                                        "text": "Username",
-                                        "style":self.primary_lbl
-                                    },
-                                    {
-                                        "name":"add_uname",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_pass",
-                                        "category":"label",
-                                        "text": "Password",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_pass",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_retype_pass",
-                                        "category":"label",
-                                        "text": "Retype Password",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"retype_pass",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_user_level",
-                                        "category":"label",
-                                        "text": "Level",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"input_user_level",
-                                        "category":"comboBox",
-                                        "items": ["Admin","Pegawai", "Kasir"],
-                                        "style":self.primary_combobox
-                                    },
-                                    {
-                                        "name":"btn_add_user",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.save_edit_user
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
+                
 
-                row_edit.clicked.connect(lambda: self.editPopUp(components=components_setter, form_type="User", form_size=(400, 400)))
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="User", form_size=(400, 400)))
 
                 ##############################################################
 
@@ -681,105 +788,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                # components
-                components_setter = [{
-                                        "name":"hidden_id",
-                                        "category":"lineEdit",
-                                    },
-                                    {
-                                        "name":"lbl_add_nik",
-                                        "category":"label",
-                                        "text": "NIK",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_nik",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_nama",
-                                        "category":"label",
-                                        "text": "Nama",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_nama",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_hp",
-                                        "category":"label",
-                                        "text": "Nomor HP",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_hp",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_alamat",
-                                        "category":"label",
-                                        "text": "Alamat",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_alamat",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_jam_masuk",
-                                        "category":"label",
-                                        "text": "Jam Masuk",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_jam_masuk",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_jam_keluar",
-                                        "category":"label",
-                                        "text": "Jam Keluar",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_jam_keluar",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_nmr_pos",
-                                        "category":"label",
-                                        "text": "Nomor Pos/Gate",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_nmr_pos",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"btn_add_kasir",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.save_edit_kasir
-                                        },
-                                        "style": self.primary_button
-                                    },
-                                    {
-                                        "name":"lbl_space",
-                                        "category":"label",
-                                        "min_height":20
-                                    }
-                                ]
-
-                row_edit.clicked.connect(lambda: self.editPopUp(components=components_setter, form_type="Kasir", form_size=(500, 600)))
+                row_edit.clicked.connect(lambda: self.editPopUp(form_type="Kasir", form_size=(500, 600)))
 
                 ##############################################################
 

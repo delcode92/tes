@@ -1,6 +1,6 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QTableWidget, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
@@ -585,7 +585,7 @@ class Util(Controller ):
                 #     print(i["name"], " => Component name has already exist")
                 #     sys.exit()
 
-                # create element object save to self.componenets dictionary, based on category
+                # create element object save to self.components dictionary, based on category
                 match i["category"].lower():
                     case "label":
                         self.components[i["name"]] = QLabel(parent)

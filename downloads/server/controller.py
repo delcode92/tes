@@ -205,15 +205,24 @@ class Controller():
 
     def save_edit_rfid(self):
         # get data from edit form
-        id = self.components["hidden_id"].text()
+        # id = self.components["hidden_id"].text()
+
+        id = str(self.hidden_id)
         rfid = self.components["add_rfid"].text()
         owner = self.components["add_rfid_owner"].text()
 
         # run update query
         self.exec_query(f"update rfid set rfid='{rfid}', nama='{owner}' where id="+id)
         
+        print("--> RFID updated")
+        
+        # close window edit
+        self.win.close()
+        
+        # reset table value
+
         # call table table list again
-        self.windowBarAction("kelola rfid")
+        # self.windowBarAction("kelola rfid")
     
     def save_edit_user(self):
         # get data from edit form
