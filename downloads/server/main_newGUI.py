@@ -371,7 +371,7 @@ class Main(Util, View):
 
                 case "voucher":
                     res = self.exec_query("select * from voucher where id="+id, "select")
-
+                    
                     components = [{
                                         "name":"lbl_add_voucher_idpel",
                                         "category":"label",
@@ -417,7 +417,7 @@ class Main(Util, View):
                                     {
                                         "name":"add_voucher_masa_berlaku",
                                         "category":"date",
-                                        "reg_gate":res[0][4],
+                                        "reg_date":str(res[0][4]),
                                         "style":self.primary_input
                                     },
                                     {
@@ -1572,6 +1572,7 @@ class Main(Util, View):
                 
                 row_edit.clicked.connect(lambda: self.editPopUp(form_type="voucher", form_size=(400, 400)))
                 row_delete.clicked.connect(lambda: self.deleteData("voucher"))
+                row_print.clicked.connect(lambda: self.printData("voucher"))
 
                 ##############################################################
 

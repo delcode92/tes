@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget ,QHea
 from PyQt5.QtCore import Qt, QRect,QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QColor, QIcon
 from configparser import ConfigParser
+from escpos.printer import Usb
+
 # from framework import View
 
 class Controller():
@@ -245,7 +247,6 @@ class Controller():
 
         # save data
         query = f"insert into voucher (id_pel, lokasi, tarif, masa_berlaku, jns_kendaraan) values ('{id_pel}', '{lokasi}', '{tarif}', '{masa_berlaku}', '{jns_kendaraan}');"
-        print(query)
         res = self.exec_query(query)
         
         if res:
@@ -444,7 +445,35 @@ class Controller():
             dlg.exec()      
 
     def save_edit_voucher(self):
-        ...
+        
+        # get data from edit form
+        id = str(self.hidden_id)
+        id_pel = self.components["add_voucher_idpel"].text()    
+        lokasi = self.components["add_voucher_lokasi"].text()    
+        tarif = self.components["add_voucher_tarif"].text()    
+        masa_berlaku = self.components["add_voucher_masa_berlaku"].text()    
+        jns_kendaraan = self.components["add_voucher_jns_kendaraan"].currentText()
+
+        # run update query
+        self.exec_query(f"update voucher set id_pel='{id_pel}', lokasi='{lokasi}', tarif='{tarif}', masa_berlaku='{masa_berlaku}', jns_kendaraan='{jns_kendaraan}' where id="+id)
+        
+        # close window edit
+        self.win.close()
+
+        # reset table value
+        query = self.exec_query("SELECT id, id_pel, lokasi, tarif, masa_berlaku, jns_kendaraan FROM voucher", "SELECT")
+        cols = 6
+
+        self.fillTable(self.voucher_table, cols, query)
+        
+        # modal
+        dlg = QMessageBox(self.window)
+        
+        dlg.setWindowTitle("Alert")
+        dlg.setText("Data Updated")
+        dlg.setIcon(QMessageBox.Information)
+        dlg.exec()
+
     # def save_edit_tarif(self):
     #     # get data from edit form
     #     id = self.components["hidden_id"].text()
@@ -2010,7 +2039,63 @@ class Controller():
                         self.fillTable(self.kasir_table, cols, query, rows_count)
                         print("--> Kasir delete success")
                     
+                    case "voucher":
+                        
+                        # reset table value
+                        query = self.exec_query("SELECT id, id_pel, lokasi, tarif, masa_berlaku, jns_kendaraan FROM voucher", "SELECT")
+                        rows_count = len(query)
+                        cols = 6
+                        self.fillTable(self.voucher_table, cols, query, rows_count)
+                        print("--> Voucher delete success")
+
                     case default:
                         pass     
                 
-    
+    def printData(self, target):
+        match target.lower():
+            case "voucher":
+                
+                try:
+                    # init printer
+                    p = Usb(0x0FE6, 0x811E , timeout = 0, in_ep = 0x81, out_ep = 0x01)
+
+                    # get data voucher based on id
+                    id = self.hidden_id
+                    res = self.exec_query("select * from voucher where id="+id, "select")
+                
+                    # Print text
+                    id_pel = res[0][1]
+                    lokasi = res[0][2]
+                    tarif = res[0][3]
+                    date = str(res[0][4]).split("-")
+                    masa_berlaku = date[2] +"-"+ date[1] +"-"+ date[0]
+                    jns_kendaraan = res[0][5]
+                    
+                    p.set('center')
+                    p.text("VOUCHER PARKIR\n")
+                    p.text(lokasi + "\n")
+                    p.text("------------------------------------\n\n")
+                    
+                    p.text("ID PEL: " + id_pel + "\n")
+                    p.text("TARIF: " + id_pel + "\n")
+                    p.text("JENIS KENDARAAN: " + id_pel + "\n")
+                    p.text("MASA BERLAKU: " + id_pel + "\n")
+                    
+                    p.text("\n------------------------------------\n")
+                    
+                    p.barcode("{B" + id_pel, "CODE128", height=128, width=3, function_type="B")
+                    
+                    p.text("\n------------------------------------\n")
+        
+                except Exception as e:
+                    # modal
+                    dlg = QMessageBox(self.window)
+                    
+                    dlg.setWindowTitle("Alert")
+                    dlg.setText(str(e))
+                    dlg.setIcon(QMessageBox.Warning)
+                    dlg.exec()
+                        
+                
+            case default:
+                pass

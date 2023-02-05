@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QDateEdit, QTableWidget, QHeaderView, QTableWidgetI
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
-from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon, QIntValidator
+from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon, QDoubleValidator
 from PyQt5.QtCore import QDate,QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
@@ -617,7 +617,7 @@ class Util(Controller ):
                         self.components[i["name"]].setEchoMode(QLineEdit.Password)
                     case "lineeditint":
                         self.components[i["name"]] = QLineEdit(parent)
-                        self.components[i["name"]].setValidator(QIntValidator())
+                        self.components[i["name"]].setValidator(QDoubleValidator())
 
                     case "date":
                         self.components[i["name"]] = QDateEdit(parent)
@@ -692,7 +692,8 @@ class Util(Controller ):
                                 combo_box.setCurrentText( i["selected_item"] )
                             
                             case "reg_date":
-                                self.components[i["name"]].setDateTime(i["reg_date"])
+                                ds = i["reg_date"].split("-")
+                                self.components[i["name"]].setDate( QDate(int(ds[0]), int(ds[1]), int(ds[2])) )
                                 
                             case "children":
                                 self.CreateComponent(value, self.components[i["name"]])
