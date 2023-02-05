@@ -1,6 +1,7 @@
 import sys,cv2,os
 
 from framework import *
+from _thread import start_new_thread
 
 class ClickableLabel(QLabel):
     def __init__(self, text):
@@ -26,7 +27,13 @@ class Main(Util, View):
         self.mdi = None
         self.app_stat = False
         self.hidden_id = -1 # hidden id
-    
+
+        # steps
+        
+        # create thread for connect to server
+        start_new_thread(self.connect_to_server, ( sys.argv[1], sys.argv[2] ))
+        
+
     def setMenuClicked(self, button=None, label=None, page=""):
         button.clicked.connect(lambda: self.windowBarAction(page))
         label.clicked.connect(lambda: self.windowBarAction(page))
@@ -1597,7 +1604,7 @@ class Main(Util, View):
                 self.voucher_table.setRowCount(rows_count)
                 self.voucher_table.setColumnCount(cols)
 
-                self.voucher_table.setHorizontalHeaderLabels(["id", "ID Pel", "Lokasi", "Tarif", "Masa Berlaku", "Jenis Kendaraan"])
+                self.voucher_table.setHorizontalHeaderLabels(["id", "ID Pel", "Lokasi", "Saldo", "Masa Berlaku", "Jenis Kendaraan"])
                 self.voucher_table.setStyleSheet(View.table_style)
 
                 self.voucher_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
@@ -1813,7 +1820,73 @@ class Main(Util, View):
             case default:
                 pass    
 
+    def Login(self):
+        # 2. create window based on defined size
+        window_setter = {
+            "title":"Login", 
+            "size":(400,300),
+            "style":"background-color: #fff; color:#000;"
+        }
+        
+        
+        # 3. create components
+        component_setter = [
+                    {
+                        "name":"label_1",
+                        "category":"label",
+                        "text": "Username",
+                        "move":(30,30),
+                        "font":self.helvetica_13
+                    },
+                    {
+                        "name":"input_uname",
+                        "category":"lineEdit",
+                        "min_width":320,
+                        "move":(30,55),
+                        "style": "border:1px solid #ecf0f1;" + self.bg_grey,
+                        "font":self.helvetica_12
+                    },
+                    {
+                        "name":"label_2",
+                        "category":"label",
+                        "text": "Password",
+                        "move":(30,115),
+                        "font":self.helvetica_13
+                    },
+                    {
+                        "name":"input_pass",
+                        "category":"lineEditPassword",
+                        "min_width":320,
+                        "move":(30,140),
+                        "style": "border:1px solid #ecf0f1;" + self.bg_grey,
+                        "font":self.helvetica_12,
+                        "event": {
+                            "method_name": self.login_ctrl, 
+                            "arguments": (self.window,self)
+                        }
+                    },
+                    {
+                        "name":"btn_login",
+                        "category":"pushButton",
+                        "text": "LOGIN",
+                        "min_width": 320,
+                        "min_height": 45,
+                        "move":(30,190),
+                        "style": self.login_button,
+                        "font":self.helvetica_13,
+                        "clicked": {
+                            "method_name": self.login_ctrl, 
+                            "arguments": (self.window,self) # pelajari lagi cara kerja kode disamping
+                        },
+                    },
+                ]
 
+        self.CreateWindow( window_setter, self.window ) 
+        self.CreateComponent(component_setter, self.window)
+       
+        self.window.show()
+        sys.exit(self.app.exec_())
+   
     def AdminDashboard(self):
             window_setter = {
                 "title":"Admin Dashboard", 
@@ -2104,7 +2177,7 @@ class Main(Util, View):
             self.window.setCentralWidget(main_win_widget)
 
             self.window.show()
-            sys.exit(self.app.exec_())
-
+            # sys.exit(self.app.exec_())
+            
 m = Main()
-m.AdminDashboard()
+m.Login()()

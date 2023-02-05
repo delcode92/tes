@@ -1,14 +1,16 @@
-import sys, re, socket, psycopg2, logging, datetime, json, multiprocessing
+import os,sys, re, socket, psycopg2, logging, datetime, json, multiprocessing
+from time import sleep
 from cv2 import add
 from _thread import start_new_thread
 from framework import *
+from configparser import ConfigParser
 
 # class worker
 class Thread(QThread):
     changePixmap = pyqtSignal(QImage)
 
     def run(self):
-        cap = cv2.VideoCapture('rtsp://admin:admin@192.168.100.21')
+        cap = cv2.VideoCapture('rtsp://admin:admin@192.168.100.121')
         
         while(cap.isOpened()):
             try:        
@@ -29,9 +31,12 @@ class Thread(QThread):
             print("IP CAM not connected ... ")
 
 class IPCam(Util, View):
+    img_name = ""
     def __init__(self, multiproc_conn) -> None:
         self.process_conn = multiproc_conn
-        # self.snap_stat = False
+        self.snap_stat = False
+        self.snap_thread_stat = False
+
         # self.snapshot = conn.recv()
         # print("data snap: " , self.snapshot)
 
@@ -146,27 +151,52 @@ class IPCam(Util, View):
         self.window.show()
         sys.exit(self.app.exec_())
 
-    # def snap_func(self):
-    #     self.snap_stat = True
+    def snap_func(self):
+        self.snap_stat = True
 
     def snap_thread(self, image):
-        if self.process_conn.recv() == "snapshot":
-            image.save("meong_capture.jpg","JPG");
-            print("save snapshot image ...")
+        
+        while True:
+            snap = self.process_conn.recv()
+            # print("receive --> ", snap)
+
+            if  "snapshot#" in snap:
+                
+                # split barcode from snapshot# string
+                snap = snap.replace("snapshot#", "")
+
+                image.save(f"./cap/{snap}.jpg","JPG")
+                print(f"./cap/{snap}.jpg")
+
+                self.snap_stat = True
+                self.snap_barcode = snap
+                image = QImage()
 
     # @pyqtSlot(QtGui.QImage)
     def setImage(self, image):
         try:
             self.lbl1.setPixmap(QPixmap.fromImage(image))
+            # print("masuk")
+
         except Exception as e:
             print(str(e))
-
+        
         # start_new_thread(self.snap_thread, (image,))
-        # if self.snap_stat:
-        #     image.save("meong_capture.jpg","JPG");
-        #     print("save snapshot image ...", type(image))
-        #     self.snap_stat = False
-        #     image = QImage()
+
+        if self.snap_thread_stat == False:
+            start_new_thread(self.snap_thread, (image,))
+            self.snap_thread_stat = True
+
+            
+        # image = QImage()
+        # if "snapshot#" in self.process_conn.recv():
+        #     print("ok brooooooo")
+
+        if self.snap_stat:
+            image.save(f"./cap/{self.snap_barcode}.jpg","JPG");
+            print("save snapshot image ...")
+            self.snap_stat = False
+            image = QImage()
 
         
 
@@ -180,8 +210,7 @@ class Server:
     
     def __init__(self, host, port, multiproc_conn ) -> None:
         self.process_conn = multiproc_conn
-        # print(host, type(host))
-        # print(port, type(port))
+        self.SERVER_IP = host
 
         self.connect_to_postgresql()
         self.connect_server(host, int(port))
@@ -252,7 +281,6 @@ class Server:
                                 conn.sendall( bytes("rfid-false", 'utf-8') )
                             print("==================================")
 
-
                         elif "pushButton#" in msg:
                             # msg = msg.replace("pushButton#", "")
                             
@@ -271,10 +299,9 @@ class Server:
                                 # get data from json
                                 barcode = res["barcode"]
                                 time = res["time"]
-                                time = res["time"]
+                                jns_kendaraan = res["jns_kendaraan"]
                                 gate = res["gate"]
-                                ip = res["ip_cam"]
-
+                                ip_raspi = res["ip_raspi"]
                                 # save to db
                                 Y = time[0:4]
                                 M = time[4:6]
@@ -287,13 +314,16 @@ class Server:
                                 time = int(time)
                                 # insert into karcis (datetime) values('2023-01-05 10:43:50.866085');
                                 dt = f'{Y}-{M}-{D} {h}:{m}:{s}'
-                                q = f"insert into karcis (barcode, datetime, gate) values ('{barcode}', '{dt}', '{gate}')";
-                                exec = self.exec_query(q)
+                                q = f"insert into karcis (barcode, datetime, gate, jenis_kendaraan, ip_raspi) values ('{barcode}', '{dt}', '{gate}', '{jns_kendaraan}', '{ip_raspi}')";
+                                print(q)
+                                self.exec_query(q)
 
+                                # set filename from ip cam class
+                                IPCam.img_name = barcode
 
                                 # capture cam image
                                 print("server ask to snapshot ....")
-                                self.process_conn.send("snapshot")
+                                self.process_conn.send(f"snapshot#{barcode}")
                                 
                                 print("Save Date Time & capture cam image success ....")
                                 print(f"send return value to raspi( {addr} )....")
@@ -304,18 +334,31 @@ class Server:
                             except Exception as e:
                                 print(str(e))
                             
-                            # parse input message:\
-                            # datetime#12312313423|cam_ips#192.168.10.10,192.168.10.10
-                            # pushButton#{ 'barcode':'12312313423', 'gate':'2', 'ip_cam':['192.168.10.10', '192.168.10.10'] }
+                        elif "config#" in msg:
+                            try:
+                                print("===================================")
+                                msg = re.search('config#(.+?)#end', msg).group(1)
+                                print("receive message from GUI: ", msg)
 
-                            # capture image cam --> need cam ip's  
-                            # get pos/gate data
-                            # get datetime data
+                                print("broadcast to clients ...")
 
-                            # save to db
-                            # id|barcode|date_time|gate|images_path  --->  table ini nantinya akan dipakai utk mencari perhitungan harga parkir
+                                for ip in self.list_of_clients.keys():
+                                    if ip != self.SERVER_IP:
+                                        print(f"send config JSON to {ip} ... ")
+                                        self.list_of_clients[ip].sendall( bytes(f'config#{msg}#end', 'utf-8') )
+                                        sleep(1)
 
-                    
+                                # conn.sendall( bytes(f'config#{msg}#end', 'utf-8') )
+                            except Exception as e:
+                                print(str(e))
+                                # print("json config between substring not found ... ")
+
+                        elif "gate#" in msg:
+                            print("===================================")
+                            ip = re.search('gate#(.+?)#end', msg).group(1)
+                            print("Open gate with ip : ", ip)
+
+                            self.list_of_clients[ip].sendall( bytes(f'open-true', 'utf-8') )
                     if not data:
                         break
             except:
@@ -340,12 +383,22 @@ class Server:
 
                 t = start_new_thread(self.client_thread, (conn, addr))
                 
-                        
+    def getPath(self,fileName):
+        path = os.path.dirname(os.path.realpath(__file__))
+        
+        return '/'.join([path, fileName])
+
     def connect_to_postgresql(self):
         print("conn to potsgre")
+        ini = self.getPath("app.ini")
+        
+        configur = ConfigParser()
+        configur.read(ini)
+        
         conn = psycopg2.connect(
-            database="parkir", user='postgres', password='', host='127.0.0.1', port= '5432'
+            database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
         )
+
         conn.autocommit = True
         self.db_cursor = conn.cursor()
 
@@ -362,8 +415,9 @@ class Server:
                 data = self.db_cursor.fetchall()
                 return data
 
-        except Exception:
+        except Exception as e:
             print("\nexecute query fail")
+            print(str(e))
 
 
 # run server

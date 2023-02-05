@@ -9,13 +9,13 @@ from escpos.printer import Usb
 
 # from framework import View
 
-class Controller():
+class Controller(Client):
     def __init__(self) -> None:
         # self.Util.__init__(self)
         
         # active db cursor 
         self.connect_to_postgresql()
-        
+        self.sw_stat = False
         # ========== steps ========
         print("\nController constructor: ")
         print("connect to DB .....")
@@ -24,8 +24,8 @@ class Controller():
     def Action(self):
         pass
 
-    def connect_to_server(self, host, port):
-        s = Client(host, port)
+    def connect_to_server(self, h, p):
+        super().__init__(h,p)
 
     def connect_to_postgresql(self):
         ini = self.getPath("app.ini")
@@ -66,22 +66,23 @@ class Controller():
 
 
     def login_ctrl(self, arg):
-        uname = arg[1].components["input_uname"].text()
-        passwd = arg[1].components["input_pass"].text()
+        
+        uname = self.components["input_uname"].text()
+        passwd = self.components["input_pass"].text()
+        q = self.exec_query(f"select * from users where username='{uname}' and password='{passwd}'", "select")
+        print(f"select * from users where username='{uname}' and password='{passwd}'")
+        if len(q) == 1:
+            
+            level = q[0][2].lower()
+            print("level", level)
 
-        if uname=="admin" and passwd=="admin":
-            self.closeWindow(arg[0])
-            self.AdminDashboard()
-        elif uname=="kasir" and passwd=="kasir":
-            self.closeWindow(arg[0])
-            self.KasirDashboard()
-        
-        # self.check_login(uname, passwd)
-        
-        
-        #  jika berhasil login maka try connect to server
-        # Client("localhost", 65430)
-
+            if level=="admin":
+                self.closeWindow(arg[0])
+                self.AdminDashboard()
+            elif level=="kasir":
+                self.closeWindow(arg[0])
+                self.KasirDashboard()
+    
     def hideSuccess(self):
         self.components["lbl_success"].setHidden(True)
 
@@ -395,6 +396,7 @@ class Controller():
             # send data JSON to raspi via socket
             # config_json = 'config#{"tempat":"'+nm_tempat+'", "gate":"'+nm_gate+'", "jns_kendaraan":"'+jns_kendaraan+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
             config_json = 'config#{"tempat":"'+nm_tempat+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
+            print("socket", self.s)
             self.s.sendall( bytes(config_json, 'utf-8') )
 
             # modal
@@ -529,6 +531,10 @@ class Controller():
     def Tabs(self, tabs=(None,), stacked_widget=None, index=0):
         self.updateStyle(target=(tabs[0],), non_target=(tabs[1],))
         stacked_widget.setCurrentIndex(index)    
+    
+    def finish(self):
+        print("finish")
+        self.animating = False
 
     def windowBarAction(self, q):
         
@@ -539,7 +545,11 @@ class Controller():
 
         margin_top = "margin-top:30px;"
         cell_bg_color = QColor(243,243,243)
-
+        
+        # if self.sw_stat == False:
+        #     self.sw = self.stacked_widget.width()
+        #     self.sw_stat = True
+            
         self.stacked_animation.setDuration(600)
         self.stacked_animation.setStartValue(QRect(0, 0, 0, self.stacked_widget.height()))
         self.stacked_animation.setEndValue(QRect(self.stacked_widget.x(), self.stacked_widget.y(), self.stacked_widget.width(), self.stacked_widget.height()))
@@ -583,7 +593,10 @@ class Controller():
                 # solution stacked widget
                 self.stacked_widget.setCurrentIndex(0)
                 self.stacked_animation.start()
-                # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+
+                # if self.animating == False:
+                #     self.animating = True
+                #     self.stacked_animation.finished.connect(self.finish)
 
             case "kelola rfid":
                 
@@ -2077,9 +2090,9 @@ class Controller():
                     p.text("------------------------------------\n\n")
                     
                     p.text("ID PEL: " + id_pel + "\n")
-                    p.text("TARIF: " + id_pel + "\n")
-                    p.text("JENIS KENDARAAN: " + id_pel + "\n")
-                    p.text("MASA BERLAKU: " + id_pel + "\n")
+                    p.text("SALDO: " + str(tarif) + "\n")
+                    p.text("JENIS KENDARAAN: " + jns_kendaraan + "\n")
+                    p.text("MASA BERLAKU: " + masa_berlaku + "\n")
                     
                     p.text("\n------------------------------------\n")
                     
@@ -2087,6 +2100,10 @@ class Controller():
                     
                     p.text("\n------------------------------------\n")
         
+                    # Cut paper
+                    p.cut()
+                    p.close()
+
                 except Exception as e:
                     # modal
                     dlg = QMessageBox(self.window)

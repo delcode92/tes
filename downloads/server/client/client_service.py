@@ -23,13 +23,14 @@ class Client:
                 try:
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-                    self.s.connect((h, p))
+                    self.s.connect((h, int(p)))
 
                     self.s.sendall( bytes(f"client({h}) connected", 'utf-8') )
                     print("success connect to server")
 
-                except:
+                except Exception as e:
                     print("can't connect to server")
+                    print(str(e))
 
             # if(connect_stat == False):
             #     try:

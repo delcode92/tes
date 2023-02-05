@@ -49,8 +49,13 @@ CREATE TABLE clients_socket ( id serial primary key, ip character varying(20) NO
 
 
 -- id|barcode|date_time|gate|images_path 
-CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255) );
-insert into karcis (datetime) values(to_timestamp(1672912953.570569));
+create table pegawai ( id serial primary key, rfid_pegawai varchar(30),nama_pegawai varchar(50) );
+CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255), status_parkir BOOLEAN NOT NULL DEFAULT FALSE, jenis_kendaraan varchar(30), ip_raspi varchar(25) );
 
+insert into karcis (datetime) values(to_timestamp(1672912953.570569));
+insert into karcis (barcode, datetime, gate, jenis_kendaraan) values ('3127192', '2023-02-05 15:02:12', '2', 'mobil');
+
+CREATE TABLE tes ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255), jns_kendaraan varchar(20) );
+insert into tes (barcode, datetime, gate, jns_kendaraan) values ('12313123', '2023-02-05 15:02:12', '1', 'motor');
 
 CREATE TABLE voucher ( id serial primary key, id_pel varchar(30), lokasi varchar(255), tarif serial, masa_berlaku date, jns_kendaraan varchar(20) );
