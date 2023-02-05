@@ -467,8 +467,14 @@ class Main(Util, View):
     
     def searchKarcis(self):
         data_searched = self.search_data_karcis.text()
-        print("data", data_searched)
-        
+        query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis where barcode like '%{data_searched}%' ","select")
+        # print(f"select * from karcis where barcode like '%{data_searched}%' ")
+        rows_count = len(query)
+        cols = 6
+
+        self.karcis_table.setRowCount(rows_count)
+        self.fillTable(self.karcis_table, cols, query)
+
     def createPage(self, page=""):
         
         margin_top = "margin-top:30px;"
