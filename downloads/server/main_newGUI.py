@@ -65,7 +65,7 @@ class Main(Util, View):
                 self.row_info_kasir.setText(str(row+1))
             case "karcis":
                 ...
-                # self.row_info_karcis.setText(str(row+1))
+                # self.search_data_karcis.setText(str(row+1))
             case "tarif":
                 self.row_info_tarif.setText(str(row+1))
             case "voucher":
@@ -465,7 +465,9 @@ class Main(Util, View):
             
             self.win.show()
     
-
+    def searchKarcis(self):
+        data_searched = self.search_data_karcis.text()
+        print("data", data_searched)
         
     def createPage(self, page=""):
         
@@ -552,28 +554,28 @@ class Main(Util, View):
                 ################# action lineedit and button #####################
                 row_label = QLabel("No Baris:")
                 self.row_info_rfid = QLineEdit()
-                row_edit = QPushButton("edit")
+                row_search = QPushButton("edit")
                 row_delete = QPushButton("delete")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_rfid.setReadOnly(True)
                 self.row_info_rfid.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
+                row_search.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_rfid)
-                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_search)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
                 ##################### action edit & delete ###################
 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="RFID", form_size=(400, 300)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="RFID", form_size=(400, 300)))
                 row_delete.clicked.connect(lambda: self.deleteData("RFID"))
                 
                 ###################################################################
@@ -727,28 +729,28 @@ class Main(Util, View):
                 ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_users = QLineEdit()
-                row_edit = QPushButton("edit")
+                row_search = QPushButton("edit")
                 row_delete = QPushButton("delete")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_users.setReadOnly(True)
                 self.row_info_users.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
+                row_search.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_users)
-                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_search)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
 
                 ##################### action edit & delete ###################
                 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="user", form_size=(400, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="user", form_size=(400, 400)))
                 row_delete.clicked.connect(lambda: self.deleteData("user"))
 
                 ##############################################################
@@ -923,28 +925,28 @@ class Main(Util, View):
                 ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_kasir = QLineEdit()
-                row_edit = QPushButton("edit")
+                row_search = QPushButton("edit")
                 row_delete = QPushButton("delete")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_kasir.setReadOnly(True)
                 self.row_info_kasir.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
+                row_search.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_kasir)
-                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_search)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
 
                 ##################### action edit & delete ###################
                 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(500, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(500, 400)))
                 row_delete.clicked.connect(lambda: self.deleteData("kasir"))
 
                 ##############################################################
@@ -1155,32 +1157,26 @@ class Main(Util, View):
                 action_lay.setSpacing(0)
 
                 ################# action lineedit and button ###################
-                row_label = QLabel("No Baris:")
-                self.row_info_karcis = QLineEdit()
-                row_edit = QPushButton("edit")
-                row_delete = QPushButton("delete")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
-
+                row_label = QLabel("Search Data:")
+                self.search_data_karcis = QLineEdit()
+                row_search = QPushButton("search")
+                row_search.setIcon(QIcon(self.icon_path+"search.png"))
+                
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                self.row_info_karcis.setReadOnly(True)
-                self.row_info_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
-                row_delete.setStyleSheet(View.del_btn_action)
-
+                self.search_data_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
+                row_search.setStyleSheet(View.edit_btn_action)
+                
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
-                action_lay.addWidget(self.row_info_karcis)
-                action_lay.addWidget(row_edit)
-                action_lay.addWidget(row_delete)
+                action_lay.addWidget(self.search_data_karcis)
+                action_lay.addWidget(row_search)
                 action_lay.addStretch(1)
 
 
                 ##################### action edit & delete ###################
                 
-                # row_edit.clicked.connect(lambda: self.editPopUp(form_type="karcis", form_size=(400, 400)))
-                # row_delete.clicked.connect(lambda: self.deleteData("karcis"))
-
+                row_search.clicked.connect(self.searchKarcis)
+               
                 ##############################################################
 
 
@@ -1354,24 +1350,24 @@ class Main(Util, View):
                 ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_tarif = QLineEdit()
-                row_edit = QPushButton("edit")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_search = QPushButton("edit")
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_tarif.setReadOnly(True)
                 self.row_info_tarif.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
+                row_search.setStyleSheet(View.edit_btn_action)
                 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_tarif)
-                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_search)
                 action_lay.addStretch(1)
 
 
                 ##################### action edit & delete ###################
                 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 400)))
                 
                 ##############################################################
 
@@ -1545,24 +1541,24 @@ class Main(Util, View):
                 ################# action lineedit and button ###################
                 row_label = QLabel("No Baris:")
                 self.row_info_voucher = QLineEdit()
-                row_edit = QPushButton("edit")
+                row_search = QPushButton("edit")
                 row_delete = QPushButton("delete")
                 row_print = QPushButton("PRINT")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
                 row_print.setIcon(QIcon(self.icon_path+"print.png"))
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_voucher.setReadOnly(True)
                 self.row_info_voucher.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
+                row_search.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
                 row_print.setStyleSheet(View.print_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_voucher)
-                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_search)
                 action_lay.addWidget(row_delete)
                 action_lay.addWidget(row_print)
                 action_lay.addStretch(1)
@@ -1570,7 +1566,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_edit.clicked.connect(lambda: self.editPopUp(form_type="voucher", form_size=(400, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="voucher", form_size=(400, 400)))
                 row_delete.clicked.connect(lambda: self.deleteData("voucher"))
                 row_print.clicked.connect(lambda: self.printData("voucher"))
 
@@ -1759,21 +1755,21 @@ class Main(Util, View):
                 # action lineedit and button
                 row_label = QLabel("No Baris:")
                 self.row_info_laporan = QLineEdit()
-                row_edit = QPushButton("edit")
+                row_search = QPushButton("edit")
                 row_delete = QPushButton("delete")
-                row_edit.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
                 row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_laporan.setReadOnly(True)
                 self.row_info_laporan.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_edit.setStyleSheet(View.edit_btn_action)
+                row_search.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_laporan)
-                action_lay.addWidget(row_edit)
+                action_lay.addWidget(row_search)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
 
