@@ -1,9 +1,8 @@
-import os,sys, re, socket, psycopg2, logging, datetime, json, multiprocessing
+import sys, re, socket, psycopg2, logging, datetime, json, multiprocessing
 from time import sleep
 from cv2 import add
 from _thread import start_new_thread
 from framework import *
-from configparser import ConfigParser
 
 # class worker
 class Thread(QThread):
@@ -53,8 +52,7 @@ class IPCam(Util, View):
         self.process_conn = multiproc_conn
         self.snap_stat = False
         self.snap_thread_stat = False
-
-        # self.snapshot = conn.recv()
+        # self.snapshot = multiproc_conn.recv()
         # print("data snap: " , self.snapshot)
 
 
@@ -130,10 +128,10 @@ class IPCam(Util, View):
         status_layout.addRow(ip_lbl, ip_val)
         status_layout.addRow(stat_lbl, stat_val)
 
-        # snap_button = QPushButton("snap")
-        # status_layout.addRow(stat_lbl, snap_button)
+        snap_button = QPushButton("snap")
+        status_layout.addRow(stat_lbl, snap_button)
 
-        # snap_button.clicked.connect(self.snap_func)
+        snap_button.clicked.connect(self.snap_func)
 
         # web cam image here with label helper
         self.lbl1 = QLabel()
@@ -182,9 +180,8 @@ class IPCam(Util, View):
                 # split barcode from snapshot# string
                 snap = snap.replace("snapshot#", "")
 
-                # image.save(f"./cap/{snap}.jpg","JPG")
-                # print(f"./cap/{snap}.jpg")
-
+                # image.save(f"./cap/{snap}.jpg","JPG");
+                # print("save snapshot image ...", type(image))
                 self.snap_stat = True
                 self.snap_barcode = snap
                 # image = QImage()
@@ -396,24 +393,16 @@ class Server:
                 # save conn obj based on ip
                 self.list_of_clients[f"{addr[0]}"] = conn
 
+                # print(self.list_of_clients)
+
                 t = start_new_thread(self.client_thread, (conn, addr))
                 
-    def getPath(self,fileName):
-        path = os.path.dirname(os.path.realpath(__file__))
-        
-        return '/'.join([path, fileName])
-
+                        
     def connect_to_postgresql(self):
         print("conn to potsgre")
-        ini = self.getPath("app.ini")
-        
-        configur = ConfigParser()
-        configur.read(ini)
-        
         conn = psycopg2.connect(
-            database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
+            database="parkir", user='postgres', password='', host='127.0.0.1', port= '5432'
         )
-
         conn.autocommit = True
         self.db_cursor = conn.cursor()
 
@@ -430,9 +419,8 @@ class Server:
                 data = self.db_cursor.fetchall()
                 return data
 
-        except Exception as e:
+        except Exception:
             print("\nexecute query fail")
-            print(str(e))
 
 
 # run server

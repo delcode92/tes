@@ -1558,7 +1558,9 @@ class Controller(Client):
                 # sub_window_setter = { "title": "Kelola Laporan" }
             
             case "logout":
-                sys.exit()
+                self.closeWindow(self.window)
+                self.Login()
+                # sys.exit()
 
             case default:
                 pass    

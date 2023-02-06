@@ -1885,8 +1885,179 @@ class Main(Util, View):
         self.CreateComponent(component_setter, self.window)
        
         self.window.show()
-        sys.exit(self.app.exec_())
+
+        if not self.app_stat:
+            self.app_stat = True
+            sys.exit(self.app.exec_())
    
+    def KasirDashboard(self):
+        window_setter = {
+            "title":"Kasir Dashboard", 
+            "style":self.win_dashboard
+        }
+
+        # create groupbox
+        groupboxes = [
+                {
+                    "name": "gb_left",
+                    "category":"GroupBox",
+                    "title":"Transaksi",
+                    "max_width": 440,
+                    "max_height": 500,
+                    "style": self.gb_styling
+                },
+                {
+                    "name": "gb_center",
+                    "category":"GroupBox",
+                    "title":"Emergency",
+                    "max_width": 440,
+                    "max_height": 500,
+                    "style": self.gb_styling
+                },
+                {
+                    "name": "gb_right",
+                    "category":"GroupBox",
+                    "title": "Lap.User Bermasalah",
+                    "max_width": 440,
+                    "max_height": 500,
+                    "style": self.gb_styling
+                }
+            ]
+        
+        left_content = [
+                    {
+                        "name":"lbl_barcode_transaksi",
+                        "text":"BL/Barcode",
+                        "category":"label",
+                        "style":self.primary_lbl
+                    },
+                    {
+                        "name":"barcode_transaksi",
+                        "category":"lineEdit",
+                        "style": self.primary_input
+                    },
+                    {
+                        "name":"lbl_tarif_transaksi",
+                        "text":"Tarif(Rp)",
+                        "category":"label",
+                        "style":self.primary_lbl+"margin-top: 40px;"
+                    },
+                    {
+                        "name":"tarif_transaksi",
+                        "category":"lineEdit",
+                        "editable": False,
+                        "style": self.primary_input,
+                    },
+                    {
+                        "name":"btn_bayar",
+                        "category":"pushButton",
+                        "text": "Bayar",
+                        "style": self.primary_button
+                    }
+                ]
+        
+
+        center_content = [
+                {
+                    "name": "btn_emergency_kasir",
+                    "category":"PushButton",
+                    "text": "Emergency Button",
+                    "min_width": 212,
+                    "min_height": 150,
+                    "style": self.emergency_button
+                }
+        ]
+
+        right_content = [
+                {
+                        "name":"lbl_barcode_bermasalah",
+                        "text":"BL/Barcode",
+                        "category":"label",
+                        "style":self.primary_lbl
+                    },
+                    {
+                        "name":"barcode_bermasalah",
+                        "category":"lineEdit",
+                        "style": self.primary_input
+                    },
+                    {
+                        "name":"lbl_tarif_bermasalah",
+                        "text":"Tarif(Rp)",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:15px;"
+                    },
+                    {
+                        "name":"tarif_bermasalah",
+                        "category":"lineEdit",
+                        "min_height": 40,
+                        "editable": False,
+                        "style":self.primary_input
+                    },
+                    {
+                        "name":"lbl_ket_bermasalah",
+                        "text":"Keterangan",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:15px;"
+                    },
+                    {
+                        "name":"ket_bermasalah",
+                        "category":"lineEdit",
+                        "min_height": 40,
+                        "style": "border:1px solid #ecf0f1;"+self.bg_grey,
+                        "font":self.helvetica_12
+                    },
+                    {
+                        "name":"btn_simpan_bermasalah",
+                        "category":"pushButton",
+                        "text": "Simpan",
+                        "style": self.primary_button
+                    }
+        ]
+
+        self.CreateWindow( window_setter, self.window )
+
+        # create main layout
+        main_layout = self.CreateLayout(("HBoxLayout", False), self.window)
+
+        # create widget & set to main layout
+        main_widget = QWidget()
+        main_widget.setLayout(main_layout)
+        
+        # add groupboxes into main layout
+        self.CreateComponentLayout(groupboxes, main_layout)
+
+        # create layout for Groupbox
+        left_vbox = self.CreateLayout(("VBoxLayout", False))
+        
+        right_vbox = self.CreateLayout(("VBoxLayout", False))
+        center_vbox = self.CreateLayout(("VBoxLayout", False))
+
+        # set gb layout
+        self.components["gb_left"].setLayout(left_vbox)
+        self.components["gb_right"].setLayout(right_vbox)
+        self.components["gb_center"].setLayout(center_vbox)
+
+        # add components to left
+        left_vbox.addStretch(1)
+        self.CreateComponentLayout(left_content, left_vbox)
+        
+        left_vbox.setContentsMargins(8,40,8,0)
+        left_vbox.addStretch(1)
+
+        # add components to center
+        self.CreateComponentLayout(center_content, center_vbox)
+        
+        # add components to right
+        right_vbox.addStretch(1)
+        self.CreateComponentLayout(right_content, right_vbox)
+        right_vbox.addStretch(1)
+
+        
+        # show app
+        self.window.setCentralWidget(main_widget)
+        self.window.show()
+        
+    
     def AdminDashboard(self):
             window_setter = {
                 "title":"Admin Dashboard", 
@@ -2171,8 +2342,6 @@ class Main(Util, View):
             self.stacked_animation = QPropertyAnimation(self.stacked_widget, b"geometry")
             ###########################################
 
-            # menubar
-            # self.createMenuBar(menubar)
             
             self.window.setCentralWidget(main_win_widget)
 
