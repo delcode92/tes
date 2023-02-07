@@ -6,6 +6,7 @@ from PyQt5.QtCore import Qt, QRect,QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QColor, QIcon
 from configparser import ConfigParser
 from escpos.printer import Usb
+from datetime import datetime
 
 # from framework import View
 
@@ -25,7 +26,8 @@ class Controller(Client):
         pass
 
     def connect_to_server(self, h, p):
-        super().__init__(h,p)
+        # super().__init__(h,p)
+        ...
 
     def connect_to_postgresql(self):
         ini = self.getPath("app.ini")
@@ -82,6 +84,83 @@ class Controller(Client):
             elif level=="kasir":
                 self.closeWindow(arg[0])
                 self.KasirDashboard()
+    
+    def getPrice(self):
+        jns_kendaraan = ""
+        try:
+            # get time based on barcode
+            barcode = self.components["barcode_transaksi"].text()
+            barcode_time = self.exec_query(f"select datetime, jenis_kendaraan, status_parkir, ip_raspi from karcis where barcode='{barcode}'", "select")
+            jns_kendaraan = barcode_time[0][1]
+            self.ip_raspi = barcode_time[0][3]
+
+            if barcode_time[0][2]:
+                status_parkir = "LUNAS"
+            elif not barcode_time[0][2]:
+                status_parkir = "BELUM LUNAS"
+            
+            if len(barcode_time[0]) > 0:
+                price = 0
+                time_now = datetime.now()
+                time_now = time_now.replace(tzinfo=None)
+                
+                barcode_time = barcode_time[0][0].replace(tzinfo=None)
+
+                diff = time_now - barcode_time
+                total_hours = math.ceil(diff.total_seconds()/3600)
+                print("TH", total_hours)
+                print("tes1:", jns_kendaraan)
+                # print("tes2:", barcode_time[1])
+
+                # get base price from db
+                base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
+
+                base_price_perjam = base_price[0][0] 
+                base_price_per24jam = base_price[0][1] 
+                
+                if total_hours==0:
+                    jam = 1
+                    price = jam * base_price_perjam
+                    print(jam, "jam")
+                    print(price, "Rupiah")
+                    print("================")
+                
+                elif total_hours<24 and total_hours>0:
+                    price = total_hours * base_price_perjam
+                    
+                    print(total_hours, "jam")
+                    print(price, "Rupiah")
+                    print("================")
+                
+                elif total_hours>24:
+                    # print('parking total hours:', total_hours)
+                    hari = math.floor(total_hours/24)
+                    jam = total_hours-(hari*24)
+
+                    price = (hari*base_price_per24jam) + (jam*base_price_perjam)
+
+                    print(hari, "hari")
+                    print(jam, "jam")
+                    print(price, "Rupiah")
+                    print("================")
+                
+                # set value to textbox
+                self.components["jns_kendaraan"].setText( jns_kendaraan )
+                self.components["ket_status"].setText( str(status_parkir) )
+                
+                # just show tarif and enable button if "BELUM LUNAS"
+                if status_parkir == "BELUM LUNAS":
+                    self.components["tarif_transaksi"].setText( str(price) )
+                    self.components["btn_bayar"].setEnabled(True)
+
+                # return price
+        except Exception as e:
+            # clear text box if false input barcode
+            self.components["jns_kendaraan"].setText("")
+            self.components["ket_status"].setText("")
+            self.components["tarif_transaksi"].setText("")
+
+            print(str(e))
     
     def hideSuccess(self):
         self.components["lbl_success"].setHidden(True)
@@ -216,6 +295,25 @@ class Controller(Client):
             timer = threading.Timer(1.0, self.hideSuccess)
             timer.start()        
     
+    def setPay(self):
+        # get barcode
+        barcode = self.components["barcode_transaksi"].text()
+        
+        # update status to true
+        self.exec_query(f"update karcis set status_parkir=true where barcode='{barcode}'")
+        
+        # clear all text box and disable button
+        self.components["barcode_transaksi"].setText("")
+        self.components["jns_kendaraan"].setText("")
+        self.components["ket_status"].setText("")
+        self.components["tarif_transaksi"].setText("")
+        self.components["btn_bayar"].setEnabled(False)
+
+        # send data to server to open the gate
+        print("open gate ... ")
+        self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+
+
     def add_tarif(self):
         pos = self.components["add_tarif_pos"].text()    
         tarif_perjam = self.components["add_tarif_per_1jam"].text()    
@@ -396,7 +494,6 @@ class Controller(Client):
             # send data JSON to raspi via socket
             # config_json = 'config#{"tempat":"'+nm_tempat+'", "gate":"'+nm_gate+'", "jns_kendaraan":"'+jns_kendaraan+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
             config_json = 'config#{"tempat":"'+nm_tempat+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
-            print("socket", self.s)
             self.s.sendall( bytes(config_json, 'utf-8') )
 
             # modal

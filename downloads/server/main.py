@@ -1,6 +1,6 @@
 import sys
 from framework import *
-
+from _thread import start_new_thread
 
 class Main( Util, View):
     def __init__(self) -> None:
@@ -15,10 +15,27 @@ class Main( Util, View):
 
         # create one main window object for all
         self.window = QMainWindow()
+        f_icon = QIcon()
+        f_icon.addFile('p_icon.ico', QSize(16,16))
+        f_icon.addFile('p_icon.ico', QSize(32,32))
+        f_icon.addFile('p_icon.ico', QSize(48,48))
+        f_icon.addFile('p_icon.ico', QSize(256,256))
+        self.window.setWindowIcon( f_icon )
+
         self.mdi = None
         self.app_stat = False        
 
+        # steps
+        
+        # create thread for connect to server
+        start_new_thread(self.connect_to_server, ( sys.argv[1], sys.argv[2] ))
+        
+        # run login
+        self.Login()
+    
     def Login(self):
+        """ this note from Login """
+
         # 2. create window based on defined size
         window_setter = {
             "title":"Login", 
@@ -60,7 +77,8 @@ class Main( Util, View):
                         "font":self.helvetica_12,
                         "event": {
                             "method_name": self.login_ctrl, 
-                            "arguments": (self.window,self)
+                            "arguments": self.window
+                            # "arguments": (self.window,self)
                         }
                     },
                     {
@@ -73,8 +91,9 @@ class Main( Util, View):
                         "style": self.login_button,
                         "font":self.helvetica_13,
                         "clicked": {
-                            "method_name": self.login_ctrl, 
-                            "arguments": (self.window,self) # pelajari lagi cara kerja kode disamping
+                            "method_name": self.login_ctrl,
+                            "arguments": self.window
+                            # "arguments": (self.window,self) # pelajari lagi cara kerja kode disamping
                         },
                     },
                 ]
@@ -83,9 +102,15 @@ class Main( Util, View):
         self.CreateComponent(component_setter, self.window)
        
         self.window.show()
-        sys.exit(self.app.exec_())
-   
+        # sys.exit(self.app.exec_())
+
+        if self.app_stat == False:
+            self.app_stat = True 
+            sys.exit(self.app.exec_())
+
     def AdminDashboard(self):
+        """ this note from admin dashboard """
+
         window_setter = {
             "title":"Admin Dashboard", 
             "style":self.win_dashboard
@@ -96,8 +121,9 @@ class Main( Util, View):
             {"RFID":("Kelola RFID", "Tambah RFID")},
             {"User":("Kelola User", "Tambah User")},
             {"Kasir":("Kelola Kasir", "Tambah Kasir")},
-            {"Gate":("Kelola Gate", "Tambah Gate", "Setting Karcis")},
-            {"Tarif":("Kelola Tarif", "Aturan Tarif")},
+            {"Tarif && Karcis":("Setting Tarif Motor", "Setting Tarif Mobil", "Setting Karcis")},
+            # {"Gate":("Kelola Gate", "Tambah Gate", "Setting Karcis")},
+            # {"Tarif":("Kelola Tarif", "Aturan Tarif")},
             {"Voucher":("Kelola Voucher", "Aturan Voucher")},
             {"Laporan":("Kelola Laporan")},
             {"App":("Logout")}
@@ -180,13 +206,40 @@ class Main( Util, View):
                     {
                         "name":"barcode_transaksi",
                         "category":"lineEdit",
+                        "style": self.primary_input,
+                        "event": {
+                            "method_name": self.getPrice
+                        }
+                    },
+                    {
+                        "name":"lbl_jns_kendaraan",
+                        "text":"Jenis Kendaraan",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:15px;"
+                    },
+                    {
+                        "name":"jns_kendaraan",
+                        "category":"lineEdit",
+                        "editable":False,
+                        "style": self.primary_input
+                    },
+                    {
+                        "name":"lbl_status",
+                        "text":"Status",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:15px;"
+                    },
+                    {
+                        "name":"ket_status",
+                        "category":"lineEdit",
+                        "editable":False,
                         "style": self.primary_input
                     },
                     {
                         "name":"lbl_tarif_transaksi",
                         "text":"Tarif(Rp)",
                         "category":"label",
-                        "style":self.primary_lbl+"margin-top: 40px;"
+                        "style":self.primary_lbl + "margin-top:15px;"
                     },
                     {
                         "name":"tarif_transaksi",
@@ -198,7 +251,12 @@ class Main( Util, View):
                         "name":"btn_bayar",
                         "category":"pushButton",
                         "text": "Bayar",
-                        "style": self.primary_button
+                        "style": self.primary_button2,
+                        "enabled": False,
+                        "clicked": {
+                            "method_name": self.setPay
+                        }
+
                     }
                 ]
         
@@ -249,7 +307,7 @@ class Main( Util, View):
                         "name":"ket_bermasalah",
                         "category":"lineEdit",
                         "min_height": 40,
-                        "style": "border:1px solid #ecf0f1;"+self.bg_grey,
+                        "style": self.primary_input,
                         "font":self.helvetica_12
                     },
                     {
@@ -308,4 +366,4 @@ class Main( Util, View):
         
 
 m = Main()
-m.Login()
+# m.Login()

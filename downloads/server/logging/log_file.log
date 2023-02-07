@@ -8,3 +8,11 @@ WARNING:root:client('192.168.100.4', 51284) disconnected at 2023-02-05 18:53:22.
 WARNING:root:client('192.168.100.4', 51299) disconnected at 2023-02-05 19:49:26.608473
 WARNING:root:client('192.168.100.3', 35782) disconnected at 2023-02-05 20:02:30.047520
 WARNING:root:client('192.168.100.3', 44476) disconnected at 2023-02-05 20:15:13.684221
+WARNING:root:client('192.168.100.3', 58920) disconnected at 2023-02-06 18:58:33.108222
+WARNING:root:client('192.168.100.2', 52591) disconnected at 2023-02-06 18:59:48.801722
+WARNING:root:client('192.168.100.82', 50368) disconnected at 2023-02-06 19:00:01.664402
+WARNING:root:client('192.168.100.82', 51232) disconnected at 2023-02-06 19:15:26.214775
+WARNING:root:client('192.168.100.2', 52596) disconnected at 2023-02-06 19:25:43.948900
+WARNING:root:client('192.168.100.82', 33620) disconnected at 2023-02-06 19:34:20.314308
+WARNING:root:client('192.168.100.82', 36462) disconnected at 2023-02-06 19:37:09.981561
+WARNING:root:client('192.168.100.82', 60956) disconnected at 2023-02-06 19:40:04.771270

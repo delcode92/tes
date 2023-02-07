@@ -100,15 +100,24 @@ class Main(Util, View):
             
             r = r + 1
 
-    def createFormContainer(self):
+    def createFormContainer(self, scrollable=False):
+
         form_container = QWidget()
         form_container_lay = QVBoxLayout()
         form_container_lay.setContentsMargins(25,25,25,25)
         form_container.setLayout(form_container_lay)
         form_container.setMaximumWidth(700)
         form_container.setStyleSheet("background:#222b45;")
-
-        return form_container,form_container_lay
+        
+        if scrollable:
+            scroll = QScrollArea()
+            scroll.setWidgetResizable(True)
+            scroll.setMaximumHeight(650)
+            scroll.setWidget(form_container)
+            
+            return scroll,form_container_lay
+        else:
+            return form_container,form_container_lay
 
     def editPopUp(self, form_type="", form_size=(400,400) ):
         
@@ -315,11 +324,6 @@ class Main(Util, View):
                                                     "method_name": self.save_edit_kasir
                                             },
                                             "style": self.primary_button
-                                        },
-                                        {
-                                            "name":"lbl_space",
-                                            "category":"label",
-                                            "min_height":20
                                         }
                                     ]
                 
@@ -476,6 +480,16 @@ class Main(Util, View):
         data_searched = self.search_data_karcis.text()
         query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis where barcode like '%{data_searched}%' ","select")
         # print(f"select * from karcis where barcode like '%{data_searched}%' ")
+        rows_count = len(query)
+        cols = 6
+
+        self.karcis_table.setRowCount(rows_count)
+        self.fillTable(self.karcis_table, cols, query)
+
+    def refreshKarcis(self):
+        # refill karcis table
+        data_searched = self.search_data_karcis.text()
+        query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis","select")
         rows_count = len(query)
         cols = 6
 
@@ -912,13 +926,17 @@ class Main(Util, View):
                 kasir_content2.setLayout( kasir_content2_lay )
 
                 ############### FORM CONTAINER ##############
-                res = self.createFormContainer()
+                res = self.createFormContainer(scrollable=True)
                 form_container = res[0]
+                form_container.setMinimumHeight(650)
                 form_container_lay = res[1]
+
                 ############################################
 
                 kasir_content2_lay.setContentsMargins(25,25,25,25)
                 kasir_content2_lay.addWidget(form_container)
+
+                
 
                 # set widget for tab1 layout
                 tab1_h_widget = QWidget()
@@ -1009,7 +1027,7 @@ class Main(Util, View):
                                         "name":"lbl_add_nik",
                                         "category":"label",
                                         "text": "NIK",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl
                                     },
                                     {
                                         "name":"add_nik",
@@ -1090,11 +1108,6 @@ class Main(Util, View):
                                                 "method_name": self.add_kasir
                                         },
                                         "style": self.primary_button
-                                    },
-                                    {
-                                        "name":"lbl_space",
-                                        "category":"label",
-                                        "min_height":20
                                     }
                                 ]
 
@@ -1174,21 +1187,26 @@ class Main(Util, View):
                 self.search_data_karcis = QLineEdit()
                 row_search = QPushButton("search")
                 row_search.setIcon(QIcon(self.icon_path+"search.png"))
+                row_refresh = QPushButton("refresh")
+                row_refresh.setIcon(QIcon(self.icon_path+"refresh.png"))
                 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.search_data_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_search.setStyleSheet(View.edit_btn_action)
+                row_refresh.setStyleSheet(View.print_btn_action)
                 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.search_data_karcis)
                 action_lay.addWidget(row_search)
+                action_lay.addWidget(row_refresh)
                 action_lay.addStretch(1)
 
 
                 ##################### action edit & delete ###################
                 
                 row_search.clicked.connect(self.searchKarcis)
+                row_refresh.clicked.connect(self.refreshKarcis)
                
                 ##############################################################
 
@@ -1929,18 +1947,21 @@ class Main(Util, View):
                         "name":"lbl_barcode_transaksi",
                         "text":"BL/Barcode",
                         "category":"label",
-                        "style":self.primary_lbl
+                        "style":self.primary_lbl_kasir
                     },
                     {
                         "name":"barcode_transaksi",
                         "category":"lineEdit",
-                        "style": self.primary_input
+                        "style": self.primary_input,
+                        "event": {
+                            "method_name": self.getPrice
+                        }
                     },
                     {
                         "name":"lbl_tarif_transaksi",
                         "text":"Tarif(Rp)",
                         "category":"label",
-                        "style":self.primary_lbl+"margin-top: 40px;"
+                        "style":self.primary_lbl_kasir+"margin-top: 40px;"
                     },
                     {
                         "name":"tarif_transaksi",
@@ -1952,7 +1973,11 @@ class Main(Util, View):
                         "name":"btn_bayar",
                         "category":"pushButton",
                         "text": "Bayar",
-                        "style": self.primary_button
+                        "style": self.primary_button2,
+                        "enabled": False,
+                        "clicked": {
+                            "method_name": self.setPay
+                        }
                     }
                 ]
         
@@ -1973,7 +1998,7 @@ class Main(Util, View):
                         "name":"lbl_barcode_bermasalah",
                         "text":"BL/Barcode",
                         "category":"label",
-                        "style":self.primary_lbl
+                        "style":self.primary_lbl_kasir
                     },
                     {
                         "name":"barcode_bermasalah",
@@ -1984,7 +2009,7 @@ class Main(Util, View):
                         "name":"lbl_tarif_bermasalah",
                         "text":"Tarif(Rp)",
                         "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
+                        "style":self.primary_lbl_kasir + "margin-top:15px;"
                     },
                     {
                         "name":"tarif_bermasalah",
@@ -1997,7 +2022,7 @@ class Main(Util, View):
                         "name":"lbl_ket_bermasalah",
                         "text":"Keterangan",
                         "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
+                        "style":self.primary_lbl_kasir + "margin-top:15px;"
                     },
                     {
                         "name":"ket_bermasalah",

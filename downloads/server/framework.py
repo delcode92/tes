@@ -222,6 +222,16 @@ class View:
                         color: #fff;
                         /* padding:8px; */               
     """
+
+    primary_lbl_kasir = """QLabel{
+                        font-family: Helvetica;
+                        font-size: 13px;
+                        font-weight:600;
+                        margin-bottom: 5px;
+                        /*background:#2C3E50;*/
+                        color: #fff;
+                        padding:8px;               
+    """
     
     
     # success label
@@ -263,10 +273,10 @@ class View:
     gb_styling = """QGroupBox { 
                         font-size: 14px; 
                         font-weight:600;
-                        border: 1px solid #D3D3D3; 
+                        /*border: 1px solid #D3D3D3;*/ 
                         border-radius: 6px; 
                         margin-top: 6px; 
-                        background-color: #FFFFFF; 
+                        background-color: #222B45; 
                         padding-left:15px; 
                         padding-right:15px;
                     } 
