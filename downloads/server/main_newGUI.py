@@ -138,7 +138,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_rfid",
-                                            "category":"lineEdit",
+                                            "category":"lineEditInt",
                                             "text":res[0][1],
                                             "style":self.primary_input
                                         },
@@ -240,7 +240,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_nik",
-                                            "category":"lineEdit",
+                                            "category":"lineEditInt",
                                             "text":res[0][1],
                                             "style":self.primary_input
                                         },
@@ -264,7 +264,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_hp",
-                                            "category":"lineEdit",
+                                            "category":"lineEditInt",
                                             "text":res[0][3],
                                             "style":self.primary_input
                                         },
@@ -340,7 +340,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_tarif_per_1jam",
-                                            "category":"lineEdit",
+                                            "category":"lineEditInt",
                                             "text":str(res[0][2]),
                                             "style":self.primary_input
                                         },
@@ -352,7 +352,7 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_tarif_per_24jam",
-                                            "category":"lineEdit",
+                                            "category":"lineEditInt",
                                             "text":str(res[0][3]),
                                             "style":self.primary_input
                                         },
@@ -657,7 +657,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_rfid",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
                                     },
                                     {
@@ -1031,7 +1031,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_nik",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
                                     },
                                     {
@@ -1053,7 +1053,7 @@ class Main(Util, View):
                                     },
                                     {
                                         "name":"add_hp",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
                                     },
                                     {
@@ -1947,7 +1947,7 @@ class Main(Util, View):
                         "name":"lbl_barcode_transaksi",
                         "text":"BL/Barcode",
                         "category":"label",
-                        "style":self.primary_lbl_kasir
+                        "style":self.primary_lbl
                     },
                     {
                         "name":"barcode_transaksi",
@@ -1958,10 +1958,34 @@ class Main(Util, View):
                         }
                     },
                     {
+                        "name":"lbl_jns_kendaraan",
+                        "text":"Jenis Kendaraan",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:15px;"
+                    },
+                    {
+                        "name":"jns_kendaraan",
+                        "category":"lineEdit",
+                        "editable":False,
+                        "style": self.primary_input
+                    },
+                    {
+                        "name":"lbl_status",
+                        "text":"Status",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:15px;"
+                    },
+                    {
+                        "name":"ket_status",
+                        "category":"lineEdit",
+                        "editable":False,
+                        "style": self.primary_input
+                    },
+                    {
                         "name":"lbl_tarif_transaksi",
                         "text":"Tarif(Rp)",
                         "category":"label",
-                        "style":self.primary_lbl_kasir+"margin-top: 40px;"
+                        "style":self.primary_lbl + "margin-top:15px;"
                     },
                     {
                         "name":"tarif_transaksi",
@@ -1973,14 +1997,15 @@ class Main(Util, View):
                         "name":"btn_bayar",
                         "category":"pushButton",
                         "text": "Bayar",
-                        "style": self.primary_button2,
+                        "style": self.primary_button,
                         "enabled": False,
                         "clicked": {
                             "method_name": self.setPay
                         }
+
                     }
                 ]
-        
+    
 
         center_content = [
                 {

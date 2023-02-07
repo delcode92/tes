@@ -378,7 +378,7 @@ class EventBinder(QObject):
     def eventFilter(self, source, event):
         if event.type() == QEvent.KeyPress and source is self.target:
             if event.key() == Qt.Key_Return and self.target.hasFocus():
-                print('Enter pressed')
+                print('Enter pressed atas')
                 self.eventTarget()
 
         return super().eventFilter(source, event)
@@ -689,9 +689,15 @@ class Util(Controller ):
                                     self.components[i["name"]].clicked.connect( lambda: method_name(i["clicked"]["arguments"]) )
                                 elif "arguments" not in i["clicked"]:
                                     self.components[i["name"]].clicked.connect( method_name )
+                            
                             case "event":
                                 method_name = i["event"]["method_name"]
-                                EventBinder(self.components[i["name"]], lambda: method_name(i["clicked"]["arguments"])  )
+                                
+                                if "arguments" in i["event"]:
+                                    arg = i["event"]["arguments"]
+                                    EventBinder(self.components[i["name"]], lambda: method_name(arg) )
+                                elif "arguments" not in i["event"]:
+                                    EventBinder(self.components[i["name"]], method_name )
                                                            
 
                             case "items":
@@ -775,5 +781,5 @@ class Util(Controller ):
     def eventFilter(self, component, obj, event):
         if event.type() == QEvent.KeyPress and obj is self.text_box:
             if event.key() == Qt.Key_Return and self.text_box.hasFocus():
-                print('Enter pressed')
+                print('Enter pressed bawah')
         return super().eventFilter(obj, event)

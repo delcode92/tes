@@ -91,7 +91,8 @@ class Controller(Client):
             # get time based on barcode
             barcode = self.components["barcode_transaksi"].text()
             barcode_time = self.exec_query(f"select datetime, jenis_kendaraan, status_parkir, ip_raspi from karcis where barcode='{barcode}'", "select")
-            jns_kendaraan = barcode_time[0][1]
+            # print(f"select datetime, jenis_kendaraan, status_parkir, ip_raspi from karcis where barcode='{barcode}'")
+            jns_kendaraan = barcode_time[0][1].capitalize()
             self.ip_raspi = barcode_time[0][3]
 
             if barcode_time[0][2]:
@@ -108,13 +109,12 @@ class Controller(Client):
 
                 diff = time_now - barcode_time
                 total_hours = math.ceil(diff.total_seconds()/3600)
-                print("TH", total_hours)
+                print("TH", total_hours, type(total_hours))
                 print("tes1:", jns_kendaraan)
                 # print("tes2:", barcode_time[1])
 
                 # get base price from db
                 base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
-
                 base_price_perjam = base_price[0][0] 
                 base_price_per24jam = base_price[0][1] 
                 
@@ -133,7 +133,6 @@ class Controller(Client):
                     print("================")
                 
                 elif total_hours>24:
-                    # print('parking total hours:', total_hours)
                     hari = math.floor(total_hours/24)
                     jam = total_hours-(hari*24)
 
@@ -145,20 +144,22 @@ class Controller(Client):
                     print("================")
                 
                 # set value to textbox
+                print(jns_kendaraan, str(status_parkir))
                 self.components["jns_kendaraan"].setText( jns_kendaraan )
                 self.components["ket_status"].setText( str(status_parkir) )
                 
                 # just show tarif and enable button if "BELUM LUNAS"
                 if status_parkir == "BELUM LUNAS":
+                    print("masuk bro")
                     self.components["tarif_transaksi"].setText( str(price) )
                     self.components["btn_bayar"].setEnabled(True)
 
                 # return price
         except Exception as e:
             # clear text box if false input barcode
-            self.components["jns_kendaraan"].setText("")
-            self.components["ket_status"].setText("")
-            self.components["tarif_transaksi"].setText("")
+            # self.components["jns_kendaraan"].setText("")
+            # self.components["ket_status"].setText("")
+            # self.components["tarif_transaksi"].setText("")
 
             print(str(e))
     
