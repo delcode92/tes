@@ -18,6 +18,7 @@ class Thread(QThread):
             try:
                 if not self.capture:        
                     self.capture = cv2.VideoCapture('rtsp://admin:admin@192.168.100.121')
+                    # self.capture = cv2.VideoCapture(0)
                 elif not ret:
                     raise Exception("Failed to read from video stream!")   
                 

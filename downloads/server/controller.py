@@ -26,9 +26,11 @@ class Controller(Client):
         pass
 
     def connect_to_server(self, h, p):
-        # super().__init__(h,p)
-        ...
+        super().__init__(h,p)
+        
 
+
+        
     def connect_to_postgresql(self):
         ini = self.getPath("app.ini")
         
@@ -157,9 +159,9 @@ class Controller(Client):
                 # return price
         except Exception as e:
             # clear text box if false input barcode
-            # self.components["jns_kendaraan"].setText("")
-            # self.components["ket_status"].setText("")
-            # self.components["tarif_transaksi"].setText("")
+            self.components["jns_kendaraan"].setText("")
+            self.components["ket_status"].setText("")
+            self.components["tarif_transaksi"].setText("")
 
             print(str(e))
     
