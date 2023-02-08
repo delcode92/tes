@@ -378,7 +378,7 @@ class EventBinder(QObject):
     def eventFilter(self, source, event):
         if event.type() == QEvent.KeyPress and source is self.target:
             if event.key() == Qt.Key_Return and self.target.hasFocus():
-                print('Enter pressed atas')
+                print('Enter pressed')
                 self.eventTarget()
 
         return super().eventFilter(source, event)
@@ -387,17 +387,16 @@ class Util(Controller ):
     def __init__(self) -> None:
         self.app = QApplication(sys.argv)
         super().__init__()
-          
         
         self.screenSize = self.ScreenSize(self.app)
         self.components = {}
         self.mdi_stat = False
         
         # ========== steps ========
-        print("\nUtil constructor: ")
-        print("run QApplication .......")
-        print("init screensize .......")
-        print("init components dict .......\n")
+        self.debug.logger.info("\nUtil constructor: ")
+        self.debug.logger.info("run QApplication .......")
+        self.debug.logger.info("init screensize .......")
+        self.debug.logger.info("init components dict .......\n")
 
      
 
@@ -418,10 +417,6 @@ class Util(Controller ):
                 case "geometry":
                     window_reference.setGeometry(params[0], params[1], params[2], params[3])
                 case "size":
-                    # if isinstance(params, str) and params.lower()=="fullscreen":
-                    #     print( "from window method ",window_reference, self.screenSize, self.screenSize)
-                    #     self.setCenter( window_reference, self.screenSize, self.screenSize)
-                    
                     if isinstance(params, tuple):
                         self.setCenter( window_reference, self.screenSize, params)
 
@@ -433,14 +428,13 @@ class Util(Controller ):
                     window_reference.setStyleSheet(params)
                 case "scroll":
                     if(params):
-                        print("ok")
                         self.scroll = QScrollArea()             
                         self.scroll.setWidget(window_reference)
                     
                 case default:
                     pass
         except Exception as e:
-            print(e)
+            self.debug.logger.error(str(e))
 
 
     def CreateWindow(self, setters, window, type=""):
@@ -457,21 +451,9 @@ class Util(Controller ):
 
         elif(type=="mdi"):
 
-            # ======== old code ===========
-            # if(self.mdi_stat==False):
-            #     self.mdi = QMdiArea(window)
-            #     window.setCentralWidget(self.mdi)
-            #     self.mdi_stat = True
-            # ==============================
-
-            #dengan membuat qmdiarea yg baru maka secara otomatis
-            # semua sub window pada mdi area yg lama akan dihapus secra otomatis
-            # artinya mdi area kan selalu bersih dari sub window 
-            
             self.mdi = QMdiArea(window)
             window.setCentralWidget(self.mdi)
-            # self.mdi_stat = True
-
+            
             sub = QMdiSubWindow()
             
             # set default sub window full screen
@@ -485,7 +467,6 @@ class Util(Controller ):
         
         elif(type=="add-mdi"):
 
-            
             # mdi = QMdiArea(window)
             window.setCentralWidget(self.mdi)
             
@@ -573,7 +554,7 @@ class Util(Controller ):
                     layout.addWidget( self.components[i["name"]] )
 
                 else:
-                    print("name - category not available/empty")
+                    self.debug.logger.info("name - category not available/empty")
                     sys.exit()
 
         elif layout_type.lower() == "formlayout":
@@ -593,7 +574,7 @@ class Util(Controller ):
                         layout.addRow(self.components[i[0]["name"]], self.components[i[1]["name"]])
 
                 else:
-                    print("name - category not available/empty")
+                    self.debug.logger.info("name - category not available/empty")
                     sys.exit()
 
     def CreateComponent(self, components:list, parent=None ):
@@ -632,7 +613,7 @@ class Util(Controller ):
                     case "date":
                         self.components[i["name"]] = QDateEdit(parent)
                         self.components[i["name"]].setDisplayFormat("yyyy-MM-dd")
-                        # self.components[i["name"]].setMinimumDate(QDate.currentDate())
+                        self.components[i["name"]].setMinimumDate(QDate.currentDate())
                         self.components[i["name"]].setCalendarPopup(True)
 
                     case "radiobutton":
@@ -645,7 +626,6 @@ class Util(Controller ):
                         pass
                 
                 for key,value in i.items():
-                    # print(key)
                     if(key != "name" and key != "category"):
                         match key.lower():
                             case "move":
@@ -715,17 +695,8 @@ class Util(Controller ):
                                 self.CreateComponent(value, self.components[i["name"]])
 
             else:
-                print("name - category not available/empty")
+                self.debug.logger.info("name - category not available/empty")
                 sys.exit()
-
-
-    # def eventFilter(self, source, event):
-    #     print("masuk")
-    #     #     # if event.type() == QEvent.KeyPress and obj is self.components["input_pass"]:
-    #     #     #     if event.key() == Qt.Key_Return and self.components["input_pass"].hasFocus():
-    #     #     #         print('Enter pressed')
-    #     return super().eventFilter(source, event)   
-    
 
 
     def SubWinVerticalForm(self, sub_window_setter:dict, components_setter:list, type=""):

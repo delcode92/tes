@@ -293,42 +293,36 @@ class Server:
                             try:
                                 msg = re.search('rfid#(.+?)#end', msg).group(1)
                             except AttributeError:
-                                print("rfid between substring not found ... ")
+                                self.debug.logger.error("rfid between substring not found ... ")
 
                             print("==================================")
-                            print("checking RFID ...")
+                            self.debug.logger.debug("checking RFID ...")
 
                             # self.db_cursor.execute("select count(*) as count from rfid where rfid='123'")
                             res = self.exec_query(f"select count(*) as count from rfid where rfid='{msg}'", "select")
-                            print("RFID result: ", res[0][0])
+                            self.debug.logger.debug("RFID result: ", res[0][0])
 
                             if res[0][0] == 1:
-                                print("success rfid")
-
-                                # get conn obj based on ip
-                            
-                                # self.list_of_clients[f"{addr}"].sendall( bytes("rfid-true", 'utf-8') )
+                                self.debug.logger.debug("success rfid")
                                 conn.sendall( bytes("rfid-true", 'utf-8') )
                             else:
-                                print("fail rfid")
-                                # self.list_of_clients[f"{addr}"].sendall( bytes("rfid-false", 'utf-8') )
+                                self.debug.logger.error("fail rfid")
                                 conn.sendall( bytes("rfid-false", 'utf-8') )
                             print("==================================")
 
                         elif "pushButton#" in msg:
-                            # msg = msg.replace("pushButton#", "")
                             
                             try:
                                 msg = re.search('pushButton#(.+?)#end', msg).group(1)
                             except AttributeError:
-                                print("JSON between substring not found ... ")
+                                self.debug.logger.error("JSON between substring not found ... ")
 
                             try:
                                 
-                                print("get json string : ",msg)
-                                print("converting to dictionary ...")
+                                self.debug.logger.debug("get json string : ",msg)
+                                self.debug.logger.info("converting to dictionary ...")
                                 res = json.loads(msg)    
-                                print(res)
+                                self.debug.logger.debug(res)
 
                                 # get data from json
                                 barcode = res["barcode"]
@@ -355,52 +349,48 @@ class Server:
                                 IPCam.img_name = barcode
 
                                 # capture cam image
-                                print("server ask to snapshot ....")
+                                self.debug.logger.info("server ask to snapshot ....")
                                 self.process_conn.send(f"snapshot#{barcode}")
                                 
-                                print("Save Date Time & capture cam image success ....")
-                                print(f"send return value to raspi( {addr} )....")
+                                self.debug.logger.info("Save Date Time & capture cam image success ....")
+                                self.debug.logger.info(f"send return value to raspi( {addr} )....")
                                 
-                                # self.list_of_clients[f"{addr}"].sendall( bytes("printer-true", 'utf-8') )
                                 conn.sendall( bytes("printer-true", 'utf-8') )
                             
                             except Exception as e:
-                                print(str(e))
+                                self.debug.logger.error(str(e))
                             
                         elif "config#" in msg:
                             try:
                                 print("===================================")
                                 msg = re.search('config#(.+?)#end', msg).group(1)
-                                print("receive message from GUI: ", msg)
+                                self.debug.logger.info("receive message from GUI: ", msg)
 
-                                print("broadcast to clients ...")
+                                self.debug.logger.info("broadcast to clients ...")
 
                                 for ip in self.list_of_clients.keys():
                                     if ip != self.SERVER_IP:
-                                        print(f"send config JSON to {ip} ... ")
+                                        self.debug.logger.info(f"send config JSON to {ip} ... ")
                                         self.list_of_clients[ip].sendall( bytes(f'config#{msg}#end', 'utf-8') )
                                         sleep(1)
 
-                                # conn.sendall( bytes(f'config#{msg}#end', 'utf-8') )
                             except Exception as e:
-                                print(str(e))
-                                # print("json config between substring not found ... ")
-
+                                self.debug.logger.error(str(e))
+                            
                         elif "gate#" in msg:
                             print("===================================")
                             ip = re.search('gate#(.+?)#end', msg).group(1)
-                            print("Open gate with ip : ", ip)
+                            self.debug.logger.info("Open gate with ip : ", ip)
 
                             self.list_of_clients[ip].sendall( bytes(f'open-true', 'utf-8') )
                     if not data:
                         break
             except:
-                print(f"client{addr} disconnected at {datetime.datetime.now()}")
-                logging.warning(f"client{addr} disconnected at {datetime.datetime.now()}")
-
+                self.debug.logger.error(f"client{addr} disconnected at {datetime.datetime.now()}")
+                
 
     def connect_server(self, h, p):
-        print("conn to server")
+        self.debug.logger.info("conn to server ... ")
         
         # while true -> fro server socket always stanby, event after client connection break/fail
         while True:
@@ -418,11 +408,10 @@ class Server:
                 
     def getPath(self,fileName):
         path = os.path.dirname(os.path.realpath(__file__))
-        
         return '/'.join([path, fileName])
 
     def connect_to_postgresql(self):
-        print("conn to potsgre")
+        self.debug.logger.info("conn to potsgre")
         ini = self.getPath("app.ini")
         
         configur = ConfigParser()
@@ -439,7 +428,7 @@ class Server:
     def exec_query(self, query, type=""):
         try:
             self.db_cursor.execute(query)
-            print("\nsuccess execute query")
+            self.debug.logger.debug("\nsuccess execute query")
 
             if type == "":    
                 return True
@@ -449,8 +438,7 @@ class Server:
                 return data
 
         except Exception as e:
-            print("\nexecute query fail")
-            print(str(e))
+            self.debug.logger.error(str(e))
 
 
 def run():

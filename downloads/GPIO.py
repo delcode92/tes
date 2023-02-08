@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import sys, socket, select, random, os, re, json
+import sys, socket, select, random, os, re, json, logging
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -9,6 +9,8 @@ from configparser import ConfigParser
 
 class GPIOHandler:
     def __init__(self) -> None:
+        self.initDebug()
+        
         # global variable
         self.led1, self.led2, self.led3, self.gate = 8,10,11,18
         self.loop1, self.loop2, self.button = 12,13,7
@@ -29,18 +31,15 @@ class GPIOHandler:
             try:
                 self.s.sendall( bytes(f"client({host}) connected", 'utf-8') )
             except:
-                print("GPIO handshake fail")
+                self.logger.debug("GPIO handshake fail")
 
                 try:
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
                     self.s.connect((host, port))
 
-                    # sockets_list = [sys.stdin, s]
-                    # print("socket list: " , sockets_list)
-
                     self.s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
-                    print("GPIO handshake success")
+                    self.logger.info("GPIO handshake success")
 
                     # stanby data yg dikirim dari server disini
                     start_new_thread( self.recv_server,() )
@@ -48,11 +47,35 @@ class GPIOHandler:
                     # run input RFID thread
                     start_new_thread( self.rfid_input,() )
                     self.run_GPIO()
-                except:
-                    print("GPIO handshake fail")
+                except Exception as e:
+                    self.logger.info("GPIO handshake fail")
+                    self.logger.error(str(e))
         
                 sleep(5)
 
+    def initDebug(self):
+        
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.NOTSET)
+        self.logfile_path = "./log_file.log"
+
+        # our first handler is a console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler_format = '%(levelname)s: %(message)s'
+        console_handler.setFormatter(logging.Formatter(console_handler_format))
+
+        # start logging and show messages
+
+        # the second handler is a file handler
+        file_handler = logging.FileHandler(self.logfile_path)
+        file_handler.setLevel(logging.INFO)
+        file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+        file_handler.setFormatter(logging.Formatter(file_handler_format))
+
+        self.logger.addHandler(console_handler)
+        self.logger.addHandler(file_handler)
+    
     def getPath(self,fileName):
         path = os.path.dirname(os.path.realpath(__file__))
         
@@ -115,12 +138,12 @@ class GPIOHandler:
         
         while True:
             if GPIO.input(self.loop1) == GPIO.LOW and not self.stateLoop1:
-                print("LOOP 1 ON (Vehicle Incoming)")
+                self.logger.debug("LOOP 1 ON (Vehicle Incoming)")
                 self.stateLoop1 = True
                 GPIO.output(self.led1,GPIO.HIGH)
                 
             elif GPIO.input(self.loop1) == GPIO.HIGH and self.stateLoop1:  
-                print("LOOP 1 OFF (Vehicle Start Moving)")
+                self.logger.debug("LOOP 1 OFF (Vehicle Start Moving)")
                 self.stateLoop1 = False
                 self.stateGate = False
                 GPIO.output(self.led1,GPIO.LOW)
@@ -129,8 +152,6 @@ class GPIOHandler:
                 
                 # send datetime to server & self.time_now save to property --> can be called when print
                 time_now = datetime.now().strftime("%Y%m%d%H%M%S")
-                # print("data: ", time_now)
-                # { "barcode":"05012023090939685057", "gate":2, "ip_cam":['192.168.10.10', '192.168.10.12'] }
                 
                 # send barcode and datetime here
                 # barcode --> shorten datetime
@@ -139,38 +160,25 @@ class GPIOHandler:
                 if self.barcode<0 : self.barcode=self.barcode * -1
                 
                 dict_txt = 'pushButton#{ "barcode":"'+str(self.barcode)+'", "time":"'+time_now+'", "gate":'+self.config['GATE']['NOMOR']+', "ip_cam":['+self.config['IP_CAM']['IP']+'] }#end'
-                print(dict_txt)  
+                self.logger.debug(dict_txt)  
 
                 try:
                     self.s.sendall( bytes(dict_txt, 'utf-8') )
-                except Exception:
-                    print("something error")
-                # get return from server
-
-                
-                # print("self.button ON (Printing Ticket)")
-                
-                # self.stateButton = True
-                # stateGate = True
-                # GPIO.output(led2,GPIO.HIGH)
-                # print("RELAY ON (Gate Open)")
-                # GPIO.output(gate,GPIO.HIGH)
-                # sleep(1)
-                # GPIO.output(gate,GPIO.LOW)
-                # print("RELAY OFF")
+                except Exception as e:
+                    self.logger.error(str(e))
                 
             elif GPIO.input(self.button) == GPIO.HIGH and GPIO.input(self.loop1) == GPIO.LOW and self.stateButton:
-                print("BUTTON OFF")
+                self.logger.info("BUTTON OFF")
                 self.stateButton = False
                 GPIO.output(self.led2,GPIO.LOW)
                                 
             if GPIO.input(self.loop2) == GPIO.LOW and not self.stateLoop2:
-                print("LOOP 2 ON (Vehicle Moving In)")
+                self.logger.info("LOOP 2 ON (Vehicle Moving In)")
                 self.stateLoop2 = True
                 
             elif GPIO.input(self.loop2) == GPIO.HIGH and self.stateLoop2:
-                print("LOOP 2 OFF (Vehicle In)")
-                print(".........(Gate Close)")
+                self.logger.info("LOOP 2 OFF (Vehicle In)")
+                self.logger.info(".........(Gate Close)")
                 self.stateLoop2 = False 
                 self.stateGate = False
                                         
@@ -185,8 +193,9 @@ class GPIOHandler:
 
                 try:
                     self.s.sendall( bytes(f"rfid#{rfid}#end", 'utf-8') )
-                except:
-                    print("send RFID to server fail")
+                except Exception as e:
+                    self.logger.info("send RFID to server fail")
+                    self.logger.error(str(e))
 
 
     def recv_server(self):
@@ -205,41 +214,38 @@ class GPIOHandler:
                             message = message.decode("utf-8")
 
                             if message == "rfid-true":
-                                print("open Gate Utk Karyawan")
+                                self.logger.info("open Gate Utk Karyawan")
 
                                 GPIO.output(self.gate,GPIO.HIGH)
                                 sleep(1)
                                 GPIO.output(self.gate,GPIO.LOW)
 
                             elif message == "rfid-false":
-                                print("RFID not match !")
+                                self.logger.debug("RFID not match !")
 
                             elif message == "printer-true":
-                                print("print struct here ...")
-                                print("barcode", self.barcode)
+                                self.logger.debug("print struct here ...")
+                                self.logger.debug("barcode", self.barcode)
 
-                                self.print_barcode(str(self.barcode))
-                                
-                                print("BUTTON ON (Printing Ticket)")
+                                self.logger.info("BUTTON ON (Printing Ticket)")
                     
                                 self.stateButton = True
                                 self.stateGate = True
                                 GPIO.output(self.led2,GPIO.HIGH)
-                                print("RELAY ON (Gate Open)")
+                                self.logger.info("RELAY ON (Gate Open)")
                                 GPIO.output(self.gate,GPIO.HIGH)
                                 sleep(1)
                                 GPIO.output(self.gate,GPIO.LOW)
-                                print("RELAY OFF")
+                                self.logger.info("RELAY OFF")
 
                             elif "config#" in message :
                                 print("========== change config =============")
-                                print("get message ...")
+                                self.logger.debug("get message ...")
                                 message = re.search('config#(.+?)#end', message).group(1)
                                 message = json.loads(message)
-                                print(message)
-                                print(type(message))
-
-                                print("write to file ... ")
+                                self.logger.debug(message)
+                                
+                                self.logger.info("write to file ... ")
                                 config = ConfigParser()
                                 config.read('config.cfg')
 
@@ -254,10 +260,7 @@ class GPIOHandler:
                                 print("=====================================")
 
                         except Exception as e:
-                            print("error:", str(e))
-                            # print("Server not connected ...")
-                            # self.__init__()
-
-
+                            self.logger.error(str(e))
+                           
 
 obj = GPIOHandler()
