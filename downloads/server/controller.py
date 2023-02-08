@@ -718,56 +718,6 @@ class Controller(Client):
 
                 self.stacked_widget.setCurrentIndex(1)
                 self.stacked_animation.start()
-                
-            case "tambah rfid":
-                ...
-                # sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }
-
-                # # components
-                # components_setter = [
-                #                     {
-                #                         "name":"lbl_success",
-                #                         "category":"label",
-                #                         "text": "Data Saved",
-                #                         "style":self.success_lbl
-                #                     },
-                #                     {
-                #                         "name":"lbl_add_rfid",
-                #                         "category":"label",
-                #                         "text": "RFID",
-                #                         "style":self.primary_lbl
-                #                     },
-                #                     {
-                #                         "name":"add_rfid",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_add_rfid_owner",
-                #                         "category":"label",
-                #                         "text": "Name",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"add_rfid_owner",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"btn_add_rfid",
-                #                         "category":"pushButton",
-                #                         "text": "Save",
-                #                         "clicked": {
-                #                                 "method_name": self.add_rfid
-                #                         },
-                #                         "style": self.primary_button
-                #                     }
-                #                 ]
-
-                # self.SubWinVerticalForm(sub_window_setter, components_setter)
-                # self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                # self.components["lbl_success"].setHidden(True)
-            
             
             case "kelola user":
                 # set active button and label
@@ -795,142 +745,6 @@ class Controller(Client):
                 self.stacked_widget.setCurrentIndex(2)
                 self.stacked_animation.start()
 
-                # sub_window_setter = { "title": "Kelola User", "style":self.bg_white, "size":(800, 600) }
-                # cols = 5
-
-                # # create table
-                # table = QTableWidget()
-                # table.resizeRowsToContents()
-                # table.setColumnCount(5)
-                # table.setHorizontalHeaderLabels(["id", "Username", "level", "Action", " "])
-                # table.setStyleSheet(self.table_style)
-                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                # table.setColumnHidden(0, True) #hide id column
-                # # table.resizeRowsToContents()
-
-                # header = table.horizontalHeader()
-
-                # # set header stretch
-                # for i in range(cols-3):
-                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
-                
-                # # run query & set column value
-                # query = self.exec_query("SELECT id, username, user_level FROM users", "SELECT")
-
-                # for l in query:
-                #     rows = table.rowCount()
-                #     rows_count = rows + 1
-                #     table.setRowCount(rows_count)
-                    
-                #     # set item on table column
-                #     for i in range(cols-2):
-                        
-                #         item = QTableWidgetItem( str(l[i]) )
-                #         item.setFlags(Qt.ItemIsEnabled)
-                #         table.setItem(rows, i, item)
-                    
-                #     # create edit button
-                #     btn = QPushButton(table)
-                #     edit_ico = self.getPath("edit.png")
-                #     btn.setIcon(QIcon(edit_ico))
-                #     btn.setStyleSheet( self.edit_btn_action )
-                #     # btn.clicked.connect(lambda: self.editData(table, "users"))
-                #     table.setCellWidget(rows, 3, btn)
-                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "users"))
-
-                #     # create delete button
-                #     btn_del = QPushButton(table)
-                #     del_ico = self.getPath("trash.png")
-                #     btn_del.setIcon(QIcon(del_ico))
-                #     btn_del.setStyleSheet(self.del_btn_action)
-                #     # btn_del.clicked.connect(lambda: self.deleteData(table, "users"))
-                #     table.setCellWidget(rows, 4, btn_del)
-                #     btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "users"))
-
-
-                # rows_count = math.floor(rows_count/2)
-               
-                # for r in range(rows_count):
-                #     n = 2*r+1
-
-                #     table.item(n, 1).setBackground(cell_bg_color)
-                #     table.item(n, 2).setBackground(cell_bg_color)
-                
-                # table.setShowGrid(False)
-                # self.SubWinVerticalTable(sub_window_setter, [table])
-
-            case "tambah user":
-                ...
-                # sub_window_setter = { "title": "Tambah User", "style":self.bg_white, "size":(600, 600) }
-
-                # # components
-                # components_setter = [
-                #                     {
-                #                         "name":"lbl_success",
-                #                         "category":"label",
-                #                         "text": "Data Saved",
-                #                         "style":self.success_lbl
-                #                     },
-                #                     {
-                #                         "name":"lbl_add_uname",
-                #                         "category":"label",
-                #                         "text": "Username",
-                #                         "style":self.primary_lbl
-                #                     },
-                #                     {
-                #                         "name":"add_uname",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_add_pass",
-                #                         "category":"label",
-                #                         "text": "Password",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"add_pass",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_retype_pass",
-                #                         "category":"label",
-                #                         "text": "Retype Password",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"retype_pass",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_user_level",
-                #                         "category":"label",
-                #                         "text": "Level",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"input_user_level",
-                #                         "category":"comboBox",
-                #                         "items": ["Admin","Pegawai", "Kasir"],
-                #                         "style":self.primary_combobox
-                #                     },
-                #                     {
-                #                         "name":"btn_add_user",
-                #                         "category":"pushButton",
-                #                         "text": "Save",
-                #                         "clicked": {
-                #                                 "method_name": self.add_user
-                #                         },
-                #                         "style": self.primary_button
-                #                     }
-                #                 ]
-
-                # self.SubWinVerticalForm(sub_window_setter, components_setter)
-                # self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                # self.components["lbl_success"].setHidden(True)
-
             case "kelola kasir":
                 # set active button and label
                 self.updateStyle(
@@ -957,320 +771,6 @@ class Controller(Client):
                 self.stacked_widget.setCurrentIndex(3)
                 self.stacked_animation.start()
 
-                # sub_window_setter = { "title": "Kelola Kasir", "style":self.bg_white, "size":(1200, 600)}
-                # cols = 10
-                
-                # # create table
-                # table = QTableWidget()
-                # table.resizeRowsToContents()
-                # table.setColumnCount(10)
-                # table.setHorizontalHeaderLabels(["id", "NIK", "Nama", "HP", "Alamat", "Jam Masuk", "Jam Keluar", "No Pos", "Action", " "])
-                # table.setStyleSheet(self.table_style)
-                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                # table.setColumnHidden(0, True) #hide id column
-                
-                # header = table.horizontalHeader()
-
-                # # set header stretch
-                # for i in range(cols-3):
-                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
-                
-                # # run query & set column value
-                # query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
-
-                # for l in query:
-                #     rows = table.rowCount()
-                #     rows_count = rows + 1
-                #     table.setRowCount(rows_count)
-                    
-                #     # set item on table column
-                #     for i in range(cols-2):
-                        
-                #         item = QTableWidgetItem( str(l[i]) )
-                #         item.setFlags(Qt.ItemIsEnabled)
-                #         table.setItem(rows, i, item)
-                    
-                #     # create edit button
-                #     btn = QPushButton(table)
-                #     edit_ico = self.getPath("edit.png")
-                #     btn.setIcon(QIcon(edit_ico))
-                #     btn.setStyleSheet( self.edit_btn_action )
-                #     # btn.clicked.connect(lambda: self.editData(table, "kasir"))
-                #     table.setCellWidget(rows, 8, btn)
-                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "kasir"))
-                    
-                #     # create delete button
-                #     btn_del = QPushButton(table)
-                #     del_ico = self.getPath("trash.png")
-                #     btn_del.setIcon(QIcon(del_ico))
-                #     btn_del.setStyleSheet(self.del_btn_action)
-                #     # btn_del.clicked.connect(lambda: self.deleteData(table, "kasir"))
-                #     table.setCellWidget(rows, 9, btn_del)
-                #     btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "kasir"))
-
-
-                # rows_count = math.floor(rows_count/2)
-               
-                # for r in range(rows_count):
-                #     n = 2*r+1
-
-                #     table.item(n, 1).setBackground(cell_bg_color)
-                #     table.item(n, 2).setBackground(cell_bg_color)
-                #     table.item(n, 3).setBackground(cell_bg_color)
-                #     table.item(n, 4).setBackground(cell_bg_color)
-                #     table.item(n, 5).setBackground(cell_bg_color)
-                #     table.item(n, 6).setBackground(cell_bg_color)
-                #     table.item(n, 7).setBackground(cell_bg_color)
-                
-                # table.setShowGrid(False)
-                # self.SubWinVerticalTable(sub_window_setter, [table])
-
-            case "tambah kasir":
-                sub_window_setter = { "title": "Tambah Kasir", "style":self.bg_white, "size":(800, 600) }
-
-                # components
-                components_setter = [
-                                    {
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_add_nik",
-                                        "category":"label",
-                                        "text": "NIK",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_nik",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_nama",
-                                        "category":"label",
-                                        "text": "Nama",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_nama",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_hp",
-                                        "category":"label",
-                                        "text": "Nomor HP",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_hp",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_alamat",
-                                        "category":"label",
-                                        "text": "Alamat",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_alamat",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_jam_masuk",
-                                        "category":"label",
-                                        "text": "Jam Masuk",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_jam_masuk",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_jam_keluar",
-                                        "category":"label",
-                                        "text": "Jam Keluar",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_jam_keluar",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_nmr_pos",
-                                        "category":"label",
-                                        "text": "Nomor Pos/Gate",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_nmr_pos",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"btn_add_kasir",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_kasir
-                                        },
-                                        "style": self.primary_button
-                                    },
-                                    {
-                                        "name":"lbl_space",
-                                        "category":"label",
-                                        "min_height":20
-                                    }
-                                ]
-
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
-                self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                self.components["lbl_success"].setHidden(True)
-
-            # case "kelola gate":
-            #     sub_window_setter = { "title": "Kelola Gate", "style":self.bg_white, "size":(1200, 600) }
-            #     cols = 7
-                
-            #     # create table
-            #     table = QTableWidget()
-            #     table.resizeRowsToContents()
-            #     table.setColumnCount(cols)
-            #     table.setHorizontalHeaderLabels(["id", "Nomor Pos/Gate", "Tipe Pos", "Jenis Kendaraan", "IP Cam", "Edit", "Del"])
-            #     table.setStyleSheet(self.table_style)
-            #     table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-            #     table.setColumnHidden(0, True) #hide id column
-                
-            #     header = table.horizontalHeader()
-
-            #     # set header stretch
-            #     for i in range(cols-3):
-            #         header.setSectionResizeMode(i+1, QHeaderView.Stretch)
-                    
-            #     # run query & set column value
-            #     query = self.exec_query("SELECT id, no_pos, tipe_pos, jns_kendaraan, ip_cam FROM gate", "SELECT")
-
-            #     for l in query:
-            #         rows = table.rowCount()
-            #         rows_count = rows + 1
-            #         table.setRowCount(rows_count)
-                    
-            #         # set item on table column
-            #         for i in range(cols-2):
-                        
-            #             item = QTableWidgetItem( str(l[i]) )
-            #             item.setFlags(Qt.ItemIsEnabled)
-            #             table.setItem(rows, i, item)
-                    
-            #         # create edit button
-            #         btn = QPushButton(table)
-            #         edit_ico = self.getPath("edit.png")
-            #         btn.setIcon(QIcon(edit_ico))
-            #         btn.setStyleSheet( self.edit_btn_action )
-            #         # btn.clicked.connect(lambda: self.editData(table, "gate"))
-            #         table.setCellWidget(rows, 5, btn)
-            #         btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "gate"))
-                    
-            #         # create delete button
-            #         btn_del = QPushButton(table)
-            #         del_ico = self.getPath("trash.png")
-            #         btn_del.setIcon(QIcon(del_ico))
-            #         btn_del.setStyleSheet(self.del_btn_action)
-            #         # btn_del.clicked.connect(lambda: self.deleteData(table, "gate"))
-            #         table.setCellWidget(rows, 6, btn_del)
-            #         btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "gate"))
-
-
-            #     rows_count = math.floor(rows_count/2)
-               
-            #     for r in range(rows_count):
-            #         n = 2*r+1
-
-            #         table.item(n, 1).setBackground(cell_bg_color)
-            #         table.item(n, 2).setBackground(cell_bg_color)
-            #         table.item(n, 3).setBackground(cell_bg_color)
-            #         table.item(n, 4).setBackground(cell_bg_color)
-                
-            #     table.setShowGrid(False)
-            #     self.SubWinVerticalTable(sub_window_setter, [table])
-
-            # case "tambah gate":
-            #     sub_window_setter = { "title": "Tambah Pos/Gate", "style":self.bg_white, "size":(600, 600) }
-
-            #     # components
-            #     components_setter = [{
-            #                             "name":"lbl_success",
-            #                             "category":"label",
-            #                             "text": "Data Saved",
-            #                             "style":self.success_lbl
-            #                         },
-            #                         {
-            #                             "name":"lbl_add_pos",
-            #                             "category":"label",
-            #                             "text": "No Pos/Gate",
-            #                             "style":self.primary_lbl + margin_top
-            #                         },
-            #                         {
-            #                             "name":"add_pos",
-            #                             "category":"lineEdit",
-            #                             "style":self.primary_input
-            #                         },
-            #                         {
-            #                             "name":"lbl_add_tipe_pos",
-            #                             "category":"label",
-            #                             "text": "Tipe Pos/Gate",
-            #                             "style":self.primary_lbl + margin_top
-            #                         },
-            #                         {
-            #                             "name":"add_tipe_pos",
-            #                             "category":"comboBox",
-            #                             "items": ["Masuk", "Keluar"],
-            #                             "style":self.primary_combobox
-            #                         },
-            #                         {
-            #                             "name":"lbl_add_jenis_kendaraan",
-            #                             "category":"label",
-            #                             "text": "Jenis Kendaraan",
-            #                             "style":self.primary_lbl + margin_top
-            #                         },
-            #                         {
-            #                             "name":"add_jenis_kendaraan",
-            #                             "category":"comboBox",
-            #                             "items": ["Motor", "Mobil"],
-            #                             "style":self.primary_combobox
-            #                         },
-            #                         {
-            #                             "name":"lbl_add_ipcam",
-            #                             "category":"label",
-            #                             "text": "IP Cam",
-            #                             "style":self.primary_lbl + margin_top
-            #                         },
-            #                         {
-            #                             "name":"add_ipcam",
-            #                             "category":"lineEdit",
-            #                             "style":self.primary_input
-            #                         },
-            #                         {
-            #                             "name":"btn_add_pos",
-            #                             "category":"pushButton",
-            #                             "text": "Save",
-            #                             "clicked": {
-            #                                     "method_name": self.add_gate
-            #                             },
-            #                             "style": self.primary_button
-            #                         }
-            #                     ]
-
-            #     self.SubWinVerticalForm(sub_window_setter, components_setter)
-                
-            #     self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-            #     self.components["lbl_success"].setHidden(True)
-
             case "setting karcis":
                 # set active button and label
                 self.updateStyle(
@@ -1296,73 +796,6 @@ class Controller(Client):
                 # solution stacked widget
                 self.stacked_widget.setCurrentIndex(4)
                 self.stacked_animation.start()
-
-                # sub_window_setter = { "title": "Setting Karcis", "style":self.bg_white, "size":(600, 600) }
-
-                # # components
-                # components_setter = [{
-                #                         "name":"lbl_success",
-                #                         "category":"label",
-                #                         "text": "Data Saved",
-                #                         "style":self.success_lbl
-                #                     },
-                #                     {
-                #                         "name":"lbl_nm_tempat",
-                #                         "category":"label",
-                #                         "text": "Nama Tempat",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"add_tempat",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_nm_perusahaan",
-                #                         "category":"label",
-                #                         "text": "Nama Perusahaan",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"add_perusahaan",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_pintu_masuk",
-                #                         "category":"label",
-                #                         "text": "Pintu Masuk",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"add_tarif_per_24jam",
-                #                         "category":"lineEdit",
-                #                         "style":self.primary_input
-                #                     },
-                #                     {
-                #                         "name":"lbl_add_tarif_jns_kendaraan",
-                #                         "category":"label",
-                #                         "text": "Jenis Kendaraan",
-                #                         "style":self.primary_lbl + margin_top
-                #                     },
-                #                     {
-                #                         "name":"add_tarif_jns_kendaraan",
-                #                         "category":"comboBox",
-                #                         "items":["Motor", "Mobil"],
-                #                         "style":self.primary_combobox
-                #                     },
-                #                     {
-                #                         "name":"btn_add_tarif",
-                #                         "category":"pushButton",
-                #                         "text": "Save",
-                #                         "clicked": {
-                #                                 "method_name": self.add_tarif
-                #                         },
-                #                         "style": self.primary_button
-                #                     }
-                #                 ]
-
-                # self.SubWinVerticalForm(sub_window_setter, components_setter)
 
             case "kelola tarif":
 
@@ -1391,143 +824,6 @@ class Controller(Client):
                 self.stacked_widget.setCurrentIndex(5)
                 self.stacked_animation.start()
 
-                # sub_window_setter = { "title": "Kelola Tarif", "style":self.bg_white, "size":(900, 600) }
-
-                # cols = 7
-                
-                # # create table
-                # table = QTableWidget()
-                # table.resizeRowsToContents()
-                # table.setColumnCount(cols)
-                # table.setHorizontalHeaderLabels(["id", "Nomor Pos/Gate", "Tarif/jam", "Tarif/24jam", "Jenis Kendaraan", "Edit", "Del"])
-                # table.setStyleSheet(self.table_style)
-                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                # table.setColumnHidden(0, True) #hide id column
-                
-                # header = table.horizontalHeader()
-
-                # # set header stretch
-                # for i in range(cols-3):
-                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
-                    
-                # # run query & set column value
-                # query = self.exec_query("SELECT id, no_pos, tarif_perjam, tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
-
-                # for l in query:
-                #     rows = table.rowCount()
-                #     rows_count = rows + 1
-                #     table.setRowCount(rows_count)
-                    
-                #     # set item on table column
-                #     for i in range(cols-2):
-                        
-                #         item = QTableWidgetItem( str(l[i]) )
-                #         item.setFlags(Qt.ItemIsEnabled)
-                #         table.setItem(rows, i, item)
-                    
-                #     # create edit button
-                #     btn = QPushButton(table)
-                #     edit_ico = self.getPath("edit.png")
-                #     btn.setIcon(QIcon(edit_ico))
-                #     btn.setStyleSheet( self.edit_btn_action )
-                #     # btn.clicked.connect(lambda: self.editData(table, "tarif"))
-                #     table.setCellWidget(rows, 5, btn)
-                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "tarif"))
-                    
-                #     # create delete button
-                #     btn_del = QPushButton(table)
-                #     del_ico = self.getPath("trash.png")
-                #     btn_del.setIcon(QIcon(del_ico))
-                #     btn_del.setStyleSheet(self.del_btn_action)
-                #     # btn_del.clicked.connect(lambda: self.deleteData(table, "tarif"))
-                #     table.setCellWidget(rows, 6, btn_del)
-                #     btn.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "tarif"))
-
-
-                # rows_count = math.floor(rows_count/2)
-               
-                # for r in range(rows_count):
-                #     n = 2*r+1
-
-                #     table.item(n, 1).setBackground(cell_bg_color)
-                #     table.item(n, 2).setBackground(cell_bg_color)
-                #     table.item(n, 3).setBackground(cell_bg_color)
-                #     table.item(n, 4).setBackground(cell_bg_color)
-                
-                # table.setShowGrid(False)
-                # self.SubWinVerticalTable(sub_window_setter, [table])
-            
-            case "aturan tarif":
-                sub_window_setter = { "title": "Aturan Tarif Parkir", "style":self.bg_white, "size":(600, 600) }
-
-                # components
-                components_setter = [{
-                                        "name":"lbl_success",
-                                        "category":"label",
-                                        "text": "Data Saved",
-                                        "style":self.success_lbl
-                                    },
-                                    {
-                                        "name":"lbl_add_tarif_pos",
-                                        "category":"label",
-                                        "text": "Nomor Pos",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_pos",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_tarif_per_1jam",
-                                        "category":"label",
-                                        "text": "Tarif / jam",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_per_1jam",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_tarif_per_24jam",
-                                        "category":"label",
-                                        "text": "Tarif / 24 jam",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_per_24jam",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_tarif_jns_kendaraan",
-                                        "category":"label",
-                                        "text": "Jenis Kendaraan",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_jns_kendaraan",
-                                        "category":"comboBox",
-                                        "items":["Motor", "Mobil"],
-                                        "style":self.primary_combobox
-                                    },
-                                    {
-                                        "name":"btn_add_tarif",
-                                        "category":"pushButton",
-                                        "text": "Save",
-                                        "clicked": {
-                                                "method_name": self.add_tarif
-                                        },
-                                        "style": self.primary_button
-                                    }
-                                ]
-
-                self.SubWinVerticalForm(sub_window_setter, components_setter)
-
-                self.components["lbl_success"].setAlignment(Qt.AlignCenter)
-                self.components["lbl_success"].setHidden(True)
-            
             case "kelola voucher":
                 # set active button and label
                 self.updateStyle(
@@ -1553,11 +849,7 @@ class Controller(Client):
                 # solution stacked widget
                 self.stacked_widget.setCurrentIndex(6)
                 self.stacked_animation.start()
-
-            
-            case "aturan voucher":
-                ...
-            
+ 
             case "kelola laporan":
 
                 # set active button and label
@@ -1584,34 +876,13 @@ class Controller(Client):
                 # solution stacked widget
                 self.stacked_widget.setCurrentIndex(7)
                 self.stacked_animation.start()
-
-                # sub_window_setter = { "title": "Kelola Laporan" }
             
             case "logout":
                 self.closeWindow(self.window)
                 self.Login()
-                # sys.exit()
-
+            
             case default:
                 pass    
-
-        
-        # if(bar_action != "dashboard"):
-
-        #     # create subwindows
-        #     sub = self.CreateWindow(sub_window_setter, self.window, "mdi")
-            
-        #     # create layout for sub windows
-        #     sub_lay = self.CreateLayout(("VBoxLayout", True), sub)
-        #     sub_lay.setContentsMargins(20,0,20,0)
-        #     # sub_lay.setSpacing(0)
-            
-        #     sub_lay.addStretch(1)
-        #     self.CreateComponentLayout(components_setter, sub_lay)
-        #     sub_lay.addStretch(1)
-
-        #     # show subwindows
-        #     sub.show()
     
     def editData(self, row, table, target):
         # r = table.currentRow()
@@ -2050,7 +1321,6 @@ class Controller(Client):
         button = dlg.exec()
 
         if button == QMessageBox.Yes:
-            print(f"delete from {target} where id="+id)
             res = self.exec_query(f"delete from {target} where id="+id)
 
             if res:
@@ -2064,7 +1334,7 @@ class Controller(Client):
                         rows_count = len(query)
                         cols = 3
                         self.fillTable(self.rfid_table, cols, query, rows_count)
-                        print("--> RFID delete success")
+                        self.logger.info("RFID delete success")
 
                     case "users":
                         
@@ -2073,7 +1343,7 @@ class Controller(Client):
                         rows_count = len(query)
                         cols = 3
                         self.fillTable(self.user_table, cols, query, rows_count)
-                        print("--> User delete success")
+                        self.logger.info("User delete success")
                        
                     case "kasir":
 
@@ -2082,7 +1352,7 @@ class Controller(Client):
                         rows_count = len(query)
                         cols = 8
                         self.fillTable(self.kasir_table, cols, query, rows_count)
-                        print("--> Kasir delete success")
+                        self.logger.info("Kasir delete success")
                     
                     case "voucher":
                         
@@ -2091,7 +1361,7 @@ class Controller(Client):
                         rows_count = len(query)
                         cols = 6
                         self.fillTable(self.voucher_table, cols, query, rows_count)
-                        print("--> Voucher delete success")
+                        self.logger.info("Voucher delete success")
 
                     case default:
                         pass     

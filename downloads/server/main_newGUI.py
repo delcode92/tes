@@ -83,8 +83,7 @@ class Main(Util, View):
                 pass
 
     def fillTable(self, table, cols, query, rows=0):
-        print("lets fill table")
-
+        
         if rows != 0:
             table.setRowCount(rows)
             
@@ -329,7 +328,7 @@ class Main(Util, View):
                 
                 case "tarif":
                     res = self.exec_query("select * from tarif where id="+id, "select")
-                    print("selected", res[0][4])
+                    
                     # components
                     components = [
                                         {
@@ -479,7 +478,6 @@ class Main(Util, View):
     def searchKarcis(self):
         data_searched = self.search_data_karcis.text()
         query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis where barcode like '%{data_searched}%' ","select")
-        # print(f"select * from karcis where barcode like '%{data_searched}%' ")
         rows_count = len(query)
         cols = 6
 

@@ -5,25 +5,55 @@ from _thread import start_new_thread
 from framework import *
 from configparser import ConfigParser
 
+class Debug():
+    def __init__(self) -> None:
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.NOTSET)
+        self.logfile_path = "../logging/log_file.log"
+
+        # our first handler is a console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler_format = '%(levelname)s: %(message)s'
+        console_handler.setFormatter(logging.Formatter(console_handler_format))
+
+        # start logging and show messages
+
+        # the second handler is a file handler
+        file_handler = logging.FileHandler(self.logfile_path)
+        file_handler.setLevel(logging.INFO)
+        file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+        file_handler.setFormatter(logging.Formatter(file_handler_format))
+
+        self.logger.addHandler(console_handler)
+        self.logger.addHandler(file_handler)
+
 # class worker
 class Thread(QThread):
+
     changePixmap = pyqtSignal(QImage)
 
     def run(self):
         
+        debug.logger.info("Run Cam Thread ...")
+
+        debug = Debug()
         self.is_running = True
         self.capture = None
         
         while self.is_running:
             try:
-                if not self.capture:        
-                    self.capture = cv2.VideoCapture('rtsp://admin:admin@192.168.100.121')
+
+                if not self.capture:
+                    rtsp = 'rtsp://admin:admin@192.168.100.121'        
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
                     # self.capture = cv2.VideoCapture(0)
+
                 elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
                     raise Exception("Failed to read from video stream!")   
                 
-                # while cap.isOpened():
-                # print("masuk")
                 ret, frame = self.capture.read()
                 if ret:
                     rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -33,31 +63,28 @@ class Thread(QThread):
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
                     self.changePixmap.emit(p)
-                
-                    # self.msleep(33)
-
             
             except Exception as e:
-            # except Exception as e:
                 self.is_running = False
                 self.capture = None
                 self.msleep(5000)
                 self.is_running = True
-                print(str(e))
-                print("retrying .... ")
+
+                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
         else:
-            print("IP CAM not connected ... ")
+            debug.logger.info("IP CAM not connected ... ")
 
 class IPCam(Util, View):
     img_name = ""
     def __init__(self, multiproc_conn) -> None:
+        
+        self.debug = Debug()
+
         self.process_conn = multiproc_conn
         self.snap_stat = False
         self.snap_thread_stat = False
-
-        # self.snapshot = conn.recv()
-        # print("data snap: " , self.snapshot)
-
 
         # 1. initialize important property & method from all parents
         # exampel : in Components Class --> self.components = {}
@@ -80,9 +107,6 @@ class IPCam(Util, View):
         
         # create layouts
         main_layout = self.CreateLayout(("VBoxLayout", False), self.window)
-        
-        # for i in range(80):
-        #     main_layout.addWidget(QLabel(f"test {i}"))
             
         main_layout.setContentsMargins(200, 50, 200, 50)
         cam_layout = self.CreateLayout(("FormLayout", False), main_layout)
@@ -174,21 +198,20 @@ class IPCam(Util, View):
 
     def snap_thread(self, image):
         
+        self.debug.logger.info("Run snapshot thread( standby waiting snapshot# command ) ...")
+
         while True:
             snap = self.process_conn.recv()
-            # print("receive --> ", snap)
-
+            
             if  "snapshot#" in snap:
                 
+                self.debug.logger.info("Get & Split snapshot command")
+
                 # split barcode from snapshot# string
                 snap = snap.replace("snapshot#", "")
 
-                # image.save(f"./cap/{snap}.jpg","JPG")
-                # print(f"./cap/{snap}.jpg")
-
                 self.snap_stat = True
                 self.snap_barcode = snap
-                # image = QImage()
 
     # @pyqtSlot(QtGui.QImage)
     def setImage(self, image):
@@ -196,26 +219,18 @@ class IPCam(Util, View):
             self.lbl1.setPixmap(QPixmap.fromImage(image))
             
         except Exception as e:
-            print(str(e))
+            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.error(str(e))
         
-        # start_new_thread(self.snap_thread, (image,))
-
         if self.snap_thread_stat == False:
             start_new_thread(self.snap_thread, (image,))
             self.snap_thread_stat = True
 
-            
-        # image = QImage()
-        # if "snapshot#" in self.process_conn.recv():
-        #     print("ok brooooooo")
-
         if self.snap_stat:
-            image.save(f"./cap/{self.snap_barcode}.jpg","JPG");
-            print("save snapshot image ...")
+            image.save(f"./cap/{self.snap_barcode}.jpg","JPG")
             self.snap_stat = False
             image = QImage()
-
-        
+            self.debug.logger.info("save snapshot image & re-init QImage ...")
 
 # HOST = "127.0.0.1" --> sys.argv[1]
 # PORT = 65430 --> sys.argv[2]
@@ -226,17 +241,19 @@ class Server:
     list_of_clients = {}
     
     def __init__(self, host, port, multiproc_conn ) -> None:
+        
+        # init debug
+        debug = Debug()
+
         self.process_conn = multiproc_conn
         self.SERVER_IP = host
 
         self.connect_to_postgresql()
         self.connect_server(host, int(port))
-     
 
     def client_thread(self, conn,addr):
+        self.debug.logger.info("Start client thread")
         
-        logging.basicConfig(filename="logging/log_file.log", filemode="a", level=logging.DEBUG)  
-
         with conn:
             # tidak masalah pembuatan komponen label koneksi disini
             # karena kalaupun koneksi gagal maka statusnya bisa dicek ama looping cek koneksi pada program client_service
@@ -246,19 +263,19 @@ class Server:
             # sementara pada penamaan komponen label harus ada hubungan/integrasi antara client yg konek dengan name 
             # komponent tersebut
 
-            print(f"Connected by {addr}")
+            self.debug.logger.info(f"Connected by {addr}")
             
             # create label component
 
             try:
+                self.debug.logger.info("Server standby waiting message from client ... ")
+
                 while True:
                     data = conn.recv(1024)
                     msg = data.decode("utf-8")
-                    # print(data.decode("utf-8"))
                     
                     if(msg==''):
-                        print(f"client{addr} disconnected at {datetime.datetime.now()}")
-                        logging.warning(f"client{addr} disconnected at {datetime.datetime.now()}")
+                        self.debug.logger.info(f"client{addr} disconnected at {datetime.datetime.now()}")
                     elif(msg!=''):
                         
                         # disini harus bisa membedakan data string yg diterima
@@ -435,9 +452,6 @@ class Server:
             print("\nexecute query fail")
             print(str(e))
 
-
-# run server
-# obj = Server(sys.argv[1], int(sys.argv[2]))
 
 def run():
     conn1, conn2 = multiprocessing.Pipe()
