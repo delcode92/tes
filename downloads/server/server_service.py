@@ -289,7 +289,7 @@ class Server:
                         # print(msg)
 
                         if "rfid#" in msg:
-                            
+                            # print()
                             try:
                                 msg = re.search('rfid#(.+?)#end', msg).group(1)
                             except AttributeError:
