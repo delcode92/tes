@@ -1,0 +1,13 @@
+2023-02-08 09:14:56 INFO This is an info message put in log file.
+2023-02-08 09:14:56 WARNING This is an info message put in log file.
+2023-02-08 09:15:04 INFO This is an info message put in log file.
+2023-02-08 09:15:04 WARNING This is an info message put in log file.
+2023-02-08 09:15:37 DEBUG This is a debug message in dev....
+2023-02-08 09:15:37 INFO This is an info message put in log file.
+2023-02-08 09:15:37 WARNING This is an info message put in log file.
+2023-02-08 09:15:56 DEBUG This is a debug message in dev....
+2023-02-08 09:15:56 INFO This is an info message put in log file.
+2023-02-08 09:15:56 WARNING This is an info message put in log file.
+2023-02-08 09:15:57 DEBUG This is a debug message in dev....
+2023-02-08 09:15:57 INFO This is an info message put in log file.
+2023-02-08 09:15:57 WARNING This is an info message put in log file.

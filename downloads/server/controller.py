@@ -1,4 +1,4 @@
-import sys, psycopg2, os, math, threading
+import sys, psycopg2, os, math, threading, logging
 
 from client.client_service import Client
 from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget ,QHeaderView, QLabel, QPushButton, QTableWidget, QTableWidgetItem)
@@ -14,59 +14,79 @@ class Controller(Client):
     def __init__(self) -> None:
         # self.Util.__init__(self)
         
+        self.initDebug()
+
         # active db cursor 
         self.connect_to_postgresql()
         self.sw_stat = False
+        
         # ========== steps ========
-        print("\nController constructor: ")
-        print("connect to DB .....")
-        print("active DB cursor ..... \n")
+        
+        self.logger.info("\nController constructor: ")
+        self.logger.info("connect to DB .....")
+        self.logger.info("active DB cursor ..... \n")
 
-    def Action(self):
-        pass
+    def initDebug(self):
+        
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.NOTSET)
+        self.logfile_path = "./logging/log_file.log"
+
+        # our first handler is a console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler_format = '%(levelname)s: %(message)s'
+        console_handler.setFormatter(logging.Formatter(console_handler_format))
+
+        # start logging and show messages
+
+        # the second handler is a file handler
+        file_handler = logging.FileHandler(self.logfile_path)
+        file_handler.setLevel(logging.INFO)
+        file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+        file_handler.setFormatter(logging.Formatter(file_handler_format))
+
+        self.logger.addHandler(console_handler)
+        self.logger.addHandler(file_handler)
+    
 
     def connect_to_server(self, h, p):
         super().__init__(h,p)
-        
 
 
-        
     def connect_to_postgresql(self):
-        ini = self.getPath("app.ini")
-        
-        configur = ConfigParser()
-        configur.read(ini)
-        
-        conn = psycopg2.connect(
-            database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
-        )
-        conn.autocommit = True
-        self.db_cursor = conn.cursor()
+        try:
+            ini = self.getPath("app.ini")
+            
+            configur = ConfigParser()
+            configur.read(ini)
+            
+            conn = psycopg2.connect(
+                database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
+            )
+            conn.autocommit = True
+            self.db_cursor = conn.cursor()
+        except Exception as e:
+            self.logger.error( str(e) )    
         
     def exec_query(self, query, type=""):
         
         try:
             self.db_cursor.execute(query)
-            print("\nsuccess execute query")
+            self.logger.info("\nsuccess execute query")
 
             if type.lower() != "select":    
                 return True
 
         except Exception as e:
-            print("\nexecute query fail")
-            print( str(e) )
-
+            self.logger.info("\nexecute query fail")
+            self.logger.error( str(e) )
 
 
         if type.lower() =="select":
             data = self.db_cursor.fetchall()
             return data
 
-    # def check_login(self, uname, password):
-    #     if uname=="admin" and password=="admin":
-    #         self.AdminDashboard()
-    #     elif uname=="kasir" and password=="kasir":
-    #         self.KasirDashboard()
 
 
     def login_ctrl(self, arg):
@@ -74,12 +94,11 @@ class Controller(Client):
         uname = self.components["input_uname"].text()
         passwd = self.components["input_pass"].text()
         q = self.exec_query(f"select * from users where username='{uname}' and password='{passwd}'", "select")
-        print(f"select * from users where username='{uname}' and password='{passwd}'")
+        
         if len(q) == 1:
             
             level = q[0][2].lower()
-            print("level", level)
-
+        
             if level=="admin":
                 self.closeWindow(arg[0])
                 self.AdminDashboard()
@@ -93,7 +112,6 @@ class Controller(Client):
             # get time based on barcode
             barcode = self.components["barcode_transaksi"].text()
             barcode_time = self.exec_query(f"select datetime, jenis_kendaraan, status_parkir, ip_raspi from karcis where barcode='{barcode}'", "select")
-            # print(f"select datetime, jenis_kendaraan, status_parkir, ip_raspi from karcis where barcode='{barcode}'")
             jns_kendaraan = barcode_time[0][1].capitalize()
             self.ip_raspi = barcode_time[0][3]
 
@@ -111,10 +129,10 @@ class Controller(Client):
 
                 diff = time_now - barcode_time
                 total_hours = math.ceil(diff.total_seconds()/3600)
-                print("TH", total_hours, type(total_hours))
-                print("tes1:", jns_kendaraan)
-                # print("tes2:", barcode_time[1])
-
+                
+                self.logger.debug("TH", total_hours, type(total_hours))
+                self.logger.debug("jns kendaraan:", jns_kendaraan)
+            
                 # get base price from db
                 base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
                 base_price_perjam = base_price[0][0] 
@@ -123,16 +141,16 @@ class Controller(Client):
                 if total_hours==0:
                     jam = 1
                     price = jam * base_price_perjam
-                    print(jam, "jam")
-                    print(price, "Rupiah")
-                    print("================")
+                    self.logger.debug(jam, "jam")
+                    self.logger.debug(price, "Rupiah")
+                    self.logger.debug("================")
                 
                 elif total_hours<24 and total_hours>0:
                     price = total_hours * base_price_perjam
                     
-                    print(total_hours, "jam")
-                    print(price, "Rupiah")
-                    print("================")
+                    self.logger.debug(total_hours, "jam")
+                    self.logger.debug(price, "Rupiah")
+                    self.logger.debug("================")
                 
                 elif total_hours>24:
                     hari = math.floor(total_hours/24)
@@ -140,30 +158,27 @@ class Controller(Client):
 
                     price = (hari*base_price_per24jam) + (jam*base_price_perjam)
 
-                    print(hari, "hari")
-                    print(jam, "jam")
-                    print(price, "Rupiah")
-                    print("================")
+                    self.logger.debug(hari, "hari")
+                    self.logger.debug(jam, "jam")
+                    self.logger.debug(price, "Rupiah")
+                    self.logger.debug("================")
                 
                 # set value to textbox
-                print(jns_kendaraan, str(status_parkir))
                 self.components["jns_kendaraan"].setText( jns_kendaraan )
                 self.components["ket_status"].setText( str(status_parkir) )
                 
                 # just show tarif and enable button if "BELUM LUNAS"
                 if status_parkir == "BELUM LUNAS":
-                    print("masuk bro")
                     self.components["tarif_transaksi"].setText( str(price) )
                     self.components["btn_bayar"].setEnabled(True)
 
-                # return price
         except Exception as e:
             # clear text box if false input barcode
             self.components["jns_kendaraan"].setText("")
             self.components["ket_status"].setText("")
             self.components["tarif_transaksi"].setText("")
 
-            print(str(e))
+            self.logger.error(str(e))
     
     def hideSuccess(self):
         self.components["lbl_success"].setHidden(True)
@@ -313,7 +328,7 @@ class Controller(Client):
         self.components["btn_bayar"].setEnabled(False)
 
         # send data to server to open the gate
-        print("open gate ... ")
+        self.logger.debug("open gate ... ")
         self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
 
 
@@ -340,7 +355,6 @@ class Controller(Client):
             timer.start()        
 
     def add_voucher(self):
-        print("add voucher here")
         id_pel = self.components["add_voucher_idpel"].text()    
         lokasi = self.components["add_voucher_lokasi"].text()    
         tarif = self.components["add_voucher_tarif"].text()    
@@ -484,18 +498,15 @@ class Controller(Client):
     def save_edit_karcis(self):
 
         try:
-            print("send JSON config to client ... ")
+            self.logger.info("send JSON config to client ... ")
             
             # get data from form
             nm_tempat = self.components["add_tempat"].text()
-            # nm_gate = self.components["add_nm_gate"].text()
-            # jns_kendaraan = self.components["add_jns_kendaraan"].currentText()
             footer1 = self.components["add_footer1"].text()
             footer2 = self.components["add_footer2"].text()
             footer3 = self.components["add_footer3"].text()
             
             # send data JSON to raspi via socket
-            # config_json = 'config#{"tempat":"'+nm_tempat+'", "gate":"'+nm_gate+'", "jns_kendaraan":"'+jns_kendaraan+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
             config_json = 'config#{"tempat":"'+nm_tempat+'", "footer1":"'+footer1+'", "footer2":"'+footer2+'", "footer3":"'+footer3+'"}#end'
             self.s.sendall( bytes(config_json, 'utf-8') )
 
@@ -508,7 +519,7 @@ class Controller(Client):
             dlg.exec()
 
         except Exception as e:
-            print(str(e))
+            self.logger.error(str(e))
 
     def set_tarif(self):
         
@@ -633,7 +644,6 @@ class Controller(Client):
         stacked_widget.setCurrentIndex(index)    
     
     def finish(self):
-        print("finish")
         self.animating = False
 
     def windowBarAction(self, q):
@@ -657,18 +667,7 @@ class Controller(Client):
         
         match bar_action:
             case "dashboard":
-                # self.closeWindow(self.window)
-                # self.AdminDashboard()
                 
-                ########### solution replace widget ########
-                # x = QLabel("coba test 123")
-                # x.setStyleSheet("color: red; font-size: 30px; background: grey;")
-
-                # widget_before = self.right_content_lay.itemAt(0).widget()
-                # self.right_content_lay.removeWidget(widget_before)
-                # self.right_content_lay.addWidget(x)
-                ##################################
-
                 # set active button and label
                 self.updateStyle(
                     target=(self.home_btn, self.home_lbl), 
@@ -694,10 +693,6 @@ class Controller(Client):
                 self.stacked_widget.setCurrentIndex(0)
                 self.stacked_animation.start()
 
-                # if self.animating == False:
-                #     self.animating = True
-                #     self.stacked_animation.finished.connect(self.finish)
-
             case "kelola rfid":
                 
                 # set active button and label
@@ -722,73 +717,8 @@ class Controller(Client):
                 )
 
                 self.stacked_widget.setCurrentIndex(1)
-                
-
-                
                 self.stacked_animation.start()
-                # self.stacked_animation.finished.connect(lambda: self.stacked_widget.setCurrentIndex(1))
-                # sub_window_setter = { "title": "Kelola RFID", "style":self.bg_white, "size":(800, 600) }
-                # cols = 5
-
-                # # create table
-                # table = QTableWidget()
-                # table.resizeRowsToContents()
-                # table.setColumnCount(5)
-                # table.setHorizontalHeaderLabels(["id", "RFID", "Nama", "Edit", "Del"])
-                # table.setStyleSheet(self.table_style)
-                # table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                # table.setColumnHidden(0, True) #hide id column
-                # # table.resizeRowsToContents()
-
-                # header = table.horizontalHeader()
-
-                # # set header stretch
-                # for i in range(cols-3):
-                #     header.setSectionResizeMode(i+1, QHeaderView.Stretch)
                 
-                # # run query & set column value
-                # query = self.exec_query("SELECT id, rfid, nama FROM rfid order by nama", "SELECT")
-
-                # for l in query:
-                #     rows = table.rowCount()
-                #     rows_count = rows + 1
-                #     table.setRowCount(rows_count)
-                    
-                #     # set item on table column
-                #     for i in range(cols-2):
-                        
-                #         item = QTableWidgetItem( str(l[i]) )
-                #         item.setFlags(Qt.ItemIsEnabled)
-                #         table.setItem(rows, i, item)
-                    
-                #     # create edit button
-                #     btn = QPushButton(table)
-                #     edit_ico = self.getPath("edit.png")
-                #     btn.setIcon(QIcon(edit_ico))
-                #     btn.setStyleSheet( self.edit_btn_action )
-                #     table.setCellWidget(rows, 3, btn)
-                #     btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "rfid"))
-                    
-                #     # create delete button
-                #     btn_del = QPushButton(table)
-                #     del_ico = self.getPath("trash.png")
-                #     btn_del.setIcon(QIcon(del_ico))
-                #     btn_del.setStyleSheet(self.del_btn_action)
-                #     table.setCellWidget(rows, 4, btn_del)
-                #     btn_del.clicked.connect(lambda *args, row=rows: self.deleteData(row, table, "rfid"))
-
-                
-                # rows_count = math.floor(rows_count/2)
-               
-                # for r in range(rows_count):
-                #     n = 2*r+1
-                
-                #     table.item(n, 1).setBackground(cell_bg_color)
-                #     table.item(n, 2).setBackground(cell_bg_color)
-                
-                # table.setShowGrid(False)
-                # self.SubWinVerticalTable(sub_window_setter, [table])
- 
             case "tambah rfid":
                 ...
                 # sub_window_setter = { "title": "Tambah RFID", "style":self.bg_white, "size":(600, 400) }

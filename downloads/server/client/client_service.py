@@ -1,6 +1,6 @@
 # client - server connection via socket programming
 
-import socket
+import socket, logging
 from time import sleep
 
 
@@ -8,8 +8,34 @@ class Client:
     
     
     def __init__(self, host, port) -> None:
+        
+        self.initDebug()
         self.s = None
         self.connect_client(host, port)
+    
+    def initDebug(self):
+        
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.NOTSET)
+        self.logfile_path = "../logging/log_file.log"
+
+        # our first handler is a console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler_format = '%(levelname)s: %(message)s'
+        console_handler.setFormatter(logging.Formatter(console_handler_format))
+
+        # start logging and show messages
+
+        # the second handler is a file handler
+        file_handler = logging.FileHandler(self.logfile_path)
+        file_handler.setLevel(logging.INFO)
+        file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+        file_handler.setFormatter(logging.Formatter(file_handler_format))
+
+        self.logger.addHandler(console_handler)
+        self.logger.addHandler(file_handler)
+        
 
     def connect_client(self, h, p):
         # connect_stat = False
@@ -18,7 +44,7 @@ class Client:
             try:
                 self.s.sendall( bytes(f"client({h}) connected", 'utf-8') )
             except:
-                print("can't connect to server")
+                self.logger.info("can't connect to server")
 
                 try:
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -26,11 +52,12 @@ class Client:
                     self.s.connect((h, int(p)))
 
                     self.s.sendall( bytes(f"client({h}) connected", 'utf-8') )
-                    print("success connect to server")
+                    self.logger.info("success connect to server")
 
                 except Exception as e:
-                    print("can't connect to server")
-                    print(str(e))
+                    
+                    self.logger.info("can't connect to server")
+                    self.logger.error( str(e) )
 
             
 
