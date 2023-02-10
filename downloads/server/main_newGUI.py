@@ -118,6 +118,111 @@ class Main(Util, View):
         else:
             return form_container,form_container_lay
 
+    def detailPopUp(self, form_type="", form_size=(400,400)):
+        
+        if self.hidden_id != -1:
+            yellow_font = "color: #ffeaa7;"
+            id = str(self.hidden_id)
+
+            match form_type.lower():
+                case "karcis":
+                    res = self.exec_query("select * from karcis where id="+id, "select")
+                    components = [
+                                    {
+                                        "name":"lbl_barcode",
+                                        "category":"label",
+                                        "text": "Barcode:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_barcode",
+                                        "category":"label",
+                                        "text":res[0][1],
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_datetime",
+                                        "category":"label",
+                                        "text": "Waktu Masuk:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_datetime",
+                                        "category":"label",
+                                        "text":"date time here...",
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_gate",
+                                        "category":"label",
+                                        "text": "Gate:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_gate",
+                                        "category":"label",
+                                        "text":res[0][3],
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_stat",
+                                        "category":"label",
+                                        "text": "Status Parkir:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_stat",
+                                        "category":"label",
+                                        "text":"status here ...",
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_jns_kendaaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_jns_kendaraan",
+                                        "category":"label",
+                                        "text":res[0][6],
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_photo",
+                                        "category":"label",
+                                        "text": "Photo:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_photo",
+                                        "category":"image",
+                                        "img_path":"./cap/mountain.png",
+                                        "style":self.detail_lbl
+                                    },
+                                ]
+
+                case default:
+                    pass    
+
+            self.win = QMainWindow()
+            central_widget = QWidget()
+            central_lay = QVBoxLayout()
+            
+            central_lay.setContentsMargins(25,25,25,25)
+            central_widget.setStyleSheet("background:#222b45;")
+
+            self.CreateComponentLayout(components, central_lay)
+            central_lay.addStretch(1)
+            
+            central_widget.setLayout(central_lay)
+            self.win.setCentralWidget(central_widget)
+
+            self.win.setWindowTitle(f"{form_type} details")
+            self.win.resize(form_size[0], form_size[1])
+            
+            self.win.show()
+
     def editPopUp(self, form_type="", form_size=(400,400) ):
         
         if self.hidden_id != -1:
@@ -1211,18 +1316,22 @@ class Main(Util, View):
                 self.search_data_karcis = QLineEdit()
                 row_search = QPushButton("search")
                 row_search.setIcon(QIcon(self.icon_path+"search.png"))
+                row_detail = QPushButton("details")
+                row_detail.setIcon(QIcon(self.icon_path+"layout-fluid.png"))
                 row_refresh = QPushButton("refresh")
                 row_refresh.setIcon(QIcon(self.icon_path+"refresh.png"))
                 
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.search_data_karcis.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_search.setStyleSheet(View.edit_btn_action)
+                row_detail.setStyleSheet(View.detail_btn_action)
                 row_refresh.setStyleSheet(View.print_btn_action)
                 
                 # add lineedit and button into action_lay
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.search_data_karcis)
                 action_lay.addWidget(row_search)
+                action_lay.addWidget(row_detail)
                 action_lay.addWidget(row_refresh)
                 action_lay.addStretch(1)
 
@@ -1230,6 +1339,7 @@ class Main(Util, View):
                 ##################### action edit & delete ###################
                 
                 row_search.clicked.connect(self.searchKarcis)
+                row_detail.clicked.connect(lambda: self.detailPopUp(form_type="karcis", form_size=(400, 600)))
                 row_refresh.clicked.connect(self.refreshKarcis)
                
                 ##############################################################

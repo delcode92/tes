@@ -143,6 +143,19 @@ class View:
                         background-color: #9A711E;
                     }
     """
+    
+    detail_btn_action = """QPushButton {
+                        background:#ff7675; 
+                        padding:5px; 
+                        margin-bottom:5px;
+                        color:#fff;
+                        font-size:13px; 
+                        font-weight: 500;
+                    }
+                    QPushButton:hover {
+                        background-color: #FF5A59;
+                    }
+    """
 
     del_btn_action = """QPushButton {
                         background:#ff3d71; 
@@ -221,6 +234,14 @@ class View:
                         /* background:#2C3E50; */
                         color: #fff;
                         /* padding:8px; */               
+    """
+    
+    detail_lbl = """QLabel{
+                        font-family: Helvetica;
+                        font-size: 12px;
+                        font-weight:400;
+                        margin-bottom: 20px;
+                        color: #fff;
     """
 
     primary_lbl_kasir = """QLabel{
@@ -594,6 +615,8 @@ class Util(Controller ):
                 match i["category"].lower():
                     case "label":
                         self.components[i["name"]] = QLabel(parent)
+                    case "image":
+                        self.components[i["name"]] = QLabel(parent)
                     case "pushbutton":
                         self.components[i["name"]] = QPushButton(parent)
                         self.components[i["name"]].setCursor(QCursor(Qt.PointingHandCursor))
@@ -632,6 +655,11 @@ class Util(Controller ):
                                 self.components[i["name"]].move( i["move"][0], i["move"][1] )
                             case "text":
                                 self.components[i["name"]].setText( i["text"] )
+                            case "img_path":
+                                pixmap = QPixmap(i["img_path"])
+                                self.components[i["name"]].setPixmap(pixmap)
+                                # self.components[i["name"]].setMaximumWidth(100)
+                                # self.resize(pixmap.width(),pixmap.height())  
                             case "editable":
                                 if i["editable"] == False:
                                     self.components[i["name"]].setReadOnly(True)    
