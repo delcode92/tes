@@ -1,4 +1,5 @@
 import sys, psycopg2, os, math, threading, logging
+from logging.handlers import TimedRotatingFileHandler
 
 from client.client_service import Client
 from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget ,QHeaderView, QLabel, QPushButton, QTableWidget, QTableWidgetItem)
@@ -27,10 +28,10 @@ class Controller(Client):
         self.logger.info("active DB cursor ..... \n")
 
     def initDebug(self):
-        
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.NOTSET)
         self.logfile_path = "./logging/log_file.log"
+
 
         # our first handler is a console handler
         console_handler = logging.StreamHandler()
@@ -46,12 +47,17 @@ class Controller(Client):
         file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
         file_handler.setFormatter(logging.Formatter(file_handler_format))
 
+        # clear log file every 1 day
+        rotate = TimedRotatingFileHandler('sample.log', when='D', interval=1, backupCount=0, encoding=None, delay=False, utc=False)
+        
+        self.logger.addHandler(rotate)
         self.logger.addHandler(console_handler)
         self.logger.addHandler(file_handler)
     
 
     def connect_to_server(self, h, p):
-        super().__init__(h,p)
+        # super().__init__(h,p)
+        ...
 
 
     def connect_to_postgresql(self):

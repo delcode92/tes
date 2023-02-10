@@ -393,10 +393,10 @@ class Util(Controller ):
         self.mdi_stat = False
         
         # ========== steps ========
-        self.debug.logger.info("\nUtil constructor: ")
-        self.debug.logger.info("run QApplication .......")
-        self.debug.logger.info("init screensize .......")
-        self.debug.logger.info("init components dict .......\n")
+        self.logger.info("\nUtil constructor: ")
+        self.logger.info("run QApplication .......")
+        self.logger.info("init screensize .......")
+        self.logger.info("init components dict .......\n")
 
      
 
@@ -434,7 +434,7 @@ class Util(Controller ):
                 case default:
                     pass
         except Exception as e:
-            self.debug.logger.error(str(e))
+            self.logger.error(str(e))
 
 
     def CreateWindow(self, setters, window, type=""):
@@ -554,7 +554,7 @@ class Util(Controller ):
                     layout.addWidget( self.components[i["name"]] )
 
                 else:
-                    self.debug.logger.info("name - category not available/empty")
+                    self.logger.info("name - category not available/empty")
                     sys.exit()
 
         elif layout_type.lower() == "formlayout":
@@ -574,7 +574,7 @@ class Util(Controller ):
                         layout.addRow(self.components[i[0]["name"]], self.components[i[1]["name"]])
 
                 else:
-                    self.debug.logger.info("name - category not available/empty")
+                    self.logger.info("name - category not available/empty")
                     sys.exit()
 
     def CreateComponent(self, components:list, parent=None ):
@@ -695,7 +695,7 @@ class Util(Controller ):
                                 self.CreateComponent(value, self.components[i["name"]])
 
             else:
-                self.debug.logger.info("name - category not available/empty")
+                self.logger.info("name - category not available/empty")
                 sys.exit()
 
 

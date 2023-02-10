@@ -88,8 +88,8 @@
                                     </rfid_tabs_container_widget>    
                                     
                                     <self.rfid_stack>
-                                        <rfid_content1>
-                                            <rfid_content1_lay>
+                                        <rfid_content1> <!-- widget -->
+                                            <rfid_content1_lay> <!-- vertical lay -->
                                                 <tab1_h_widget>
                                                     <tab1_h_layout>
                                                         <table/>

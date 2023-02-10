@@ -494,6 +494,30 @@ class Main(Util, View):
         self.karcis_table.setRowCount(rows_count)
         self.fillTable(self.karcis_table, cols, query)
 
+    def prevNext(self, btnType):
+        
+        if btnType=="prev":
+            # check & set current offset
+            if self.row_offset > 0:
+                self.row_offset = self.row_offset - 18 
+
+        elif btnType=="next":
+            # check & set current offset
+            if self.row_offset >= 0:
+                self.row_offset = self.row_offset + 18
+
+        # refill/refresh table with new offset
+        query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+        rows_count = len(query)
+
+        if rows_count > 0:
+            cols = 6
+
+            self.karcis_table.setRowCount(rows_count)
+            self.fillTable(self.karcis_table, cols, query)
+        else:
+            self.row_offset = self.row_offset - 18; 
+
     def createPage(self, page=""):
         
         margin_top = "margin-top:30px;"
@@ -639,7 +663,9 @@ class Main(Util, View):
                 self.rfid_table.clicked.connect(lambda: self.getCellVal(self.rfid_table, page="rfid"))
                 
                 rfid_content1_lay.addWidget(tab1_h_widget)
-
+               
+                rfid_content1_lay.addWidget(tab1_h_widget)
+                
                 ###################################################################
 
 
@@ -1211,13 +1237,53 @@ class Main(Util, View):
 
                 ######################### karcis Table ##############################
                 # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(self.karcis_table)
+                # prev next button
+                prev_btn = QPushButton("PREV")
+                next_btn = QPushButton("NEXT")
+                prev_btn.setMaximumWidth(100)
+                next_btn.setMaximumWidth(100)
+                prev_btn.setIcon(QIcon(self.icon_path+"angle-left.png"))
+                next_btn.setIcon(QIcon(self.icon_path+"angle-right.png"))
+                next_btn.setLayoutDirection(Qt.RightToLeft)
+
+                prev_btn.setStyleSheet("background: #00b894; color:#fff;")
+                next_btn.setStyleSheet("background: #ff7675; color:#fff;")
+                
+                # set click method prev-next button
+                prev_btn.clicked.connect(lambda: self.prevNext("prev"))
+                next_btn.clicked.connect(lambda: self.prevNext("next"))
+
+                # prev next buton container
+                prev_next_cont_widget = QWidget()
+                prev_next_cont_lay = QHBoxLayout()
+                prev_next_cont_widget.setLayout( prev_next_cont_lay )
+                prev_next_cont_lay.setAlignment(Qt.AlignCenter)
+                prev_next_cont_lay.setContentsMargins(0,15,0,0)
+
+                # add button prev-next into container
+                prev_next_cont_lay.addWidget(prev_btn)
+                prev_next_cont_lay.addWidget(next_btn)
+
+                tabl_pg_cont_widget = QWidget()
+                tabl_pg_cont = QVBoxLayout()
+
+                tabl_pg_cont_widget.setLayout(tabl_pg_cont)
+
+                tabl_pg_cont.addWidget(self.karcis_table)
+                tabl_pg_cont.addWidget(prev_next_cont_widget)
+
+                tabl_pg_cont.setContentsMargins(0,0,0,0)
+                tabl_pg_cont.setSpacing(0)
+
+                # add table and action widget container into horizontal layout
+                tab1_h_layout.addWidget(tabl_pg_cont_widget)
                 tab1_h_layout.addWidget(action_widget)
 
                 # create table widget
 
                 # fetch data from DB
-                query = self.exec_query("SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis", "SELECT")
+                self.row_offset = 0
+                query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
                 cols = 6
 
@@ -1240,8 +1306,9 @@ class Main(Util, View):
                 self.karcis_table.clicked.connect(lambda: self.getCellVal(self.karcis_table, page="karcis"))
                 
                 # karcis_content1_lay.addWidget(table)
+                
                 karcis_content1_lay.addWidget(tab1_h_widget)
-
+                
                 ###########################################################
 
 

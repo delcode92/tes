@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 import sys, socket, select, random, os, re, json, logging
+
+from logging.handlers import TimedRotatingFileHandler
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -72,7 +74,11 @@ class GPIOHandler:
         file_handler.setLevel(logging.INFO)
         file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
         file_handler.setFormatter(logging.Formatter(file_handler_format))
-
+        
+        # clear log file every 1 day
+        rotate = TimedRotatingFileHandler('sample.log', when='D', interval=1, backupCount=0, encoding=None, delay=False, utc=False)
+        
+        self.logger.addHandler(rotate)
         self.logger.addHandler(console_handler)
         self.logger.addHandler(file_handler)
     

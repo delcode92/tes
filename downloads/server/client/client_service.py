@@ -1,6 +1,7 @@
 # client - server connection via socket programming
 
 import socket, logging
+from logging.handlers import TimedRotatingFileHandler
 from time import sleep
 
 
@@ -33,6 +34,10 @@ class Client:
         file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
         file_handler.setFormatter(logging.Formatter(file_handler_format))
 
+        # clear log file every 1 day
+        rotate = TimedRotatingFileHandler('sample.log', when='D', interval=1, backupCount=0, encoding=None, delay=False, utc=False)
+        
+        self.logger.addHandler(rotate)
         self.logger.addHandler(console_handler)
         self.logger.addHandler(file_handler)
         
