@@ -2089,6 +2089,11 @@ class Main(Util, View):
             "style":self.win_dashboard
         }
 
+        ################# create windows layout ###############
+        #######################################################
+
+
+
         # create groupbox
         groupboxes = [
                 {
@@ -2102,7 +2107,7 @@ class Main(Util, View):
                 {
                     "name": "gb_center",
                     "category":"GroupBox",
-                    "title":"Emergency",
+                    "title": "Lap.User Bermasalah",
                     "max_width": 440,
                     "max_height": 500,
                     "style": self.gb_styling
@@ -2110,7 +2115,7 @@ class Main(Util, View):
                 {
                     "name": "gb_right",
                     "category":"GroupBox",
-                    "title": "Lap.User Bermasalah",
+                    "title":"Emergency",
                     "max_width": 440,
                     "max_height": 500,
                     "style": self.gb_styling
@@ -2181,19 +2186,7 @@ class Main(Util, View):
                     }
                 ]
     
-
         center_content = [
-                {
-                    "name": "btn_emergency_kasir",
-                    "category":"PushButton",
-                    "text": "Emergency Button",
-                    "min_width": 212,
-                    "min_height": 150,
-                    "style": self.emergency_button
-                }
-        ]
-
-        right_content = [
                 {
                         "name":"lbl_barcode_bermasalah",
                         "text":"BL/Barcode",
@@ -2237,6 +2230,17 @@ class Main(Util, View):
                         "text": "Simpan",
                         "style": self.primary_button
                     }
+        ]
+
+        right_content = [
+                {
+                    "name": "btn_emergency_kasir",
+                    "category":"PushButton",
+                    "text": "Emergency Button",
+                    "min_width": 212,
+                    "min_height": 150,
+                    "style": self.emergency_button
+                }
         ]
 
         self.CreateWindow( window_setter, self.window )

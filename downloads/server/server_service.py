@@ -190,7 +190,7 @@ class IPCam(Util, View):
         
         self.window.setCentralWidget(scroll)
 
-        self.window.show()
+        self.window.showMinimized()
         sys.exit(self.app.exec_())
 
     def snap_func(self):

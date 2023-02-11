@@ -658,8 +658,6 @@ class Util(Controller ):
                             case "img_path":
                                 pixmap = QPixmap(i["img_path"])
                                 self.components[i["name"]].setPixmap(pixmap)
-                                # self.components[i["name"]].setMaximumWidth(100)
-                                # self.resize(pixmap.width(),pixmap.height())  
                             case "editable":
                                 if i["editable"] == False:
                                     self.components[i["name"]].setReadOnly(True)    
