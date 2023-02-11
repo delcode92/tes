@@ -1,10 +1,10 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QShortcut, QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
-from PyQt5.QtGui import QImage, QPixmap, QFont, QCursor, QIcon, QDoubleValidator
+from PyQt5.QtGui import QKeySequence, QImage, QPixmap, QFont, QCursor, QIcon, QDoubleValidator
 from PyQt5.QtCore import QTimer, QDate,QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
@@ -114,6 +114,7 @@ class View:
                     font-size: 13px;
                     font-weight: 500;
                 }
+                QPushButton:focus{ background-color: #4B78FF; }
                 QPushButton:hover {
                     background-color: #4B78FF;
     """

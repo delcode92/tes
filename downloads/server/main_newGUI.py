@@ -641,6 +641,18 @@ class Main(Util, View):
             image_2 = QImage(frame_2, frame_2.shape[1], frame_2.shape[0], frame_2.strides[0], QImage.Format_RGB888)
             self.image_label2.setPixmap(QPixmap.fromImage(image_2))
 
+    def openGate(self):
+        print("OPEN GATE KELUAR")
+
+    def keyShortcut(self, keyCombination="", targetWidget=None, openGate=False):
+        
+        if not openGate:
+            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
+            shortcut.activated.connect( targetWidget.setFocus )
+        elif openGate:
+            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
+            shortcut.activated.connect( self.openGate )
+
     def createPage(self, page=""):
         
         margin_top = "margin-top:30px;"
@@ -2139,8 +2151,10 @@ class Main(Util, View):
         #######################################################
 
         ################# fill all container ###############
-        lbl1 = QLabel("HEADER")
-
+        # get username login
+        uname = self.components["input_uname"].text().upper()
+        lbl1 = QLabel("KASIR LOGIN: " + uname)
+        
         ##### content #####
         groupboxes = [
                 {
@@ -2148,7 +2162,7 @@ class Main(Util, View):
                     "category":"GroupBox",
                     "title":"Transaksi",
                     "max_width": 440,
-                    "max_height": 500,
+                    "max_height": 600,
                     "style": self.gb_styling
                 },
                 {
@@ -2156,7 +2170,7 @@ class Main(Util, View):
                     "category":"GroupBox",
                     "title": "Lap.User Bermasalah",
                     "max_width": 440,
-                    "max_height": 500,
+                    "max_height": 600,
                     "style": self.gb_styling
                 },
                 {
@@ -2164,7 +2178,7 @@ class Main(Util, View):
                     "category":"GroupBox",
                     "title":"IP Cam",
                     "max_width": 440,
-                    "max_height": 500,
+                    "max_height": 600,
                     "style": self.gb_styling
                 }
             ]
@@ -2250,7 +2264,7 @@ class Main(Util, View):
                         "name":"lbl_barcode_bermasalah",
                         "text":"BL/Barcode",
                         "category":"label",
-                        "style":self.primary_lbl_kasir
+                        "style":self.primary_lbl
                     },
                     {
                         "name":"barcode_bermasalah",
@@ -2261,7 +2275,7 @@ class Main(Util, View):
                         "name":"lbl_tarif_bermasalah",
                         "text":"Tarif(Rp)",
                         "category":"label",
-                        "style":self.primary_lbl_kasir + "margin-top:15px;"
+                        "style":self.primary_lbl + "margin-top:15px;"
                     },
                     {
                         "name":"tarif_bermasalah",
@@ -2274,7 +2288,7 @@ class Main(Util, View):
                         "name":"lbl_ket_bermasalah",
                         "text":"Keterangan",
                         "category":"label",
-                        "style":self.primary_lbl_kasir + "margin-top:15px;"
+                        "style":self.primary_lbl + "margin-top:15px;"
                     },
                     {
                         "name":"ket_bermasalah",
@@ -2290,21 +2304,6 @@ class Main(Util, View):
                         "style": self.primary_button
                     }
         ]
-
-        # right_content = [
-        #         {
-        #             "name": "lbl_cam1",
-        #             "category":"label",
-        #             "text": "CAM 1",
-        #             "style": self.primary_lbl
-        #         },
-        #         {
-        #             "name": "img_cam1",
-        #             "category":"label",
-        #             "text": "CAM 1",
-        #             "style": self.primary_lbl
-        #         },
-        # ]
 
         # add components to left
         left_vbox.addStretch(1)
@@ -2333,228 +2332,54 @@ class Main(Util, View):
         self.stream_url_1 = 0
         self.stream_url_2 = 0
 
-        self.cap_1 = cv2.VideoCapture(self.stream_url_1)
-        self.cap_2 = cv2.VideoCapture(self.stream_url_2)
+        # self.cap_1 = cv2.VideoCapture(self.stream_url_1) disini bro
+        # self.cap_2 = cv2.VideoCapture(self.stream_url_2)
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.play)
-        self.timer.start(30)
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.play)
+        # self.timer.start(30)
 
         right_vbox.addWidget(ipcam_lbl1)
-        right_vbox.addWidget(self.image_label)
+        # right_vbox.addWidget(self.image_label) disini bro
         
         right_vbox.addWidget(ipcam_lbl2)
-        right_vbox.addWidget(self.image_label2)
+        # right_vbox.addWidget(self.image_label2)
         
         # right_vbox.addStretch(1)
         ###################
 
-        lbl3 = QLabel("FOOTER")
+        lbl3 = QLabel("COPYRIGHT 2023")
+        lbl3.setAlignment( Qt.AlignCenter )
 
-        lbl1.setStyleSheet("color: #fff;")
+        lbl1.setStyleSheet("background: #222B45; font-weight:600; padding: 10px;")
         lbl3.setStyleSheet("color: #fff;")
 
         header_container_lay.addWidget(lbl1)
         footer_container_lay.addWidget(lbl3)
         
         #######################################################
+        
+        ################# create shortcut key #################
+        # transaksi
+        self.keyShortcut(keyCombination="Ctrl+t", targetWidget=self.components["barcode_transaksi"])
+        
+        # btn bayar
+        self.keyShortcut(keyCombination="Ctrl+b", targetWidget=self.components["btn_bayar"])
+        
+        # lap user bermasalah
+        self.keyShortcut(keyCombination="Ctrl+l", targetWidget=self.components["barcode_bermasalah"])
+        
+        # save btn - lap user bermasalah
+        self.keyShortcut(keyCombination="Ctrl+s", targetWidget=self.components["btn_simpan_bermasalah"])
+        
+        # save btn - lap user bermasalah
+        self.keyShortcut(keyCombination="Ctrl+o", openGate=True)
+        
+        #######################################################
 
         self.window.setCentralWidget(main_widget)
         self.window.show()
 
-        # # create groupbox
-        # groupboxes = [
-        #         {
-        #             "name": "gb_left",
-        #             "category":"GroupBox",
-        #             "title":"Transaksi",
-        #             "max_width": 440,
-        #             "max_height": 500,
-        #             "style": self.gb_styling
-        #         },
-        #         {
-        #             "name": "gb_center",
-        #             "category":"GroupBox",
-        #             "title": "Lap.User Bermasalah",
-        #             "max_width": 440,
-        #             "max_height": 500,
-        #             "style": self.gb_styling
-        #         },
-        #         {
-        #             "name": "gb_right",
-        #             "category":"GroupBox",
-        #             "title":"Emergency",
-        #             "max_width": 440,
-        #             "max_height": 500,
-        #             "style": self.gb_styling
-        #         }
-        #     ]
-        
-        # left_content = [
-        #             {
-        #                 "name":"lbl_barcode_transaksi",
-        #                 "text":"BL/Barcode",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl
-        #             },
-        #             {
-        #                 "name":"barcode_transaksi",
-        #                 "category":"lineEdit",
-        #                 "style": self.primary_input,
-        #                 "event": {
-        #                     "method_name": self.getPrice
-        #                 }
-        #             },
-        #             {
-        #                 "name":"lbl_jns_kendaraan",
-        #                 "text":"Jenis Kendaraan",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl + "margin-top:15px;"
-        #             },
-        #             {
-        #                 "name":"jns_kendaraan",
-        #                 "category":"lineEdit",
-        #                 "editable":False,
-        #                 "style": self.primary_input
-        #             },
-        #             {
-        #                 "name":"lbl_status",
-        #                 "text":"Status",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl + "margin-top:15px;"
-        #             },
-        #             {
-        #                 "name":"ket_status",
-        #                 "category":"lineEdit",
-        #                 "editable":False,
-        #                 "style": self.primary_input
-        #             },
-        #             {
-        #                 "name":"lbl_tarif_transaksi",
-        #                 "text":"Tarif(Rp)",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl + "margin-top:15px;"
-        #             },
-        #             {
-        #                 "name":"tarif_transaksi",
-        #                 "category":"lineEdit",
-        #                 "editable": False,
-        #                 "style": self.primary_input,
-        #             },
-        #             {
-        #                 "name":"btn_bayar",
-        #                 "category":"pushButton",
-        #                 "text": "Bayar",
-        #                 "style": self.primary_button,
-        #                 "enabled": False,
-        #                 "clicked": {
-        #                     "method_name": self.setPay
-        #                 }
-
-        #             }
-        #         ]
-    
-        # center_content = [
-        #         {
-        #                 "name":"lbl_barcode_bermasalah",
-        #                 "text":"BL/Barcode",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl_kasir
-        #             },
-        #             {
-        #                 "name":"barcode_bermasalah",
-        #                 "category":"lineEdit",
-        #                 "style": self.primary_input
-        #             },
-        #             {
-        #                 "name":"lbl_tarif_bermasalah",
-        #                 "text":"Tarif(Rp)",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl_kasir + "margin-top:15px;"
-        #             },
-        #             {
-        #                 "name":"tarif_bermasalah",
-        #                 "category":"lineEdit",
-        #                 "min_height": 40,
-        #                 "editable": False,
-        #                 "style":self.primary_input
-        #             },
-        #             {
-        #                 "name":"lbl_ket_bermasalah",
-        #                 "text":"Keterangan",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl_kasir + "margin-top:15px;"
-        #             },
-        #             {
-        #                 "name":"ket_bermasalah",
-        #                 "category":"lineEdit",
-        #                 "min_height": 40,
-        #                 "style": "border:1px solid #ecf0f1;"+self.bg_grey,
-        #                 "font":self.helvetica_12
-        #             },
-        #             {
-        #                 "name":"btn_simpan_bermasalah",
-        #                 "category":"pushButton",
-        #                 "text": "Simpan",
-        #                 "style": self.primary_button
-        #             }
-        # ]
-
-        # right_content = [
-        #         {
-        #             "name": "btn_emergency_kasir",
-        #             "category":"PushButton",
-        #             "text": "Emergency Button",
-        #             "min_width": 212,
-        #             "min_height": 150,
-        #             "style": self.emergency_button
-        #         }
-        # ]
-
-        # self.CreateWindow( window_setter, self.window )
-
-        # # create main layout
-        # main_layout = self.CreateLayout(("HBoxLayout", False), self.window)
-
-        # # create widget & set to main layout
-        # main_widget = QWidget()
-        # main_widget.setLayout(main_layout)
-        
-        # # add groupboxes into main layout
-        # self.CreateComponentLayout(groupboxes, main_layout)
-
-        # # create layout for Groupbox
-        # left_vbox = self.CreateLayout(("VBoxLayout", False))
-        
-        # right_vbox = self.CreateLayout(("VBoxLayout", False))
-        # center_vbox = self.CreateLayout(("VBoxLayout", False))
-
-        # # set gb layout
-        # self.components["gb_left"].setLayout(left_vbox)
-        # self.components["gb_right"].setLayout(right_vbox)
-        # self.components["gb_center"].setLayout(center_vbox)
-
-        # # add components to left
-        # left_vbox.addStretch(1)
-        # self.CreateComponentLayout(left_content, left_vbox)
-        
-        # left_vbox.setContentsMargins(8,40,8,0)
-        # left_vbox.addStretch(1)
-
-        # # add components to center
-        # self.CreateComponentLayout(center_content, center_vbox)
-        
-        # # add components to right
-        # right_vbox.addStretch(1)
-        # self.CreateComponentLayout(right_content, right_vbox)
-        # right_vbox.addStretch(1)
-
-        
-        # # show app
-        # self.window.setCentralWidget(main_widget)
-        # self.window.show()
-        
-    
     def AdminDashboard(self):
             window_setter = {
                 "title":"Admin Dashboard", 
