@@ -285,28 +285,45 @@ class Server:
 
                         # txt = data.decode("utf-8")
                         # print(data.decode("utf-8"))
+                        # print("===========> masuk bro")
                         # print(msg)
 
                         if "rfid#" in msg:
                             try:
                                 msg = re.search('rfid#(.+?)#end', msg).group(1)
-                            except AttributeError:
-                                self.debug.logger.error("rfid between substring not found ... ")
+                            except Exception as e:
+                                self.debug.logger.debug("rfid between substring not found ... ")
+                                self.debug.logger.error(str(e))
 
                             print("==================================")
-                            self.debug.logger.debug("checking RFID ...")
+                            print("checking RFID ...")
 
                             # self.db_cursor.execute("select count(*) as count from rfid where rfid='123'")
                             res = self.exec_query(f"select count(*) as count from rfid where rfid='{msg}'", "select")
-                            self.debug.logger.debug("RFID result: "+ res[0][0])
+                            # print(f"select count(*) as count from rfid where rfid='{msg}'")
+                            self.debug.logger.debug("RFID result: "+ str(res[0][0]))
+                            
+                                  
 
                             if res[0][0] == 1:
                                 self.debug.logger.debug("success rfid")
                                 conn.sendall( bytes("rfid-true", 'utf-8') )
                             else:
-                                self.debug.logger.error("fail rfid")
+                                self.debug.logger.debug("fail rfid")
                                 conn.sendall( bytes("rfid-false", 'utf-8') )
                             print("==================================")
+
+                        elif "date#" in msg:
+                            try:
+
+                                # get current date
+                                today = datetime.date.today()
+                                dt = today.strftime("%Y-%m-%d %H:%M:%S")
+
+                                conn.sendall( bytes(f"date#{dt}#end", 'utf-8') )
+                            except Exception as e:
+                                self.debug.logger.debug("getdate between substring not found ... ")
+                                self.debug.logger.error(str(e))
 
                         elif "pushButton#" in msg:
                             

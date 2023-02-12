@@ -11,6 +11,8 @@ from configparser import ConfigParser
 
 class GPIOHandler:
     def __init__(self) -> None:
+        
+        # init for debug
         self.initDebug()
         
         # global variable
@@ -42,9 +44,14 @@ class GPIOHandler:
 
                     self.s.sendall( bytes(f"GPIO handshake from {host}:{port}", 'utf-8') )
                     self.logger.info("GPIO handshake success")
-
-                    # stanby data yg dikirim dari server disini
+                    
+                    # standby data yg dikirim dari server disini
                     start_new_thread( self.recv_server,() )
+                    
+                    ########### get server date --> if time not set don't start the raspi
+                    self.s.sendall( bytes(f"date#getdate#end", 'utf-8') )
+                    self.logger.info("get date from server ... ")
+                    ###########################
 
                     # run input RFID thread
                     start_new_thread( self.rfid_input,() )
@@ -264,6 +271,13 @@ class GPIOHandler:
                                     config.write(configfile)
 
                                 print("=====================================")
+
+                            elif "date#" in message :
+                                date_time = re.search('date#(.+?)#end', message).group(1)
+                                
+                                # set raspi date
+                                date_time = ""
+                                os.system(f"sudo date -s '{date_time}'")
 
                         except Exception as e:
                             self.logger.error(str(e))
