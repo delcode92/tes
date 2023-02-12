@@ -1978,3 +1978,1014 @@ init components dict .......
 
 
 success execute query
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+Run Cam Thread ...
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run snapshot thread( standby waiting snapshot# command ) ...
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+Run Cam Thread ...
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run snapshot thread( standby waiting snapshot# command ) ...
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+Run Cam Thread ...
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run snapshot thread( standby waiting snapshot# command ) ...
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+Run Cam Thread ...
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run snapshot thread( standby waiting snapshot# command ) ...
+Get & Split snapshot command
+save snapshot image & re-init QImage ...
+Get & Split snapshot command
+save snapshot image & re-init QImage ...
+Get & Split snapshot command
+save snapshot image & re-init QImage ...
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+can't connect to server
+can't connect to server
+success connect to server
+success connect to server
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+list index out of range
+list index out of range
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+open gate ... 
+open gate ... 
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[Errno 61] Connection refused
+[Errno 61] Connection refused
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+Run Cam Thread ...
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run snapshot thread( standby waiting snapshot# command ) ...
+Get & Split snapshot command
+save snapshot image & re-init QImage ...
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+can't connect to server
+can't connect to server
+success connect to server
+success connect to server
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+open gate ... 
+open gate ... 
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+can't connect to server
+can't connect to server
+success connect to server
+success connect to server
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+can't connect to server
+can't connect to server
+success connect to server
+success connect to server
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query

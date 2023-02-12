@@ -198,7 +198,7 @@ class Main(Util, View):
                                     {
                                         "name":"detail_photo",
                                         "category":"image",
-                                        "img_path":"./cap/mountain.png",
+                                        "img_path":"./cap/"+res[0][1]+".jpg",
                                         "style":self.detail_lbl
                                     },
                                 ]
@@ -2348,21 +2348,21 @@ class Main(Util, View):
         self.image_label2.setMaximumSize(280, 210) # 4:3
         self.image_label2.setAlignment(Qt.AlignCenter)
 
-        self.stream_url_1 = 0
-        self.stream_url_2 = 0
+        self.stream_url_1 = 'rtsp://admin:admin@192.168.100.121'
+        self.stream_url_2 = 'http://192.168.100.2:4747/video'
 
-        # self.cap_1 = cv2.VideoCapture(self.stream_url_1) disini bro
-        # self.cap_2 = cv2.VideoCapture(self.stream_url_2)
+        self.cap_1 = cv2.VideoCapture(self.stream_url_1)
+        self.cap_2 = cv2.VideoCapture(self.stream_url_2)
 
-        # self.timer = QTimer()
-        # self.timer.timeout.connect(self.play)
-        # self.timer.start(30)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.play)
+        self.timer.start(30)
 
         right_vbox.addWidget(ipcam_lbl1)
-        # right_vbox.addWidget(self.image_label) disini bro
+        right_vbox.addWidget(self.image_label)
         
         right_vbox.addWidget(ipcam_lbl2)
-        # right_vbox.addWidget(self.image_label2)
+        right_vbox.addWidget(self.image_label2)
         
         # right_vbox.addStretch(1)
         ###################

@@ -9,7 +9,7 @@ class Debug():
     def __init__(self) -> None:
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.NOTSET)
-        self.logfile_path = "../logging/log_file.log"
+        self.logfile_path = "./logging/log_file.log"
 
         # our first handler is a console handler
         console_handler = logging.StreamHandler()
@@ -34,10 +34,10 @@ class Thread(QThread):
     changePixmap = pyqtSignal(QImage)
 
     def run(self):
+        debug = Debug()
         
         debug.logger.info("Run Cam Thread ...")
 
-        debug = Debug()
         self.is_running = True
         self.capture = None
         
@@ -197,7 +197,6 @@ class IPCam(Util, View):
         self.snap_stat = True
 
     def snap_thread(self, image):
-        
         self.debug.logger.info("Run snapshot thread( standby waiting snapshot# command ) ...")
 
         while True:
@@ -243,7 +242,7 @@ class Server:
     def __init__(self, host, port, multiproc_conn ) -> None:
         
         # init debug
-        debug = Debug()
+        self.debug = Debug()
 
         self.process_conn = multiproc_conn
         self.SERVER_IP = host
@@ -299,7 +298,7 @@ class Server:
 
                             # self.db_cursor.execute("select count(*) as count from rfid where rfid='123'")
                             res = self.exec_query(f"select count(*) as count from rfid where rfid='{msg}'", "select")
-                            self.debug.logger.debug("RFID result: ", res[0][0])
+                            self.debug.logger.debug("RFID result: "+ res[0][0])
 
                             if res[0][0] == 1:
                                 self.debug.logger.debug("success rfid")
@@ -318,7 +317,7 @@ class Server:
 
                             try:
                                 
-                                self.debug.logger.debug("get json string : ",msg)
+                                self.debug.logger.debug("get json string : " + msg)
                                 self.debug.logger.info("converting to dictionary ...")
                                 res = json.loads(msg)    
                                 self.debug.logger.debug(res)
@@ -363,7 +362,7 @@ class Server:
                             try:
                                 print("===================================")
                                 msg = re.search('config#(.+?)#end', msg).group(1)
-                                self.debug.logger.info("receive message from GUI: ", msg)
+                                self.debug.logger.info("receive message from GUI: "+ msg)
 
                                 self.debug.logger.info("broadcast to clients ...")
 
@@ -379,7 +378,7 @@ class Server:
                         elif "gate#" in msg:
                             print("===================================")
                             ip = re.search('gate#(.+?)#end', msg).group(1)
-                            self.debug.logger.info("Open gate with ip : ", ip)
+                            self.debug.logger.info("Open gate with ip : "+ ip)
 
                             self.list_of_clients[ip].sendall( bytes(f'open-true', 'utf-8') )
                     if not data:
@@ -389,6 +388,7 @@ class Server:
                 
 
     def connect_server(self, h, p):
+        print("============> masuk bro")
         self.debug.logger.info("conn to server ... ")
         
         # while true -> fro server socket always stanby, event after client connection break/fail
@@ -410,6 +410,7 @@ class Server:
         return '/'.join([path, fileName])
 
     def connect_to_postgresql(self):
+        # //disini wak
         self.debug.logger.info("conn to potsgre")
         ini = self.getPath("app.ini")
         

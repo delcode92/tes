@@ -2508,3 +2508,1165 @@ Util constructor:
 
 2023-02-12 07:41:05,879 | INFO | 82: 
 success execute query
+2023-02-12 08:05:29,214 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:05:29,214 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:05:29,215 | INFO | 27: connect to DB .....
+2023-02-12 08:05:29,215 | INFO | 27: connect to DB .....
+2023-02-12 08:05:29,215 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:05:29,215 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:05:29,215 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:05:29,215 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:05:29,216 | INFO | 435: run QApplication .......
+2023-02-12 08:05:29,216 | INFO | 435: run QApplication .......
+2023-02-12 08:05:29,216 | INFO | 436: init screensize .......
+2023-02-12 08:05:29,216 | INFO | 436: init screensize .......
+2023-02-12 08:05:29,216 | INFO | 437: init components dict .......
+
+2023-02-12 08:05:29,216 | INFO | 437: init components dict .......
+
+2023-02-12 08:05:58,282 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:05:58,282 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:05:58,282 | INFO | 27: connect to DB .....
+2023-02-12 08:05:58,282 | INFO | 27: connect to DB .....
+2023-02-12 08:05:58,282 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:05:58,282 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:05:58,282 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:05:58,282 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:05:58,282 | INFO | 435: run QApplication .......
+2023-02-12 08:05:58,282 | INFO | 435: run QApplication .......
+2023-02-12 08:05:58,283 | INFO | 436: init screensize .......
+2023-02-12 08:05:58,283 | INFO | 436: init screensize .......
+2023-02-12 08:05:58,283 | INFO | 437: init components dict .......
+
+2023-02-12 08:05:58,283 | INFO | 437: init components dict .......
+
+2023-02-12 08:05:58,488 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:05:58,488 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:05:58,488 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:05:58,490 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:05:58,490 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:05:58,490 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:06:00,551 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:06:00,551 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:06:00,551 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:10:34,631 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:10:34,631 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:10:34,632 | INFO | 27: connect to DB .....
+2023-02-12 08:10:34,632 | INFO | 27: connect to DB .....
+2023-02-12 08:10:34,632 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:10:34,632 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:10:34,632 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:10:34,632 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:10:34,632 | INFO | 435: run QApplication .......
+2023-02-12 08:10:34,632 | INFO | 435: run QApplication .......
+2023-02-12 08:10:34,633 | INFO | 436: init screensize .......
+2023-02-12 08:10:34,633 | INFO | 436: init screensize .......
+2023-02-12 08:10:34,633 | INFO | 437: init components dict .......
+
+2023-02-12 08:10:34,633 | INFO | 437: init components dict .......
+
+2023-02-12 08:10:34,862 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:10:34,862 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:10:34,862 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:10:34,864 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:10:34,864 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:10:34,864 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:10:36,931 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:10:36,931 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:10:36,931 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:20:26,942 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:20:26,942 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:20:26,943 | INFO | 27: connect to DB .....
+2023-02-12 08:20:26,943 | INFO | 27: connect to DB .....
+2023-02-12 08:20:26,943 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:20:26,943 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:20:26,943 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:20:26,943 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:20:26,943 | INFO | 435: run QApplication .......
+2023-02-12 08:20:26,943 | INFO | 435: run QApplication .......
+2023-02-12 08:20:26,944 | INFO | 436: init screensize .......
+2023-02-12 08:20:26,944 | INFO | 436: init screensize .......
+2023-02-12 08:20:26,944 | INFO | 437: init components dict .......
+
+2023-02-12 08:20:26,944 | INFO | 437: init components dict .......
+
+2023-02-12 08:20:27,177 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:20:27,177 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:20:27,177 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:20:27,178 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:20:27,178 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:20:27,178 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:20:29,267 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:20:29,267 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:20:29,267 | INFO | 201: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:23:26,680 | INFO | 414: conn to potsgre
+2023-02-12 08:23:26,777 | INFO | 392: conn to server ... 
+2023-02-12 08:23:26,866 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:23:26,866 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:23:26,866 | INFO | 27: connect to DB .....
+2023-02-12 08:23:26,866 | INFO | 27: connect to DB .....
+2023-02-12 08:23:26,868 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:23:26,868 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:23:26,870 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:23:26,870 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:23:26,872 | INFO | 435: run QApplication .......
+2023-02-12 08:23:26,872 | INFO | 435: run QApplication .......
+2023-02-12 08:23:26,872 | INFO | 436: init screensize .......
+2023-02-12 08:23:26,872 | INFO | 436: init screensize .......
+2023-02-12 08:23:26,872 | INFO | 437: init components dict .......
+
+2023-02-12 08:23:26,872 | INFO | 437: init components dict .......
+
+2023-02-12 08:23:26,899 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:23:26,899 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:23:26,899 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:23:26,899 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:23:26,899 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:23:26,899 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:23:28,897 | INFO | 200: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:23:28,897 | INFO | 200: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:23:28,897 | INFO | 200: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:23:47,064 | INFO | 254: Start client thread
+2023-02-12 08:23:47,064 | INFO | 265: Connected by ('192.168.100.82', 55376)
+2023-02-12 08:23:47,064 | INFO | 270: Server standby waiting message from client ... 
+2023-02-12 08:25:43,256 | INFO | 321: converting to dictionary ...
+2023-02-12 08:25:43,283 | INFO | 350: server ask to snapshot ....
+2023-02-12 08:25:43,284 | INFO | 353: Save Date Time & capture cam image success ....
+2023-02-12 08:25:43,284 | INFO | 354: send return value to raspi( ('192.168.100.82', 55376) )....
+2023-02-12 08:25:43,285 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:25:43,285 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:25:43,285 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:25:43,557 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:25:43,557 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:25:43,557 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:25:43,761 | INFO | 321: converting to dictionary ...
+2023-02-12 08:25:43,774 | INFO | 350: server ask to snapshot ....
+2023-02-12 08:25:43,775 | INFO | 353: Save Date Time & capture cam image success ....
+2023-02-12 08:25:43,776 | INFO | 354: send return value to raspi( ('192.168.100.82', 55376) )....
+2023-02-12 08:25:43,786 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:25:43,786 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:25:43,786 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:25:43,907 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:25:43,907 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:25:43,907 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:26:40,355 | INFO | 321: converting to dictionary ...
+2023-02-12 08:26:40,366 | INFO | 350: server ask to snapshot ....
+2023-02-12 08:26:40,366 | INFO | 353: Save Date Time & capture cam image success ....
+2023-02-12 08:26:40,366 | INFO | 354: send return value to raspi( ('192.168.100.82', 55376) )....
+2023-02-12 08:26:40,368 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:26:40,368 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:26:40,368 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:26:40,506 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:26:40,506 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:26:40,506 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:27:58,110 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:27:58,111 | INFO | 27: connect to DB .....
+2023-02-12 08:27:58,111 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:27:58,111 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:27:58,111 | INFO | 435: run QApplication .......
+2023-02-12 08:27:58,111 | INFO | 436: init screensize .......
+2023-02-12 08:27:58,111 | INFO | 437: init components dict .......
+
+2023-02-12 08:27:58,208 | INFO | 52: can't connect to server
+2023-02-12 08:27:58,208 | INFO | 52: can't connect to server
+2023-02-12 08:27:58,209 | INFO | 60: success connect to server
+2023-02-12 08:27:58,209 | INFO | 60: success connect to server
+2023-02-12 08:27:58,210 | INFO | 254: Start client thread
+2023-02-12 08:27:58,210 | INFO | 265: Connected by ('192.168.100.3', 49943)
+2023-02-12 08:27:58,210 | INFO | 270: Server standby waiting message from client ... 
+2023-02-12 08:28:08,942 | INFO | 81: 
+success execute query
+2023-02-12 08:28:08,942 | INFO | 81: 
+success execute query
+2023-02-12 08:28:13,318 | INFO | 81: 
+success execute query
+2023-02-12 08:28:13,318 | INFO | 81: 
+success execute query
+2023-02-12 08:28:13,318 | ERROR | 191: list index out of range
+2023-02-12 08:28:13,318 | ERROR | 191: list index out of range
+2023-02-12 08:28:48,275 | INFO | 81: 
+success execute query
+2023-02-12 08:28:48,275 | INFO | 81: 
+success execute query
+2023-02-12 08:28:48,278 | INFO | 81: 
+success execute query
+2023-02-12 08:28:48,278 | INFO | 81: 
+success execute query
+2023-02-12 08:29:00,194 | INFO | 81: 
+success execute query
+2023-02-12 08:29:00,194 | INFO | 81: 
+success execute query
+2023-02-12 08:40:07,683 | INFO | 277: client('192.168.100.82', 55376) disconnected at 2023-02-12 08:40:07.683108
+2023-02-12 08:40:14,828 | INFO | 52: can't connect to server
+2023-02-12 08:40:14,828 | INFO | 52: can't connect to server
+2023-02-12 08:40:14,832 | INFO | 64: can't connect to server
+2023-02-12 08:40:14,832 | INFO | 64: can't connect to server
+2023-02-12 08:40:14,839 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:14,839 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:16,980 | INFO | 52: can't connect to server
+2023-02-12 08:40:16,980 | INFO | 52: can't connect to server
+2023-02-12 08:40:17,004 | INFO | 64: can't connect to server
+2023-02-12 08:40:17,004 | INFO | 64: can't connect to server
+2023-02-12 08:40:17,007 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:17,007 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:28,014 | INFO | 52: can't connect to server
+2023-02-12 08:40:28,014 | INFO | 52: can't connect to server
+2023-02-12 08:40:28,019 | INFO | 64: can't connect to server
+2023-02-12 08:40:28,019 | INFO | 64: can't connect to server
+2023-02-12 08:40:28,022 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:28,022 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:39,022 | INFO | 52: can't connect to server
+2023-02-12 08:40:39,022 | INFO | 52: can't connect to server
+2023-02-12 08:40:39,026 | INFO | 64: can't connect to server
+2023-02-12 08:40:39,026 | INFO | 64: can't connect to server
+2023-02-12 08:40:39,026 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:39,026 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:50,028 | INFO | 52: can't connect to server
+2023-02-12 08:40:50,028 | INFO | 52: can't connect to server
+2023-02-12 08:40:50,030 | INFO | 64: can't connect to server
+2023-02-12 08:40:50,030 | INFO | 64: can't connect to server
+2023-02-12 08:40:50,032 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:40:50,032 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:01,032 | INFO | 52: can't connect to server
+2023-02-12 08:41:01,032 | INFO | 52: can't connect to server
+2023-02-12 08:41:01,036 | INFO | 64: can't connect to server
+2023-02-12 08:41:01,036 | INFO | 64: can't connect to server
+2023-02-12 08:41:01,038 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:01,038 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:12,041 | INFO | 52: can't connect to server
+2023-02-12 08:41:12,041 | INFO | 52: can't connect to server
+2023-02-12 08:41:12,044 | INFO | 64: can't connect to server
+2023-02-12 08:41:12,044 | INFO | 64: can't connect to server
+2023-02-12 08:41:12,046 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:12,046 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:23,047 | INFO | 52: can't connect to server
+2023-02-12 08:41:23,047 | INFO | 52: can't connect to server
+2023-02-12 08:41:23,050 | INFO | 64: can't connect to server
+2023-02-12 08:41:23,050 | INFO | 64: can't connect to server
+2023-02-12 08:41:23,052 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:23,052 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:34,054 | INFO | 52: can't connect to server
+2023-02-12 08:41:34,054 | INFO | 52: can't connect to server
+2023-02-12 08:41:34,057 | INFO | 64: can't connect to server
+2023-02-12 08:41:34,057 | INFO | 64: can't connect to server
+2023-02-12 08:41:34,058 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:34,058 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:45,118 | INFO | 52: can't connect to server
+2023-02-12 08:41:45,118 | INFO | 52: can't connect to server
+2023-02-12 08:41:45,122 | INFO | 64: can't connect to server
+2023-02-12 08:41:45,122 | INFO | 64: can't connect to server
+2023-02-12 08:41:45,122 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:45,122 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:56,126 | INFO | 52: can't connect to server
+2023-02-12 08:41:56,126 | INFO | 52: can't connect to server
+2023-02-12 08:41:56,128 | INFO | 64: can't connect to server
+2023-02-12 08:41:56,128 | INFO | 64: can't connect to server
+2023-02-12 08:41:56,129 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:41:56,129 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:07,131 | INFO | 52: can't connect to server
+2023-02-12 08:42:07,131 | INFO | 52: can't connect to server
+2023-02-12 08:42:07,133 | INFO | 64: can't connect to server
+2023-02-12 08:42:07,133 | INFO | 64: can't connect to server
+2023-02-12 08:42:07,135 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:07,135 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:18,136 | INFO | 52: can't connect to server
+2023-02-12 08:42:18,136 | INFO | 52: can't connect to server
+2023-02-12 08:42:18,138 | INFO | 64: can't connect to server
+2023-02-12 08:42:18,138 | INFO | 64: can't connect to server
+2023-02-12 08:42:18,139 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:18,139 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:29,141 | INFO | 52: can't connect to server
+2023-02-12 08:42:29,141 | INFO | 52: can't connect to server
+2023-02-12 08:42:29,143 | INFO | 64: can't connect to server
+2023-02-12 08:42:29,143 | INFO | 64: can't connect to server
+2023-02-12 08:42:29,145 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:29,145 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:32,958 | INFO | 52: can't connect to server
+2023-02-12 08:42:32,958 | INFO | 52: can't connect to server
+2023-02-12 08:42:32,989 | INFO | 64: can't connect to server
+2023-02-12 08:42:32,989 | INFO | 64: can't connect to server
+2023-02-12 08:42:32,993 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:32,993 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:36,334 | INFO | 52: can't connect to server
+2023-02-12 08:42:36,334 | INFO | 52: can't connect to server
+2023-02-12 08:42:36,339 | INFO | 64: can't connect to server
+2023-02-12 08:42:36,339 | INFO | 64: can't connect to server
+2023-02-12 08:42:36,340 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:36,340 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:37,343 | INFO | 52: can't connect to server
+2023-02-12 08:42:37,343 | INFO | 52: can't connect to server
+2023-02-12 08:42:37,345 | INFO | 64: can't connect to server
+2023-02-12 08:42:37,345 | INFO | 64: can't connect to server
+2023-02-12 08:42:37,345 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:37,345 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:48,348 | INFO | 52: can't connect to server
+2023-02-12 08:42:48,348 | INFO | 52: can't connect to server
+2023-02-12 08:42:48,350 | INFO | 64: can't connect to server
+2023-02-12 08:42:48,350 | INFO | 64: can't connect to server
+2023-02-12 08:42:48,352 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:48,352 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:56,902 | INFO | 52: can't connect to server
+2023-02-12 08:42:56,902 | INFO | 52: can't connect to server
+2023-02-12 08:42:56,907 | INFO | 64: can't connect to server
+2023-02-12 08:42:56,907 | INFO | 64: can't connect to server
+2023-02-12 08:42:56,911 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:56,911 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:58,021 | INFO | 52: can't connect to server
+2023-02-12 08:42:58,021 | INFO | 52: can't connect to server
+2023-02-12 08:42:58,027 | INFO | 64: can't connect to server
+2023-02-12 08:42:58,027 | INFO | 64: can't connect to server
+2023-02-12 08:42:58,030 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:58,030 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:59,230 | INFO | 52: can't connect to server
+2023-02-12 08:42:59,230 | INFO | 52: can't connect to server
+2023-02-12 08:42:59,234 | INFO | 64: can't connect to server
+2023-02-12 08:42:59,234 | INFO | 64: can't connect to server
+2023-02-12 08:42:59,236 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:42:59,236 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:04,869 | INFO | 52: can't connect to server
+2023-02-12 08:43:04,869 | INFO | 52: can't connect to server
+2023-02-12 08:43:04,875 | INFO | 64: can't connect to server
+2023-02-12 08:43:04,875 | INFO | 64: can't connect to server
+2023-02-12 08:43:04,887 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:04,887 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:12,125 | INFO | 52: can't connect to server
+2023-02-12 08:43:12,125 | INFO | 52: can't connect to server
+2023-02-12 08:43:12,128 | INFO | 64: can't connect to server
+2023-02-12 08:43:12,128 | INFO | 64: can't connect to server
+2023-02-12 08:43:12,130 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:12,130 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:13,446 | INFO | 52: can't connect to server
+2023-02-12 08:43:13,446 | INFO | 52: can't connect to server
+2023-02-12 08:43:13,449 | INFO | 64: can't connect to server
+2023-02-12 08:43:13,449 | INFO | 64: can't connect to server
+2023-02-12 08:43:13,451 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:13,451 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:14,451 | INFO | 52: can't connect to server
+2023-02-12 08:43:14,451 | INFO | 52: can't connect to server
+2023-02-12 08:43:14,455 | INFO | 64: can't connect to server
+2023-02-12 08:43:14,455 | INFO | 64: can't connect to server
+2023-02-12 08:43:14,456 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:14,456 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:15,573 | INFO | 52: can't connect to server
+2023-02-12 08:43:15,573 | INFO | 52: can't connect to server
+2023-02-12 08:43:15,578 | INFO | 64: can't connect to server
+2023-02-12 08:43:15,578 | INFO | 64: can't connect to server
+2023-02-12 08:43:15,581 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:15,581 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:16,582 | INFO | 52: can't connect to server
+2023-02-12 08:43:16,582 | INFO | 52: can't connect to server
+2023-02-12 08:43:16,583 | INFO | 64: can't connect to server
+2023-02-12 08:43:16,583 | INFO | 64: can't connect to server
+2023-02-12 08:43:16,584 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:16,584 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:17,586 | INFO | 52: can't connect to server
+2023-02-12 08:43:17,586 | INFO | 52: can't connect to server
+2023-02-12 08:43:17,589 | INFO | 64: can't connect to server
+2023-02-12 08:43:17,589 | INFO | 64: can't connect to server
+2023-02-12 08:43:17,591 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:17,591 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:18,592 | INFO | 52: can't connect to server
+2023-02-12 08:43:18,592 | INFO | 52: can't connect to server
+2023-02-12 08:43:18,726 | INFO | 64: can't connect to server
+2023-02-12 08:43:18,726 | INFO | 64: can't connect to server
+2023-02-12 08:43:18,730 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:18,730 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:19,732 | INFO | 52: can't connect to server
+2023-02-12 08:43:19,732 | INFO | 52: can't connect to server
+2023-02-12 08:43:19,734 | INFO | 64: can't connect to server
+2023-02-12 08:43:19,734 | INFO | 64: can't connect to server
+2023-02-12 08:43:19,737 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:19,737 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:20,738 | INFO | 52: can't connect to server
+2023-02-12 08:43:20,738 | INFO | 52: can't connect to server
+2023-02-12 08:43:20,740 | INFO | 64: can't connect to server
+2023-02-12 08:43:20,740 | INFO | 64: can't connect to server
+2023-02-12 08:43:20,740 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:20,740 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:21,743 | INFO | 52: can't connect to server
+2023-02-12 08:43:21,743 | INFO | 52: can't connect to server
+2023-02-12 08:43:21,745 | INFO | 64: can't connect to server
+2023-02-12 08:43:21,745 | INFO | 64: can't connect to server
+2023-02-12 08:43:21,745 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:21,745 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:22,749 | INFO | 52: can't connect to server
+2023-02-12 08:43:22,749 | INFO | 52: can't connect to server
+2023-02-12 08:43:22,756 | INFO | 64: can't connect to server
+2023-02-12 08:43:22,756 | INFO | 64: can't connect to server
+2023-02-12 08:43:22,757 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:22,757 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:24,141 | INFO | 52: can't connect to server
+2023-02-12 08:43:24,141 | INFO | 52: can't connect to server
+2023-02-12 08:43:24,145 | INFO | 64: can't connect to server
+2023-02-12 08:43:24,145 | INFO | 64: can't connect to server
+2023-02-12 08:43:24,146 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:24,146 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:25,246 | INFO | 52: can't connect to server
+2023-02-12 08:43:25,246 | INFO | 52: can't connect to server
+2023-02-12 08:43:25,249 | INFO | 64: can't connect to server
+2023-02-12 08:43:25,249 | INFO | 64: can't connect to server
+2023-02-12 08:43:25,251 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:25,251 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:26,941 | INFO | 52: can't connect to server
+2023-02-12 08:43:26,941 | INFO | 52: can't connect to server
+2023-02-12 08:43:26,947 | INFO | 64: can't connect to server
+2023-02-12 08:43:26,947 | INFO | 64: can't connect to server
+2023-02-12 08:43:26,950 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:26,950 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:28,909 | INFO | 52: can't connect to server
+2023-02-12 08:43:28,909 | INFO | 52: can't connect to server
+2023-02-12 08:43:28,915 | INFO | 64: can't connect to server
+2023-02-12 08:43:28,915 | INFO | 64: can't connect to server
+2023-02-12 08:43:28,915 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:28,915 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:29,921 | INFO | 52: can't connect to server
+2023-02-12 08:43:29,921 | INFO | 52: can't connect to server
+2023-02-12 08:43:29,925 | INFO | 64: can't connect to server
+2023-02-12 08:43:29,925 | INFO | 64: can't connect to server
+2023-02-12 08:43:29,928 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:29,928 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:33,629 | INFO | 52: can't connect to server
+2023-02-12 08:43:33,629 | INFO | 52: can't connect to server
+2023-02-12 08:43:33,635 | INFO | 64: can't connect to server
+2023-02-12 08:43:33,635 | INFO | 64: can't connect to server
+2023-02-12 08:43:33,636 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:33,636 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:34,638 | INFO | 52: can't connect to server
+2023-02-12 08:43:34,638 | INFO | 52: can't connect to server
+2023-02-12 08:43:34,640 | INFO | 64: can't connect to server
+2023-02-12 08:43:34,640 | INFO | 64: can't connect to server
+2023-02-12 08:43:34,640 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:34,640 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:36,901 | INFO | 52: can't connect to server
+2023-02-12 08:43:36,901 | INFO | 52: can't connect to server
+2023-02-12 08:43:36,906 | INFO | 64: can't connect to server
+2023-02-12 08:43:36,906 | INFO | 64: can't connect to server
+2023-02-12 08:43:36,907 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:36,907 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:38,085 | INFO | 52: can't connect to server
+2023-02-12 08:43:38,085 | INFO | 52: can't connect to server
+2023-02-12 08:43:38,091 | INFO | 64: can't connect to server
+2023-02-12 08:43:38,091 | INFO | 64: can't connect to server
+2023-02-12 08:43:38,091 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:38,091 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:39,437 | INFO | 52: can't connect to server
+2023-02-12 08:43:39,437 | INFO | 52: can't connect to server
+2023-02-12 08:43:39,443 | INFO | 64: can't connect to server
+2023-02-12 08:43:39,443 | INFO | 64: can't connect to server
+2023-02-12 08:43:39,446 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:39,446 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:40,893 | INFO | 52: can't connect to server
+2023-02-12 08:43:40,893 | INFO | 52: can't connect to server
+2023-02-12 08:43:40,899 | INFO | 64: can't connect to server
+2023-02-12 08:43:40,899 | INFO | 64: can't connect to server
+2023-02-12 08:43:40,902 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:40,902 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:42,418 | INFO | 52: can't connect to server
+2023-02-12 08:43:42,418 | INFO | 52: can't connect to server
+2023-02-12 08:43:42,423 | INFO | 64: can't connect to server
+2023-02-12 08:43:42,423 | INFO | 64: can't connect to server
+2023-02-12 08:43:42,426 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:42,426 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:43,573 | INFO | 52: can't connect to server
+2023-02-12 08:43:43,573 | INFO | 52: can't connect to server
+2023-02-12 08:43:43,577 | INFO | 64: can't connect to server
+2023-02-12 08:43:43,577 | INFO | 64: can't connect to server
+2023-02-12 08:43:43,578 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:43,578 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:44,741 | INFO | 52: can't connect to server
+2023-02-12 08:43:44,741 | INFO | 52: can't connect to server
+2023-02-12 08:43:44,745 | INFO | 64: can't connect to server
+2023-02-12 08:43:44,745 | INFO | 64: can't connect to server
+2023-02-12 08:43:44,746 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:44,746 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:48,173 | INFO | 52: can't connect to server
+2023-02-12 08:43:48,173 | INFO | 52: can't connect to server
+2023-02-12 08:43:48,179 | INFO | 64: can't connect to server
+2023-02-12 08:43:48,179 | INFO | 64: can't connect to server
+2023-02-12 08:43:48,182 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:48,182 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:49,185 | INFO | 52: can't connect to server
+2023-02-12 08:43:49,185 | INFO | 52: can't connect to server
+2023-02-12 08:43:49,187 | INFO | 64: can't connect to server
+2023-02-12 08:43:49,187 | INFO | 64: can't connect to server
+2023-02-12 08:43:49,187 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:49,187 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:50,317 | INFO | 52: can't connect to server
+2023-02-12 08:43:50,317 | INFO | 52: can't connect to server
+2023-02-12 08:43:50,323 | INFO | 64: can't connect to server
+2023-02-12 08:43:50,323 | INFO | 64: can't connect to server
+2023-02-12 08:43:50,323 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:50,323 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:52,341 | INFO | 52: can't connect to server
+2023-02-12 08:43:52,341 | INFO | 52: can't connect to server
+2023-02-12 08:43:52,349 | INFO | 64: can't connect to server
+2023-02-12 08:43:52,349 | INFO | 64: can't connect to server
+2023-02-12 08:43:52,352 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:43:52,352 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:00,077 | INFO | 52: can't connect to server
+2023-02-12 08:44:00,077 | INFO | 52: can't connect to server
+2023-02-12 08:44:00,083 | INFO | 64: can't connect to server
+2023-02-12 08:44:00,083 | INFO | 64: can't connect to server
+2023-02-12 08:44:00,086 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:00,086 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:01,199 | INFO | 52: can't connect to server
+2023-02-12 08:44:01,199 | INFO | 52: can't connect to server
+2023-02-12 08:44:01,207 | INFO | 64: can't connect to server
+2023-02-12 08:44:01,207 | INFO | 64: can't connect to server
+2023-02-12 08:44:01,210 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:01,210 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:02,677 | INFO | 52: can't connect to server
+2023-02-12 08:44:02,677 | INFO | 52: can't connect to server
+2023-02-12 08:44:02,682 | INFO | 64: can't connect to server
+2023-02-12 08:44:02,682 | INFO | 64: can't connect to server
+2023-02-12 08:44:02,683 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:02,683 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:04,229 | INFO | 52: can't connect to server
+2023-02-12 08:44:04,229 | INFO | 52: can't connect to server
+2023-02-12 08:44:04,255 | INFO | 64: can't connect to server
+2023-02-12 08:44:04,255 | INFO | 64: can't connect to server
+2023-02-12 08:44:04,255 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:04,255 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:15,259 | INFO | 52: can't connect to server
+2023-02-12 08:44:15,259 | INFO | 52: can't connect to server
+2023-02-12 08:44:15,261 | INFO | 64: can't connect to server
+2023-02-12 08:44:15,261 | INFO | 64: can't connect to server
+2023-02-12 08:44:15,261 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:15,261 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:22,241 | INFO | 52: can't connect to server
+2023-02-12 08:44:22,241 | INFO | 52: can't connect to server
+2023-02-12 08:44:22,243 | INFO | 64: can't connect to server
+2023-02-12 08:44:22,243 | INFO | 64: can't connect to server
+2023-02-12 08:44:22,244 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:22,244 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:23,485 | INFO | 52: can't connect to server
+2023-02-12 08:44:23,485 | INFO | 52: can't connect to server
+2023-02-12 08:44:23,492 | INFO | 64: can't connect to server
+2023-02-12 08:44:23,492 | INFO | 64: can't connect to server
+2023-02-12 08:44:23,496 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:23,496 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:25,261 | INFO | 52: can't connect to server
+2023-02-12 08:44:25,261 | INFO | 52: can't connect to server
+2023-02-12 08:44:25,266 | INFO | 64: can't connect to server
+2023-02-12 08:44:25,266 | INFO | 64: can't connect to server
+2023-02-12 08:44:25,267 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:25,267 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:27,241 | INFO | 52: can't connect to server
+2023-02-12 08:44:27,241 | INFO | 52: can't connect to server
+2023-02-12 08:44:27,245 | INFO | 64: can't connect to server
+2023-02-12 08:44:27,245 | INFO | 64: can't connect to server
+2023-02-12 08:44:27,251 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:27,251 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:38,255 | INFO | 52: can't connect to server
+2023-02-12 08:44:38,255 | INFO | 52: can't connect to server
+2023-02-12 08:44:38,257 | INFO | 64: can't connect to server
+2023-02-12 08:44:38,257 | INFO | 64: can't connect to server
+2023-02-12 08:44:38,259 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:38,259 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:49,259 | INFO | 52: can't connect to server
+2023-02-12 08:44:49,259 | INFO | 52: can't connect to server
+2023-02-12 08:44:49,262 | INFO | 64: can't connect to server
+2023-02-12 08:44:49,262 | INFO | 64: can't connect to server
+2023-02-12 08:44:49,265 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:44:49,265 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:00,265 | INFO | 52: can't connect to server
+2023-02-12 08:45:00,265 | INFO | 52: can't connect to server
+2023-02-12 08:45:00,267 | INFO | 64: can't connect to server
+2023-02-12 08:45:00,267 | INFO | 64: can't connect to server
+2023-02-12 08:45:00,269 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:00,269 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:11,274 | INFO | 52: can't connect to server
+2023-02-12 08:45:11,274 | INFO | 52: can't connect to server
+2023-02-12 08:45:11,275 | INFO | 64: can't connect to server
+2023-02-12 08:45:11,275 | INFO | 64: can't connect to server
+2023-02-12 08:45:11,277 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:11,277 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:22,278 | INFO | 52: can't connect to server
+2023-02-12 08:45:22,278 | INFO | 52: can't connect to server
+2023-02-12 08:45:22,280 | INFO | 64: can't connect to server
+2023-02-12 08:45:22,280 | INFO | 64: can't connect to server
+2023-02-12 08:45:22,281 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:22,281 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:30,860 | INFO | 52: can't connect to server
+2023-02-12 08:45:30,860 | INFO | 52: can't connect to server
+2023-02-12 08:45:30,866 | INFO | 64: can't connect to server
+2023-02-12 08:45:30,866 | INFO | 64: can't connect to server
+2023-02-12 08:45:30,869 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:30,869 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:32,760 | INFO | 52: can't connect to server
+2023-02-12 08:45:32,760 | INFO | 52: can't connect to server
+2023-02-12 08:45:32,764 | INFO | 64: can't connect to server
+2023-02-12 08:45:32,764 | INFO | 64: can't connect to server
+2023-02-12 08:45:32,782 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:32,782 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:33,917 | INFO | 52: can't connect to server
+2023-02-12 08:45:33,917 | INFO | 52: can't connect to server
+2023-02-12 08:45:33,921 | INFO | 64: can't connect to server
+2023-02-12 08:45:33,921 | INFO | 64: can't connect to server
+2023-02-12 08:45:33,923 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:33,923 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:44,929 | INFO | 52: can't connect to server
+2023-02-12 08:45:44,929 | INFO | 52: can't connect to server
+2023-02-12 08:45:44,949 | INFO | 64: can't connect to server
+2023-02-12 08:45:44,949 | INFO | 64: can't connect to server
+2023-02-12 08:45:44,952 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:44,952 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:55,987 | INFO | 52: can't connect to server
+2023-02-12 08:45:55,987 | INFO | 52: can't connect to server
+2023-02-12 08:45:55,989 | INFO | 64: can't connect to server
+2023-02-12 08:45:55,989 | INFO | 64: can't connect to server
+2023-02-12 08:45:55,991 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:55,991 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:56,993 | INFO | 52: can't connect to server
+2023-02-12 08:45:56,993 | INFO | 52: can't connect to server
+2023-02-12 08:45:57,054 | INFO | 64: can't connect to server
+2023-02-12 08:45:57,054 | INFO | 64: can't connect to server
+2023-02-12 08:45:57,081 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:57,081 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:58,084 | INFO | 52: can't connect to server
+2023-02-12 08:45:58,084 | INFO | 52: can't connect to server
+2023-02-12 08:45:58,086 | INFO | 64: can't connect to server
+2023-02-12 08:45:58,086 | INFO | 64: can't connect to server
+2023-02-12 08:45:58,087 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:58,087 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:59,089 | INFO | 52: can't connect to server
+2023-02-12 08:45:59,089 | INFO | 52: can't connect to server
+2023-02-12 08:45:59,092 | INFO | 64: can't connect to server
+2023-02-12 08:45:59,092 | INFO | 64: can't connect to server
+2023-02-12 08:45:59,096 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:45:59,096 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:00,101 | INFO | 52: can't connect to server
+2023-02-12 08:46:00,101 | INFO | 52: can't connect to server
+2023-02-12 08:46:00,107 | INFO | 64: can't connect to server
+2023-02-12 08:46:00,107 | INFO | 64: can't connect to server
+2023-02-12 08:46:00,107 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:00,107 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:01,204 | INFO | 52: can't connect to server
+2023-02-12 08:46:01,204 | INFO | 52: can't connect to server
+2023-02-12 08:46:01,208 | INFO | 64: can't connect to server
+2023-02-12 08:46:01,208 | INFO | 64: can't connect to server
+2023-02-12 08:46:01,208 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:01,208 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:04,812 | INFO | 52: can't connect to server
+2023-02-12 08:46:04,812 | INFO | 52: can't connect to server
+2023-02-12 08:46:04,818 | INFO | 64: can't connect to server
+2023-02-12 08:46:04,818 | INFO | 64: can't connect to server
+2023-02-12 08:46:04,818 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:04,818 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:05,937 | INFO | 52: can't connect to server
+2023-02-12 08:46:05,937 | INFO | 52: can't connect to server
+2023-02-12 08:46:05,945 | INFO | 64: can't connect to server
+2023-02-12 08:46:05,945 | INFO | 64: can't connect to server
+2023-02-12 08:46:05,945 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:05,945 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:07,068 | INFO | 52: can't connect to server
+2023-02-12 08:46:07,068 | INFO | 52: can't connect to server
+2023-02-12 08:46:07,072 | INFO | 64: can't connect to server
+2023-02-12 08:46:07,072 | INFO | 64: can't connect to server
+2023-02-12 08:46:07,072 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:07,072 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:08,517 | INFO | 52: can't connect to server
+2023-02-12 08:46:08,517 | INFO | 52: can't connect to server
+2023-02-12 08:46:08,523 | INFO | 64: can't connect to server
+2023-02-12 08:46:08,523 | INFO | 64: can't connect to server
+2023-02-12 08:46:08,523 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:08,523 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:09,852 | INFO | 52: can't connect to server
+2023-02-12 08:46:09,852 | INFO | 52: can't connect to server
+2023-02-12 08:46:09,859 | INFO | 64: can't connect to server
+2023-02-12 08:46:09,859 | INFO | 64: can't connect to server
+2023-02-12 08:46:09,861 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:09,861 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:16,661 | INFO | 52: can't connect to server
+2023-02-12 08:46:16,661 | INFO | 52: can't connect to server
+2023-02-12 08:46:16,666 | INFO | 64: can't connect to server
+2023-02-12 08:46:16,666 | INFO | 64: can't connect to server
+2023-02-12 08:46:16,669 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:16,669 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:17,791 | INFO | 52: can't connect to server
+2023-02-12 08:46:17,791 | INFO | 52: can't connect to server
+2023-02-12 08:46:17,792 | INFO | 64: can't connect to server
+2023-02-12 08:46:17,792 | INFO | 64: can't connect to server
+2023-02-12 08:46:17,794 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:17,794 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:18,988 | INFO | 52: can't connect to server
+2023-02-12 08:46:18,988 | INFO | 52: can't connect to server
+2023-02-12 08:46:18,994 | INFO | 64: can't connect to server
+2023-02-12 08:46:18,994 | INFO | 64: can't connect to server
+2023-02-12 08:46:18,994 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:18,994 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:20,628 | INFO | 52: can't connect to server
+2023-02-12 08:46:20,628 | INFO | 52: can't connect to server
+2023-02-12 08:46:20,633 | INFO | 64: can't connect to server
+2023-02-12 08:46:20,633 | INFO | 64: can't connect to server
+2023-02-12 08:46:20,635 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:20,635 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:21,748 | INFO | 52: can't connect to server
+2023-02-12 08:46:21,748 | INFO | 52: can't connect to server
+2023-02-12 08:46:21,752 | INFO | 64: can't connect to server
+2023-02-12 08:46:21,752 | INFO | 64: can't connect to server
+2023-02-12 08:46:21,753 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:21,753 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:22,940 | INFO | 52: can't connect to server
+2023-02-12 08:46:22,940 | INFO | 52: can't connect to server
+2023-02-12 08:46:22,945 | INFO | 64: can't connect to server
+2023-02-12 08:46:22,945 | INFO | 64: can't connect to server
+2023-02-12 08:46:22,946 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:22,946 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:24,164 | INFO | 52: can't connect to server
+2023-02-12 08:46:24,164 | INFO | 52: can't connect to server
+2023-02-12 08:46:24,168 | INFO | 64: can't connect to server
+2023-02-12 08:46:24,168 | INFO | 64: can't connect to server
+2023-02-12 08:46:24,169 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:24,169 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:29,597 | INFO | 52: can't connect to server
+2023-02-12 08:46:29,597 | INFO | 52: can't connect to server
+2023-02-12 08:46:29,601 | INFO | 64: can't connect to server
+2023-02-12 08:46:29,601 | INFO | 64: can't connect to server
+2023-02-12 08:46:29,604 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:29,604 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:30,716 | INFO | 52: can't connect to server
+2023-02-12 08:46:30,716 | INFO | 52: can't connect to server
+2023-02-12 08:46:30,721 | INFO | 64: can't connect to server
+2023-02-12 08:46:30,721 | INFO | 64: can't connect to server
+2023-02-12 08:46:30,723 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:30,723 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:31,876 | INFO | 52: can't connect to server
+2023-02-12 08:46:31,876 | INFO | 52: can't connect to server
+2023-02-12 08:46:31,880 | INFO | 64: can't connect to server
+2023-02-12 08:46:31,880 | INFO | 64: can't connect to server
+2023-02-12 08:46:31,880 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:31,880 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:33,044 | INFO | 52: can't connect to server
+2023-02-12 08:46:33,044 | INFO | 52: can't connect to server
+2023-02-12 08:46:33,048 | INFO | 64: can't connect to server
+2023-02-12 08:46:33,048 | INFO | 64: can't connect to server
+2023-02-12 08:46:33,048 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:33,048 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:44,050 | INFO | 52: can't connect to server
+2023-02-12 08:46:44,050 | INFO | 52: can't connect to server
+2023-02-12 08:46:44,052 | INFO | 64: can't connect to server
+2023-02-12 08:46:44,052 | INFO | 64: can't connect to server
+2023-02-12 08:46:44,054 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:44,054 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:55,056 | INFO | 52: can't connect to server
+2023-02-12 08:46:55,056 | INFO | 52: can't connect to server
+2023-02-12 08:46:55,058 | INFO | 64: can't connect to server
+2023-02-12 08:46:55,058 | INFO | 64: can't connect to server
+2023-02-12 08:46:55,060 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:46:55,060 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:06,061 | INFO | 52: can't connect to server
+2023-02-12 08:47:06,061 | INFO | 52: can't connect to server
+2023-02-12 08:47:06,063 | INFO | 64: can't connect to server
+2023-02-12 08:47:06,063 | INFO | 64: can't connect to server
+2023-02-12 08:47:06,065 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:06,065 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:17,066 | INFO | 52: can't connect to server
+2023-02-12 08:47:17,066 | INFO | 52: can't connect to server
+2023-02-12 08:47:17,068 | INFO | 64: can't connect to server
+2023-02-12 08:47:17,068 | INFO | 64: can't connect to server
+2023-02-12 08:47:17,070 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:17,070 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:28,088 | INFO | 52: can't connect to server
+2023-02-12 08:47:28,088 | INFO | 52: can't connect to server
+2023-02-12 08:47:28,090 | INFO | 64: can't connect to server
+2023-02-12 08:47:28,090 | INFO | 64: can't connect to server
+2023-02-12 08:47:28,091 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:28,091 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:35,716 | INFO | 52: can't connect to server
+2023-02-12 08:47:35,716 | INFO | 52: can't connect to server
+2023-02-12 08:47:35,721 | INFO | 64: can't connect to server
+2023-02-12 08:47:35,721 | INFO | 64: can't connect to server
+2023-02-12 08:47:35,725 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:35,725 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:37,100 | INFO | 52: can't connect to server
+2023-02-12 08:47:37,100 | INFO | 52: can't connect to server
+2023-02-12 08:47:37,105 | INFO | 64: can't connect to server
+2023-02-12 08:47:37,105 | INFO | 64: can't connect to server
+2023-02-12 08:47:37,106 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:37,106 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:48,109 | INFO | 52: can't connect to server
+2023-02-12 08:47:48,109 | INFO | 52: can't connect to server
+2023-02-12 08:47:48,110 | INFO | 64: can't connect to server
+2023-02-12 08:47:48,110 | INFO | 64: can't connect to server
+2023-02-12 08:47:48,111 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:48,111 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:59,113 | INFO | 52: can't connect to server
+2023-02-12 08:47:59,113 | INFO | 52: can't connect to server
+2023-02-12 08:47:59,115 | INFO | 64: can't connect to server
+2023-02-12 08:47:59,115 | INFO | 64: can't connect to server
+2023-02-12 08:47:59,117 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:47:59,117 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:10,119 | INFO | 52: can't connect to server
+2023-02-12 08:48:10,119 | INFO | 52: can't connect to server
+2023-02-12 08:48:10,120 | INFO | 64: can't connect to server
+2023-02-12 08:48:10,120 | INFO | 64: can't connect to server
+2023-02-12 08:48:10,122 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:10,122 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:18,100 | INFO | 52: can't connect to server
+2023-02-12 08:48:18,100 | INFO | 52: can't connect to server
+2023-02-12 08:48:18,105 | INFO | 64: can't connect to server
+2023-02-12 08:48:18,105 | INFO | 64: can't connect to server
+2023-02-12 08:48:18,107 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:18,107 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:19,436 | INFO | 52: can't connect to server
+2023-02-12 08:48:19,436 | INFO | 52: can't connect to server
+2023-02-12 08:48:19,442 | INFO | 64: can't connect to server
+2023-02-12 08:48:19,442 | INFO | 64: can't connect to server
+2023-02-12 08:48:19,445 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:19,445 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:20,603 | INFO | 52: can't connect to server
+2023-02-12 08:48:20,603 | INFO | 52: can't connect to server
+2023-02-12 08:48:20,607 | INFO | 64: can't connect to server
+2023-02-12 08:48:20,607 | INFO | 64: can't connect to server
+2023-02-12 08:48:20,607 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:20,607 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:22,139 | INFO | 52: can't connect to server
+2023-02-12 08:48:22,139 | INFO | 52: can't connect to server
+2023-02-12 08:48:22,146 | INFO | 64: can't connect to server
+2023-02-12 08:48:22,146 | INFO | 64: can't connect to server
+2023-02-12 08:48:22,149 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:22,149 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:24,251 | INFO | 52: can't connect to server
+2023-02-12 08:48:24,251 | INFO | 52: can't connect to server
+2023-02-12 08:48:24,257 | INFO | 64: can't connect to server
+2023-02-12 08:48:24,257 | INFO | 64: can't connect to server
+2023-02-12 08:48:24,258 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:24,258 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:28,340 | INFO | 52: can't connect to server
+2023-02-12 08:48:28,340 | INFO | 52: can't connect to server
+2023-02-12 08:48:28,345 | INFO | 64: can't connect to server
+2023-02-12 08:48:28,345 | INFO | 64: can't connect to server
+2023-02-12 08:48:28,346 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:28,346 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:29,548 | INFO | 52: can't connect to server
+2023-02-12 08:48:29,548 | INFO | 52: can't connect to server
+2023-02-12 08:48:29,553 | INFO | 64: can't connect to server
+2023-02-12 08:48:29,553 | INFO | 64: can't connect to server
+2023-02-12 08:48:29,553 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:29,553 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:31,100 | INFO | 52: can't connect to server
+2023-02-12 08:48:31,100 | INFO | 52: can't connect to server
+2023-02-12 08:48:31,106 | INFO | 64: can't connect to server
+2023-02-12 08:48:31,106 | INFO | 64: can't connect to server
+2023-02-12 08:48:31,109 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:31,109 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:32,484 | INFO | 52: can't connect to server
+2023-02-12 08:48:32,484 | INFO | 52: can't connect to server
+2023-02-12 08:48:32,489 | INFO | 64: can't connect to server
+2023-02-12 08:48:32,489 | INFO | 64: can't connect to server
+2023-02-12 08:48:32,490 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:32,490 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:36,243 | INFO | 52: can't connect to server
+2023-02-12 08:48:36,243 | INFO | 52: can't connect to server
+2023-02-12 08:48:36,249 | INFO | 64: can't connect to server
+2023-02-12 08:48:36,249 | INFO | 64: can't connect to server
+2023-02-12 08:48:36,254 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:36,254 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:37,347 | INFO | 52: can't connect to server
+2023-02-12 08:48:37,347 | INFO | 52: can't connect to server
+2023-02-12 08:48:37,352 | INFO | 64: can't connect to server
+2023-02-12 08:48:37,352 | INFO | 64: can't connect to server
+2023-02-12 08:48:37,353 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:37,353 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:39,275 | INFO | 52: can't connect to server
+2023-02-12 08:48:39,275 | INFO | 52: can't connect to server
+2023-02-12 08:48:39,300 | INFO | 64: can't connect to server
+2023-02-12 08:48:39,300 | INFO | 64: can't connect to server
+2023-02-12 08:48:39,374 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:39,374 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:40,724 | INFO | 52: can't connect to server
+2023-02-12 08:48:40,724 | INFO | 52: can't connect to server
+2023-02-12 08:48:40,729 | INFO | 64: can't connect to server
+2023-02-12 08:48:40,729 | INFO | 64: can't connect to server
+2023-02-12 08:48:40,749 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:40,749 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:45,228 | INFO | 52: can't connect to server
+2023-02-12 08:48:45,228 | INFO | 52: can't connect to server
+2023-02-12 08:48:45,234 | INFO | 64: can't connect to server
+2023-02-12 08:48:45,234 | INFO | 64: can't connect to server
+2023-02-12 08:48:45,234 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:45,234 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:46,395 | INFO | 52: can't connect to server
+2023-02-12 08:48:46,395 | INFO | 52: can't connect to server
+2023-02-12 08:48:46,400 | INFO | 64: can't connect to server
+2023-02-12 08:48:46,400 | INFO | 64: can't connect to server
+2023-02-12 08:48:46,402 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:46,402 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:47,915 | INFO | 52: can't connect to server
+2023-02-12 08:48:47,915 | INFO | 52: can't connect to server
+2023-02-12 08:48:47,920 | INFO | 64: can't connect to server
+2023-02-12 08:48:47,920 | INFO | 64: can't connect to server
+2023-02-12 08:48:47,924 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:47,924 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:49,286 | INFO | 52: can't connect to server
+2023-02-12 08:48:49,286 | INFO | 52: can't connect to server
+2023-02-12 08:48:49,289 | INFO | 64: can't connect to server
+2023-02-12 08:48:49,289 | INFO | 64: can't connect to server
+2023-02-12 08:48:49,290 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:49,290 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:51,108 | INFO | 52: can't connect to server
+2023-02-12 08:48:51,108 | INFO | 52: can't connect to server
+2023-02-12 08:48:51,110 | INFO | 64: can't connect to server
+2023-02-12 08:48:51,110 | INFO | 64: can't connect to server
+2023-02-12 08:48:51,112 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:51,112 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:54,635 | INFO | 52: can't connect to server
+2023-02-12 08:48:54,635 | INFO | 52: can't connect to server
+2023-02-12 08:48:54,643 | INFO | 64: can't connect to server
+2023-02-12 08:48:54,643 | INFO | 64: can't connect to server
+2023-02-12 08:48:54,644 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:48:54,644 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:05,646 | INFO | 52: can't connect to server
+2023-02-12 08:49:05,646 | INFO | 52: can't connect to server
+2023-02-12 08:49:05,661 | INFO | 64: can't connect to server
+2023-02-12 08:49:05,661 | INFO | 64: can't connect to server
+2023-02-12 08:49:05,661 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:05,661 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:08,088 | INFO | 52: can't connect to server
+2023-02-12 08:49:08,088 | INFO | 52: can't connect to server
+2023-02-12 08:49:08,093 | INFO | 64: can't connect to server
+2023-02-12 08:49:08,093 | INFO | 64: can't connect to server
+2023-02-12 08:49:08,106 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:08,106 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:09,108 | INFO | 52: can't connect to server
+2023-02-12 08:49:09,108 | INFO | 52: can't connect to server
+2023-02-12 08:49:09,110 | INFO | 64: can't connect to server
+2023-02-12 08:49:09,110 | INFO | 64: can't connect to server
+2023-02-12 08:49:09,110 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:09,110 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:12,819 | INFO | 52: can't connect to server
+2023-02-12 08:49:12,819 | INFO | 52: can't connect to server
+2023-02-12 08:49:12,836 | INFO | 64: can't connect to server
+2023-02-12 08:49:12,836 | INFO | 64: can't connect to server
+2023-02-12 08:49:12,846 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:12,846 | ERROR | 65: [Errno 61] Connection refused
+2023-02-12 08:49:33,175 | INFO | 414: conn to potsgre
+2023-02-12 08:49:33,256 | INFO | 392: conn to server ... 
+2023-02-12 08:49:33,364 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:49:33,364 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:49:33,365 | INFO | 27: connect to DB .....
+2023-02-12 08:49:33,365 | INFO | 27: connect to DB .....
+2023-02-12 08:49:33,366 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:49:33,366 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:49:33,368 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:49:33,368 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:49:33,370 | INFO | 435: run QApplication .......
+2023-02-12 08:49:33,370 | INFO | 435: run QApplication .......
+2023-02-12 08:49:33,372 | INFO | 436: init screensize .......
+2023-02-12 08:49:33,372 | INFO | 436: init screensize .......
+2023-02-12 08:49:33,374 | INFO | 437: init components dict .......
+
+2023-02-12 08:49:33,374 | INFO | 437: init components dict .......
+
+2023-02-12 08:49:33,384 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:49:33,384 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:49:33,384 | INFO | 39: Run Cam Thread ...
+2023-02-12 08:49:33,384 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:49:33,384 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:49:33,384 | INFO | 49: Run video capture from --> rtsp://admin:admin@192.168.100.121
+2023-02-12 08:49:35,386 | INFO | 200: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:49:35,386 | INFO | 200: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:49:35,386 | INFO | 200: Run snapshot thread( standby waiting snapshot# command ) ...
+2023-02-12 08:49:51,130 | INFO | 254: Start client thread
+2023-02-12 08:49:51,130 | INFO | 265: Connected by ('192.168.100.82', 52594)
+2023-02-12 08:49:51,130 | INFO | 270: Server standby waiting message from client ... 
+2023-02-12 08:50:08,670 | INFO | 321: converting to dictionary ...
+2023-02-12 08:50:08,685 | INFO | 350: server ask to snapshot ....
+2023-02-12 08:50:08,685 | INFO | 353: Save Date Time & capture cam image success ....
+2023-02-12 08:50:08,686 | INFO | 354: send return value to raspi( ('192.168.100.82', 52594) )....
+2023-02-12 08:50:08,687 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:50:08,687 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:50:08,687 | INFO | 207: Get & Split snapshot command
+2023-02-12 08:50:08,836 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:50:08,836 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:50:08,836 | INFO | 232: save snapshot image & re-init QImage ...
+2023-02-12 08:52:33,313 | INFO | 26: 
+Controller constructor: 
+2023-02-12 08:52:33,313 | INFO | 27: connect to DB .....
+2023-02-12 08:52:33,313 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 08:52:33,314 | INFO | 434: 
+Util constructor: 
+2023-02-12 08:52:33,314 | INFO | 435: run QApplication .......
+2023-02-12 08:52:33,314 | INFO | 436: init screensize .......
+2023-02-12 08:52:33,314 | INFO | 437: init components dict .......
+
+2023-02-12 08:52:33,412 | INFO | 52: can't connect to server
+2023-02-12 08:52:33,412 | INFO | 52: can't connect to server
+2023-02-12 08:52:33,414 | INFO | 60: success connect to server
+2023-02-12 08:52:33,414 | INFO | 60: success connect to server
+2023-02-12 08:52:33,415 | INFO | 254: Start client thread
+2023-02-12 08:52:33,415 | INFO | 265: Connected by ('192.168.100.3', 50075)
+2023-02-12 08:52:33,415 | INFO | 270: Server standby waiting message from client ... 
+2023-02-12 08:52:40,141 | INFO | 81: 
+success execute query
+2023-02-12 08:52:40,141 | INFO | 81: 
+success execute query
+2023-02-12 08:53:23,894 | INFO | 81: 
+success execute query
+2023-02-12 08:53:23,894 | INFO | 81: 
+success execute query
+2023-02-12 08:53:23,898 | INFO | 81: 
+success execute query
+2023-02-12 08:53:23,898 | INFO | 81: 
+success execute query
+2023-02-12 09:04:29,779 | INFO | 81: 
+success execute query
+2023-02-12 09:04:29,779 | INFO | 81: 
+success execute query
+2023-02-12 09:04:47,717 | INFO | 81: 
+success execute query
+2023-02-12 09:04:47,717 | INFO | 81: 
+success execute query
+2023-02-12 09:04:47,718 | INFO | 81: 
+success execute query
+2023-02-12 09:04:47,718 | INFO | 81: 
+success execute query
+2023-02-12 09:04:52,590 | INFO | 277: client('192.168.100.3', 50075) disconnected at 2023-02-12 09:04:52.590377
+2023-02-12 09:36:36,060 | INFO | 26: 
+Controller constructor: 
+2023-02-12 09:36:36,060 | INFO | 27: connect to DB .....
+2023-02-12 09:36:36,060 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 09:36:36,060 | INFO | 434: 
+Util constructor: 
+2023-02-12 09:36:36,060 | INFO | 435: run QApplication .......
+2023-02-12 09:36:36,060 | INFO | 436: init screensize .......
+2023-02-12 09:36:36,060 | INFO | 437: init components dict .......
+
+2023-02-12 09:36:36,150 | INFO | 52: can't connect to server
+2023-02-12 09:36:36,150 | INFO | 52: can't connect to server
+2023-02-12 09:36:36,155 | INFO | 60: success connect to server
+2023-02-12 09:36:36,155 | INFO | 60: success connect to server
+2023-02-12 09:36:36,156 | INFO | 254: Start client thread
+2023-02-12 09:36:36,157 | INFO | 265: Connected by ('192.168.100.3', 50079)
+2023-02-12 09:36:36,158 | INFO | 270: Server standby waiting message from client ... 
+2023-02-12 09:36:40,782 | INFO | 81: 
+success execute query
+2023-02-12 09:36:40,782 | INFO | 81: 
+success execute query
+2023-02-12 09:36:40,911 | INFO | 81: 
+success execute query
+2023-02-12 09:36:40,911 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,011 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,011 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,030 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,030 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,050 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,050 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,070 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,070 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,088 | INFO | 81: 
+success execute query
+2023-02-12 09:36:41,088 | INFO | 81: 
+success execute query
+2023-02-12 09:36:53,045 | INFO | 81: 
+success execute query
+2023-02-12 09:36:53,045 | INFO | 81: 
+success execute query
+2023-02-12 10:00:37,232 | INFO | 277: client('192.168.100.3', 50079) disconnected at 2023-02-12 10:00:37.232388
+2023-02-12 10:00:41,606 | INFO | 26: 
+Controller constructor: 
+2023-02-12 10:00:41,606 | INFO | 27: connect to DB .....
+2023-02-12 10:00:41,606 | INFO | 28: active DB cursor ..... 
+
+2023-02-12 10:00:41,607 | INFO | 434: 
+Util constructor: 
+2023-02-12 10:00:41,607 | INFO | 435: run QApplication .......
+2023-02-12 10:00:41,607 | INFO | 436: init screensize .......
+2023-02-12 10:00:41,607 | INFO | 437: init components dict .......
+
+2023-02-12 10:00:41,697 | INFO | 52: can't connect to server
+2023-02-12 10:00:41,697 | INFO | 52: can't connect to server
+2023-02-12 10:00:41,698 | INFO | 60: success connect to server
+2023-02-12 10:00:41,698 | INFO | 60: success connect to server
+2023-02-12 10:00:41,698 | INFO | 254: Start client thread
+2023-02-12 10:00:41,699 | INFO | 265: Connected by ('192.168.100.3', 50081)
+2023-02-12 10:00:41,699 | INFO | 270: Server standby waiting message from client ... 
+2023-02-12 10:00:46,853 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,853 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,886 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,886 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,945 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,945 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,961 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,961 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,980 | INFO | 81: 
+success execute query
+2023-02-12 10:00:46,980 | INFO | 81: 
+success execute query
+2023-02-12 10:00:47,000 | INFO | 81: 
+success execute query
+2023-02-12 10:00:47,000 | INFO | 81: 
+success execute query
+2023-02-12 10:00:47,017 | INFO | 81: 
+success execute query
+2023-02-12 10:00:47,017 | INFO | 81: 
+success execute query
+2023-02-12 10:01:10,129 | INFO | 81: 
+success execute query
+2023-02-12 10:01:10,129 | INFO | 81: 
+success execute query
+2023-02-12 10:01:15,498 | INFO | 81: 
+success execute query
+2023-02-12 10:01:15,498 | INFO | 81: 
+success execute query
+2023-02-12 10:01:41,819 | INFO | 277: client('192.168.100.3', 50081) disconnected at 2023-02-12 10:01:41.819585
+2023-02-12 10:01:53,763 | INFO | 277: client('192.168.100.82', 52594) disconnected at 2023-02-12 10:01:53.763941

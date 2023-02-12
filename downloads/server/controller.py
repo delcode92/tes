@@ -56,9 +56,8 @@ class Controller(Client):
     
 
     def connect_to_server(self, h, p):
-        # super().__init__(h,p)
-        ...
-
+        super().__init__(h,p)
+        
 
     def connect_to_postgresql(self):
         try:
