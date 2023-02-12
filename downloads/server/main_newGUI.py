@@ -641,17 +641,32 @@ class Main(Util, View):
             image_2 = QImage(frame_2, frame_2.shape[1], frame_2.shape[0], frame_2.strides[0], QImage.Format_RGB888)
             self.image_label2.setPixmap(QPixmap.fromImage(image_2))
 
+    def findVoucher(self):
+        print("search voucher status ... ")
+
     def openGate(self):
         print("OPEN GATE KELUAR")
-
-    def keyShortcut(self, keyCombination="", targetWidget=None, openGate=False):
         
-        if not openGate:
+        # modal
+        dlg = QMessageBox(self.window)
+        
+        dlg.setWindowTitle("Alert")
+        dlg.setText("OPEN GATE KELUAR --> send to microcontroller")
+        dlg.setIcon(QMessageBox.Information)
+        dlg.exec()
+
+    def keyShortcut(self, keyCombination="", targetWidget=None, command=""):
+        
+        if command=="":
             shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( targetWidget.setFocus )
-        elif openGate:
+        elif command=="open-gate":
             shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( self.openGate )
+        elif command=="search-voucher":
+            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
+            shortcut.activated.connect( self.findVoucher )
+
 
     def createPage(self, page=""):
         
@@ -2155,6 +2170,10 @@ class Main(Util, View):
         uname = self.components["input_uname"].text().upper()
         lbl1 = QLabel("KASIR LOGIN: " + uname)
         
+        logout = QPushButton("LOGOUT")
+        logout.setStyleSheet(View.logout_button)
+        logout.setMaximumWidth(120)
+
         ##### content #####
         groupboxes = [
                 {
@@ -2198,7 +2217,7 @@ class Main(Util, View):
         left_content = [
                     {
                         "name":"lbl_barcode_transaksi",
-                        "text":"BL/Barcode",
+                        "text":"Barcode/Voucher",
                         "category":"label",
                         "style":self.primary_lbl
                     },
@@ -2355,6 +2374,7 @@ class Main(Util, View):
         lbl3.setStyleSheet("color: #fff;")
 
         header_container_lay.addWidget(lbl1)
+        header_container_lay.addWidget(logout)
         footer_container_lay.addWidget(lbl3)
         
         #######################################################
@@ -2362,6 +2382,9 @@ class Main(Util, View):
         ################# create shortcut key #################
         # transaksi
         self.keyShortcut(keyCombination="Ctrl+t", targetWidget=self.components["barcode_transaksi"])
+        
+        # search voucher
+        self.keyShortcut(keyCombination="Ctrl+f", command="search-voucher")
         
         # btn bayar
         self.keyShortcut(keyCombination="Ctrl+b", targetWidget=self.components["btn_bayar"])
@@ -2372,8 +2395,8 @@ class Main(Util, View):
         # save btn - lap user bermasalah
         self.keyShortcut(keyCombination="Ctrl+s", targetWidget=self.components["btn_simpan_bermasalah"])
         
-        # save btn - lap user bermasalah
-        self.keyShortcut(keyCombination="Ctrl+o", openGate=True)
+        # open gate keluar
+        self.keyShortcut(keyCombination="Ctrl+o", command="open-gate")
         
         #######################################################
 

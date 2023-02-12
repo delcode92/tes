@@ -1,6 +1,6 @@
 import sys,cv2,os
 # from client.client_service import Client
-from PyQt5.QtWidgets import (QShortcut, QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
+from PyQt5.QtWidgets import (QMessageBox, QShortcut, QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
 QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
@@ -207,6 +207,22 @@ class View:
                 }
                 QPushButton:hover {
                     background-color: #4CB0BC;
+    """
+
+    logout_button = """QPushButton {
+                        background-color:#FF7B7B; 
+                        color:#fff; 
+                        border:none;
+                        padding: 8px;
+
+                        font-family: Helvetica;
+                        font-size: 13px;
+                        font-weight: 600;
+                    }
+
+                    QPushButton:hover {
+                        background-color: #ED7575;
+                    }
     """
 
     emergency_button = """QPushButton {

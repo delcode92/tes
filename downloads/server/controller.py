@@ -136,8 +136,10 @@ class Controller(Client):
                 diff = time_now - barcode_time
                 total_hours = math.ceil(diff.total_seconds()/3600)
                 
-                self.logger.debug("TH", total_hours, type(total_hours))
-                self.logger.debug("jns kendaraan:", jns_kendaraan)
+                print("====================")
+                print("TH", total_hours, type(total_hours))
+                print("jns kendaraan:", jns_kendaraan)
+                print("====================\n\n")
             
                 # get base price from db
                 base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
@@ -147,16 +149,18 @@ class Controller(Client):
                 if total_hours==0:
                     jam = 1
                     price = jam * base_price_perjam
-                    self.logger.debug(jam, "jam")
-                    self.logger.debug(price, "Rupiah")
-                    self.logger.debug("================")
+                    print("================")
+                    print(jam, "jam")
+                    print(price, "Rupiah")
+                    print("================\n\n")
                 
                 elif total_hours<24 and total_hours>0:
                     price = total_hours * base_price_perjam
                     
-                    self.logger.debug(total_hours, "jam")
-                    self.logger.debug(price, "Rupiah")
-                    self.logger.debug("================")
+                    print("================")
+                    print(total_hours, "jam")
+                    print(price, "Rupiah")
+                    print("================\n\n")
                 
                 elif total_hours>24:
                     hari = math.floor(total_hours/24)
@@ -164,10 +168,11 @@ class Controller(Client):
 
                     price = (hari*base_price_per24jam) + (jam*base_price_perjam)
 
-                    self.logger.debug(hari, "hari")
-                    self.logger.debug(jam, "jam")
-                    self.logger.debug(price, "Rupiah")
-                    self.logger.debug("================")
+                    print("================")
+                    print(hari, "hari")
+                    print(jam, "jam")
+                    print(price, "Rupiah")
+                    print("================\n\n")
                 
                 # set value to textbox
                 self.components["jns_kendaraan"].setText( jns_kendaraan )
@@ -335,7 +340,16 @@ class Controller(Client):
 
         # send data to server to open the gate
         self.logger.debug("open gate ... ")
-        self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+
+        # modal
+        dlg = QMessageBox(self.window)
+        
+        dlg.setWindowTitle("Alert")
+        dlg.setText("Payment success --> OPEN GATE KELUAR")
+        dlg.setIcon(QMessageBox.Information)
+        dlg.exec()
+
+        # self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
 
 
     def add_tarif(self):
