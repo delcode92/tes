@@ -660,6 +660,11 @@ class Main(Util, View):
         if command=="":
             shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( targetWidget.setFocus )
+        elif command=="pay":
+            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
+            shortcut.activated.connect( self.setPay )
+        elif command=="save":
+            ...
         elif command=="open-gate":
             shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( self.openGate )
@@ -2265,17 +2270,17 @@ class Main(Util, View):
                         "editable": False,
                         "style": self.primary_input,
                     },
-                    {
-                        "name":"btn_bayar",
-                        "category":"pushButton",
-                        "text": "Bayar",
-                        "style": self.primary_button,
-                        "enabled": False,
-                        "clicked": {
-                            "method_name": self.setPay
-                        }
+                    # {
+                    #     "name":"btn_bayar",
+                    #     "category":"pushButton",
+                    #     "text": "Bayar",
+                    #     "style": self.primary_button,
+                    #     "enabled": False,
+                    #     "clicked": {
+                    #         "method_name": self.setPay
+                    #     }
 
-                    }
+                    # }
                 ]
     
         center_content = [
@@ -2316,12 +2321,12 @@ class Main(Util, View):
                         "style": "border:1px solid #ecf0f1;"+self.bg_grey,
                         "font":self.helvetica_12
                     },
-                    {
-                        "name":"btn_simpan_bermasalah",
-                        "category":"pushButton",
-                        "text": "Simpan",
-                        "style": self.primary_button
-                    }
+                    # {
+                    #     "name":"btn_simpan_bermasalah",
+                    #     "category":"pushButton",
+                    #     "text": "Simpan",
+                    #     "style": self.primary_button
+                    # }
         ]
 
         # add components to left
@@ -2387,13 +2392,13 @@ class Main(Util, View):
         self.keyShortcut(keyCombination="Ctrl+f", command="search-voucher")
         
         # btn bayar
-        self.keyShortcut(keyCombination="Ctrl+b", targetWidget=self.components["btn_bayar"])
+        self.keyShortcut(keyCombination="Ctrl+b", command="pay")
         
         # lap user bermasalah
         self.keyShortcut(keyCombination="Ctrl+l", targetWidget=self.components["barcode_bermasalah"])
         
         # save btn - lap user bermasalah
-        self.keyShortcut(keyCombination="Ctrl+s", targetWidget=self.components["btn_simpan_bermasalah"])
+        self.keyShortcut(keyCombination="Ctrl+s", command="save")
         
         # open gate keluar
         self.keyShortcut(keyCombination="Ctrl+o", command="open-gate")
