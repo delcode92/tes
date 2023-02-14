@@ -47,7 +47,7 @@ class Thread(QThread):
                 if not self.capture:
                     rtsp = 'rtsp://admin:admin@192.168.100.121'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
-                    self.capture = cv2.VideoCapture(rtsp)
+                    self.capture = cv2.VideoCapture(0)
                     # self.capture = cv2.VideoCapture(0)
 
                 elif not ret:
@@ -315,9 +315,10 @@ class Server:
 
                         elif "date#" in msg:
                             try:
+                                self.debug.logger.debug("Set datetime for client ... ")
 
                                 # get current date
-                                today = datetime.date.today()
+                                today = datetime.datetime.now()
                                 dt = today.strftime("%Y-%m-%d %H:%M:%S")
 
                                 conn.sendall( bytes(f"date#{dt}#end", 'utf-8') )

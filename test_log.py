@@ -1,22 +1,6 @@
-import logging
-from debug import Debug
-from errinfo import ErrInfo
+import datetime
 
-debug2 = Debug(write_file=True)
-# err_info = ErrInfo()
+today = datetime.datetime.now()
+dt = today.strftime("%Y-%m-%d %H:%M:%S")
 
-# print("=====================================")
-# print("this just info in dev/production ....")
-
-debug = Debug(write_file=False)
-debug.debugMSG("This is a debug message in dev....")
-
-# print("=====================================\n\n")
-
-debug2.infoMSG("This is an info message put in log file.")
-debug2.errMSG("This is an info message put in log file.")
-# err_info.errMSG("This is an error message.")
-
-# err_info.infoMSG("This is an info message put in log file.")
-# err_info.errMSG("This is an error message.")
-
+print(dt)

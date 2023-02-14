@@ -19,7 +19,7 @@ class GPIOHandler:
         self.led1, self.led2, self.led3, self.gate = 8,10,11,18
         self.loop1, self.loop2, self.button = 12,13,7
 
-        self.stateLoop1, self.stateLoop2, self.stateButton, self.stateGate = False, False, False, False
+        self.stateLoop1, self.stateLoop2, self.stateButton, self.stateGate, self.setDate = False, False, False, False, False
         
         # read config file
         file = self.getPath("config.cfg")
@@ -49,8 +49,10 @@ class GPIOHandler:
                     start_new_thread( self.recv_server,() )
                     
                     ########### get server date --> if time not set don't start the raspi
-                    self.s.sendall( bytes(f"date#getdate#end", 'utf-8') )
-                    self.logger.info("get date from server ... ")
+                    while self.setDate==False:
+                        self.s.sendall( bytes(f"date#getdate#end", 'utf-8') )
+                        self.logger.info("get date from server ... ")
+                        sleep(5)
                     ###########################
 
                     # run input RFID thread
@@ -274,11 +276,13 @@ class GPIOHandler:
 
                             elif "date#" in message :
                                 date_time = re.search('date#(.+?)#end', message).group(1)
+                                print("date from server: ", date_time)
+                                print(f"sudo date -s '{date_time}'")
                                 
                                 # set raspi date
-                                date_time = ""
                                 os.system(f"sudo date -s '{date_time}'")
-
+                                self.setDate = True
+                                
                         except Exception as e:
                             self.logger.error(str(e))
                            
