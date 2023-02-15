@@ -59,3 +59,4 @@ CREATE TABLE tes ( id serial primary key, barcode varchar(150), datetime timesta
 insert into tes (barcode, datetime, gate, jns_kendaraan) values ('12313123', '2023-02-05 15:02:12', '1', 'motor');
 
 CREATE TABLE voucher ( id serial primary key, id_pel varchar(30), lokasi varchar(255), tarif serial, masa_berlaku date, jns_kendaraan varchar(20) );
+CREATE TABLE laporan_users ( id serial primary key, barcode varchar(30), ket varchar(255) );

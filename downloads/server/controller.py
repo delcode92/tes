@@ -180,7 +180,7 @@ class Controller(Client):
                 # just show tarif and enable button if "BELUM LUNAS"
                 if status_parkir == "BELUM LUNAS":
                     self.components["tarif_transaksi"].setText( str(price) )
-                    self.components["btn_bayar"].setEnabled(True)
+                    # self.components["btn_bayar"].setEnabled(True)
 
         except Exception as e:
             # clear text box if false input barcode
@@ -326,30 +326,49 @@ class Controller(Client):
     def setPay(self):
         # get barcode
         barcode = self.components["barcode_transaksi"].text()
-        
-        # update status to true
-        self.exec_query(f"update karcis set status_parkir=true where barcode='{barcode}'")
-        
-        # clear all text box and disable button
-        self.components["barcode_transaksi"].setText("")
-        self.components["jns_kendaraan"].setText("")
-        self.components["ket_status"].setText("")
-        self.components["tarif_transaksi"].setText("")
-        self.components["btn_bayar"].setEnabled(False)
+        kendaraan = self.components["jns_kendaraan"].text("")
+        stat = self.components["ket_status"].text("")
+        tarif = self.components["tarif_transaksi"].text("")
 
-        # send data to server to open the gate
-        self.logger.debug("open gate ... ")
+        if barcode != "" and kendaraan != "" and stat != "" and tarif != "":
 
-        # modal
-        dlg = QMessageBox(self.window)
-        
-        dlg.setWindowTitle("Alert")
-        dlg.setText("Payment success --> OPEN GATE KELUAR")
-        dlg.setIcon(QMessageBox.Information)
-        dlg.exec()
+            # update status to true
+            self.exec_query(f"update karcis set status_parkir=true where barcode='{barcode}'")
+            
+            # clear all text box and disable button
+            self.components["barcode_transaksi"].setText("")
+            self.components["jns_kendaraan"].setText("")
+            self.components["ket_status"].setText("")
+            self.components["tarif_transaksi"].setText("")
+            # self.components["btn_bayar"].setEnabled(False)
 
-        # self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+            # send data to server to open the gate
+            self.logger.debug("open gate ... ")
 
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Payment success --> OPEN GATE KELUAR")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
+
+            # self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+
+    def setReport(self):
+        barcode = self.components["barcode_bermasalah"].text() 
+        ket = self.components["ket_bermasalah"].text() 
+
+        if barcode != "" and ket != "":
+            self.exec_query(f"insert into laporan_users (barcode, ket) values('{barcode}', '{ket}')")
+
+            # modal
+            dlg = QMessageBox(self.window)
+            
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Saved")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
 
     def add_tarif(self):
         pos = self.components["add_tarif_pos"].text()    

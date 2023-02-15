@@ -261,16 +261,16 @@ class GPIOHandler:
                                 self.logger.debug(message)
                                 
                                 self.logger.info("write to file ... ")
-                                config = ConfigParser()
-                                config.read('config.cfg')
+                                # config = ConfigParser()
+                                # self.config.read('config.cfg')
 
-                                config['ID']['LOKASI'] = message['tempat']                                
-                                config['KARCIS']['FOOTER1'] = message['footer1']                                
-                                config['KARCIS']['FOOTER2'] = message['footer2']                                
-                                config['KARCIS']['FOOTER3'] = message['footer3']
+                                self.config['ID']['LOKASI'] = message['tempat']                                
+                                self.config['KARCIS']['FOOTER1'] = message['footer1']                                
+                                self.config['KARCIS']['FOOTER2'] = message['footer2']                                
+                                self.config['KARCIS']['FOOTER3'] = message['footer3']
 
                                 with open('config.cfg', 'w') as configfile:
-                                    config.write(configfile)
+                                    self.config.write(configfile)
 
                                 print("=====================================")
 

@@ -657,19 +657,19 @@ class Main(Util, View):
 
     def keyShortcut(self, keyCombination="", targetWidget=None, command=""):
         
+        shortcut = QShortcut(QKeySequence(keyCombination), self.window)
+        
         if command=="":
-            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( targetWidget.setFocus )
         elif command=="pay":
-            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( self.setPay )
-        elif command=="save":
-            ...
+        
+        elif command=="save": #laporan user bermasalah
+            shortcut.activated.connect( self.setReport )
+            
         elif command=="open-gate":
-            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( self.openGate )
         elif command=="search-voucher":
-            shortcut = QShortcut(QKeySequence(keyCombination), self.window)
             shortcut.activated.connect( self.findVoucher )
 
 
@@ -2268,7 +2268,7 @@ class Main(Util, View):
                         "name":"tarif_transaksi",
                         "category":"lineEdit",
                         "editable": False,
-                        "style": self.primary_input,
+                        "style": self.primary_input + "height: 45px; font-weight: 500;",
                     },
                     # {
                     #     "name":"btn_bayar",
@@ -2295,19 +2295,19 @@ class Main(Util, View):
                         "category":"lineEdit",
                         "style": self.primary_input
                     },
-                    {
-                        "name":"lbl_tarif_bermasalah",
-                        "text":"Tarif(Rp)",
-                        "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
-                    },
-                    {
-                        "name":"tarif_bermasalah",
-                        "category":"lineEdit",
-                        "min_height": 40,
-                        "editable": False,
-                        "style":self.primary_input
-                    },
+                    # {
+                    #     "name":"lbl_tarif_bermasalah",
+                    #     "text":"Tarif(Rp)",
+                    #     "category":"label",
+                    #     "style":self.primary_lbl + "margin-top:15px;"
+                    # },
+                    # {
+                    #     "name":"tarif_bermasalah",
+                    #     "category":"lineEdit",
+                    #     "min_height": 40,
+                    #     "editable": False,
+                    #     "style":self.primary_input
+                    # },
                     {
                         "name":"lbl_ket_bermasalah",
                         "text":"Keterangan",
