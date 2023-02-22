@@ -127,12 +127,12 @@ class Controller(Client):
             
             if len(barcode_time[0]) > 0:
                 price = 0
-                time_now = datetime.now()
-                time_now = time_now.replace(tzinfo=None)
+                self.time_now = datetime.now()
+                self.time_now = self.time_now.replace(tzinfo=None)
                 
                 barcode_time = barcode_time[0][0].replace(tzinfo=None)
 
-                diff = time_now - barcode_time
+                diff = self.time_now - barcode_time
                 total_hours = math.ceil(diff.total_seconds()/3600)
                 
                 print("====================")
@@ -180,8 +180,7 @@ class Controller(Client):
                 # just show tarif and enable button if "BELUM LUNAS"
                 if status_parkir == "BELUM LUNAS":
                     self.components["tarif_transaksi"].setText( str(price) )
-                    # self.components["btn_bayar"].setEnabled(True)
-
+                    
         except Exception as e:
             # clear text box if false input barcode
             self.components["jns_kendaraan"].setText("")
@@ -326,22 +325,23 @@ class Controller(Client):
     def setPay(self):
         # get barcode
         barcode = self.components["barcode_transaksi"].text()
-        kendaraan = self.components["jns_kendaraan"].text("")
-        stat = self.components["ket_status"].text("")
-        tarif = self.components["tarif_transaksi"].text("")
+        kendaraan = self.components["jns_kendaraan"].text()
+        stat = self.components["ket_status"].text()
+        tarif = self.components["tarif_transaksi"].text()
 
         if barcode != "" and kendaraan != "" and stat != "" and tarif != "":
 
-            # update status to true
-            self.exec_query(f"update karcis set status_parkir=true where barcode='{barcode}'")
+            # update status to true, tarif and date_keluar
+            dt_keluar = self.time_now.strftime('%Y-%m-%d %H:%M:%S')
+
+            self.exec_query(f"update karcis set status_parkir=true, tarif='{tarif}', date_keluar='{dt_keluar}' where barcode='{barcode}'")
             
             # clear all text box and disable button
             self.components["barcode_transaksi"].setText("")
             self.components["jns_kendaraan"].setText("")
             self.components["ket_status"].setText("")
             self.components["tarif_transaksi"].setText("")
-            # self.components["btn_bayar"].setEnabled(False)
-
+            
             # send data to server to open the gate
             self.logger.debug("open gate ... ")
 

@@ -1,4 +1,4 @@
-import sys,cv2,os
+import sys,cv2,os, json
 
 from framework import *
 # from kasir_ipcam import *
@@ -88,15 +88,53 @@ class Main(Util, View):
         if rows != 0:
             table.setRowCount(rows)
             
-        # table.setColumnCount(cols)
-
         r = 0
         for l in query:
             
             # set item on table column
             for i in range(cols):
-                item = QTableWidgetItem( str(l[i]) )
+                val = str(l[i])
+                
+                if val == 'None': val = ""
+
+                item = QTableWidgetItem( val )
                 table.setItem(r, i, item)
+            
+            r = r + 1
+
+    def fillTableTarif(self, table, cols, query, rows=0):
+        
+        if rows != 0:
+            table.setRowCount(rows)
+        
+        # loop each row based on query row result
+        r = 0
+        for l in query:
+            
+            # set item on table column
+            col_index = 0
+            for i in range(cols):
+                
+                # if has reach 3 column in table tarif --> JSON string
+                val = str(l[i]) # {"4":"1000", "6":"1000"}
+                
+                if i == 2:
+                    rules = json.loads(val)
+
+                    for k,v in rules.items():
+                        # add v->value into
+                        item = QTableWidgetItem( v )
+                        # print("row:", r, "col:", j,  "val:", v)
+                        table.setItem(r, col_index, item)
+                        col_index+=1
+
+                else:
+                    if val == 'None': val = ""
+
+                    item = QTableWidgetItem( val )
+                    table.setItem(r, col_index, item)
+
+                    col_index+=1
             
             r = r + 1
 
@@ -438,6 +476,18 @@ class Main(Util, View):
                     # components
                     components = [
                                         {
+                                            "name":"lbl_toleransi_motor",
+                                            "category":"label",
+                                            "text": "Toleransi(Menit)",
+                                            "style":self.primary_lbl
+                                        },
+                                        {
+                                            "name":"add_toleransi_motor",
+                                            "category":"lineEditInt",
+                                            "text":str(res[0][2]),
+                                            "style":self.primary_input
+                                        },
+                                        {
                                             "name":"lbl_add_tarif_per_1jam",
                                             "category":"label",
                                             "text": "Tarif / jam",
@@ -592,10 +642,10 @@ class Main(Util, View):
 
     def refreshKarcis(self):
         # refill karcis table
-        data_searched = self.search_data_karcis.text()
-        query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis","select")
+        self.row_offset = 0
+        query = self.exec_query(f"SELECT id, barcode,  datetime, date_keluar, gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}","select")
         rows_count = len(query)
-        cols = 6
+        cols = 8
 
         self.karcis_table.setRowCount(rows_count)
         self.fillTable(self.karcis_table, cols, query)
@@ -613,7 +663,7 @@ class Main(Util, View):
                 self.row_offset = self.row_offset + 18
 
         # refill/refresh table with new offset
-        query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+        query = self.exec_query(f"SELECT id, barcode,  datetime, date_keluar, gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
         rows_count = len(query)
 
         if rows_count > 0:
@@ -1443,9 +1493,9 @@ class Main(Util, View):
 
                 # fetch data from DB
                 self.row_offset = 0
-                query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+                query = self.exec_query(f"SELECT id, barcode,  datetime, date_keluar, gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
-                cols = 6
+                cols = 8
 
                 self.karcis_table.resizeRowsToContents()
                 self.karcis_table.horizontalHeader().setStretchLastSection(True)
@@ -1453,7 +1503,7 @@ class Main(Util, View):
                 self.karcis_table.setRowCount(rows_count)
                 self.karcis_table.setColumnCount(cols)
 
-                self.karcis_table.setHorizontalHeaderLabels(["id", "Barcode", "Tanggal", "Gate", "Status Parkir", "Jenis Kendaraan"])
+                self.karcis_table.setHorizontalHeaderLabels(["id", "Barcode", "TGL Masuk", "TGL Keluar", "Gate", "Status Parkir", "Jenis Kendaraan" , "Tarif"])
                 self.karcis_table.setStyleSheet(View.table_style)
 
                 self.karcis_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
@@ -1623,7 +1673,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 800)))
                 
                 ##############################################################
 
@@ -1635,24 +1685,58 @@ class Main(Util, View):
 
                 # create table widget
 
-                # fetch data from DB
-                query = self.exec_query("SELECT id, tarif_perjam,  tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
-                rows_count = len(query)
-                cols = 4
+                # create table header based on rules
+                # check if rules column empty or not
+                rules = self.exec_query("select rules from tarif where rules!=''","select")
+                
+                
+                # standard column
+                tbl_header = []
 
+                if len(rules) == 0:
+                    # fetch data from DB
+                    query = self.exec_query("SELECT id, tarif_dasar, jns_kendaraan FROM tarif", "SELECT")
+                
+                    tbl_header = ["id", "Tarif Perjam", "Jenis Kendaraan"]
+                    tbl_cols = len(tbl_header)
+
+                # column bsed on rules
+                # used len(rules) --> more efficient query, so don't need count(*) query
+                elif len(rules) == 2:
+                    rules = json.loads( rules[0][0] )
+                    
+                    # create string list for column based on rules
+                    
+                    tbl_header.append( f"id" )
+                    tbl_header.append( f"Tarif perjam" )
+                    for k, v in rules.items():
+                        tbl_header.append( f"Tarif per{k}jam" )
+                    
+                    tbl_header.append( f"Tarif per24jam" )
+                    tbl_header.append( f"Jenis Kendaraan" )
+                    
+                    # fetch data from DB
+                    query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan FROM tarif", "SELECT")
+                    
+                    tbl_cols = len(tbl_header) # table cols that appear in GUI
+                    cols = 5 # table that used in query loop
+
+                # get rows count after set appropiate query
+                rows_count = len(query)
+                
                 self.tarif_table.resizeRowsToContents()
                 self.tarif_table.horizontalHeader().setStretchLastSection(True)
 
                 self.tarif_table.setRowCount(rows_count)
-                self.tarif_table.setColumnCount(cols)
-
-                self.tarif_table.setHorizontalHeaderLabels(["id", "Tarif Perjam", "Tarif Per-24jam", "Jenis Kendaraan"])
+                self.tarif_table.setColumnCount(tbl_cols)
+                
+                self.tarif_table.setHorizontalHeaderLabels(tbl_header)    
                 self.tarif_table.setStyleSheet(View.table_style)
 
                 self.tarif_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 self.tarif_table.setColumnHidden(0, True) #hide id column
                 
-                self.fillTable(self.tarif_table, cols, query)
+                self.fillTableTarif(self.tarif_table, cols, query)
 
                 # create edit & delete section
                 self.tarif_table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -2268,19 +2352,9 @@ class Main(Util, View):
                         "name":"tarif_transaksi",
                         "category":"lineEdit",
                         "editable": False,
-                        "style": self.primary_input + "height: 45px; font-weight: 500;",
+                        "style": self.primary_input + "height: 45px; font-weight: 600; font-size:23px;",
                     },
-                    # {
-                    #     "name":"btn_bayar",
-                    #     "category":"pushButton",
-                    #     "text": "Bayar",
-                    #     "style": self.primary_button,
-                    #     "enabled": False,
-                    #     "clicked": {
-                    #         "method_name": self.setPay
-                    #     }
-
-                    # }
+                    
                 ]
     
         center_content = [

@@ -39,9 +39,10 @@ CREATE TABLE gate ( id serial primary key, no_pos varchar(10), tipe_pos varchar(
 insert into gate (no_pos, tipe_pos, jns_kendaraan, ip_cam) values ('1', 'masuk', 'motor', '192.168.100.10#192.168.100.12');
 insert into gate (no_pos, tipe_pos, jns_kendaraan, ip_cam) values ('1', 'keluar', 'motor', '192.168.100.16#192.168.100.18');
 
-CREATE TABLE tarif ( id serial primary key, no_pos varchar(10), tarif_perjam serial, tarif_per24jam serial, jns_kendaraan varchar(50) );
-insert into tarif (no_pos, tarif_perjam, tarif_per24jam, jns_kendaraan) values ('1', 1000, 4000, 'motor');
-insert into tarif (no_pos, tarif_perjam, tarif_per24jam, jns_kendaraan) values ('1', 2000, 8000, 'mobil');
+CREATE TABLE tarif ( id serial primary key, tarif_dasar integer, tarif_max integer, rules TEXT DEFAULT '', jns_kendaraan varchar(50) );
+
+insert into tarif (tarif_dasar, jns_kendaraan) values (1000, 'motor');
+insert into tarif (tarif_dasar, jns_kendaraan) values (2000, 'mobil');
 
 -- 05012023 091305 993320
 -- CREATE TABLE clients_socket ( id integer NOT NULL, ip character varying(20) NOT NULL, port integer NOT NULL );
@@ -51,6 +52,9 @@ CREATE TABLE clients_socket ( id serial primary key, ip character varying(20) NO
 -- id|barcode|date_time|gate|images_path 
 create table pegawai ( id serial primary key, rfid_pegawai varchar(30),nama_pegawai varchar(50) );
 CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255), status_parkir BOOLEAN NOT NULL DEFAULT FALSE, jenis_kendaraan varchar(30), ip_raspi varchar(25) );
+ALTER TABLE karcis ALTER COLUMN date_keluar set DEFAULT '';
+ALTER TABLE karcis add column date_keluar timestamp without time zone;
+ALTER TABLE karcis add column tarif integer;
 
 insert into karcis (datetime) values(to_timestamp(1672912953.570569));
 insert into karcis (barcode, datetime, gate, jenis_kendaraan) values ('3127192', '2023-02-05 15:02:12', '2', 'mobil');

@@ -1,5 +1,2 @@
-try:
-    raise Exception("failed")
-    print("")
-except:
-    ...    
+for i in range(3):
+    print(i)

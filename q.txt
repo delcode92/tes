@@ -1,0 +1,14 @@
+I have parking payment case. in first  2 hours it will pay 2000 as based price, then in next 4 hours it will added 1000 from based price, then in next 6 hours it will add 1000 from based price, then if has been 24 hours it will be 6000 as flat value
+show me simple algorithm that can handle that concept, so I don't need hard coded if someday that conditions above will be added or some condition will be removed 
+
+your answer above almost correct, I will give you sample case bellow, so you can improved your answer
+1) < 10 minutes --> 0
+2) 11 minutes -->  2000
+3)  3 hours --> still  2000
+4)  4 hours  --> has been  3000
+5)  5 hours --> still 3000
+6)  6 hours --> has been  4000
+7) 8 hours --> still  4000
+8) 24 hours --> has been  6000
+9) 1 day + 5 hours --> still  6000
+10) 2 days --> has been 12000
