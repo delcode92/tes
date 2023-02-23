@@ -23,7 +23,8 @@ class View:
     bg_light_red = "background-color: #FF7B7B;"
     bg_white = "background-color: #FFFFFF;"
     bg_aspal = "background-color: #34495e;"
-    
+    block_children = "border: 1px solid #b2bec3;"
+
     # main windows dashboard styling
     win_dashboard = """
                     QMainWindow{
@@ -428,6 +429,7 @@ class Util(Controller ):
         
         self.screenSize = self.ScreenSize(self.app)
         self.components = {}
+        self.container_lay = None
         self.mdi_stat = False
         
         # ========== steps ========
@@ -661,6 +663,10 @@ class Util(Controller ):
                         
                     case "groupbox":
                         self.components[i["name"]] = QGroupBox(parent)
+                    
+                    case "widget":
+                        # create a container
+                        self.components[i["name"]] = QWidget()
 
                     case default:
                         pass
@@ -733,9 +739,16 @@ class Util(Controller ):
                             case "reg_date":
                                 ds = i["reg_date"].split("-")
                                 self.components[i["name"]].setDate( QDate(int(ds[0]), int(ds[1]), int(ds[2])) )
-                                
+
+                            case "layout":
+                                self.container_lay = self.CreateLayout ( (i["layout"], False) )
+
                             case "children":
-                                self.CreateComponent(value, self.components[i["name"]])
+                                # set layout for widget container
+                                self.components[i["name"]].setLayout( self.container_lay )
+
+                                # self.CreateComponent(value, self.components[i["name"]])
+                                self.CreateComponentLayout( value, self.components[i["name"]].layout() )
 
             else:
                 self.logger.info("name - category not available/empty")

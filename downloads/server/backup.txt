@@ -471,19 +471,13 @@ class Main(Util, View):
                                     ]
                 
                 case "tarif":
-                    res = self.exec_query("select * from tarif order by id", "select")
+                    # res = self.exec_query("select * from tarif where id="+id, "select")
                     
-                    # motor
-                    tarif_dasar_motor = str(res[0][1])
-                    tarif_max_motor = str(res[0][2])
-                    rules_motor = res[0][3]
-                    # toleransi_motor = str(res[0][5])
-                    
-                    # mobil
-                    tarif_dasar_mobil = str(res[1][1])
-                    tarif_max_mobil = str(res[1][2])
-                    rules_mobil = res[1][3]
-                    toleransi_mobil = str(res[1][5])
+                    # check if rules empty or not
+                    # if res[0][3] != '':
+                    #     ...
+                    # elif res[0][3] == '':
+                    #     ...
 
                     # components
                     components = [
@@ -502,7 +496,6 @@ class Main(Util, View):
                                                 {
                                                     "name":"add_toleransi",
                                                     "category":"lineEditInt",
-                                                    "text":toleransi_mobil,
                                                     "style":self.primary_input 
                                                 },
                                                 {
@@ -526,20 +519,18 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_lbl1",
                                                         "category":"label",
                                                         "text":"Biaya ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
-                                                        "name":"add_time1",
+                                                        "name":"add_biaya1",
                                                         "category":"lineEditInt",
-                                                        "text": "1",
-                                                        "editable":False,
                                                         "style":self.primary_input 
                                                     },
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_lbl2",
                                                         "category":"label",
                                                         "text":" jam pertama",
                                                         "style":self.primary_lbl + "border: none;"
@@ -553,27 +544,25 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container2_biaya1_lbl1",
                                                         "category":"label",
-                                                        "text":"Motor(Rp) ",
+                                                        "text":"Motor ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_motor_biaya1",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_dasar_motor,
                                                         "style":self.primary_input 
                                                     },
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container2_biaya1_lbl1",
                                                         "category":"label",
-                                                        "text":"Mobil(Rp) ",
+                                                        "text":"Mobil ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_mobil_biaya1",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_dasar_mobil,
                                                         "style":self.primary_input 
                                                     }
                                                 ]
@@ -593,18 +582,18 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_biaya2_lbl1",
                                                         "category":"label",
                                                         "text":"Biaya ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
-                                                        "name":"add_time2",
+                                                        "name":"add_biaya2",
                                                         "category":"lineEditInt",
                                                         "style":self.primary_input 
                                                     },
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_biaya2_lbl2",
                                                         "category":"label",
                                                         "text":" jam berikutnya",
                                                         "style":self.primary_lbl + "border: none;"
@@ -618,21 +607,15 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container2_biaya2_lbl1",
                                                         "category":"label",
-                                                        "text":"Motor(Rp) ",
+                                                        "text":"Motor ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_motor_biaya2",
                                                         "category":"lineEditInt",
                                                         "style":self.primary_input 
-                                                    },
-                                                    {
-                                                        "name":"lbl",
-                                                        "category":"label",
-                                                        "text":"Mobil(Rp) ",
-                                                        "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_mobil_biaya2",
@@ -656,18 +639,18 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_biaya3_lbl1",
                                                         "category":"label",
                                                         "text":"Biaya ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
-                                                        "name":"add_time3",
+                                                        "name":"add_biaya3",
                                                         "category":"lineEditInt",
                                                         "style":self.primary_input 
                                                     },
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_biaya3_lbl2",
                                                         "category":"label",
                                                         "text":" jam berikutnya",
                                                         "style":self.primary_lbl + "border: none;"
@@ -681,21 +664,15 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container2_biaya3_lbl1",
                                                         "category":"label",
-                                                        "text":"Motor(Rp) ",
+                                                        "text":"Motor ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_motor_biaya3",
                                                         "category":"lineEditInt",
                                                         "style":self.primary_input 
-                                                    },
-                                                    {
-                                                        "name":"lbl",
-                                                        "category":"label",
-                                                        "text":"Mobil(Rp) ",
-                                                        "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_mobil_biaya3",
@@ -719,20 +696,18 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_biaya4_lbl1",
                                                         "category":"label",
                                                         "text":"Biaya maksimal per ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
-                                                        "name":"add_time4",
+                                                        "name":"add_biaya4",
                                                         "category":"lineEditInt",
-                                                        "text": "24",
-                                                        "editable": False,
                                                         "style":self.primary_input 
                                                     },
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container1_biaya4_lbl2",
                                                         "category":"label",
                                                         "text":" jam",
                                                         "style":self.primary_lbl + "border: none;"
@@ -746,27 +721,25 @@ class Main(Util, View):
                                                 "style": "border:none;",
                                                 "children":[
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container2_biaya4_lbl1",
                                                         "category":"label",
-                                                        "text":"Motor(Rp) ",
+                                                        "text":"Motor ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_motor_biaya4",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_max_motor,
                                                         "style":self.primary_input 
                                                     },
                                                     {
-                                                        "name":"lbl",
+                                                        "name":"sub_container2_biaya4_lbl1",
                                                         "category":"label",
-                                                        "text":"Mobil(Rp) ",
+                                                        "text":"Mobil ",
                                                         "style":self.primary_lbl + "border: none;"
                                                     },
                                                     {
                                                         "name":"add_mobil_biaya4",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_max_mobil,
                                                         "style":self.primary_input 
                                                     }
                                                 ]
@@ -1991,11 +1964,11 @@ class Main(Util, View):
 
                 if len(rules) == 0:
                     # fetch data from DB
-                    query = self.exec_query("SELECT id, tarif_dasar, jns_kendaraan, toleransi FROM tarif", "SELECT")
+                    query = self.exec_query("SELECT id, tarif_dasar, jns_kendaraan FROM tarif", "SELECT")
                 
-                    tbl_header = ["id", "Tarif Perjam(Rp)", "Jenis Kendaraan", "Toleransi(menit)"]
+                    tbl_header = ["id", "Tarif Perjam", "Jenis Kendaraan"]
                     tbl_cols = len(tbl_header)
-                    cols = 4
+                    cols = 3
 
                 # column bsed on rules
                 # used len(rules) --> more efficient query, so don't need count(*) query
@@ -2005,19 +1978,18 @@ class Main(Util, View):
                     # create string list for column based on rules
                     
                     tbl_header.append( f"id" )
-                    tbl_header.append( f"Tarif perjam(Rp)" )
+                    tbl_header.append( f"Tarif perjam" )
                     for k, v in rules.items():
-                        tbl_header.append( f"Tarif per{k}jam(Rp)" )
+                        tbl_header.append( f"Tarif per{k}jam" )
                     
-                    tbl_header.append( f"Tarif per24jam(Rp)" )
+                    tbl_header.append( f"Tarif per24jam" )
                     tbl_header.append( f"Jenis Kendaraan" )
-                    tbl_header.append( f"Toleransi(menit)" )
                     
                     # fetch data from DB
-                    query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan, toleransi FROM tarif", "SELECT")
+                    query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan FROM tarif", "SELECT")
                     
                     tbl_cols = len(tbl_header) # table cols that appear in GUI
-                    cols = 6 # table that used in query loop
+                    cols = 5 # table that used in query loop
 
                 # get rows count after set appropiate query
                 rows_count = len(query)
