@@ -1,6 +1,13 @@
-import datetime
+# import datetime
 
-today = datetime.datetime.now()
-dt = today.strftime("%Y-%m-%d %H:%M:%S")
+# today = datetime.datetime.now()
+# dt = today.strftime("%Y-%m-%d %H:%M:%S")
 
-print(dt)
+# print(dt)
+
+x =1
+str_x = f'''
+"tes":"val", "k":
+    '''
+
+print(str_x)
