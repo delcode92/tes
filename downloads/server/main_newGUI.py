@@ -124,7 +124,7 @@ class Main(Util, View):
                     for k,v in rules.items():
                         # add v->value into
                         item = QTableWidgetItem( v )
-                        # print("row:", r, "col:", j,  "val:", v)
+                        print("row:", r, "col:", col_index,  "val:", v)
                         table.setItem(r, col_index, item)
                         col_index+=1
 
@@ -742,6 +742,15 @@ class Main(Util, View):
                                                 }
                                             ]
                                         },
+                                        {
+                                            "name":"btn_add_tarif",
+                                            "category":"pushButton",
+                                            "text": "Save",
+                                            "clicked": {
+                                                    "method_name": self.set_tarif
+                                            },
+                                            "style": self.primary_button
+                                        }
                                         # {
                                         #     "name":"add_toleransi_motor",
                                         #     "category":"lineEditInt",
@@ -798,10 +807,9 @@ class Main(Util, View):
 
                                     # append temp_list into main list of dict
                     
-                    # for i in range( len(temp_list) ):
-                    components.insert(2,temp_list[0])
-                    components.insert(3,temp_list[1])
-                
+                    for i in range( len(temp_list) ):
+                        components.insert(i+2,temp_list[i])
+                        
 
                 case "voucher":
                     res = self.exec_query("select * from voucher where id="+id, "select")
@@ -1945,7 +1953,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 800)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 600)))
                 
                 ##############################################################
 
@@ -1959,13 +1967,13 @@ class Main(Util, View):
 
                 # create table header based on rules
                 # check if rules column empty or not
-                rules = self.exec_query("select rules from tarif where rules!=''","select")
+                rules_row = self.exec_query("select rules from tarif where rules!=''","select")
                 
                 
                 # standard column
                 tbl_header = []
-
-                if len(rules) == 0:
+                
+                if len(rules_row) == 0:
                     # fetch data from DB
                     query = self.exec_query("SELECT id, tarif_dasar, jns_kendaraan, toleransi FROM tarif", "SELECT")
                 
@@ -1973,10 +1981,10 @@ class Main(Util, View):
                     tbl_cols = len(tbl_header)
                     cols = 4
 
-                # column bsed on rules
+                # column based on rules
                 # used len(rules) --> more efficient query, so don't need count(*) query
-                elif len(rules) == 2:
-                    rules = json.loads( rules[0][0] )
+                elif len(rules_row) == 2:
+                    rules = json.loads( rules_row[0][0] )
                     
                     # create string list for column based on rules
                     
@@ -1990,10 +1998,10 @@ class Main(Util, View):
                     tbl_header.append( f"Toleransi(menit)" )
                     
                     # fetch data from DB
-                    query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan, toleransi FROM tarif", "SELECT")
+                    query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan, toleransi, waktu_max FROM tarif", "SELECT")
                     
                     tbl_cols = len(tbl_header) # table cols that appear in GUI
-                    cols = 6 # table that used in query loop
+                    cols = 7 # cols table that used in query loop
 
                 # get rows count after set appropiate query
                 rows_count = len(query)
@@ -2012,9 +2020,9 @@ class Main(Util, View):
                 self.tarif_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 self.tarif_table.setColumnHidden(0, True) #hide id column
                 
-                if len(rules) == 0:
+                if len(rules_row) == 0:
                     self.fillTable(self.tarif_table, cols, query)
-                elif len(rules) == 2:
+                elif len(rules_row) == 2:
                     self.fillTableTarif(self.tarif_table, cols, query)
 
                 # create edit & delete section
