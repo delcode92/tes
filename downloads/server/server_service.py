@@ -47,7 +47,7 @@ class Thread(QThread):
                 if not self.capture:
                     rtsp = 'rtsp://admin:admin@192.168.100.121'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
-                    self.capture = cv2.VideoCapture(rtsp)
+                    self.capture = cv2.VideoCapture(0)
                     
                 elif not ret:
                     debug.logger.error("Failed to read from video stream!")
@@ -113,6 +113,8 @@ class IPCam(Util, View):
         right_list = self.CreateLayout(("VBoxLayout", False))
         right_list.setContentsMargins(0,0,0,0)
         right_list.setSpacing(0)
+        
+        # disini bro
 
         status_layout =  self.CreateLayout(("FormLayout", False))
         

@@ -559,41 +559,104 @@ class Controller(Client):
         except Exception as e:
             self.logger.error(str(e))
 
+    def filterTarif(self, time="", timeBefore="", tarifMotor="", tarifMobil=""):
+        
+        if time != "":
+            if int(time) < int(timeBefore):
+                self.dialogBox(title="Alert", msg="jam tidak boleh lebih kecil dari nilai jam sebelumnya!")
+                return False
+            elif tarifMotor =="" or tarifMobil == "":
+                self.dialogBox(title="Alert", msg="Kenaikan tarif motor/mobil tidak boleh kosong !")
+                return False
+
+        elif tarifMotor != "" or tarifMobil != "":
+            if time == "":
+                self.dialogBox(title="Alert", msg="Jam tarif tidak boleh kosong !")
+                return False
+            else:
+                self.dialogBox(title="Alert", msg="Kenaikan tarif motor/mobil tidak boleh kosong !")
+                return False
+
+        
+        return True
+
+
     def set_tarif(self):
+        # get all inputs
+        toleransi = self.components["add_toleransi"].text()
         
-        vehicle = self.components["add_tarif_jns_kendaraan"].currentText() 
-        tarif_perjam = self.components["add_tarif_per_1jam"].text()    
-        tarif_per24jam = self.components["add_tarif_per_24jam"].text()    
+        # tarif kondisi 1
+        # a if a < b else b
+        time_kondisi1 = self.components["add_time1"].text()
+        tarif_motor_kondisi1 = self.components["add_motor_biaya1"].text()    
+        tarif_mobil_kondisi1 = self.components["add_mobil_biaya1"].text()    
         
-        # save data
-        q_count = f"select count(*) from tarif where jns_kendaraan='{vehicle}'"
-        res = self.exec_query(q_count, "select")
+        # tarif kondisi 2
+        time_kondisi2 = self.components["add_time2"].text()    
+        tarif_motor_kondisi2 = self.components["add_motor_biaya2"].text()    
+        tarif_mobil_kondisi2 = self.components["add_mobil_biaya2"].text()
+
+        # tarif kondisi 3
+        time_kondisi3 = self.components["add_time3"].text()    
+        tarif_motor_kondisi3 = self.components["add_motor_biaya3"].text()    
+        tarif_mobil_kondisi3 = self.components["add_mobil_biaya3"].text()
         
-        if res[0][0] == 0:
-            query = f"insert into tarif (tarif_perjam, tarif_per24jam, jns_kendaraan) values ('{tarif_perjam}', '{tarif_per24jam}', '{vehicle}');"
-            res = self.exec_query(query)
-        elif res[0][0] > 0:
-            query = f"update tarif set tarif_perjam={tarif_perjam}, tarif_per24jam={tarif_per24jam} where jns_kendaraan='{vehicle}'"
-            res = self.exec_query(query)
+        # tarif max
+        time_max = self.components["add_time4"].text()    
+        tarif_motor_max = self.components["add_motor_biaya4"].text()    
+        tarif_mobil_max = self.components["add_mobil_biaya4"].text()    
 
-        if res:
-            
-            # close window edit
-            self.win.close()
 
-            # reset table value
-            query = self.exec_query("SELECT id, tarif_perjam,  tarif_per24jam, jns_kendaraan FROM tarif", "SELECT")
-            cols = 4
+        # =========== filter ============
+        # 1. toleransi boleh terisi/kosong
+        
+        # 2. tarif dasar motor dan mobil tidak boleh kosong
+        # if tarif_motor_perjam == "" or tarif_mobil_perjam == "":
+        #     return self.dialogBox(title="Alert", msg="Tarif dasar motor/mobil tidak boleh kosong !")
+        
+        # query_motor = f"set tarif_dasar='{tarif_motor_perjam}'"
+        # query_mobil = f"set tarif_dasar='{tarif_mobil_perjam}'"
 
-            self.fillTable(self.tarif_table, cols, query)
-            
-            # modal
-            dlg = QMessageBox(self.window)
-            
-            dlg.setWindowTitle("Alert")
-            dlg.setText("Data Updated")
-            dlg.setIcon(QMessageBox.Information)
-            dlg.exec()      
+        # 3. kondisi tambahan boleh kosong, atau salah satu/keduanya terisi
+        # 4. tarif max boleh kosong / terisi
+        
+        # 5. jika salah satu sub item dari kondisi terisi, maka sub item yg lain harus terisi
+        
+        # =================== kondisi 1 =========================
+        # if not self.filterTarif(time_kondisi1, "1", tarif_motor_kondisi1, tarif_mobil_kondisi1): 
+        #     return False
+        # else:
+        #     query_motor = query_motor +  """, rules='{"4":"1200"}' """
+        #     query_mobil = f"set tarif_dasar='{tarif_mobil_perjam}'"
+        # =================== end kondisi 1 =========================
+        
+        
+        # =================== kondisi 2 =========================
+        # if not self.filterTarif(time_kondisi2, time_kondisi1, tarif_motor_kondisi2, tarif_mobil_kondisi2): return False
+        # =================== end kondisi 2 =========================
+        
+
+        # =================== tarif max =========================
+        # if not self.filterTarif(time_max, time_kondisi2, tarif_motor_max, tarif_mobil_max): return False
+        # =================== end tarif max =========================
+
+        # ============== end filter =================
+
+        # create json for rulse based ond tarif input above
+        rules_mobil = '{"'+time_kondisi1+'":"'+tarif_mobil_kondisi1+'", "'+time_kondisi2+'":"'+tarif_mobil_kondisi2+'", "'+time_kondisi3+'":"'+tarif_mobil_kondisi3+'", "'+time_max+'":"'+tarif_mobil_max+'"}' 
+        
+        # set for update
+        # query_motor = f"update tarif {query_motor} where id=1;" 
+        query_mobil = f"update tarif set toleransi='{toleransi}', rules='{rules_mobil}' where id=2;" 
+        print(query_mobil)
+        
+
+        # rules_motor = '{"'+time_kondisi1+'":"'+tarif_motor_kondisi1+'"}' 
+        
+        # disini
+        # res = self.exec_query(query_motor + query_mobil)
+        
+              
 
     def save_edit_voucher(self):
         
@@ -1456,3 +1519,12 @@ class Controller(Client):
                 
             case default:
                 pass
+
+    def dialogBox(self, title="", msg=""):
+        
+        # init dialog box
+        dlg = QMessageBox(self.window)
+        dlg.setWindowTitle( title )
+        dlg.setText( msg )
+        dlg.setIcon(QMessageBox.Information)
+        dlg.exec()  

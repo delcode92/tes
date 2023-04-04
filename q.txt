@@ -12,3 +12,39 @@ your answer above almost correct, I will give you sample case bellow, so you can
 8) 24 hours --> has been  6000
 9) 1 day + 5 hours --> still  6000
 10) 2 days --> has been 12000
+
+
+x = ...    
+y = ...
+z = ...
+
+I have three varibles above, 
+case:
+- if one variable has a value, another two variables must not empty, 
+- if two varibles has value, the other one must not be empty
+
+how I can create simple solution/algorithm for that ?
+
+def sub(self):
+
+def main(self):
+
+I have JS code below:
+
+# start code 
+if (h2>h1){
+    if(h3>h2){
+        // execute some code
+    }
+    else{
+        // show alert here
+        return false;
+    }
+}
+else{
+    // show alert here
+    return false;
+}
+# end code
+
+please make more simple code than above

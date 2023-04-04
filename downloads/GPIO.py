@@ -272,6 +272,7 @@ class GPIOHandler:
                                 with open('config.cfg', 'w') as configfile:
                                     self.config.write(configfile)
 
+                                print("==> nama lokasi: ", self.config['ID']['LOKASI'])
                                 print("=====================================")
 
                             elif "date#" in message :

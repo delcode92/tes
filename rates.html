@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>simulasi tarif</title>
+</head>
+<body>
+    
+    <div class="row">
+
+        <div class="container">
+            
+            <div class="rules">
+                
+                <div class="col">
+                    <label>Pilih Tipe Tarif</lable><br>
+                    <input type="radio" name="tipe_tarif" id="progresif" value="progresif">
+                    <label for="progresif">progresif</label><br>
+                    
+                    <input type="radio" name="tipe_tarif" id="flat" value="flat">
+                    <label for="flat">Flat</label><br>
+                    
+                    <input type="radio" name="tipe_tarif" id="other" value="other" checked="checked">
+                    <label for="other">Other</label><br>
+                </div>
+
+                <div class="col">
+                    <label for="">Toleransi</label>
+                    <input type="number" id="toleransi" min="0" value="10">
+                    <span>menit</span>
+                </div>
+            
+                <div class="col">
+                    <input type="number" id="jam1" min="1" max="23" value="2">
+                    <span>jam pertama</span><br><br>
+
+                    <span>mobil(Rp)</span>
+                    <input type="number" id="tarif_jam1_mobil" value="2000"><br>
+                    
+                    <span>motro(Rp)</span>
+                    <input type="number" id="tarif_jam1_motor" value="1000">
+
+                </div>
+
+                <div class="col prog">
+                    <input type="number" id="jam2" min="1" max="23" value="4">
+                    <span>jam berikutnya</span><br><br>
+
+                    <span>mobil(Rp)</span>
+                    <input type="number" id="tarif_jam2_mobil" value="1000"><br>
+                    
+                    <span>motro(Rp)</span>
+                    <input type="number" id="tarif_jam2_motor" value="1000">
+
+                </div>
+
+                <div class="col prog">
+                    <input type="number" id="jam3" min="1" max="23" value="6">
+                    <span>jam berikutnya</span><br><br>
+
+                    <span>mobil(Rp)</span>
+                    <input type="number" id="tarif_jam3_mobil" value="1000"><br>
+                    
+                    <span>motro(Rp)</span>
+                    <input type="number" id="tarif_jam3_motor" value="1000">
+
+                </div>
+                
+                <div class="col prog">
+                    <span>tarif max per</span>
+                    <input type="number" id="jam_max" min="1" max="24" value="24">
+                    <span>jam</span><br><br>
+
+                    <span>mobil(Rp)</span>
+                    <input type="number" id="tarif_max_mobil" value="6000"><br>
+                    
+                    <span>motro(Rp)</span>
+                    <input type="number" id="tarif_max_motor" value="5000">
+
+                </div>
+
+            </div>
+            
+            <div class="bayar">
+
+            </div>
+        </div>
+
+        <div class="container biaya">
+            <h3>simulasi waktu & biaya parkir</h3><br><br>
+
+            <div class="waktu">
+                <label>hari:</label>
+                <input type="number" id="hari" min="1" max="31" value="0"><br>
+                
+                <label>jam:</label>
+                <input type="number" id="jam" min="1" max="24" value="1"><br>
+                
+                <label>menit:</label>
+                <input type="number" id="menit" min="1" max="60" value="20"><br>
+                
+                <label>detik:</label>
+                <input type="number" id="detik" min="1" max="60" value="15"><br>
+            </div>
+            <br><br>
+
+            <div class="kalkulasi_biaya">
+                <button id="calc_biaya_btn">kalkulasi biaya</button>
+                <input type="text" readonly>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function(){
+        stat = 3;
+
+        $('input[name="tipe_tarif"]').change(function() {
+            if( $(this).val() == "flat" ){
+                stat = 2;
+                $(".prog :input").prop("disabled", true);
+            }
+            else if( $(this).val() == "progresif" ){
+                stat=1;
+                $(".prog :input").prop("disabled", true);
+            }
+            else if( $(this).val() == "other" ){
+                stat=3;
+                $(".prog :input").prop("disabled", false);
+            }
+        });
+
+        function getBetween(hours_before, hours_after, max_hours, price){
+            json_txt = "";
+            h = 0;
+            for(i=1; i<=24; i++){
+                h = h + hours_after + hours_before;
+                // console.log(h, max_hours);
+                
+                if( h<max_hours ){
+                    json_txt = json_txt + '"'+h+'":"'+price+'",';
+                }
+                else if( h>=max_hours ){  
+                    // console.log("res", json_txt);
+                    return json_txt;
+                }
+            }
+
+        }
+
+        $('#calc_biaya_btn').click(function(){
+            // get parking seconds
+            days = $("#hari").val() * 24 * 60 * 60;
+            hours = $("#jam").val() * 60 * 60;
+            minutes = $("#menit").val() * 60;
+            seconds = $("#detik").val() * 1;
+
+            parking_seconds = days + hours + minutes + seconds
+            // get tolerance
+            tolerance = $("#toleransi").val()*60;
+
+            if(parking_seconds > tolerance){
+                h1 = $("#jam1").val() * 1;
+                p1_mbl = $("#tarif_jam1_mobil").val() * 1;
+                p1_mtr = $("#tarif_jam1_motor").val() * 1;
+                
+                h2 = $("#jam2").val() * 1;
+                h2_before = h2;
+                p2_mbl = $("#tarif_jam2_mobil").val() * 1;
+                p2_mtr = $("#tarif_jam2_motor").val() * 1;
+                
+                h3 = $("#jam3").val() * 1;
+                h3_before = h3;
+                p3_mbl = $("#tarif_jam3_mobil").val() * 1;
+                p3_mtr = $("#tarif_jam3_motor").val() * 1;
+                
+                h_max = $("#jam_max").val() * 1;
+                p_max_mbl = $("#tarif_max_mobil").val() * 1;
+                p_max_mtr = $("#tarif_max_motor").val() * 1;
+
+                if( stat == 3 ){
+                    // run other
+
+                    // create json rules based on time settings
+                    // rules = json.loads('{ "2":"2000", "6":"1000", "12":"1000", "18":"1000", "24":"6000" }')
+                    h2 = h2 + h1;
+                    h3 = h3 + h2;
+
+                    rules_between_mbl = getBetween(h3_before, h3, h_max, p3_mbl); 
+                    rules_between_mtr = getBetween(h3_before, h3, h_max, p3_mtr); 
+
+                    rules_mbl = JSON.parse('{"'+h1+'":"'+p1_mbl+'", "'+h2+'":"'+p2_mbl+'", "'+h3+'":"'+p3_mbl+'", '+rules_between_mbl+ '"'+h_max+'":"'+p_max_mbl+'"}');
+                    rules_mtr = JSON.parse('{"'+h1+'":"'+p1_mtr+'", "'+h2+'":"'+p2_mtr+'", "'+h3+'":"'+p3_mtr+'", '+rules_between_mtr+ '"'+h_max+'":"'+p_max_mtr+'"}');
+                    
+                    // console.log(rules_mbl);
+
+                    // get max key:val
+                    // Get the keys and values of the object
+                    var keys = Object.keys(rules_mbl);
+                    var values = Object.values(rules_mbl);
+
+                    // Get the last key-value pair
+                    var lastKey = keys.pop();
+                    var lastValue = values.pop();
+
+                    // car enumerate
+                    for (let key in rules_mbl) {
+                    //    console.log(key + ": " + rules_mbl[key]);
+
+                        rate_seconds = key * 3600;
+                        rate_price = rules_mbl[key];
+
+                        if( (parking_seconds <= rate_seconds) && (parking_seconds != (lastKey*3600)) ) {
+                            
+                        }
+                    }
+                }
+                else if( stat == 2 ){
+                    // run flat
+                    
+                    final_price_mbl = p1_mbl;
+                    final_price_mtr = p1_mtr;
+
+                    console.log("biaya parkir mobil: ", final_price_mbl);
+                    console.log("biaya parkir motor: ", final_price_mtr);
+                }
+                else if( stat == 1 ){
+                    // run progressive
+                    ph= parking_seconds/3600;
+                    h1_seconds = h1 * 60 * 60;
+                    
+                    if(parking_seconds>h1_seconds){
+                        mod = parking_seconds % 3600;
+
+                        // exact multiple
+                        if(mod==0){
+                            final_price_mbl = ph * p1_mbl;
+                            final_price_mtr = ph * p1_mtr;
+                        }
+
+                        // more than multiple
+                        else if(mod>0){
+                            ph = Math.floor(ph)/h1 ;
+                            final_price_mbl = ( ph  * p1_mbl) + p1_mbl;
+                            final_price_mtr = ( ph * p1_mtr) + p1_mtr;
+                        }
+                    }
+                    else if(ph<=h1_seconds){
+                        final_price_mbl = p1_mbl;
+                        final_price_mtr = p1_mtr;
+                    }
+                
+                    console.log("biaya parkir mobil: ", final_price_mbl);
+                    console.log("biaya parkir motor: ", final_price_mtr);
+
+                }
+
+            }
+            
+
+
+            // run rates calculation
+        });
+
+    });
+</script>
+
+</html>

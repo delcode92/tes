@@ -470,108 +470,16 @@ class Main(Util, View):
                                     ]
                 
                 case "tarif":
+                    
                     res = self.exec_query("select * from tarif order by id", "select")
+
+                    toleransi = str(res[1][5])
+                    tarif_dasar_motor = "0"
+                    tarif_max_motor = "0"
+                    tarif_dasar_mobil = "0"
+                    tarif_max_mobil = "0"
+                    waktu_max = "0"
                     
-                    # motor
-                    tarif_dasar_motor = str(res[0][1])
-                    tarif_max_motor = str(res[0][2])
-                    rules_motor = res[0][3]
-                    waktu_max = str(res[0][6])
-                    # toleransi_motor = str(res[0][5])
-                    
-                    # mobil
-                    tarif_dasar_mobil = str(res[1][1])
-                    tarif_max_mobil = str(res[1][2])
-                    rules_mobil = res[1][3]
-                    toleransi_mobil = str(res[1][5])
-
-                    # check if rules empty or not
-                    if rules_mobil !="" and rules_motor != "":
-
-                        # extract dictionary
-                        r_motor = json.loads(rules_motor)
-                        r_mobil = json.loads(rules_mobil)
-
-                        # prepare component loop based on rules length
-                        temp_list = []
-                        c=2
-                        for k,v in r_motor.items():
-                            # for i in range(len(r_motor)):
-                            # c = i + 1
-                            
-                            # first loop create 4 hours motor & mobil
-                            # second loop create 6 hours motor & mobil
-                            
-                            component_dict ={
-                                "name":f"widget_container_biaya{c}",
-                                "category":"widget",
-                                "layout": "VBoxLayout",
-                                "style":self.block_children,
-                                "children":[
-                                    {
-                                    "name":f"sub_container1_biaya{c}",
-                                    "category":"widget",
-                                    "layout": "HBoxLayout",
-                                    "style": "border:none;",
-                                    "children":[
-                                        {
-                                            "name":"lbl",
-                                            "category":"label",
-                                            "text":"Tarif: ",
-                                            "style":self.primary_lbl + "border: none;"
-                                        },
-                                        {
-                                            "name":f"add_time{c}",
-                                            "category":"lineEditInt",
-                                            "text": k,
-                                            "style":self.primary_input 
-                                        },
-                                        {
-                                            "name":"lbl",
-                                            "category":"label",
-                                            "text":" jam berikutnya",
-                                            "style":self.primary_lbl + "border: none;"
-                                        }
-                                    ]
-                                    },
-                                    {
-                                    "name":f"sub_container{c}_biaya{c}",
-                                    "category":"widget",
-                                    "layout": "HBoxLayout",
-                                    "style": "border:none;",
-                                    "children":[
-                                        {
-                                            "name":"lbl",
-                                            "category":"label",
-                                            "text":"Motor(Rp) ",
-                                            "style":self.primary_lbl + "border: none;"
-                                        },
-                                        {
-                                            "name":f"add_motor_biaya{c}",
-                                            "category":"lineEditInt",
-                                            "text":r_motor[f'{k}'],
-                                            "style":self.primary_input 
-                                        },
-                                        {
-                                            "name":"lbl",
-                                            "category":"label",
-                                            "text":"Mobil(Rp) ",
-                                            "style":self.primary_lbl + "border: none;"
-                                        },
-                                        {
-                                            "name":f"add_mobil_biaya{c}",
-                                            "category":"lineEditInt",
-                                            "text": r_mobil[f'{k}'],
-                                            "style":self.primary_input 
-                                        }
-                                    ]
-                                    }
-                                ]
-                            }
-
-                            temp_list.append(component_dict)
-                            c+=1
-
                     # components
                     components = [
                                         {
@@ -589,7 +497,7 @@ class Main(Util, View):
                                                 {
                                                     "name":"add_toleransi",
                                                     "category":"lineEditInt",
-                                                    "text":toleransi_mobil,
+                                                    "text":toleransi,
                                                     "style":self.primary_input 
                                                 },
                                                 {
@@ -622,7 +530,6 @@ class Main(Util, View):
                                                         "name":"add_time1",
                                                         "category":"lineEditInt",
                                                         "text": "1",
-                                                        "editable":False,
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -659,6 +566,138 @@ class Main(Util, View):
                                                     },
                                                     {
                                                         "name":"add_mobil_biaya1",
+                                                        "category":"lineEditInt",
+                                                        "text": tarif_dasar_mobil,
+                                                        "style":self.primary_input 
+                                                    }
+                                                ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name":"widget_container_biaya2",
+                                            "category":"widget",
+                                            "layout": "VBoxLayout",
+                                            "style":self.block_children,
+                                            "children":[
+                                                {
+                                                "name":"sub_container1_biaya2",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style": "border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":"Tarif: ",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    },
+                                                    {
+                                                        "name":"add_time2",
+                                                        "category":"lineEditInt",
+                                                        "text": "1",
+                                                        "style":self.primary_input 
+                                                    },
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":" jam berikutnya",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    }
+                                                ]
+                                                },
+                                                {
+                                                "name":"sub_container2_biaya2",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style": "border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":"Motor(Rp) ",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    },
+                                                    {
+                                                        "name":"add_motor_biaya2",
+                                                        "category":"lineEditInt",
+                                                        "text": tarif_dasar_motor,
+                                                        "style":self.primary_input 
+                                                    },
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":"Mobil(Rp) ",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    },
+                                                    {
+                                                        "name":"add_mobil_biaya2",
+                                                        "category":"lineEditInt",
+                                                        "text": tarif_dasar_mobil,
+                                                        "style":self.primary_input 
+                                                    }
+                                                ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name":"widget_container_biaya3",
+                                            "category":"widget",
+                                            "layout": "VBoxLayout",
+                                            "style":self.block_children,
+                                            "children":[
+                                                {
+                                                "name":"sub_container1_biaya3",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style": "border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":"Tarif: ",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    },
+                                                    {
+                                                        "name":"add_time3",
+                                                        "category":"lineEditInt",
+                                                        "text": "1",
+                                                        "style":self.primary_input 
+                                                    },
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":" jam berikutnya",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    }
+                                                ]
+                                                },
+                                                {
+                                                "name":"sub_container2_biaya3",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style": "border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":"Motor(Rp) ",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    },
+                                                    {
+                                                        "name":"add_motor_biaya3",
+                                                        "category":"lineEditInt",
+                                                        "text": tarif_dasar_motor,
+                                                        "style":self.primary_input 
+                                                    },
+                                                    {
+                                                        "name":"lbl",
+                                                        "category":"label",
+                                                        "text":"Mobil(Rp) ",
+                                                        "style":self.primary_lbl + "border: none;"
+                                                    },
+                                                    {
+                                                        "name":"add_mobil_biaya3",
                                                         "category":"lineEditInt",
                                                         "text": tarif_dasar_mobil,
                                                         "style":self.primary_input 
@@ -742,64 +781,8 @@ class Main(Util, View):
                                             },
                                             "style": self.primary_button
                                         }
-                                        # {
-                                        #     "name":"add_toleransi_motor",
-                                        #     "category":"lineEditInt",
-                                        #     "text":"",
-                                        #     "style":self.primary_input
-                                        # },
-                                        # {
-                                        #     "name":"lbl_add_tarif_per_1jam",
-                                        #     "category":"label",
-                                        #     "text": "Tarif / jam",
-                                        #     "style":self.primary_lbl
-                                        # },
-                                        # {
-                                        #     "name":"add_tarif_per_1jam",
-                                        #     "category":"lineEditInt",
-                                        #     "text":str(res[0][2]),
-                                        #     "style":self.primary_input
-                                        # },
-                                        # {
-                                        #     "name":"lbl_add_tarif_per_24jam",
-                                        #     "category":"label",
-                                        #     "text": "Tarif / 24 jam",
-                                        #     "style":self.primary_lbl + margin_top
-                                        # },
-                                        # {
-                                        #     "name":"add_tarif_per_24jam",
-                                        #     "category":"lineEditInt",
-                                        #     "text":str(res[0][3]),
-                                        #     "style":self.primary_input
-                                        # },
-                                        # {
-                                        #     "name":"lbl_add_tarif_jns_kendaraan",
-                                        #     "category":"label",
-                                        #     "text": "Jenis Kendaraan",
-                                        #     "style":self.primary_lbl + margin_top
-                                        # },
-                                        # {
-                                        #     "name":"add_tarif_jns_kendaraan",
-                                        #     "category":"comboBox",
-                                        #     "items":["Motor", "Mobil"],
-                                        #     "selected_item":res[0][4],
-                                        #     "style":self.primary_combobox
-                                        # },
-                                        # {
-                                        #     "name":"btn_add_tarif",
-                                        #     "category":"pushButton",
-                                        #     "text": "Save",
-                                        #     "clicked": {
-                                        #             "method_name": self.set_tarif
-                                        #     },
-                                        #     "style": self.primary_button
-                                        # }
                                     ]
-
-                                    # append temp_list into main list of dict
                     
-                    for i in range( len(temp_list) ):
-                        components.insert(i+2,temp_list[i])
                         
 
                 case "voucher":

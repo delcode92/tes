@@ -1,0 +1,44 @@
+.container, .rules, .bayar{
+    display: flex;
+    flex-direction: column;
+}
+.container{ 
+    width: 50%; 
+    margin: 5px;
+}
+
+.row{
+    display: flex;
+    flex-direction: row; 
+}
+
+.col{
+    margin-bottom: 15px;
+    padding: 8px;
+    background-color: whitesmoke; 
+}
+
+.biaya{
+    background-color: aliceblue;
+    padding: 15px;
+}
+
+.waktu{
+    display: flex;
+    flex-direction: row;
+}
+.waktu input{
+    width: 50px;
+}
+.waktu label{
+    margin-left: 15px;
+}
+
+.kalkulasi_biaya button{
+    background-color: chartreuse;
+    padding: 10px;
+}
+
+.kalkulasi_biaya input{
+    padding: 10px;
+}

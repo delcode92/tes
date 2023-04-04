@@ -5,9 +5,19 @@
 
 # print(dt)
 
-x =1
-str_x = f'''
-"tes":"val", "k":
-    '''
+# try:
+#     x = int(input("Enter a number: "))
+#     if x < 0:
+#         raise ValueError("Number must be positive")
+#     print("Your number is:", x)
+# except ValueError as error:
+#     print(error)
+# print("Program continues...")
 
-print(str_x)
+
+# print(str_x)
+
+# def test():
+#     return False
+
+print(""", rules='{"4":"1200"}' """)
