@@ -25,3 +25,30 @@ CreateComponentLayout --> type "formlayout"
 
 - karcis tidak perlu edit/delete, yg perlu searching data
 - karcis yg ada setting karcis, bukan tambah karcis
+
+================== cases ===================
+0:12:17
+2000
+
+0:7:13
+2.000
+
+1:28:23
+2000
+
+2:6:16
+2000
+
+2:7:55
+2000
+
+4:3:42
+2000
+
+6:29:58
+3000
+
+8:59:17
+3000
+
+=================================
