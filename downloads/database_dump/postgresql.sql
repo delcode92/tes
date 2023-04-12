@@ -44,6 +44,16 @@ CREATE TABLE tarif ( id serial primary key, tarif_dasar integer, tarif_max integ
 insert into tarif (tarif_dasar, jns_kendaraan) values (1000, 'motor');
 insert into tarif (tarif_dasar, jns_kendaraan) values (2000, 'mobil');
 
+ALTER TABLE tarif add column tipe_tarif varchar(20);
+ALTER TABLE tarif add column base_rules TEXT;
+
+update tarif set base_rules='{"2" : "1000", "4":"1000", "6":"1000", "24":"5000"}' where id=1;
+update tarif set base_rules='{"2" : "2000", "4":"1000", "6":"1000", "24":"6000"}' where id=2;
+
+ALTER TABLE tarif drop column tarif_dasar;
+ALTER TABLE tarif drop column tarif_max;
+ALTER TABLE tarif drop column waktu_max;
+
 -- 05012023 091305 993320
 -- CREATE TABLE clients_socket ( id integer NOT NULL, ip character varying(20) NOT NULL, port integer NOT NULL );
 CREATE TABLE clients_socket ( id serial primary key, ip character varying(20) NOT NULL, port integer NOT NULL );

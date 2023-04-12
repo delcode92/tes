@@ -21,12 +21,15 @@ class Controller(Client):
         self.connect_to_postgresql()
         self.sw_stat = False
         
+        # default value
+        self.selected_tarif = "other"
+
         # ========== steps ========
         
         self.logger.info("\nController constructor: ")
         self.logger.info("connect to DB .....")
         self.logger.info("active DB cursor ..... \n")
-
+        
     def initDebug(self):
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.NOTSET)
@@ -80,7 +83,7 @@ class Controller(Client):
             self.db_cursor.execute(query)
             self.logger.info("\nsuccess execute query")
 
-            if type.lower() != "select":    
+            if type.lower() == "":    
                 return True
 
         except Exception as e:
@@ -91,8 +94,12 @@ class Controller(Client):
         if type.lower() =="select":
             data = self.db_cursor.fetchall()
             return data
-
-
+        
+        elif type.lower() =="cols_res":
+            cols = [desc[0] for desc in self.db_cursor.description]
+            data = self.db_cursor.fetchall()
+            return cols,data
+            
 
     def login_ctrl(self, arg):
         
@@ -559,6 +566,31 @@ class Controller(Client):
         except Exception as e:
             self.logger.error(str(e))
 
+    def check_tarif_type(self, tt):
+        try:
+            self.selected_tarif = tt.text()
+        except:
+            self.selected_tarif = tt
+
+        if self.selected_tarif == "progresif" or self.selected_tarif == "flat":
+            # disabled others input
+            self.components["widget_container_biaya2"].setStyleSheet("background-color:#636e72;")
+            self.components["widget_container_biaya3"].setStyleSheet("background-color:#636e72;")
+            self.components["widget_container_biaya4"].setStyleSheet("background-color:#636e72;")
+
+            self.components["widget_container_biaya2"].setEnabled(False)
+            self.components["widget_container_biaya3"].setEnabled(False)
+            self.components["widget_container_biaya4"].setEnabled(False)
+            
+        elif self.selected_tarif == "other":
+            self.components["widget_container_biaya2"].setStyleSheet("border: 1px solid #b2bec3; background-color:none;")
+            self.components["widget_container_biaya3"].setStyleSheet("border: 1px solid #b2bec3; background-color:none;")
+            self.components["widget_container_biaya4"].setStyleSheet("border: 1px solid #b2bec3; background-color:none;")
+
+            self.components["widget_container_biaya2"].setEnabled(True)
+            self.components["widget_container_biaya3"].setEnabled(True)
+            self.components["widget_container_biaya4"].setEnabled(True)
+        
     def filterTarif(self, time="", timeBefore="", tarifMotor="", tarifMobil=""):
         
         if time != "":
@@ -580,83 +612,85 @@ class Controller(Client):
         
         return True
 
+    def getBetween(self, hours_before, hours_after, max_hours, price):
+        json_txt = ""
+        h = 0
+        for i in range(24):
+            h = h + int(hours_after) + int(hours_before)
+            
+            if h < int(max_hours):
+                json_txt = json_txt + f'"{h}":"{price}",'
+            
+            elif h >= int(max_hours):  
+                return json_txt
+                        
 
-    def set_tarif(self):
-        # get all inputs
+    def set_tarif(self, tipe_tarif):
+        
+        # get tolerance
         toleransi = self.components["add_toleransi"].text()
         
         # tarif kondisi 1
-        # a if a < b else b
-        time_kondisi1 = self.components["add_time1"].text()
-        tarif_motor_kondisi1 = self.components["add_motor_biaya1"].text()    
-        tarif_mobil_kondisi1 = self.components["add_mobil_biaya1"].text()    
+        time_kondisi1 = int( self.components["add_time1"].text() )
+        tarif_motor_kondisi1 = int( self.components["add_motor_biaya1"].text() )    
+        tarif_mobil_kondisi1 = int( self.components["add_mobil_biaya1"].text() )  
         
-        # tarif kondisi 2
-        time_kondisi2 = self.components["add_time2"].text()    
-        tarif_motor_kondisi2 = self.components["add_motor_biaya2"].text()    
-        tarif_mobil_kondisi2 = self.components["add_mobil_biaya2"].text()
-
-        # tarif kondisi 3
-        time_kondisi3 = self.components["add_time3"].text()    
-        tarif_motor_kondisi3 = self.components["add_motor_biaya3"].text()    
-        tarif_mobil_kondisi3 = self.components["add_mobil_biaya3"].text()
-        
-        # tarif max
-        time_max = self.components["add_time4"].text()    
-        tarif_motor_max = self.components["add_motor_biaya4"].text()    
-        tarif_mobil_max = self.components["add_mobil_biaya4"].text()    
+        ###### set rules for progresif/flat ######
+        rules_motor = f'"{time_kondisi1}" : "{tarif_motor_kondisi1}"'
+        rules_mobil = f'"{time_kondisi1}" : "{tarif_mobil_kondisi1}"'
+        ##########################################
 
 
-        # =========== filter ============
-        # 1. toleransi boleh terisi/kosong
-        
-        # 2. tarif dasar motor dan mobil tidak boleh kosong
-        # if tarif_motor_perjam == "" or tarif_mobil_perjam == "":
-        #     return self.dialogBox(title="Alert", msg="Tarif dasar motor/mobil tidak boleh kosong !")
-        
-        # query_motor = f"set tarif_dasar='{tarif_motor_perjam}'"
-        # query_mobil = f"set tarif_dasar='{tarif_mobil_perjam}'"
+        if self.selected_tarif == "other":
+            
+            # tarif kondisi 2
+            time_kondisi2 = int( self.components["add_time2"].text() )   
+            time_kondisi2_before = time_kondisi2    
+            tarif_motor_kondisi2 = int( self.components["add_motor_biaya2"].text() )
+            tarif_mobil_kondisi2 = int( self.components["add_mobil_biaya2"].text() )
 
-        # 3. kondisi tambahan boleh kosong, atau salah satu/keduanya terisi
-        # 4. tarif max boleh kosong / terisi
-        
-        # 5. jika salah satu sub item dari kondisi terisi, maka sub item yg lain harus terisi
-        
-        # =================== kondisi 1 =========================
-        # if not self.filterTarif(time_kondisi1, "1", tarif_motor_kondisi1, tarif_mobil_kondisi1): 
-        #     return False
-        # else:
-        #     query_motor = query_motor +  """, rules='{"4":"1200"}' """
-        #     query_mobil = f"set tarif_dasar='{tarif_mobil_perjam}'"
-        # =================== end kondisi 1 =========================
-        
-        
-        # =================== kondisi 2 =========================
-        # if not self.filterTarif(time_kondisi2, time_kondisi1, tarif_motor_kondisi2, tarif_mobil_kondisi2): return False
-        # =================== end kondisi 2 =========================
-        
+            # tarif kondisi 3
+            time_kondisi3 = int( self.components["add_time3"].text() )
+            time_kondisi3_before = time_kondisi3
+            tarif_motor_kondisi3 = int( self.components["add_motor_biaya3"].text() )   
+            tarif_mobil_kondisi3 = int( self.components["add_mobil_biaya3"].text() )
+            
+            # tarif max
+            time_max = int( self.components["add_time4"].text() )    
+            tarif_motor_max = int( self.components["add_motor_biaya4"].text() )    
+            tarif_mobil_max = int( self.components["add_mobil_biaya4"].text() )    
 
-        # =================== tarif max =========================
-        # if not self.filterTarif(time_max, time_kondisi2, tarif_motor_max, tarif_mobil_max): return False
-        # =================== end tarif max =========================
+            # add hours
+            time_kondisi2 = time_kondisi2 + time_kondisi1
+            time_kondisi3 = time_kondisi3 + time_kondisi2
 
-        # ============== end filter =================
+            rules_between_mtr = self.getBetween(time_kondisi3_before, time_kondisi3, time_max, tarif_motor_kondisi3)
+            rules_between_mbl = self.getBetween(time_kondisi3_before, time_kondisi3, time_max, tarif_mobil_kondisi3)
 
-        # create json for rulse based ond tarif input above
-        rules_mobil = '{"'+time_kondisi1+'":"'+tarif_mobil_kondisi1+'", "'+time_kondisi2+'":"'+tarif_mobil_kondisi2+'", "'+time_kondisi3+'":"'+tarif_mobil_kondisi3+'", "'+time_max+'":"'+tarif_mobil_max+'"}' 
+            # add new rules
+            base_rules_motor = rules_motor + f', "{time_kondisi2_before}":"{tarif_motor_kondisi2}", "{time_kondisi3_before}":"{tarif_motor_kondisi3}", "{time_max}":"{tarif_motor_max}"'
+            base_rules_mobil = rules_mobil + f', "{time_kondisi2_before}":"{tarif_mobil_kondisi2}", "{time_kondisi3_before}":"{tarif_mobil_kondisi3}", "{time_max}":"{tarif_mobil_max}"'
+            
+            rules_motor = rules_motor + f', "{time_kondisi2}":"{tarif_motor_kondisi2}", "{time_kondisi3}":"{tarif_motor_kondisi3}", {rules_between_mtr} "{time_max}":"{tarif_motor_max}"'
+            rules_mobil = rules_mobil + f', "{time_kondisi2}":"{tarif_mobil_kondisi2}", "{time_kondisi3}":"{tarif_mobil_kondisi3}", {rules_between_mbl} "{time_max}":"{tarif_mobil_max}"'
         
+        # set final JSON string
+        base_rules_motor = '{' + base_rules_motor + '}'
+        base_rules_mobil = '{' + base_rules_mobil + '}'
+
+        rules_motor = '{' + rules_motor + '}'
+        rules_mobil = '{' + rules_mobil + '}'
+
         # set for update
-        # query_motor = f"update tarif {query_motor} where id=1;" 
-        query_mobil = f"update tarif set toleransi='{toleransi}', rules='{rules_mobil}' where id=2;" 
-        print(query_mobil)
-        
+        query_mtr = f"update tarif set rules='{rules_motor}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_motor}' where id=1;"
+        query_mbl = f"update tarif set rules='{rules_mobil}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_mobil}' where id=2;"
+        print("===>")
+        print(query_mtr)
 
-        # rules_motor = '{"'+time_kondisi1+'":"'+tarif_motor_kondisi1+'"}' 
-        
-        # disini
-        # res = self.exec_query(query_motor + query_mobil)
-        
-              
+        res = self.exec_query(query_mtr + query_mbl)
+
+        if res:
+            self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
 
     def save_edit_voucher(self):
         

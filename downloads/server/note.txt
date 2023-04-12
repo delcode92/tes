@@ -52,3 +52,19 @@ CreateComponentLayout --> type "formlayout"
 3000
 
 =================================
+
+self.win = QMainWindow()
+central_widget = QWidget()
+central_lay = QVBoxLayout()
+
+central_lay.setContentsMargins(25,25,25,25)
+central_widget.setStyleSheet("background:#222b45;")
+
+self.CreateComponentLayout(components, central_lay)
+central_lay.addStretch(1)
+
+central_widget.setLayout(central_lay)
+self.win.setCentralWidget(central_widget)
+
+self.win.setWindowTitle(f"Edit Form {form_type}")
+self.win.resize(form_size[0], form_size[1])

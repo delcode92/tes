@@ -1,7 +1,7 @@
 import sys,cv2,os
 # from client.client_service import Client
 from PyQt5.QtWidgets import (QMessageBox, QShortcut, QDateEdit, QTableWidget, QHeaderView, QTableWidgetItem, QStackedWidget, QTabWidget, QSpacerItem, QLayout, QSizePolicy,QApplication, QMainWindow, QWidget, QFrame, QLabel, QPushButton, QAction,
-QLineEdit, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
+QLineEdit, QSpinBox, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea, QMdiArea, QMdiSubWindow, QVBoxLayout, QFormLayout, QHBoxLayout, QGridLayout, QStackedLayout
 )
 
 from PyQt5.QtGui import QKeySequence, QImage, QPixmap, QFont, QCursor, QIcon, QDoubleValidator
@@ -24,7 +24,7 @@ class View:
     bg_white = "background-color: #FFFFFF;"
     bg_aspal = "background-color: #34495e;"
     block_children = "border: 1px solid #b2bec3;"
-
+    
     # main windows dashboard styling
     win_dashboard = """
                     QMainWindow{
@@ -292,6 +292,16 @@ class View:
                         color: #000;
                         font-family: Helvetica;
                         font-size: 14px;
+    """
+
+    primary_spinbox = """QSpinBox{
+                        height:30px; 
+                        border:1px solid #dfe6e9;
+                        background-color: #dfe6e9;
+                        color: #000;
+                        font-family: Helvetica;
+                        font-size: 14px;
+                                           
     """
     
     # comboBox styling
@@ -643,6 +653,8 @@ class Util(Controller ):
                         self.components[i["name"]] = QCheckBox(parent)
                     case "combobox":
                         self.components[i["name"]] = QComboBox(parent)
+                    case "spinbox":
+                        self.components[i["name"]] = QSpinBox(parent)
                     case "lineedit":
                         self.components[i["name"]] = QLineEdit(parent)
                     case "lineeditpassword":
@@ -736,6 +748,21 @@ class Util(Controller ):
                                 combo_box = self.components[i["name"]]
                                 combo_box.setCurrentText( i["selected_item"] )
                             
+                            case "checked":
+                                if i["checked"]:
+                                    self.components[i["name"]].setChecked(True)
+
+                            case "toggled":
+                                method_name = i["toggled"]["method_name"]
+                                self.components[i["name"]].clicked.connect( lambda: method_name( self.components[i["name"]] ) )
+
+                            case "value":
+                                self.components[i["name"]].setValue( int(i["value"]) )
+                            
+                            case "range":
+                                n1,n2 = i["range"]
+                                self.components[i["name"]].setRange(n1,n2)
+
                             case "reg_date":
                                 ds = i["reg_date"].split("-")
                                 self.components[i["name"]].setDate( QDate(int(ds[0]), int(ds[1]), int(ds[2])) )

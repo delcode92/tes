@@ -471,9 +471,10 @@ class Main(Util, View):
                 
                 case "tarif":
                     
-                    res = self.exec_query("select * from tarif order by id", "select")
-
-                    toleransi = str(res[1][5])
+                    cols,res = self.exec_query("select * from tarif order by id", "cols_res")
+                    
+                    tipe_tarif = str(res[1][cols.index('tipe_tarif')])
+                    toleransi = str(res[1][cols.index('toleransi')])
                     tarif_dasar_motor = "0"
                     tarif_max_motor = "0"
                     tarif_dasar_mobil = "0"
@@ -482,6 +483,44 @@ class Main(Util, View):
                     
                     # components
                     components = [
+                                        {
+                                            "name":"widget_tipe_tarif",
+                                            "category":"widget",
+                                            "layout": "VBoxLayout",
+                                            "style":self.block_children,
+                                            "children":[
+                                                {
+                                                    "name":"r_progressive",
+                                                    "category":"RadioButton",
+                                                    "text":"progresif",
+                                                    "checked": True if tipe_tarif == "progresif" else False, 
+                                                    "style":"border:none;",
+                                                    "toggled": {
+                                                        "method_name": self.check_tarif_type
+                                                    }
+                                                },
+                                                {
+                                                    "name":"r_flat",
+                                                    "category":"RadioButton",
+                                                    "text":"flat",
+                                                    "checked": True if tipe_tarif == "flat" else False, 
+                                                    "style":"border:none;",
+                                                    "toggled": {
+                                                        "method_name": self.check_tarif_type
+                                                    } 
+                                                },
+                                                {
+                                                    "name":"r_other",
+                                                    "category":"RadioButton",
+                                                    "text":"other",
+                                                    "checked": True if tipe_tarif == "other" else False, 
+                                                    "style":"border:none;",
+                                                    "toggled": {
+                                                        "method_name": self.check_tarif_type
+                                                    }
+                                                }
+                                            ]
+                                        },
                                         {
                                             "name":"widget_toleransi",
                                             "category":"widget",
@@ -528,9 +567,10 @@ class Main(Util, View):
                                                     },
                                                     {
                                                         "name":"add_time1",
-                                                        "category":"lineEditInt",
-                                                        "text": "1",
-                                                        "style":self.primary_input 
+                                                        "category":"spinbox",
+                                                        "range":(0,24),
+                                                        "value":"0",
+                                                        "style":self.primary_spinbox
                                                     },
                                                     {
                                                         "name":"lbl",
@@ -595,7 +635,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_time2",
                                                         "category":"lineEditInt",
-                                                        "text": "1",
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -621,7 +661,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_motor_biaya2",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_dasar_motor,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -633,7 +673,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_mobil_biaya2",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_dasar_mobil,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     }
                                                 ]
@@ -661,7 +701,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_time3",
                                                         "category":"lineEditInt",
-                                                        "text": "1",
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -687,7 +727,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_motor_biaya3",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_dasar_motor,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -699,7 +739,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_mobil_biaya3",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_dasar_mobil,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     }
                                                 ]
@@ -727,7 +767,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_time4",
                                                         "category":"lineEditInt",
-                                                        "text": waktu_max,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -753,7 +793,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_motor_biaya4",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_max_motor,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     },
                                                     {
@@ -765,7 +805,7 @@ class Main(Util, View):
                                                     {
                                                         "name":"add_mobil_biaya4",
                                                         "category":"lineEditInt",
-                                                        "text": tarif_max_mobil,
+                                                        "text": "0",
                                                         "style":self.primary_input 
                                                     }
                                                 ]
@@ -866,7 +906,12 @@ class Main(Util, View):
             self.win = QMainWindow()
             central_widget = QWidget()
             central_lay = QVBoxLayout()
-            
+            scroll = QScrollArea()
+            scroll.setWidget(central_widget)
+            scroll.setWidgetResizable(True)
+            # scroll.setMinimumWidth(250)
+            # scroll.setMaximumHeight(700)
+
             central_lay.setContentsMargins(25,25,25,25)
             central_widget.setStyleSheet("background:#222b45;")
 
@@ -874,11 +919,22 @@ class Main(Util, View):
             central_lay.addStretch(1)
             
             central_widget.setLayout(central_lay)
-            self.win.setCentralWidget(central_widget)
+            # print("H: ", self.win.height())
 
             self.win.setWindowTitle(f"Edit Form {form_type}")
             self.win.resize(form_size[0], form_size[1])
             
+            # self.win.setMinimumWidth(400)
+            # self.win.setMinimumHeight(400)
+            # self.win.setMaximumHeight(700)
+            
+            self.win.setCentralWidget(scroll)
+            
+            # Run method after components create
+            if form_type.lower() == "tarif":
+                self.check_tarif_type(tipe_tarif)
+                # print("==> tipe tarif: ", tipe_tarif)
+
             self.win.show()
     
     def searchKarcis(self):
@@ -1460,7 +1516,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_search.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(500, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="kasir", form_size=(500, 700)))
                 row_delete.clicked.connect(lambda: self.deleteData("kasir"))
 
                 ##############################################################
@@ -1872,8 +1928,8 @@ class Main(Util, View):
                 self.tarif_container_lay.addWidget(self.tarif_stack)
 
                 # add tabs
-                self.tarif_stack.addWidget(tarif_content1)
                 self.tarif_stack.addWidget(tarif_content2)
+                # self.tarif_stack.addWidget(tarif_content2)
                 
                 # set widget and layout
                 tarif_content1_lay = QVBoxLayout()
@@ -1884,8 +1940,9 @@ class Main(Util, View):
                 tarif_content2.setLayout( tarif_content2_lay )
 
                 ############### FORM CONTAINER ##############
-                res = self.createFormContainer()
+                res = self.createFormContainer(scrollable=True)
                 form_container = res[0]
+                form_container.setMinimumHeight(650)
                 form_container_lay = res[1]
                 ############################################
 
@@ -1927,7 +1984,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 600)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 700)))
                 
                 ##############################################################
 
@@ -1972,10 +2029,12 @@ class Main(Util, View):
                     tbl_header.append( f"Toleransi(menit)" )
                     
                     # fetch data from DB
-                    query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan, toleransi, waktu_max FROM tarif", "SELECT")
+                    # query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan, toleransi, waktu_max FROM tarif", "SELECT")
+                    # ubah tabel header tarif
+                    query = self.exec_query("SELECT id FROM tarif", "SELECT")
                     
                     tbl_cols = len(tbl_header) # table cols that appear in GUI
-                    cols = 7 # cols table that used in query loop
+                    cols = 1 # cols table that used in query loop
 
                 # get rows count after set appropiate query
                 rows_count = len(query)
@@ -2011,65 +2070,398 @@ class Main(Util, View):
 
                 ###################### tarif Form ######################
 
+                cols,res = self.exec_query("select * from tarif order by id", "cols_res")
+                    
+                tipe_tarif = str(res[0][cols.index('tipe_tarif')])
+                toleransi = str(res[0][cols.index('toleransi')])
+                rules_mtr = json.loads( str(res[0][cols.index('base_rules')]) )
+                rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )
+                json_keys = []                
+
+                time_kondisi2 = "1" 
+                time_kondisi3 = "1" 
+                time_max = "24"
+
+                tarif_motor_kondisi2 = "1000"
+                tarif_motor_kondisi3 = "1000"
+                tarif_motor_max = "5000"
+
+                tarif_mobil_kondisi2 = "2000"
+                tarif_mobil_kondisi3 = "2000"
+                tarif_mobil_max = "6000"
+
+                # extract ket-value from json
+                for key in rules_mtr.keys():
+                    json_keys.append( str(key) )
+
+                time_kondisi1 = json_keys[0]
+                tarif_motor_kondisi1 = rules_mtr[ json_keys[0] ]
+                tarif_mobil_kondisi1 = rules_mbl[ json_keys[0] ]
+
+                if tipe_tarif == "other":
+                    time_kondisi2 = json_keys[1] 
+                    time_kondisi3 = json_keys[2] 
+                    time_max = json_keys[3]
+
+                    tarif_motor_kondisi2 = rules_mtr[ json_keys[1] ]
+                    tarif_motor_kondisi3 = rules_mtr[ json_keys[2] ]
+                    tarif_motor_max = rules_mtr[ json_keys[3] ]
+
+                    tarif_mobil_kondisi2 = rules_mbl[ json_keys[1] ]
+                    tarif_mobil_kondisi3 = rules_mbl[ json_keys[2] ]
+                    tarif_mobil_max = rules_mbl[ json_keys[3] ]
+
+
                 # components
-                components_setter = [{
-                                        "name":"lbl_add_tarif_pos",
-                                        "category":"label",
-                                        "text": "Nomor Pos",
-                                        "style":self.primary_lbl
+                components_setter = [
+                                    {
+                                        "name":"widget_tipe_tarif",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "style":self.block_children,
+                                        "children":[
+                                            {
+                                                "name":"r_progressive",
+                                                "category":"RadioButton",
+                                                "text":"progresif",
+                                                "checked": True if tipe_tarif == "progresif" else False, 
+                                                "style":"border:none;",
+                                                "toggled": {
+                                                    "method_name": self.check_tarif_type
+                                                }
+                                            },
+                                            {
+                                                "name":"r_flat",
+                                                "category":"RadioButton",
+                                                "text":"flat",
+                                                "checked": True if tipe_tarif == "flat" else False, 
+                                                "style":"border:none;",
+                                                "toggled": {
+                                                    "method_name": self.check_tarif_type
+                                                } 
+                                            },
+                                            {
+                                                "name":"r_other",
+                                                "category":"RadioButton",
+                                                "text":"other",
+                                                "checked": True if tipe_tarif == "other" else False, 
+                                                "style":"border:none;",
+                                                "toggled": {
+                                                    "method_name": self.check_tarif_type
+                                                }
+                                            }
+                                        ]
                                     },
                                     {
-                                        "name":"add_tarif_pos",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
+                                        "name":"widget_toleransi",
+                                        "category":"widget",
+                                        "layout": "HBoxLayout",
+                                        "style":self.block_children,
+                                        "children":[
+                                            {
+                                                "name":"t_lbl1",
+                                                "category":"label",
+                                                "text":"Toleransi mobil/motor ",
+                                                "style":self.primary_lbl + "max-width:150px; border: none;"
+                                            },
+                                            {
+                                                "name":"add_toleransi",
+                                                "category":"spinbox",
+                                                "range":(0,60),
+                                                "value":toleransi,
+                                                "style":self.primary_spinbox
+                                            },
+                                            {
+                                                "name":"t_lbl2",
+                                                "category":"label",
+                                                "text":" menit",
+                                                "style":self.primary_lbl + "border: none;"
+                                            },
+                                        ]
                                     },
                                     {
-                                        "name":"lbl_add_tarif_per_1jam",
-                                        "category":"label",
-                                        "text": "Tarif / jam",
-                                        "style":self.primary_lbl + margin_top
+                                        "name":"widget_container_biaya1",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "style":self.block_children,
+                                        "children":[
+                                            {
+                                            "name":"sub_container1_biaya1",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Tarif: ",
+                                                    "style":self.primary_lbl + "max-width:50px; border: none;"
+                                                },
+                                                {
+                                                    "name":"add_time1",
+                                                    "category":"spinbox",
+                                                    "range":(0,24),
+                                                    "value":time_kondisi1,
+                                                    "style":self.primary_spinbox 
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":" jam pertama",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                }
+                                            ]
+                                            },
+                                            {
+                                            "name":"sub_container2_biaya1",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Motor(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_motor_biaya1",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_motor_kondisi1,
+                                                    "style":self.primary_input 
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Mobil(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_mobil_biaya1",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_mobil_kondisi1,
+                                                    "style":self.primary_input 
+                                                }
+                                            ]
+                                            }
+                                        ]
                                     },
                                     {
-                                        "name":"add_tarif_per_1jam",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
+                                        "name":"widget_container_biaya2",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "style":self.block_children,
+                                        "children":[
+                                            {
+                                            "name":"sub_container1_biaya2",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Tarif: ",
+                                                    "style":self.primary_lbl + "max-width:50px; border: none;"
+                                                },
+                                                {
+                                                    "name":"add_time2",
+                                                    "category":"spinbox",
+                                                    "range":(0,23),
+                                                    "value":time_kondisi2,
+                                                    "style":self.primary_spinbox
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":" jam berikutnya",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                }
+                                            ]
+                                            },
+                                            {
+                                            "name":"sub_container2_biaya2",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Motor(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_motor_biaya2",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_motor_kondisi2,
+                                                    "style":self.primary_input 
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Mobil(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_mobil_biaya2",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_mobil_kondisi2,
+                                                    "style":self.primary_input 
+                                                }
+                                            ]
+                                            }
+                                        ]
                                     },
                                     {
-                                        "name":"lbl_add_tarif_per_24jam",
-                                        "category":"label",
-                                        "text": "Tarif / 24 jam",
-                                        "style":self.primary_lbl + margin_top
+                                        "name":"widget_container_biaya3",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "style":self.block_children,
+                                        "children":[
+                                            {
+                                            "name":"sub_container1_biaya3",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Tarif: ",
+                                                    "style":self.primary_lbl + "max-width:50px; border: none;"
+                                                },
+                                                {
+                                                    "name":"add_time3",
+                                                    "category":"spinbox",
+                                                    "range":(0,23),
+                                                    "value":time_kondisi3,
+                                                    "style":self.primary_spinbox
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":" jam berikutnya",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                }
+                                            ]
+                                            },
+                                            {
+                                            "name":"sub_container2_biaya3",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Motor(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_motor_biaya3",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_motor_kondisi3,
+                                                    "style":self.primary_input 
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Mobil(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_mobil_biaya3",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_mobil_kondisi3,
+                                                    "style":self.primary_input 
+                                                }
+                                            ]
+                                            }
+                                        ]
                                     },
                                     {
-                                        "name":"add_tarif_per_24jam",
-                                        "category":"lineEdit",
-                                        "style":self.primary_input
-                                    },
-                                    {
-                                        "name":"lbl_add_tarif_jns_kendaraan",
-                                        "category":"label",
-                                        "text": "Jenis Kendaraan",
-                                        "style":self.primary_lbl + margin_top
-                                    },
-                                    {
-                                        "name":"add_tarif_jns_kendaraan",
-                                        "category":"comboBox",
-                                        "items":["Motor", "Mobil"],
-                                        "style":self.primary_combobox
+                                        "name":"widget_container_biaya4",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "style":self.block_children,
+                                        "children":[
+                                            {
+                                            "name":"sub_container1_biaya4",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Tarif maksimal per ",
+                                                    "style":self.primary_lbl + "max-width:150px; border: none;"
+                                                },
+                                                {
+                                                    "name":"add_time4",
+                                                    "category":"spinbox",
+                                                    "range":(0,24),
+                                                    "value":time_max,
+                                                    "style":self.primary_spinbox
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":" jam",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                }
+                                            ]
+                                            },
+                                            {
+                                            "name":"sub_container2_biaya4",
+                                            "category":"widget",
+                                            "layout": "HBoxLayout",
+                                            "style": "border:none;",
+                                            "children":[
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Motor(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_motor_biaya4",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_motor_max,
+                                                    "style":self.primary_input 
+                                                },
+                                                {
+                                                    "name":"lbl",
+                                                    "category":"label",
+                                                    "text":"Mobil(Rp) ",
+                                                    "style":self.primary_lbl + "border: none;"
+                                                },
+                                                {
+                                                    "name":"add_mobil_biaya4",
+                                                    "category":"lineEditInt",
+                                                    "text": tarif_mobil_max,
+                                                    "style":self.primary_input 
+                                                }
+                                            ]
+                                            }
+                                        ]
                                     },
                                     {
                                         "name":"btn_add_tarif",
                                         "category":"pushButton",
                                         "text": "Save",
                                         "clicked": {
-                                                "method_name": self.add_tarif
+                                                "method_name": self.set_tarif
                                         },
                                         "style": self.primary_button
                                     }
                                 ]
-
+                    
                 self.CreateComponentLayout(components_setter, form_container_lay)
                 tarif_content2_lay.addStretch(1)
+
+                self.check_tarif_type( tipe_tarif )
                 #######################################################
 
             case "voucher":
@@ -2167,7 +2559,7 @@ class Main(Util, View):
 
                 ##################### action edit & delete ###################
                 
-                row_search.clicked.connect(lambda: self.editPopUp(form_type="voucher", form_size=(400, 400)))
+                row_search.clicked.connect(lambda: self.editPopUp(form_type="voucher", form_size=(400, 600)))
                 row_delete.clicked.connect(lambda: self.deleteData("voucher"))
                 row_print.clicked.connect(lambda: self.printData("voucher"))
 
@@ -2217,7 +2609,7 @@ class Main(Util, View):
                 components_setter = [{
                                         "name":"lbl_add_voucher_idpel",
                                         "category":"label",
-                                        "text": "ID Pel",
+                                        "text": "ID Pelanggan",
                                         "style":self.primary_lbl
                                     },
                                     {
