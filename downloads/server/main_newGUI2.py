@@ -1955,118 +1955,6 @@ class Main(Util, View):
                 tab1_h_widget.setLayout(tab1_h_layout)
                 self.tarif_table = QTableWidget()
                 
-                # action layout
-                action_widget = QWidget()
-                action_lay = QVBoxLayout()
-                action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
-                action_widget.setStyleSheet("border: none;")
-                action_lay.setContentsMargins(0,0,0,0)
-                action_lay.setSpacing(0)
-
-                ################# action lineedit and button ###################
-                row_label = QLabel("No Baris:")
-                self.row_info_tarif = QLineEdit()
-                row_search = QPushButton("edit")
-                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                
-                row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                self.row_info_tarif.setReadOnly(True)
-                self.row_info_tarif.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_search.setStyleSheet(View.edit_btn_action)
-                
-                # add lineedit and button into action_lay
-                action_lay.addWidget(row_label)
-                action_lay.addWidget(self.row_info_tarif)
-                action_lay.addWidget(row_search)
-                action_lay.addStretch(1)
-
-
-                ##################### action edit & delete ###################
-                
-                row_search.clicked.connect(lambda: self.editPopUp(form_type="tarif", form_size=(400, 700)))
-                
-                ##############################################################
-
-
-                ######################### tarif Table ##############################
-                # add table and action widget into tab1_h_layout
-                tab1_h_layout.addWidget(self.tarif_table)
-                tab1_h_layout.addWidget(action_widget)
-
-                # create table widget
-
-                # create table header based on rules
-                # check if rules column empty or not
-                rules_row = self.exec_query("select rules from tarif where rules!=''","select")
-                
-                
-                # standard column
-                tbl_header = []
-                
-                if len(rules_row) == 0:
-                    # fetch data from DB
-                    query = self.exec_query("SELECT id, tarif_dasar, jns_kendaraan, toleransi FROM tarif", "SELECT")
-                
-                    tbl_header = ["id", "Tarif Perjam(Rp)", "Jenis Kendaraan", "Toleransi(menit)"]
-                    tbl_cols = len(tbl_header)
-                    cols = 4
-
-                # column based on rules
-                # used len(rules) --> more efficient query, so don't need count(*) query
-                elif len(rules_row) == 2:
-                    rules = json.loads( rules_row[0][0] )
-                    
-                    # create string list for column based on rules
-                    
-                    tbl_header.append( f"id" )
-                    tbl_header.append( f"Tarif perjam(Rp)" )
-                    for k, v in rules.items():
-                        tbl_header.append( f"Tarif per{k}jam(Rp)" )
-                    
-                    tbl_header.append( f"Tarif per24jam(Rp)" )
-                    tbl_header.append( f"Jenis Kendaraan" )
-                    tbl_header.append( f"Toleransi(menit)" )
-                    
-                    # fetch data from DB
-                    # query = self.exec_query("SELECT id, tarif_dasar, rules, tarif_max, jns_kendaraan, toleransi, waktu_max FROM tarif", "SELECT")
-                    # ubah tabel header tarif
-                    query = self.exec_query("SELECT id FROM tarif", "SELECT")
-                    
-                    tbl_cols = len(tbl_header) # table cols that appear in GUI
-                    cols = 1 # cols table that used in query loop
-
-                # get rows count after set appropiate query
-                rows_count = len(query)
-                
-                self.tarif_table.resizeRowsToContents()
-                self.tarif_table.setRowCount(rows_count)
-                self.tarif_table.setColumnCount(tbl_cols)
-
-                # set colum stretched evenly
-                # self.tarif_table.horizontalHeader().setStretchLastSection(True)
-                self.setColsStretch(self.tarif_table, tbl_cols)
-
-                self.tarif_table.setHorizontalHeaderLabels(tbl_header)    
-                self.tarif_table.setStyleSheet(View.table_style)
-
-                self.tarif_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
-                self.tarif_table.setColumnHidden(0, True) #hide id column
-                
-                if len(rules_row) == 0:
-                    self.fillTable(self.tarif_table, cols, query)
-                elif len(rules_row) == 2:
-                    self.fillTableTarif(self.tarif_table, cols, query)
-
-                # create edit & delete section
-                self.tarif_table.setSelectionBehavior(QTableWidget.SelectRows)
-                self.tarif_table.clicked.connect(lambda: self.getCellVal(self.tarif_table, page="tarif"))
-                
-                # tarif_content1_lay.addWidget(table)
-                tarif_content1_lay.addWidget(tab1_h_widget)
-
-                ###########################################################
-
 
                 ###################### tarif Form ######################
 
@@ -2679,96 +2567,237 @@ class Main(Util, View):
 
             
             case "laporan":
-                # laporan content
-                self.laporan_container = QWidget()
-                self.laporan_container_lay = QVBoxLayout()
+
+                ###################### init widgets & layouts #########################
                 laporan_tabs_container_widget = QWidget()
-                
-                laporan_tabs_container = QHBoxLayout()
-                self.laporan_tab1 = QPushButton("Kelola laporan")
-                laporan_tab2 = QPushButton("Tambah laporan")
-                
-                self.laporan_stack = QStackedWidget()
-                laporan_content1 = QWidget()
-                laporan_content2 = QWidget()
-                
-                # tabs
-                self.setTabButton(tab1=self.laporan_tab1, tab2=laporan_tab2, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
-                
-                # set laporan layout & widget
-                self.laporan_container_lay.setContentsMargins(0,0,0,0)
-                self.laporan_container_lay.setSpacing(0)
-
-                laporan_tabs_container_widget.setStyleSheet("background: #151930;")
-                self.laporan_stack.setStyleSheet("background: #151930;")
-                
-                self.laporan_container.setLayout(self.laporan_container_lay)
-                laporan_tabs_container_widget.setLayout(laporan_tabs_container)
-                laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
-
-                self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
-                self.laporan_container_lay.addWidget(self.laporan_stack)
-
-                # add tabs
-                self.laporan_stack.addWidget(laporan_content1)
-                self.laporan_stack.addWidget(laporan_content2)
-                
-                # set widget and layout
-                laporan_content1_lay = QVBoxLayout()
-                laporan_content1.setLayout( laporan_content1_lay )
-
-                # set widget and layout
-                laporan_content2_lay = QVBoxLayout()
-                laporan_content2.setLayout( laporan_content2_lay )
-
-                ############### FORM CONTAINER ##############
-                res = self.createFormContainer()
-                form_container = res[0]
-                form_container_lay = res[1]
-                ############################################
-
-                laporan_content2_lay.setContentsMargins(25,25,25,25)
-                laporan_content2_lay.addWidget(form_container)
-
-                # set widget for tab1 layout
-                tab1_h_widget = QWidget()
-                tab1_h_layout = QHBoxLayout()
-                tab1_h_widget.setLayout(tab1_h_layout)
-                self.laporan_table = QTableWidget()
-                
-                # action layout
+                self.laporan_container = QWidget()
                 action_widget = QWidget()
-                action_lay = QVBoxLayout()
-                action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
-                action_widget.setStyleSheet("border: none;")
-                action_lay.setContentsMargins(0,0,0,0)
-                action_lay.setSpacing(0)
+                laporan_content1 = QWidget()
+                tab1_h_widget = QWidget()
+                self.laporan_stack = QStackedWidget()
+                self.laporan_table = QTableWidget()
+                tgl_container = QWidget()
+                tgl_input_container = QWidget()
+                lama_container = QWidget()
+                lama_input_container = QWidget()
+                jns_kendaraan_container = QWidget()
+                stat_kendaraan_container = QWidget()
+                jns_trans_container = QWidget()
+                shift_container = QWidget()
+                
+                filter_main_wgt, filter_main_lay = self.CreateContainer( QVBoxLayout() )
+                kendaraan_container_wgt, kendaraan_container_wgt_lay = self.CreateContainer( QHBoxLayout() )
 
-                # action lineedit and button
-                row_label = QLabel("No Baris:")
-                self.row_info_laporan = QLineEdit()
+                gb_cari_lay = QVBoxLayout()
+                gb_waktu_lay = QHBoxLayout()
+                gb_kendaraan_lay = QHBoxLayout()
+                gb_transaksi_lay = QHBoxLayout()
+                laporan_tabs_container = QHBoxLayout()
+                tab1_h_layout = QHBoxLayout()
+                self.laporan_container_lay = QVBoxLayout() # coba scroll  disini (kalau scroll disini maka tabs juga akan ikut di scroll)
+                action_lay = QVBoxLayout()
+                laporan_content1_lay = QVBoxLayout() # coba scroll disini juga
+                tgl_container_lay = QVBoxLayout()
+                tgl_input_lay = QHBoxLayout()
+                lama_container_lay = QVBoxLayout()
+                lama_input_lay = QHBoxLayout()
+                jns_kendaraan_lay = QVBoxLayout()
+                stat_kendaraan_lay = QVBoxLayout()
+                jns_trans_lay = QVBoxLayout()
+                shift_lay = QVBoxLayout()
+
+                screen = self.app.primaryScreen()
+                size = screen.size()
+
+                scroll = QScrollArea() 
+                scroll.setWidget(laporan_content1)
+                scroll.setWidgetResizable(True)
+                scroll.setMaximumHeight( size.height() - 200 )
+
+                ###################### end init widgets & layouts #########################
+                
+                
+                ######################## components ########################
+                self.laporan_tab1 = QPushButton("Kelola laporan")
+
+                lbl_filter = QLabel("FILTER LAPORAN:")
+                lbl_cari = QLabel("cari data:")
+                lbl_tgl = QLabel("tanggal:")
+                lbl_lama_parkir = QLabel("lama parkir(menit):")
+                lbl_jns_kendaraan = QLabel("jns kendaraan:")
+                lbl_stat_kendaraan = QLabel("stat kendaraan:")
+                lbl_jns_transaksi = QLabel("jns transaksi:")
+                lbl_shift = QLabel("shift:")
+                lbl_sd = QLabel("s/d")
+
+                input_cari = QLineEdit()
+                pilih_tgl1 = QLineEdit()
+                pilih_tgl2 = QLineEdit()
+                input_menit1 = QLineEdit()
+                input_menit2 = QLineEdit()
+                pilih_jns_kendaraan = QComboBox()
+                pilih_stat_kendaraan = QComboBox()
+                pilih_jns_transaksi = QComboBox()
+                pilih_shift = QComboBox()
+                
+            
+                groupboxes = [
+                        {
+                            "name": "gb_cari",
+                            "category":"GroupBox",
+                            "min_width": 550,
+                            "min_height": 80,
+                            "style": self.filter_gb_styling
+                        },
+                        {
+                            "name": "gb_waktu",
+                            "category":"GroupBox",
+                            "min_width": 550,
+                            "min_height": 80,
+                            "style": self.filter_gb_styling
+                        },
+                    ]
+                
+                groupboxes2 = [
+                        {
+                            "name": "gb_kendaraan",
+                            "category":"GroupBox",
+                            "min_width": 270,
+                            "min_height": 80,
+                            "style": self.filter_gb_styling
+                        },
+                        {
+                            "name": "gb_transaksi",
+                            "category":"GroupBox",
+                            "min_width": 270,
+                            "min_height": 80,
+                            "style": self.filter_gb_styling
+                        },
+                    ]
+                
+                filter_main_lay.addWidget( lbl_filter )
+                self.CreateComponentLayout(groupboxes, filter_main_lay)
+                self.CreateComponentLayout(groupboxes2, kendaraan_container_wgt_lay)
+
                 row_search = QPushButton("edit")
                 row_delete = QPushButton("delete")
-                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+                row_label = QLabel("No Baris:")
+                self.row_info_laporan = QLineEdit()
+                
 
+                # styling
+                laporan_tabs_container_widget.setStyleSheet("background: #151930;")
+                scroll.setStyleSheet("border: none;")
+                self.laporan_stack.setStyleSheet("background: #151930;")
+                lbl_filter.setStyleSheet( View.primary_lbl + "}" )
+                lbl_cari.setStyleSheet( View.primary_lbl + "}" )
+                lbl_sd.setStyleSheet( View.primary_lbl + "}" )
+                lbl_tgl.setStyleSheet( View.primary_lbl + "}" )
+                lbl_lama_parkir.setStyleSheet( View.primary_lbl + "}" )
+                lbl_jns_kendaraan.setStyleSheet( View.primary_lbl + "}" )
+                lbl_stat_kendaraan.setStyleSheet( View.primary_lbl + "}" )
+                lbl_jns_transaksi.setStyleSheet( View.primary_lbl + "}" )
+                lbl_shift.setStyleSheet( View.primary_lbl + " height: 25px; }" )
+                input_cari.setStyleSheet( View.primary_input + " height: 25px; }" )
+                pilih_tgl1.setStyleSheet( View.primary_input + " height: 25px; }" )
+                pilih_tgl2.setStyleSheet( View.primary_input + " height: 25px; }" )
+                pilih_jns_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
+                pilih_stat_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
+                pilih_jns_transaksi.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
+                pilih_shift.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
+                input_menit1.setStyleSheet( View.primary_input + " height: 25px; }" )
+                input_menit2.setStyleSheet( View.primary_input + " height: 25px; }" )
+
+                action_widget.setStyleSheet("border: none;")
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
-                self.row_info_laporan.setReadOnly(True)
                 self.row_info_laporan.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_search.setStyleSheet(View.edit_btn_action)
                 row_delete.setStyleSheet(View.del_btn_action)
 
-                # add lineedit and button into action_lay
+                # positioning
+                laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
+                self.laporan_container_lay.setContentsMargins(0,0,0,0)
+                action_lay.setContentsMargins(0,0,0,0)
+                filter_main_lay.setContentsMargins(10,35,10,35)
+                gb_waktu_lay.setContentsMargins(0,0,0,0)
+                kendaraan_container_wgt_lay.setContentsMargins(0,0,0,0)
+
+                # spacing & strech
+                self.laporan_container_lay.setSpacing(0)
+                action_lay.setSpacing(0)
+
+                # sizing
+                action_widget.setMaximumWidth(180)
+                
+                # set layout
+                laporan_tabs_container_widget.setLayout(laporan_tabs_container)
+                self.laporan_container.setLayout(self.laporan_container_lay)
+                action_widget.setLayout(action_lay)
+                laporan_content1.setLayout( laporan_content1_lay )
+                self.components["gb_cari"].setLayout(gb_cari_lay)
+                self.components["gb_waktu"].setLayout(gb_waktu_lay)
+                self.components["gb_kendaraan"].setLayout(gb_kendaraan_lay)
+                self.components["gb_transaksi"].setLayout(gb_transaksi_lay)
+                tgl_container.setLayout( tgl_container_lay )
+                tgl_input_container.setLayout( tgl_input_lay )
+                tab1_h_widget.setLayout(tab1_h_layout)
+                lama_container.setLayout( lama_container_lay )
+                lama_input_container.setLayout( lama_input_lay )
+                jns_kendaraan_container.setLayout( jns_kendaraan_lay )
+                stat_kendaraan_container.setLayout( stat_kendaraan_lay )
+                jns_trans_container.setLayout( jns_trans_lay )
+                shift_container.setLayout( shift_lay )
+
+                # add widget
+                self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
+
+                gb_cari_lay.addWidget( lbl_cari )
+                gb_cari_lay.addWidget( input_cari )
+                filter_main_lay.addWidget( kendaraan_container_wgt )
+
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_laporan)
                 action_lay.addWidget(row_search)
                 action_lay.addWidget(row_delete)
                 action_lay.addStretch(1)
-
-                # add table and action widget into tab1_h_layout
                 tab1_h_layout.addWidget(self.laporan_table)
                 tab1_h_layout.addWidget(action_widget)
+                self.laporan_stack.addWidget(scroll)
+                self.laporan_container_lay.addWidget(self.laporan_stack)
+                gb_waktu_lay.addWidget( tgl_container )
+                gb_waktu_lay.addWidget( lama_container )
+                tgl_container_lay.addWidget( lbl_tgl )
+                tgl_container_lay.addWidget( tgl_input_container )
+                tgl_input_lay.addWidget( pilih_tgl1 )
+                tgl_input_lay.addWidget( lbl_sd )
+                tgl_input_lay.addWidget( pilih_tgl2 )
+                lama_container_lay.addWidget( lbl_lama_parkir )
+                lama_container_lay.addWidget( lama_input_container )
+                lama_input_lay.addWidget( input_menit1 )
+                lama_input_lay.addWidget( lbl_sd )
+                lama_input_lay.addWidget( input_menit2 )
+                gb_kendaraan_lay.addWidget( jns_kendaraan_container )
+                gb_kendaraan_lay.addWidget( stat_kendaraan_container )
+                jns_kendaraan_lay.addWidget( lbl_jns_kendaraan )
+                jns_kendaraan_lay.addWidget( pilih_jns_kendaraan )
+                stat_kendaraan_lay.addWidget( lbl_stat_kendaraan )
+                stat_kendaraan_lay.addWidget( pilih_stat_kendaraan )
+                gb_transaksi_lay.addWidget( jns_trans_container )
+                gb_transaksi_lay.addWidget( shift_container )
+                jns_trans_lay.addWidget( lbl_jns_transaksi )
+                jns_trans_lay.addWidget( pilih_jns_transaksi )
+                shift_lay.addWidget( lbl_shift )
+                shift_lay.addWidget( pilih_shift )
+
+
+                # other
+                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+                self.row_info_laporan.setReadOnly(True)
+                self.setTabButton(tab1=self.laporan_tab1, tab2=None, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
+                
+               
+                
 
                 # create table widget
                 self.laporan_table.resizeRowsToContents()
@@ -2794,6 +2823,7 @@ class Main(Util, View):
                 # btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "laporan"))
 
                 # laporan_content1_lay.addWidget(table)
+                laporan_content1_lay.addWidget( filter_main_wgt )
                 laporan_content1_lay.addWidget(tab1_h_widget)
 
                 

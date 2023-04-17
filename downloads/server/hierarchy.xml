@@ -217,7 +217,155 @@
                             
                             <!-- LAPORAN -->
                             <self.laporan_container>
-                                ...
+                                <self.laporan_container_lay>
+
+                                  <laporan_tabs_container_widget>
+                                    ... berisi tabs button yg paling atas...
+                                  </laporan_tabs_container_widget>
+
+                                  <self.laporan_stack>
+                                    <scroll>
+                                        <laporan_content1>
+                                            <laporan_content1_lay>
+                                                
+                                                <filter_main_wgt>
+                                                    
+                                                    <!-- vertical layout -->
+                                                    <filter_main_lay>
+                                                        
+                                                        <!-- just a label -->
+                                                        </lbl_filter>
+
+                                                        <gb_cari>
+
+                                                            <!-- vertical layout -->
+                                                            <gb_cari_lay>
+                                                                </lbl_cari>
+                                                                </input_cari>
+                                                            </gb_cari_lay>
+                                                        </gb_cari>
+
+                                                        <gb_waktu>
+                                                            <!-- horizontal layout -->
+                                                            <gb_waktu_lay>
+                                                                <tgl_container>
+                                                                    <!-- vertical layout -->
+                                                                    <tgl_container_lay>
+                                                                        </lbl_tgl>
+                                                                        
+                                                                        <tgl_input_container>
+                                                                            <!-- horizontal layout -->
+                                                                            <tgl_input_lay>
+                                                                                </pilih_tgl1>
+                                                                                </lbl_sd>
+                                                                                </pilih_tgl2>
+                                                                            </tgl_input_lay>
+
+                                                                        </tgl_input_container>
+                                                                    
+                                                                    </tgl_container_lay>
+                                                                </tgl_container>
+
+                                                                <lama_container>
+                                                                    <!-- vertical layout -->
+                                                                    <lama_container_lay>
+                                                                        </lbl_lama_parkir>
+                                                                        
+                                                                        <lama_input_container>
+                                                                            <!-- horizontal layout -->
+                                                                            <lama_input_lay>
+                                                                                </input_menit1>
+                                                                                </lbl_sd>
+                                                                                </input_menit2>
+                                                                            </lama_input_lay>
+
+                                                                        </lama_input_container>
+                                                                    
+                                                                    </lama_container_lay>
+                                                                </lama_container>
+
+                                                            </gb_waktu_lay>
+
+                                                        </gb_waktu>
+                                                    
+                                                        <kendaraan_container_wgt>
+                                                            
+                                                            <!-- horizontal layout -->
+                                                            <kendaraan_container_wgt_lay>
+                                                                
+                                                                <gb_kendaraan>
+                                                                        
+                                                                    <!-- horizontal layout -->
+                                                                    <gb_kendaraan_lay>
+                                                                    
+                                                                        <jns_kendaraan_container>
+                                                                            
+                                                                            <!-- vertical layout -->
+                                                                            <jns_kendaraan_lay>
+                                                                                </lbl_jns_kendaraan>
+                                                                                </pilih_jns_kendaraan>
+                                                                            </jns_kendaraan_lay>
+                                                                        
+                                                                        </jns_kendaraan_container>
+                                                                        
+                                                                        <stat_kendaraan_container>
+                                                                            
+                                                                            <!-- vertical layout -->
+                                                                            <stat_kendaraan_lay>
+                                                                                </lbl_stat_kendaraan>
+                                                                                </pilih_stat_kendaraan>
+                                                                            </stat_kendaraan_lay>
+                                                                        
+                                                                        </stat_kendaraan_container>
+                                                                    
+                                                                    </gb_kendaraan_lay>
+                                                                    
+                                                                </gb_kendaraan>
+
+                                                                <gb_transaksi>
+                                                                        
+                                                                    <!-- horizontal layout -->
+                                                                    <gb_transaksi_lay>
+                                                                    
+                                                                        <jns_trans_container>
+                                                                            
+                                                                            <!-- vertical layout -->
+                                                                            <jns_trans_lay>
+                                                                                </lbl_jns_transaksi>
+                                                                                </pilih_jns_transaksi>
+                                                                            </jns_trans_lay>
+                                                                        
+                                                                        </jns_trans_container>
+                                                                        
+                                                                        <shift_container>
+                                                                            
+                                                                            <!-- vertical layout -->
+                                                                            <shift_lay>
+                                                                                </lbl_shift>
+                                                                                </pilih_shift>
+                                                                            </shift_lay>
+                                                                        
+                                                                        </shift_container>
+                                                                    
+                                                                    </gb_transaksi_lay>
+                                                                    
+                                                                </gb_transaksi>
+
+                                                            </kendaraan_container_wgt_lay>
+                                                        </kendaraan_container_wgt>
+                                                    <filter_main_lay>
+                                                </filter_main_wgt>
+                                                
+                                                <tab1_h_widget>
+                                                    ...
+                                                </tab1_h_widget>
+
+                                            </laporan_content1_lay>
+                                        </laporan_content1>
+                                    <scroll>
+                                  </self.laporan_stack>
+
+                                </self.laporan_container_lay>
                             </self.laporan_container>
 
                         </self.stacked_widget>

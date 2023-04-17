@@ -103,6 +103,9 @@ class View:
 
     """
 
+    # filter
+    
+
     # button styling
     primary_button ="""QPushButton {
                     margin-top:15px; 
@@ -336,6 +339,15 @@ class View:
                         color:#fff; 
                         background-color:#e74c3c;
     """
+    
+    filter_gb_styling = """QGroupBox { 
+                        font-size: 14px; 
+                        border: 1px solid #394245; 
+                        margin-top: 6px; 
+                        padding-left:15px; 
+                        padding-right:15px;
+                    
+    """
 
     tbl_font_weight = ""
     os_name = os.name
@@ -562,6 +574,12 @@ class Util(Controller ):
                 
             add_stat=False
 
+    def CreateContainer(self, layout):
+        wgt = QWidget()
+        wgt.setLayout(layout)
+
+        return wgt,layout
+    
     def CreateLayout(self, params:tuple, parent=None):
         # create layout & check if scroll true/false
         tuple_length = len(params)

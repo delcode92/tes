@@ -1,3 +1,13 @@
+# cara import psql dari sql dump file:
+# buat database yg namanya sama
+# jika sudah ada DB ny, maka
+# cek dulu nama schema yg sudah ada denga perintah \dn 
+# drop dulu semua table ny dengan menggunakan nama schema ny,  kemudian buat schema barunya:
+# drop schema nama_schema;
+# create schema nama_schema;
+# setelah itu baru import dengan perintah
+# psql -h nama_host(bisa pakai localhost) -U namaa_username -d nama_database -f nama_file_dump
+
 sudo apt install python3.10
 pip install pyinstaller
 

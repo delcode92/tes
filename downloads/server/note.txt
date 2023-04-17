@@ -1,70 +1,46 @@
-main stacked widget:
+// widget (berlaku sebagai container)
+laporan_tabs_container_widget = QWidget()
+self.laporan_container = QWidget()
+action_widget = QWidget()
+laporan_content1 = QWidget()
+tab1_h_widget = QWidget()
 
-################ QStackedWidget here #################
-...
-self.stacked_widget.addWidget(rfid_container) --> each page has it's own container except welcome dashboard
-...
+// layouts
+laporan_tabs_container = QHBoxLayout()
+tab1_h_layout = QHBoxLayout()
+self.laporan_container_lay = QVBoxLayout()
+action_lay = QVBoxLayout()
+laporan_content1_lay = QVBoxLayout()
 
-* add every table var with self keyword
+// set layout
+laporan_tabs_container_widget.setLayout(laporan_tabs_container)
+self.laporan_container.setLayout(self.laporan_container_lay)
+action_widget.setLayout(action_lay)
+laporan_content1.setLayout( laporan_content1_lay )
+tab1_h_widget.setLayout(tab1_h_layout)
 
-* harus buat lazy loading agar gak lambat karena load banyak data dari table
+// add widget
+self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
 
-important method:
+action_lay.addWidget(row_label)
+action_lay.addWidget(self.row_info_laporan)
+action_lay.addWidget(row_search)
+action_lay.addWidget(row_delete)
 
-def createPage --> crete page for each stacked group(table list , form ... etc)
-
-def fillTable() --> fill table in first load and after update
-def getCellVal --> clickable row
-def editPopUp --> edit form popup
-
-
-CreateComponentLayout --> type "formlayout"
-
-- tarif tidak perlu tambah dan delete,cuma perlu edit
+self.laporan_stack.addWidget(laporan_content1)
+self.laporan_container_lay.addWidget(self.laporan_stack)
+tab1_h_layout.addWidget(self.laporan_table)
+tab1_h_layout.addWidget(action_widget)
+laporan_content1_lay.addWidget(tab1_h_widget)
 
 
-- karcis tidak perlu edit/delete, yg perlu searching data
-- karcis yg ada setting karcis, bukan tambah karcis
 
-================== cases ===================
-0:12:17
-2000
-
-0:7:13
-2.000
-
-1:28:23
-2000
-
-2:6:16
-2000
-
-2:7:55
-2000
-
-4:3:42
-2000
-
-6:29:58
-3000
-
-8:59:17
-3000
-
-=================================
-
-self.win = QMainWindow()
-central_widget = QWidget()
-central_lay = QVBoxLayout()
-
-central_lay.setContentsMargins(25,25,25,25)
-central_widget.setStyleSheet("background:#222b45;")
-
-self.CreateComponentLayout(components, central_lay)
-central_lay.addStretch(1)
-
-central_widget.setLayout(central_lay)
-self.win.setCentralWidget(central_widget)
-
-self.win.setWindowTitle(f"Edit Form {form_type}")
-self.win.resize(form_size[0], form_size[1])
+self.stacked_widget.addWidget(self.welcome_lbl)     # --> 0
+self.stacked_widget.addWidget(self.rfid_container)  # --> 1
+self.stacked_widget.addWidget(self.users_container) # --> 2
+self.stacked_widget.addWidget(self.kasir_container) # --> 3
+self.stacked_widget.addWidget(self.karcis_container)    # --> 4
+self.stacked_widget.addWidget(self.tarif_container)     # --> 5
+self.stacked_widget.addWidget(self.voucher_container)   # --> 6
+self.stacked_widget.addWidget(self.laporan_container)   # --> 7
+self.stacked_widget.setCurrentIndex(0)
