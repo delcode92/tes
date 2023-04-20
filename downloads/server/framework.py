@@ -5,7 +5,7 @@ QLineEdit, QSpinBox, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea,
 )
 
 from PyQt5.QtGui import QKeySequence, QImage, QPixmap, QFont, QCursor, QIcon, QDoubleValidator
-from PyQt5.QtCore import QTimer, QDate,QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QTimer, QDate, QDateTime, QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 
@@ -296,6 +296,30 @@ class View:
                         font-family: Helvetica;
                         font-size: 14px;
     """
+    
+    primary_spinbox = """QSpinBox{
+                        height:30px; 
+                        border:1px solid #dfe6e9;
+                        background-color: #dfe6e9;
+                        color: #000;
+                        font-family: Helvetica;
+                        font-size: 14px;
+    """
+    
+    primary_date = """QCalendarWidget QTableView {
+                        background-color: white;
+                    }
+                    QDateEdit{
+                        height:30px; 
+                        border:1px solid #dfe6e9;
+                        background-color: #dfe6e9;
+                        color: #000;
+                        font-family: Helvetica;
+                        font-size: 14px;
+                    
+                    
+    """
+
 
     primary_spinbox = """QSpinBox{
                         height:30px; 
@@ -308,17 +332,17 @@ class View:
     """
     
     # comboBox styling
-    primary_combobox = """QComboBox{
-                        height:40px; 
-                        
-                        /*
-                        border:1px solid #ecf0f1;
-                        background-color: #f4f4f4;
-                        */
-                        selection-background-color: #192038;
-                        color: #fff;
-                        font-family: Helvetica;
-                        font-size: 14px;
+    primary_combobox = """
+                        QComboBox QAbstractItemView {
+                            background: #fff;
+                        }
+                        QComboBox{
+                            height:40px; 
+                            background-color: blue;
+                            selection-background-color: #192038;
+                            color: #fff;
+                            font-family: Helvetica;
+                            font-size: 14px;
     """
     
     # groupBox styling

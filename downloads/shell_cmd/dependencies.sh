@@ -18,5 +18,6 @@ pip install PyQt5
 
 pip install opencv-python
 
-
 pip install postgres
+
+pip install fpdf

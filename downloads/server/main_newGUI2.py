@@ -2629,16 +2629,28 @@ class Main(Util, View):
                 lbl_jns_transaksi = QLabel("jns transaksi:")
                 lbl_shift = QLabel("shift:")
                 lbl_sd = QLabel("s/d")
-
+                
                 input_cari = QLineEdit()
-                pilih_tgl1 = QLineEdit()
-                pilih_tgl2 = QLineEdit()
-                input_menit1 = QLineEdit()
-                input_menit2 = QLineEdit()
+                pilih_tgl1 = QDateEdit( calendarPopup=True )
+                pilih_tgl2 = QDateEdit( calendarPopup=True )
+                pilih_tgl1.setDateTime( QDateTime.currentDateTime() )
+                pilih_tgl2.setDateTime( QDateTime.currentDateTime() )
+
+                input_menit1 = QSpinBox()
+                input_menit2 = QSpinBox()
+
+                kendaraan = ["Mobil", "Motor"]
+                stat_parkir = ["Keluar", "Masuk"]
                 pilih_jns_kendaraan = QComboBox()
                 pilih_stat_kendaraan = QComboBox()
+                pilih_jns_kendaraan.addItems( kendaraan )
+                pilih_stat_kendaraan.addItems( stat_parkir )
+
+                trans = ["Casual", "Voucher"]
                 pilih_jns_transaksi = QComboBox()
                 pilih_shift = QComboBox()
+                pilih_jns_transaksi.addItems( trans )
+                pilih_shift.addItems( ["s1", "s2", "s3", "s4", "s5"] )
                 
             
                 groupboxes = [
@@ -2680,7 +2692,7 @@ class Main(Util, View):
                 self.CreateComponentLayout(groupboxes2, kendaraan_container_wgt_lay)
 
                 row_search = QPushButton("edit")
-                row_delete = QPushButton("delete")
+                row_print = QPushButton("print")
                 row_label = QLabel("No Baris:")
                 self.row_info_laporan = QLineEdit()
                 
@@ -2691,6 +2703,7 @@ class Main(Util, View):
                 self.laporan_stack.setStyleSheet("background: #151930;")
                 lbl_filter.setStyleSheet( View.primary_lbl + "}" )
                 lbl_cari.setStyleSheet( View.primary_lbl + "}" )
+                lbl_sd.setMaximumWidth(30)
                 lbl_sd.setStyleSheet( View.primary_lbl + "}" )
                 lbl_tgl.setStyleSheet( View.primary_lbl + "}" )
                 lbl_lama_parkir.setStyleSheet( View.primary_lbl + "}" )
@@ -2699,20 +2712,22 @@ class Main(Util, View):
                 lbl_jns_transaksi.setStyleSheet( View.primary_lbl + "}" )
                 lbl_shift.setStyleSheet( View.primary_lbl + " height: 25px; }" )
                 input_cari.setStyleSheet( View.primary_input + " height: 25px; }" )
-                pilih_tgl1.setStyleSheet( View.primary_input + " height: 25px; }" )
-                pilih_tgl2.setStyleSheet( View.primary_input + " height: 25px; }" )
-                pilih_jns_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
-                pilih_stat_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
-                pilih_jns_transaksi.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
-                pilih_shift.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; }" )
-                input_menit1.setStyleSheet( View.primary_input + " height: 25px; }" )
-                input_menit2.setStyleSheet( View.primary_input + " height: 25px; }" )
+                
+                pilih_tgl1.setStyleSheet( View.primary_date + "width: 250px; height: 25px; }" )
+                pilih_tgl2.setStyleSheet( View.primary_date + "width: 250px; height: 25px; }" )
+                
+                pilih_jns_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; color: #000; }" )
+                pilih_stat_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; color:#000; }" )
+                pilih_jns_transaksi.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; color:#000; }" )
+                pilih_shift.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; color:#000; }" )
+                input_menit1.setStyleSheet( View.primary_spinbox + "height: 25px; }" )
+                input_menit2.setStyleSheet( View.primary_spinbox + "height: 25px; }" )
 
                 action_widget.setStyleSheet("border: none;")
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_laporan.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                row_search.setStyleSheet(View.edit_btn_action)
-                row_delete.setStyleSheet(View.del_btn_action)
+                # row_search.setStyleSheet(View.edit_btn_action)
+                row_print.setStyleSheet(View.del_btn_action)
 
                 # positioning
                 laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
@@ -2758,7 +2773,7 @@ class Main(Util, View):
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_laporan)
                 action_lay.addWidget(row_search)
-                action_lay.addWidget(row_delete)
+                action_lay.addWidget(row_print)
                 action_lay.addStretch(1)
                 tab1_h_layout.addWidget(self.laporan_table)
                 tab1_h_layout.addWidget(action_widget)
@@ -2791,8 +2806,8 @@ class Main(Util, View):
 
 
                 # other
-                row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
-                row_delete.setIcon(QIcon(self.icon_path+"trash.png"))
+                # row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_print.setIcon(QIcon(self.icon_path+"print.png"))
                 self.row_info_laporan.setReadOnly(True)
                 self.setTabButton(tab1=self.laporan_tab1, tab2=None, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
                 
@@ -2802,8 +2817,8 @@ class Main(Util, View):
                 # create table widget
                 self.laporan_table.resizeRowsToContents()
                 self.laporan_table.setRowCount(2)
-                self.laporan_table.setColumnCount(3)
-                self.laporan_table.setHorizontalHeaderLabels(["id", "Username", "Level"])
+                self.laporan_table.setColumnCount(10)
+                self.laporan_table.setHorizontalHeaderLabels(["id", "Nopol", "J.kendaraan", "Pos", "Jam parkir", "Lama Parkir", "Status parkir", "Shift", "J.transaksi", "Biaya"])
                 self.laporan_table.setStyleSheet(View.table_style)
 
                 self.laporan_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)

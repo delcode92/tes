@@ -48,3 +48,6 @@ else{
 # end code
 
 please make more simple code than above
+
+explain python code below:
+btn.clicked.connect(lambda *args, row=rows: self.editData(row, table, "laporan"))

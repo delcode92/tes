@@ -64,7 +64,21 @@ create table pegawai ( id serial primary key, rfid_pegawai varchar(30),nama_pega
 CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255), status_parkir BOOLEAN NOT NULL DEFAULT FALSE, jenis_kendaraan varchar(30), ip_raspi varchar(25) );
 ALTER TABLE karcis ALTER COLUMN date_keluar set DEFAULT '';
 ALTER TABLE karcis add column date_keluar timestamp without time zone;
-ALTER TABLE karcis add column tarif integer;
+
+ALTER TABLE karcis add column lama_parkir interval;ALTER TABLE karcis add column tarif integer;ALTER TABLE karcis add column nopol varchar(60);ALTER TABLE karcis add column kd_shift varchar(20);ALTER TABLE karcis add column jns_transaksi varchar(60);
+
+ALTER TABLE karcis drop column tarif;
+ALTER TABLE karcis drop column nopol;
+ALTER TABLE karcis drop column kd_shift;
+ALTER TABLE karcis drop column jns_transaksi;
+
+update karcis set lama_parkir=300 where id=5;
+
+update karcis set lama_parkir='1 Hours' where id=2; update karcis set lama_parkir='20 Minutes' where id=3; update karcis set lama_parkir='2 Hours 5 Minutes' where id=4;
+
+select cast(EXTRACT(epoch FROM lama_parkir) as integer) AS interval_seconds from karcis where id=1;
+SELECT * FROM karcis WHERE EXTRACT(epoch FROM lama_parkir) BETWEEN 1200 AND 10800;
+
 
 insert into karcis (datetime) values(to_timestamp(1672912953.570569));
 insert into karcis (barcode, datetime, gate, jenis_kendaraan) values ('3127192', '2023-02-05 15:02:12', '2', 'mobil');
