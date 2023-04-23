@@ -252,9 +252,23 @@ class View:
                         font-size: 13px;
                         font-weight:600;
                         margin-bottom: 5px;
-                        /* background:#2C3E50; */
                         color: #fff;
-                        /* padding:8px; */               
+    """
+    
+    primary_radio = """QRadioButton{
+                        font-family: Helvetica;
+                        font-size: 13px;
+                        font-weight:600;
+                        margin-bottom: 5px;
+                        color: #fff;
+    """
+    
+    primary_checkbox = """QCheckBox{
+                        font-family: Helvetica;
+                        font-size: 13px;
+                        font-weight:600;
+                        margin-bottom: 5px;
+                        color: #fff;
     """
     
     detail_lbl = """QLabel{

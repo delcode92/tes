@@ -67861,3 +67861,2668 @@ success execute query
 success execute query
 2023-04-20 21:50:52,801 | INFO | 84: 
 success execute query
+2023-04-23 02:59:10,952 | INFO | 29: 
+Controller constructor: 
+2023-04-23 02:59:10,955 | INFO | 30: connect to DB .....
+2023-04-23 02:59:10,955 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 02:59:10,958 | INFO | 482: 
+Util constructor: 
+2023-04-23 02:59:10,958 | INFO | 483: run QApplication .......
+2023-04-23 02:59:10,958 | INFO | 484: init screensize .......
+2023-04-23 02:59:10,958 | INFO | 485: init components dict .......
+
+2023-04-23 02:59:14,789 | INFO | 84: 
+success execute query
+2023-04-23 02:59:14,945 | INFO | 84: 
+success execute query
+2023-04-23 02:59:14,995 | INFO | 84: 
+success execute query
+2023-04-23 02:59:15,022 | INFO | 84: 
+success execute query
+2023-04-23 02:59:15,064 | INFO | 84: 
+success execute query
+2023-04-23 02:59:15,086 | INFO | 84: 
+success execute query
+2023-04-23 02:59:15,122 | INFO | 84: 
+success execute query
+2023-04-23 08:46:00,662 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:46:00,663 | INFO | 30: connect to DB .....
+2023-04-23 08:46:00,664 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:46:00,670 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:46:00,670 | INFO | 483: run QApplication .......
+2023-04-23 08:46:00,671 | INFO | 484: init screensize .......
+2023-04-23 08:46:00,671 | INFO | 485: init components dict .......
+
+2023-04-23 08:46:05,226 | INFO | 84: 
+success execute query
+2023-04-23 08:46:05,326 | INFO | 84: 
+success execute query
+2023-04-23 08:46:05,367 | INFO | 84: 
+success execute query
+2023-04-23 08:46:05,396 | INFO | 84: 
+success execute query
+2023-04-23 08:46:05,425 | INFO | 84: 
+success execute query
+2023-04-23 08:46:05,445 | INFO | 84: 
+success execute query
+2023-04-23 08:46:05,476 | INFO | 84: 
+success execute query
+2023-04-23 08:49:06,385 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:49:06,386 | INFO | 30: connect to DB .....
+2023-04-23 08:49:06,386 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:49:06,387 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:49:06,387 | INFO | 483: run QApplication .......
+2023-04-23 08:49:06,388 | INFO | 484: init screensize .......
+2023-04-23 08:49:06,388 | INFO | 485: init components dict .......
+
+2023-04-23 08:49:09,849 | INFO | 84: 
+success execute query
+2023-04-23 08:49:09,893 | INFO | 84: 
+success execute query
+2023-04-23 08:49:09,928 | INFO | 84: 
+success execute query
+2023-04-23 08:49:09,953 | INFO | 84: 
+success execute query
+2023-04-23 08:49:09,973 | INFO | 84: 
+success execute query
+2023-04-23 08:49:09,993 | INFO | 84: 
+success execute query
+2023-04-23 08:49:10,022 | INFO | 84: 
+success execute query
+2023-04-23 08:49:50,260 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:49:50,261 | INFO | 30: connect to DB .....
+2023-04-23 08:49:50,261 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:49:50,262 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:49:50,262 | INFO | 483: run QApplication .......
+2023-04-23 08:49:50,263 | INFO | 484: init screensize .......
+2023-04-23 08:49:50,263 | INFO | 485: init components dict .......
+
+2023-04-23 08:49:53,317 | INFO | 84: 
+success execute query
+2023-04-23 08:49:53,356 | INFO | 84: 
+success execute query
+2023-04-23 08:49:53,406 | INFO | 84: 
+success execute query
+2023-04-23 08:49:53,438 | INFO | 84: 
+success execute query
+2023-04-23 08:49:53,459 | INFO | 84: 
+success execute query
+2023-04-23 08:49:53,483 | INFO | 84: 
+success execute query
+2023-04-23 08:49:53,509 | INFO | 84: 
+success execute query
+2023-04-23 08:51:11,792 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:51:11,793 | INFO | 30: connect to DB .....
+2023-04-23 08:51:11,793 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:51:11,793 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:51:11,794 | INFO | 483: run QApplication .......
+2023-04-23 08:51:11,794 | INFO | 484: init screensize .......
+2023-04-23 08:51:11,794 | INFO | 485: init components dict .......
+
+2023-04-23 08:51:15,195 | INFO | 84: 
+success execute query
+2023-04-23 08:51:15,235 | INFO | 84: 
+success execute query
+2023-04-23 08:51:15,270 | INFO | 84: 
+success execute query
+2023-04-23 08:51:15,310 | INFO | 84: 
+success execute query
+2023-04-23 08:51:15,339 | INFO | 84: 
+success execute query
+2023-04-23 08:51:15,360 | INFO | 84: 
+success execute query
+2023-04-23 08:51:15,387 | INFO | 84: 
+success execute query
+2023-04-23 08:53:28,882 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:53:28,883 | INFO | 30: connect to DB .....
+2023-04-23 08:53:28,883 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:53:28,884 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:53:28,884 | INFO | 483: run QApplication .......
+2023-04-23 08:53:28,885 | INFO | 484: init screensize .......
+2023-04-23 08:53:28,885 | INFO | 485: init components dict .......
+
+2023-04-23 08:53:31,644 | INFO | 84: 
+success execute query
+2023-04-23 08:53:31,688 | INFO | 84: 
+success execute query
+2023-04-23 08:53:31,725 | INFO | 84: 
+success execute query
+2023-04-23 08:53:31,754 | INFO | 84: 
+success execute query
+2023-04-23 08:53:31,774 | INFO | 84: 
+success execute query
+2023-04-23 08:53:31,796 | INFO | 84: 
+success execute query
+2023-04-23 08:53:31,824 | INFO | 84: 
+success execute query
+2023-04-23 08:54:26,442 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:54:26,443 | INFO | 30: connect to DB .....
+2023-04-23 08:54:26,443 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:54:26,444 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:54:26,444 | INFO | 483: run QApplication .......
+2023-04-23 08:54:26,445 | INFO | 484: init screensize .......
+2023-04-23 08:54:26,445 | INFO | 485: init components dict .......
+
+2023-04-23 08:54:28,733 | INFO | 84: 
+success execute query
+2023-04-23 08:54:28,775 | INFO | 84: 
+success execute query
+2023-04-23 08:54:28,809 | INFO | 84: 
+success execute query
+2023-04-23 08:54:28,834 | INFO | 84: 
+success execute query
+2023-04-23 08:54:28,856 | INFO | 84: 
+success execute query
+2023-04-23 08:54:28,877 | INFO | 84: 
+success execute query
+2023-04-23 08:54:28,904 | INFO | 84: 
+success execute query
+2023-04-23 08:55:22,293 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:55:22,295 | INFO | 30: connect to DB .....
+2023-04-23 08:55:22,295 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:55:22,295 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:55:22,296 | INFO | 483: run QApplication .......
+2023-04-23 08:55:22,296 | INFO | 484: init screensize .......
+2023-04-23 08:55:22,297 | INFO | 485: init components dict .......
+
+2023-04-23 08:55:27,577 | INFO | 84: 
+success execute query
+2023-04-23 08:55:27,616 | INFO | 84: 
+success execute query
+2023-04-23 08:55:27,653 | INFO | 84: 
+success execute query
+2023-04-23 08:55:27,677 | INFO | 84: 
+success execute query
+2023-04-23 08:55:27,699 | INFO | 84: 
+success execute query
+2023-04-23 08:55:27,721 | INFO | 84: 
+success execute query
+2023-04-23 08:55:27,747 | INFO | 84: 
+success execute query
+2023-04-23 08:55:57,603 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:55:57,604 | INFO | 30: connect to DB .....
+2023-04-23 08:55:57,604 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:55:57,605 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:55:57,605 | INFO | 483: run QApplication .......
+2023-04-23 08:55:57,606 | INFO | 484: init screensize .......
+2023-04-23 08:55:57,606 | INFO | 485: init components dict .......
+
+2023-04-23 08:56:00,215 | INFO | 84: 
+success execute query
+2023-04-23 08:56:00,255 | INFO | 84: 
+success execute query
+2023-04-23 08:56:00,292 | INFO | 84: 
+success execute query
+2023-04-23 08:56:00,320 | INFO | 84: 
+success execute query
+2023-04-23 08:56:00,340 | INFO | 84: 
+success execute query
+2023-04-23 08:56:00,360 | INFO | 84: 
+success execute query
+2023-04-23 08:56:00,386 | INFO | 84: 
+success execute query
+2023-04-23 08:56:30,045 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:56:30,046 | INFO | 30: connect to DB .....
+2023-04-23 08:56:30,046 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:56:30,046 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:56:30,047 | INFO | 483: run QApplication .......
+2023-04-23 08:56:30,047 | INFO | 484: init screensize .......
+2023-04-23 08:56:30,047 | INFO | 485: init components dict .......
+
+2023-04-23 08:56:32,485 | INFO | 84: 
+success execute query
+2023-04-23 08:56:32,524 | INFO | 84: 
+success execute query
+2023-04-23 08:56:32,559 | INFO | 84: 
+success execute query
+2023-04-23 08:56:32,585 | INFO | 84: 
+success execute query
+2023-04-23 08:56:32,606 | INFO | 84: 
+success execute query
+2023-04-23 08:56:32,627 | INFO | 84: 
+success execute query
+2023-04-23 08:56:32,656 | INFO | 84: 
+success execute query
+2023-04-23 08:56:49,734 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:56:49,734 | INFO | 30: connect to DB .....
+2023-04-23 08:56:49,734 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:56:49,735 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:56:49,735 | INFO | 483: run QApplication .......
+2023-04-23 08:56:49,735 | INFO | 484: init screensize .......
+2023-04-23 08:56:49,736 | INFO | 485: init components dict .......
+
+2023-04-23 08:56:51,989 | INFO | 84: 
+success execute query
+2023-04-23 08:56:52,028 | INFO | 84: 
+success execute query
+2023-04-23 08:56:52,062 | INFO | 84: 
+success execute query
+2023-04-23 08:56:52,089 | INFO | 84: 
+success execute query
+2023-04-23 08:56:52,107 | INFO | 84: 
+success execute query
+2023-04-23 08:56:52,127 | INFO | 84: 
+success execute query
+2023-04-23 08:56:52,154 | INFO | 84: 
+success execute query
+2023-04-23 08:57:13,315 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:57:13,315 | INFO | 30: connect to DB .....
+2023-04-23 08:57:13,316 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:57:13,316 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:57:13,317 | INFO | 483: run QApplication .......
+2023-04-23 08:57:13,317 | INFO | 484: init screensize .......
+2023-04-23 08:57:13,317 | INFO | 485: init components dict .......
+
+2023-04-23 08:57:15,821 | INFO | 84: 
+success execute query
+2023-04-23 08:57:15,860 | INFO | 84: 
+success execute query
+2023-04-23 08:57:15,896 | INFO | 84: 
+success execute query
+2023-04-23 08:57:15,922 | INFO | 84: 
+success execute query
+2023-04-23 08:57:15,942 | INFO | 84: 
+success execute query
+2023-04-23 08:57:15,963 | INFO | 84: 
+success execute query
+2023-04-23 08:57:15,989 | INFO | 84: 
+success execute query
+2023-04-23 08:58:07,184 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:58:07,185 | INFO | 30: connect to DB .....
+2023-04-23 08:58:07,185 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:58:07,186 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:58:07,186 | INFO | 483: run QApplication .......
+2023-04-23 08:58:07,186 | INFO | 484: init screensize .......
+2023-04-23 08:58:07,187 | INFO | 485: init components dict .......
+
+2023-04-23 08:58:09,860 | INFO | 84: 
+success execute query
+2023-04-23 08:58:09,897 | INFO | 84: 
+success execute query
+2023-04-23 08:58:09,945 | INFO | 84: 
+success execute query
+2023-04-23 08:58:09,978 | INFO | 84: 
+success execute query
+2023-04-23 08:58:10,001 | INFO | 84: 
+success execute query
+2023-04-23 08:58:10,022 | INFO | 84: 
+success execute query
+2023-04-23 08:58:10,049 | INFO | 84: 
+success execute query
+2023-04-23 08:58:25,407 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:58:25,407 | INFO | 30: connect to DB .....
+2023-04-23 08:58:25,408 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:58:25,408 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:58:25,409 | INFO | 483: run QApplication .......
+2023-04-23 08:58:25,409 | INFO | 484: init screensize .......
+2023-04-23 08:58:25,409 | INFO | 485: init components dict .......
+
+2023-04-23 08:58:28,829 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,003 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,043 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,079 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,106 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,127 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,152 | INFO | 84: 
+success execute query
+2023-04-23 08:58:32,177 | INFO | 84: 
+success execute query
+2023-04-23 08:58:53,332 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:58:53,333 | INFO | 30: connect to DB .....
+2023-04-23 08:58:53,333 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:58:53,334 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:58:53,334 | INFO | 483: run QApplication .......
+2023-04-23 08:58:53,334 | INFO | 484: init screensize .......
+2023-04-23 08:58:53,335 | INFO | 485: init components dict .......
+
+2023-04-23 08:58:55,662 | INFO | 84: 
+success execute query
+2023-04-23 08:58:55,704 | INFO | 84: 
+success execute query
+2023-04-23 08:58:55,737 | INFO | 84: 
+success execute query
+2023-04-23 08:58:55,761 | INFO | 84: 
+success execute query
+2023-04-23 08:58:55,784 | INFO | 84: 
+success execute query
+2023-04-23 08:58:55,805 | INFO | 84: 
+success execute query
+2023-04-23 08:58:55,832 | INFO | 84: 
+success execute query
+2023-04-23 08:59:12,632 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:59:12,632 | INFO | 30: connect to DB .....
+2023-04-23 08:59:12,633 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:59:12,633 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:59:12,634 | INFO | 483: run QApplication .......
+2023-04-23 08:59:12,634 | INFO | 484: init screensize .......
+2023-04-23 08:59:12,634 | INFO | 485: init components dict .......
+
+2023-04-23 08:59:15,665 | INFO | 84: 
+success execute query
+2023-04-23 08:59:15,706 | INFO | 84: 
+success execute query
+2023-04-23 08:59:15,741 | INFO | 84: 
+success execute query
+2023-04-23 08:59:15,767 | INFO | 84: 
+success execute query
+2023-04-23 08:59:15,788 | INFO | 84: 
+success execute query
+2023-04-23 08:59:15,809 | INFO | 84: 
+success execute query
+2023-04-23 08:59:15,837 | INFO | 84: 
+success execute query
+2023-04-23 08:59:33,234 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:59:33,234 | INFO | 30: connect to DB .....
+2023-04-23 08:59:33,235 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:59:33,235 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:59:33,236 | INFO | 483: run QApplication .......
+2023-04-23 08:59:33,236 | INFO | 484: init screensize .......
+2023-04-23 08:59:33,236 | INFO | 485: init components dict .......
+
+2023-04-23 08:59:35,704 | INFO | 84: 
+success execute query
+2023-04-23 08:59:35,743 | INFO | 84: 
+success execute query
+2023-04-23 08:59:35,787 | INFO | 84: 
+success execute query
+2023-04-23 08:59:35,816 | INFO | 84: 
+success execute query
+2023-04-23 08:59:35,836 | INFO | 84: 
+success execute query
+2023-04-23 08:59:35,856 | INFO | 84: 
+success execute query
+2023-04-23 08:59:35,892 | INFO | 84: 
+success execute query
+2023-04-23 08:59:52,937 | INFO | 29: 
+Controller constructor: 
+2023-04-23 08:59:52,938 | INFO | 30: connect to DB .....
+2023-04-23 08:59:52,938 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 08:59:52,939 | INFO | 482: 
+Util constructor: 
+2023-04-23 08:59:52,940 | INFO | 483: run QApplication .......
+2023-04-23 08:59:52,940 | INFO | 484: init screensize .......
+2023-04-23 08:59:52,940 | INFO | 485: init components dict .......
+
+2023-04-23 09:00:02,676 | INFO | 84: 
+success execute query
+2023-04-23 09:00:02,711 | INFO | 84: 
+success execute query
+2023-04-23 09:00:02,743 | INFO | 84: 
+success execute query
+2023-04-23 09:00:02,769 | INFO | 84: 
+success execute query
+2023-04-23 09:00:02,789 | INFO | 84: 
+success execute query
+2023-04-23 09:00:02,809 | INFO | 84: 
+success execute query
+2023-04-23 09:00:02,836 | INFO | 84: 
+success execute query
+2023-04-23 09:00:36,968 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:00:36,968 | INFO | 30: connect to DB .....
+2023-04-23 09:00:36,969 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:00:36,969 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:00:36,970 | INFO | 483: run QApplication .......
+2023-04-23 09:00:36,970 | INFO | 484: init screensize .......
+2023-04-23 09:00:36,970 | INFO | 485: init components dict .......
+
+2023-04-23 09:00:39,569 | INFO | 84: 
+success execute query
+2023-04-23 09:00:39,610 | INFO | 84: 
+success execute query
+2023-04-23 09:00:39,643 | INFO | 84: 
+success execute query
+2023-04-23 09:00:39,670 | INFO | 84: 
+success execute query
+2023-04-23 09:00:39,689 | INFO | 84: 
+success execute query
+2023-04-23 09:00:39,710 | INFO | 84: 
+success execute query
+2023-04-23 09:00:39,738 | INFO | 84: 
+success execute query
+2023-04-23 09:00:59,894 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:00:59,895 | INFO | 30: connect to DB .....
+2023-04-23 09:00:59,895 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:00:59,896 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:00:59,896 | INFO | 483: run QApplication .......
+2023-04-23 09:00:59,896 | INFO | 484: init screensize .......
+2023-04-23 09:00:59,897 | INFO | 485: init components dict .......
+
+2023-04-23 09:01:02,298 | INFO | 84: 
+success execute query
+2023-04-23 09:01:02,338 | INFO | 84: 
+success execute query
+2023-04-23 09:01:02,390 | INFO | 84: 
+success execute query
+2023-04-23 09:01:02,423 | INFO | 84: 
+success execute query
+2023-04-23 09:01:02,443 | INFO | 84: 
+success execute query
+2023-04-23 09:01:02,465 | INFO | 84: 
+success execute query
+2023-04-23 09:01:02,490 | INFO | 84: 
+success execute query
+2023-04-23 09:02:56,823 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:02:56,824 | INFO | 30: connect to DB .....
+2023-04-23 09:02:56,824 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:02:56,825 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:02:56,825 | INFO | 483: run QApplication .......
+2023-04-23 09:02:56,825 | INFO | 484: init screensize .......
+2023-04-23 09:02:56,825 | INFO | 485: init components dict .......
+
+2023-04-23 09:03:00,045 | INFO | 84: 
+success execute query
+2023-04-23 09:03:00,087 | INFO | 84: 
+success execute query
+2023-04-23 09:03:00,127 | INFO | 84: 
+success execute query
+2023-04-23 09:03:00,156 | INFO | 84: 
+success execute query
+2023-04-23 09:03:00,177 | INFO | 84: 
+success execute query
+2023-04-23 09:03:00,202 | INFO | 84: 
+success execute query
+2023-04-23 09:03:00,229 | INFO | 84: 
+success execute query
+2023-04-23 09:04:11,975 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:04:11,976 | INFO | 30: connect to DB .....
+2023-04-23 09:04:11,976 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:04:11,977 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:04:11,977 | INFO | 483: run QApplication .......
+2023-04-23 09:04:11,977 | INFO | 484: init screensize .......
+2023-04-23 09:04:11,978 | INFO | 485: init components dict .......
+
+2023-04-23 09:04:17,245 | INFO | 84: 
+success execute query
+2023-04-23 09:04:17,286 | INFO | 84: 
+success execute query
+2023-04-23 09:04:17,327 | INFO | 84: 
+success execute query
+2023-04-23 09:04:17,357 | INFO | 84: 
+success execute query
+2023-04-23 09:04:17,380 | INFO | 84: 
+success execute query
+2023-04-23 09:04:17,405 | INFO | 84: 
+success execute query
+2023-04-23 09:04:17,432 | INFO | 84: 
+success execute query
+2023-04-23 09:08:03,841 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:08:03,841 | INFO | 30: connect to DB .....
+2023-04-23 09:08:03,842 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:08:03,842 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:08:03,843 | INFO | 483: run QApplication .......
+2023-04-23 09:08:03,843 | INFO | 484: init screensize .......
+2023-04-23 09:08:03,843 | INFO | 485: init components dict .......
+
+2023-04-23 09:08:06,497 | INFO | 84: 
+success execute query
+2023-04-23 09:08:06,536 | INFO | 84: 
+success execute query
+2023-04-23 09:08:06,571 | INFO | 84: 
+success execute query
+2023-04-23 09:08:06,595 | INFO | 84: 
+success execute query
+2023-04-23 09:08:06,620 | INFO | 84: 
+success execute query
+2023-04-23 09:08:06,639 | INFO | 84: 
+success execute query
+2023-04-23 09:08:06,666 | INFO | 84: 
+success execute query
+2023-04-23 09:11:13,294 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:11:13,295 | INFO | 30: connect to DB .....
+2023-04-23 09:11:13,295 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:11:13,296 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:11:13,296 | INFO | 483: run QApplication .......
+2023-04-23 09:11:13,296 | INFO | 484: init screensize .......
+2023-04-23 09:11:13,296 | INFO | 485: init components dict .......
+
+2023-04-23 09:11:16,694 | INFO | 84: 
+success execute query
+2023-04-23 09:11:16,735 | INFO | 84: 
+success execute query
+2023-04-23 09:11:16,776 | INFO | 84: 
+success execute query
+2023-04-23 09:11:16,801 | INFO | 84: 
+success execute query
+2023-04-23 09:11:16,821 | INFO | 84: 
+success execute query
+2023-04-23 09:11:16,841 | INFO | 84: 
+success execute query
+2023-04-23 09:11:16,868 | INFO | 84: 
+success execute query
+2023-04-23 09:12:17,480 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:12:17,481 | INFO | 30: connect to DB .....
+2023-04-23 09:12:17,481 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:12:17,482 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:12:17,482 | INFO | 483: run QApplication .......
+2023-04-23 09:12:17,483 | INFO | 484: init screensize .......
+2023-04-23 09:12:17,483 | INFO | 485: init components dict .......
+
+2023-04-23 09:12:20,644 | INFO | 84: 
+success execute query
+2023-04-23 09:12:20,683 | INFO | 84: 
+success execute query
+2023-04-23 09:12:20,719 | INFO | 84: 
+success execute query
+2023-04-23 09:12:20,742 | INFO | 84: 
+success execute query
+2023-04-23 09:12:20,761 | INFO | 84: 
+success execute query
+2023-04-23 09:12:20,784 | INFO | 84: 
+success execute query
+2023-04-23 09:12:20,808 | INFO | 84: 
+success execute query
+2023-04-23 09:12:42,010 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:12:42,011 | INFO | 30: connect to DB .....
+2023-04-23 09:12:42,012 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:12:42,012 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:12:42,012 | INFO | 483: run QApplication .......
+2023-04-23 09:12:42,013 | INFO | 484: init screensize .......
+2023-04-23 09:12:42,013 | INFO | 485: init components dict .......
+
+2023-04-23 09:12:44,631 | INFO | 84: 
+success execute query
+2023-04-23 09:12:44,673 | INFO | 84: 
+success execute query
+2023-04-23 09:12:44,716 | INFO | 84: 
+success execute query
+2023-04-23 09:12:44,740 | INFO | 84: 
+success execute query
+2023-04-23 09:12:44,759 | INFO | 84: 
+success execute query
+2023-04-23 09:12:44,779 | INFO | 84: 
+success execute query
+2023-04-23 09:12:44,805 | INFO | 84: 
+success execute query
+2023-04-23 09:13:21,312 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:13:21,313 | INFO | 30: connect to DB .....
+2023-04-23 09:13:21,313 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:13:21,314 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:13:21,314 | INFO | 483: run QApplication .......
+2023-04-23 09:13:21,314 | INFO | 484: init screensize .......
+2023-04-23 09:13:21,315 | INFO | 485: init components dict .......
+
+2023-04-23 09:13:26,929 | INFO | 84: 
+success execute query
+2023-04-23 09:13:26,972 | INFO | 84: 
+success execute query
+2023-04-23 09:13:27,010 | INFO | 84: 
+success execute query
+2023-04-23 09:13:27,034 | INFO | 84: 
+success execute query
+2023-04-23 09:13:27,054 | INFO | 84: 
+success execute query
+2023-04-23 09:13:27,075 | INFO | 84: 
+success execute query
+2023-04-23 09:13:27,102 | INFO | 84: 
+success execute query
+2023-04-23 09:13:53,220 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:13:53,220 | INFO | 30: connect to DB .....
+2023-04-23 09:13:53,220 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:13:53,221 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:13:53,221 | INFO | 483: run QApplication .......
+2023-04-23 09:13:53,221 | INFO | 484: init screensize .......
+2023-04-23 09:13:53,222 | INFO | 485: init components dict .......
+
+2023-04-23 09:13:57,145 | INFO | 84: 
+success execute query
+2023-04-23 09:13:57,186 | INFO | 84: 
+success execute query
+2023-04-23 09:13:57,219 | INFO | 84: 
+success execute query
+2023-04-23 09:13:57,243 | INFO | 84: 
+success execute query
+2023-04-23 09:13:57,266 | INFO | 84: 
+success execute query
+2023-04-23 09:13:57,287 | INFO | 84: 
+success execute query
+2023-04-23 09:13:57,312 | INFO | 84: 
+success execute query
+2023-04-23 09:14:57,704 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:14:57,705 | INFO | 30: connect to DB .....
+2023-04-23 09:14:57,705 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:14:57,706 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:14:57,706 | INFO | 483: run QApplication .......
+2023-04-23 09:14:57,706 | INFO | 484: init screensize .......
+2023-04-23 09:14:57,706 | INFO | 485: init components dict .......
+
+2023-04-23 09:15:01,547 | INFO | 84: 
+success execute query
+2023-04-23 09:15:01,588 | INFO | 84: 
+success execute query
+2023-04-23 09:15:01,620 | INFO | 84: 
+success execute query
+2023-04-23 09:15:01,649 | INFO | 84: 
+success execute query
+2023-04-23 09:15:01,670 | INFO | 84: 
+success execute query
+2023-04-23 09:15:01,692 | INFO | 84: 
+success execute query
+2023-04-23 09:15:01,717 | INFO | 84: 
+success execute query
+2023-04-23 09:15:35,833 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:15:35,833 | INFO | 30: connect to DB .....
+2023-04-23 09:15:35,834 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:15:35,834 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:15:35,835 | INFO | 483: run QApplication .......
+2023-04-23 09:15:35,835 | INFO | 484: init screensize .......
+2023-04-23 09:15:35,835 | INFO | 485: init components dict .......
+
+2023-04-23 09:15:38,449 | INFO | 84: 
+success execute query
+2023-04-23 09:15:38,487 | INFO | 84: 
+success execute query
+2023-04-23 09:15:38,522 | INFO | 84: 
+success execute query
+2023-04-23 09:15:38,547 | INFO | 84: 
+success execute query
+2023-04-23 09:15:38,576 | INFO | 84: 
+success execute query
+2023-04-23 09:15:38,599 | INFO | 84: 
+success execute query
+2023-04-23 09:15:38,624 | INFO | 84: 
+success execute query
+2023-04-23 09:16:29,213 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:16:29,214 | INFO | 30: connect to DB .....
+2023-04-23 09:16:29,214 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:16:29,215 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:16:29,215 | INFO | 483: run QApplication .......
+2023-04-23 09:16:29,215 | INFO | 484: init screensize .......
+2023-04-23 09:16:29,216 | INFO | 485: init components dict .......
+
+2023-04-23 09:16:32,183 | INFO | 84: 
+success execute query
+2023-04-23 09:16:32,223 | INFO | 84: 
+success execute query
+2023-04-23 09:16:32,256 | INFO | 84: 
+success execute query
+2023-04-23 09:16:32,280 | INFO | 84: 
+success execute query
+2023-04-23 09:16:32,304 | INFO | 84: 
+success execute query
+2023-04-23 09:16:32,325 | INFO | 84: 
+success execute query
+2023-04-23 09:16:32,351 | INFO | 84: 
+success execute query
+2023-04-23 09:16:58,410 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:16:58,410 | INFO | 30: connect to DB .....
+2023-04-23 09:16:58,410 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:16:58,411 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:16:58,411 | INFO | 483: run QApplication .......
+2023-04-23 09:16:58,411 | INFO | 484: init screensize .......
+2023-04-23 09:16:58,412 | INFO | 485: init components dict .......
+
+2023-04-23 09:17:01,432 | INFO | 84: 
+success execute query
+2023-04-23 09:17:01,475 | INFO | 84: 
+success execute query
+2023-04-23 09:17:01,509 | INFO | 84: 
+success execute query
+2023-04-23 09:17:01,534 | INFO | 84: 
+success execute query
+2023-04-23 09:17:01,555 | INFO | 84: 
+success execute query
+2023-04-23 09:17:01,576 | INFO | 84: 
+success execute query
+2023-04-23 09:17:01,604 | INFO | 84: 
+success execute query
+2023-04-23 09:18:09,809 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:18:09,809 | INFO | 30: connect to DB .....
+2023-04-23 09:18:09,810 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:18:09,810 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:18:09,811 | INFO | 483: run QApplication .......
+2023-04-23 09:18:09,811 | INFO | 484: init screensize .......
+2023-04-23 09:18:09,811 | INFO | 485: init components dict .......
+
+2023-04-23 09:18:12,852 | INFO | 84: 
+success execute query
+2023-04-23 09:18:12,893 | INFO | 84: 
+success execute query
+2023-04-23 09:18:12,929 | INFO | 84: 
+success execute query
+2023-04-23 09:18:12,958 | INFO | 84: 
+success execute query
+2023-04-23 09:18:12,978 | INFO | 84: 
+success execute query
+2023-04-23 09:18:13,029 | INFO | 84: 
+success execute query
+2023-04-23 09:18:13,056 | INFO | 84: 
+success execute query
+2023-04-23 09:19:15,940 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:19:15,940 | INFO | 30: connect to DB .....
+2023-04-23 09:19:15,941 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:19:15,941 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:19:15,942 | INFO | 483: run QApplication .......
+2023-04-23 09:19:15,942 | INFO | 484: init screensize .......
+2023-04-23 09:19:15,942 | INFO | 485: init components dict .......
+
+2023-04-23 09:19:18,828 | INFO | 84: 
+success execute query
+2023-04-23 09:19:18,876 | INFO | 84: 
+success execute query
+2023-04-23 09:19:18,919 | INFO | 84: 
+success execute query
+2023-04-23 09:19:18,949 | INFO | 84: 
+success execute query
+2023-04-23 09:19:18,972 | INFO | 84: 
+success execute query
+2023-04-23 09:19:18,995 | INFO | 84: 
+success execute query
+2023-04-23 09:19:19,024 | INFO | 84: 
+success execute query
+2023-04-23 09:19:58,243 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:19:58,243 | INFO | 30: connect to DB .....
+2023-04-23 09:19:58,243 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:19:58,244 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:19:58,244 | INFO | 483: run QApplication .......
+2023-04-23 09:19:58,244 | INFO | 484: init screensize .......
+2023-04-23 09:19:58,244 | INFO | 485: init components dict .......
+
+2023-04-23 09:20:01,239 | INFO | 84: 
+success execute query
+2023-04-23 09:20:01,279 | INFO | 84: 
+success execute query
+2023-04-23 09:20:01,321 | INFO | 84: 
+success execute query
+2023-04-23 09:20:01,349 | INFO | 84: 
+success execute query
+2023-04-23 09:20:01,371 | INFO | 84: 
+success execute query
+2023-04-23 09:20:01,393 | INFO | 84: 
+success execute query
+2023-04-23 09:20:01,420 | INFO | 84: 
+success execute query
+2023-04-23 09:20:25,894 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:20:25,894 | INFO | 30: connect to DB .....
+2023-04-23 09:20:25,895 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:20:25,895 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:20:25,896 | INFO | 483: run QApplication .......
+2023-04-23 09:20:25,896 | INFO | 484: init screensize .......
+2023-04-23 09:20:25,896 | INFO | 485: init components dict .......
+
+2023-04-23 09:20:29,783 | INFO | 84: 
+success execute query
+2023-04-23 09:20:29,824 | INFO | 84: 
+success execute query
+2023-04-23 09:20:29,860 | INFO | 84: 
+success execute query
+2023-04-23 09:20:29,888 | INFO | 84: 
+success execute query
+2023-04-23 09:20:29,909 | INFO | 84: 
+success execute query
+2023-04-23 09:20:29,933 | INFO | 84: 
+success execute query
+2023-04-23 09:20:29,958 | INFO | 84: 
+success execute query
+2023-04-23 09:21:05,277 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:21:05,278 | INFO | 30: connect to DB .....
+2023-04-23 09:21:05,279 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:21:05,279 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:21:05,280 | INFO | 483: run QApplication .......
+2023-04-23 09:21:05,280 | INFO | 484: init screensize .......
+2023-04-23 09:21:05,280 | INFO | 485: init components dict .......
+
+2023-04-23 09:21:09,599 | INFO | 84: 
+success execute query
+2023-04-23 09:21:09,644 | INFO | 84: 
+success execute query
+2023-04-23 09:21:09,677 | INFO | 84: 
+success execute query
+2023-04-23 09:21:09,703 | INFO | 84: 
+success execute query
+2023-04-23 09:21:09,726 | INFO | 84: 
+success execute query
+2023-04-23 09:21:09,750 | INFO | 84: 
+success execute query
+2023-04-23 09:21:09,775 | INFO | 84: 
+success execute query
+2023-04-23 09:21:53,374 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:21:53,375 | INFO | 30: connect to DB .....
+2023-04-23 09:21:53,375 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:21:53,375 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:21:53,376 | INFO | 483: run QApplication .......
+2023-04-23 09:21:53,376 | INFO | 484: init screensize .......
+2023-04-23 09:21:53,376 | INFO | 485: init components dict .......
+
+2023-04-23 09:21:56,781 | INFO | 84: 
+success execute query
+2023-04-23 09:21:56,820 | INFO | 84: 
+success execute query
+2023-04-23 09:21:56,856 | INFO | 84: 
+success execute query
+2023-04-23 09:21:56,884 | INFO | 84: 
+success execute query
+2023-04-23 09:21:56,906 | INFO | 84: 
+success execute query
+2023-04-23 09:21:56,928 | INFO | 84: 
+success execute query
+2023-04-23 09:21:56,955 | INFO | 84: 
+success execute query
+2023-04-23 09:23:15,717 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:23:15,718 | INFO | 30: connect to DB .....
+2023-04-23 09:23:15,718 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:23:15,718 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:23:15,719 | INFO | 483: run QApplication .......
+2023-04-23 09:23:15,719 | INFO | 484: init screensize .......
+2023-04-23 09:23:15,719 | INFO | 485: init components dict .......
+
+2023-04-23 09:23:19,447 | INFO | 84: 
+success execute query
+2023-04-23 09:23:19,486 | INFO | 84: 
+success execute query
+2023-04-23 09:23:19,542 | INFO | 84: 
+success execute query
+2023-04-23 09:23:19,573 | INFO | 84: 
+success execute query
+2023-04-23 09:23:19,594 | INFO | 84: 
+success execute query
+2023-04-23 09:23:19,619 | INFO | 84: 
+success execute query
+2023-04-23 09:23:19,655 | INFO | 84: 
+success execute query
+2023-04-23 09:23:56,544 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:23:56,545 | INFO | 30: connect to DB .....
+2023-04-23 09:23:56,545 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:23:56,546 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:23:56,546 | INFO | 483: run QApplication .......
+2023-04-23 09:23:56,547 | INFO | 484: init screensize .......
+2023-04-23 09:23:56,547 | INFO | 485: init components dict .......
+
+2023-04-23 09:23:59,780 | INFO | 84: 
+success execute query
+2023-04-23 09:23:59,819 | INFO | 84: 
+success execute query
+2023-04-23 09:23:59,905 | INFO | 84: 
+success execute query
+2023-04-23 09:23:59,936 | INFO | 84: 
+success execute query
+2023-04-23 09:23:59,954 | INFO | 84: 
+success execute query
+2023-04-23 09:23:59,974 | INFO | 84: 
+success execute query
+2023-04-23 09:24:00,002 | INFO | 84: 
+success execute query
+2023-04-23 09:24:22,076 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:24:22,076 | INFO | 30: connect to DB .....
+2023-04-23 09:24:22,076 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:24:22,077 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:24:22,077 | INFO | 483: run QApplication .......
+2023-04-23 09:24:22,077 | INFO | 484: init screensize .......
+2023-04-23 09:24:22,078 | INFO | 485: init components dict .......
+
+2023-04-23 09:24:26,289 | INFO | 84: 
+success execute query
+2023-04-23 09:24:26,340 | INFO | 84: 
+success execute query
+2023-04-23 09:24:26,371 | INFO | 84: 
+success execute query
+2023-04-23 09:24:26,394 | INFO | 84: 
+success execute query
+2023-04-23 09:24:26,419 | INFO | 84: 
+success execute query
+2023-04-23 09:24:26,439 | INFO | 84: 
+success execute query
+2023-04-23 09:24:26,468 | INFO | 84: 
+success execute query
+2023-04-23 09:24:44,159 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:24:44,159 | INFO | 30: connect to DB .....
+2023-04-23 09:24:44,160 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:24:44,160 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:24:44,161 | INFO | 483: run QApplication .......
+2023-04-23 09:24:44,161 | INFO | 484: init screensize .......
+2023-04-23 09:24:44,161 | INFO | 485: init components dict .......
+
+2023-04-23 09:24:47,159 | INFO | 84: 
+success execute query
+2023-04-23 09:24:47,209 | INFO | 84: 
+success execute query
+2023-04-23 09:24:47,241 | INFO | 84: 
+success execute query
+2023-04-23 09:24:47,268 | INFO | 84: 
+success execute query
+2023-04-23 09:24:47,288 | INFO | 84: 
+success execute query
+2023-04-23 09:24:47,310 | INFO | 84: 
+success execute query
+2023-04-23 09:24:47,338 | INFO | 84: 
+success execute query
+2023-04-23 09:25:29,488 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:25:29,489 | INFO | 30: connect to DB .....
+2023-04-23 09:25:29,489 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:25:29,489 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:25:29,490 | INFO | 483: run QApplication .......
+2023-04-23 09:25:29,490 | INFO | 484: init screensize .......
+2023-04-23 09:25:29,490 | INFO | 485: init components dict .......
+
+2023-04-23 09:25:33,991 | INFO | 84: 
+success execute query
+2023-04-23 09:25:34,035 | INFO | 84: 
+success execute query
+2023-04-23 09:25:34,069 | INFO | 84: 
+success execute query
+2023-04-23 09:25:34,093 | INFO | 84: 
+success execute query
+2023-04-23 09:25:34,120 | INFO | 84: 
+success execute query
+2023-04-23 09:25:34,141 | INFO | 84: 
+success execute query
+2023-04-23 09:25:34,167 | INFO | 84: 
+success execute query
+2023-04-23 09:27:31,445 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:27:31,446 | INFO | 30: connect to DB .....
+2023-04-23 09:27:31,447 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:27:31,447 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:27:31,448 | INFO | 483: run QApplication .......
+2023-04-23 09:27:31,448 | INFO | 484: init screensize .......
+2023-04-23 09:27:31,448 | INFO | 485: init components dict .......
+
+2023-04-23 09:27:34,327 | INFO | 84: 
+success execute query
+2023-04-23 09:27:34,369 | INFO | 84: 
+success execute query
+2023-04-23 09:27:34,404 | INFO | 84: 
+success execute query
+2023-04-23 09:27:34,429 | INFO | 84: 
+success execute query
+2023-04-23 09:27:34,452 | INFO | 84: 
+success execute query
+2023-04-23 09:27:34,474 | INFO | 84: 
+success execute query
+2023-04-23 09:27:34,501 | INFO | 84: 
+success execute query
+2023-04-23 09:34:37,310 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:34:37,311 | INFO | 30: connect to DB .....
+2023-04-23 09:34:37,311 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:34:37,311 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:34:37,312 | INFO | 483: run QApplication .......
+2023-04-23 09:34:37,312 | INFO | 484: init screensize .......
+2023-04-23 09:34:37,312 | INFO | 485: init components dict .......
+
+2023-04-23 09:34:40,270 | INFO | 84: 
+success execute query
+2023-04-23 09:34:40,309 | INFO | 84: 
+success execute query
+2023-04-23 09:34:40,358 | INFO | 84: 
+success execute query
+2023-04-23 09:34:40,389 | INFO | 84: 
+success execute query
+2023-04-23 09:34:40,412 | INFO | 84: 
+success execute query
+2023-04-23 09:34:40,437 | INFO | 84: 
+success execute query
+2023-04-23 09:34:40,462 | INFO | 84: 
+success execute query
+2023-04-23 09:36:14,837 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:36:14,838 | INFO | 30: connect to DB .....
+2023-04-23 09:36:14,838 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:36:14,839 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:36:14,839 | INFO | 483: run QApplication .......
+2023-04-23 09:36:14,840 | INFO | 484: init screensize .......
+2023-04-23 09:36:14,840 | INFO | 485: init components dict .......
+
+2023-04-23 09:36:18,290 | INFO | 84: 
+success execute query
+2023-04-23 09:36:18,334 | INFO | 84: 
+success execute query
+2023-04-23 09:36:18,367 | INFO | 84: 
+success execute query
+2023-04-23 09:36:18,392 | INFO | 84: 
+success execute query
+2023-04-23 09:36:18,419 | INFO | 84: 
+success execute query
+2023-04-23 09:36:18,440 | INFO | 84: 
+success execute query
+2023-04-23 09:36:18,475 | INFO | 84: 
+success execute query
+2023-04-23 09:37:03,588 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:37:03,588 | INFO | 30: connect to DB .....
+2023-04-23 09:37:03,589 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:37:03,589 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:37:03,590 | INFO | 483: run QApplication .......
+2023-04-23 09:37:03,590 | INFO | 484: init screensize .......
+2023-04-23 09:37:03,590 | INFO | 485: init components dict .......
+
+2023-04-23 09:37:07,807 | INFO | 84: 
+success execute query
+2023-04-23 09:37:07,852 | INFO | 84: 
+success execute query
+2023-04-23 09:37:07,903 | INFO | 84: 
+success execute query
+2023-04-23 09:37:07,936 | INFO | 84: 
+success execute query
+2023-04-23 09:37:07,956 | INFO | 84: 
+success execute query
+2023-04-23 09:37:07,978 | INFO | 84: 
+success execute query
+2023-04-23 09:37:08,008 | INFO | 84: 
+success execute query
+2023-04-23 09:40:36,818 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:40:36,818 | INFO | 30: connect to DB .....
+2023-04-23 09:40:36,819 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:40:36,819 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:40:36,820 | INFO | 483: run QApplication .......
+2023-04-23 09:40:36,820 | INFO | 484: init screensize .......
+2023-04-23 09:40:36,820 | INFO | 485: init components dict .......
+
+2023-04-23 09:40:39,932 | INFO | 84: 
+success execute query
+2023-04-23 09:40:39,972 | INFO | 84: 
+success execute query
+2023-04-23 09:40:40,099 | INFO | 84: 
+success execute query
+2023-04-23 09:40:40,125 | INFO | 84: 
+success execute query
+2023-04-23 09:40:40,148 | INFO | 84: 
+success execute query
+2023-04-23 09:40:40,171 | INFO | 84: 
+success execute query
+2023-04-23 09:40:40,199 | INFO | 84: 
+success execute query
+2023-04-23 09:41:29,184 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:41:29,185 | INFO | 30: connect to DB .....
+2023-04-23 09:41:29,185 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:41:29,186 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:41:29,186 | INFO | 483: run QApplication .......
+2023-04-23 09:41:29,187 | INFO | 484: init screensize .......
+2023-04-23 09:41:29,187 | INFO | 485: init components dict .......
+
+2023-04-23 09:41:31,893 | INFO | 84: 
+success execute query
+2023-04-23 09:41:31,937 | INFO | 84: 
+success execute query
+2023-04-23 09:41:31,965 | INFO | 84: 
+success execute query
+2023-04-23 09:41:31,990 | INFO | 84: 
+success execute query
+2023-04-23 09:41:32,008 | INFO | 84: 
+success execute query
+2023-04-23 09:41:32,032 | INFO | 84: 
+success execute query
+2023-04-23 09:41:32,057 | INFO | 84: 
+success execute query
+2023-04-23 09:42:33,177 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:42:33,178 | INFO | 30: connect to DB .....
+2023-04-23 09:42:33,178 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:42:33,178 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:42:33,179 | INFO | 483: run QApplication .......
+2023-04-23 09:42:33,179 | INFO | 484: init screensize .......
+2023-04-23 09:42:33,179 | INFO | 485: init components dict .......
+
+2023-04-23 09:42:36,434 | INFO | 84: 
+success execute query
+2023-04-23 09:42:36,476 | INFO | 84: 
+success execute query
+2023-04-23 09:42:36,513 | INFO | 84: 
+success execute query
+2023-04-23 09:42:36,543 | INFO | 84: 
+success execute query
+2023-04-23 09:42:36,566 | INFO | 84: 
+success execute query
+2023-04-23 09:42:36,589 | INFO | 84: 
+success execute query
+2023-04-23 09:42:36,617 | INFO | 84: 
+success execute query
+2023-04-23 09:43:20,605 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:43:20,605 | INFO | 30: connect to DB .....
+2023-04-23 09:43:20,605 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:43:20,606 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:43:20,606 | INFO | 483: run QApplication .......
+2023-04-23 09:43:20,607 | INFO | 484: init screensize .......
+2023-04-23 09:43:20,607 | INFO | 485: init components dict .......
+
+2023-04-23 09:43:23,500 | INFO | 84: 
+success execute query
+2023-04-23 09:43:23,542 | INFO | 84: 
+success execute query
+2023-04-23 09:43:23,575 | INFO | 84: 
+success execute query
+2023-04-23 09:43:23,604 | INFO | 84: 
+success execute query
+2023-04-23 09:43:23,624 | INFO | 84: 
+success execute query
+2023-04-23 09:43:23,646 | INFO | 84: 
+success execute query
+2023-04-23 09:43:23,673 | INFO | 84: 
+success execute query
+2023-04-23 09:44:34,349 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:44:34,350 | INFO | 30: connect to DB .....
+2023-04-23 09:44:34,350 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:44:34,351 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:44:34,351 | INFO | 483: run QApplication .......
+2023-04-23 09:44:34,352 | INFO | 484: init screensize .......
+2023-04-23 09:44:34,352 | INFO | 485: init components dict .......
+
+2023-04-23 09:44:40,617 | INFO | 84: 
+success execute query
+2023-04-23 09:44:40,658 | INFO | 84: 
+success execute query
+2023-04-23 09:44:40,690 | INFO | 84: 
+success execute query
+2023-04-23 09:44:40,716 | INFO | 84: 
+success execute query
+2023-04-23 09:44:40,738 | INFO | 84: 
+success execute query
+2023-04-23 09:44:40,760 | INFO | 84: 
+success execute query
+2023-04-23 09:44:40,787 | INFO | 84: 
+success execute query
+2023-04-23 09:45:22,424 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:45:22,425 | INFO | 30: connect to DB .....
+2023-04-23 09:45:22,425 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:45:22,425 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:45:22,426 | INFO | 483: run QApplication .......
+2023-04-23 09:45:22,426 | INFO | 484: init screensize .......
+2023-04-23 09:45:22,426 | INFO | 485: init components dict .......
+
+2023-04-23 09:45:26,218 | INFO | 84: 
+success execute query
+2023-04-23 09:45:26,257 | INFO | 84: 
+success execute query
+2023-04-23 09:45:26,305 | INFO | 84: 
+success execute query
+2023-04-23 09:45:26,334 | INFO | 84: 
+success execute query
+2023-04-23 09:45:26,357 | INFO | 84: 
+success execute query
+2023-04-23 09:45:26,380 | INFO | 84: 
+success execute query
+2023-04-23 09:45:26,408 | INFO | 84: 
+success execute query
+2023-04-23 09:47:16,201 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:47:16,201 | INFO | 30: connect to DB .....
+2023-04-23 09:47:16,202 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:47:16,202 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:47:16,203 | INFO | 483: run QApplication .......
+2023-04-23 09:47:16,203 | INFO | 484: init screensize .......
+2023-04-23 09:47:16,203 | INFO | 485: init components dict .......
+
+2023-04-23 09:47:19,198 | INFO | 84: 
+success execute query
+2023-04-23 09:47:19,240 | INFO | 84: 
+success execute query
+2023-04-23 09:47:19,273 | INFO | 84: 
+success execute query
+2023-04-23 09:47:19,300 | INFO | 84: 
+success execute query
+2023-04-23 09:47:19,324 | INFO | 84: 
+success execute query
+2023-04-23 09:47:19,347 | INFO | 84: 
+success execute query
+2023-04-23 09:47:19,374 | INFO | 84: 
+success execute query
+2023-04-23 09:47:47,897 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:47:47,898 | INFO | 30: connect to DB .....
+2023-04-23 09:47:47,898 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:47:47,899 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:47:47,899 | INFO | 483: run QApplication .......
+2023-04-23 09:47:47,900 | INFO | 484: init screensize .......
+2023-04-23 09:47:47,900 | INFO | 485: init components dict .......
+
+2023-04-23 09:47:51,374 | INFO | 84: 
+success execute query
+2023-04-23 09:47:51,417 | INFO | 84: 
+success execute query
+2023-04-23 09:47:51,450 | INFO | 84: 
+success execute query
+2023-04-23 09:47:51,477 | INFO | 84: 
+success execute query
+2023-04-23 09:47:51,501 | INFO | 84: 
+success execute query
+2023-04-23 09:47:51,524 | INFO | 84: 
+success execute query
+2023-04-23 09:47:51,551 | INFO | 84: 
+success execute query
+2023-04-23 09:48:52,688 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:48:52,689 | INFO | 30: connect to DB .....
+2023-04-23 09:48:52,689 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:48:52,689 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:48:52,689 | INFO | 483: run QApplication .......
+2023-04-23 09:48:52,690 | INFO | 484: init screensize .......
+2023-04-23 09:48:52,690 | INFO | 485: init components dict .......
+
+2023-04-23 09:48:56,315 | INFO | 84: 
+success execute query
+2023-04-23 09:48:56,356 | INFO | 84: 
+success execute query
+2023-04-23 09:48:56,392 | INFO | 84: 
+success execute query
+2023-04-23 09:48:56,424 | INFO | 84: 
+success execute query
+2023-04-23 09:48:56,447 | INFO | 84: 
+success execute query
+2023-04-23 09:48:56,471 | INFO | 84: 
+success execute query
+2023-04-23 09:48:56,496 | INFO | 84: 
+success execute query
+2023-04-23 09:51:48,677 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:51:48,678 | INFO | 30: connect to DB .....
+2023-04-23 09:51:48,678 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:51:48,679 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:51:48,679 | INFO | 483: run QApplication .......
+2023-04-23 09:51:48,680 | INFO | 484: init screensize .......
+2023-04-23 09:51:48,680 | INFO | 485: init components dict .......
+
+2023-04-23 09:51:51,453 | INFO | 84: 
+success execute query
+2023-04-23 09:51:51,493 | INFO | 84: 
+success execute query
+2023-04-23 09:51:51,535 | INFO | 84: 
+success execute query
+2023-04-23 09:51:51,559 | INFO | 84: 
+success execute query
+2023-04-23 09:51:51,586 | INFO | 84: 
+success execute query
+2023-04-23 09:51:51,608 | INFO | 84: 
+success execute query
+2023-04-23 09:51:51,637 | INFO | 84: 
+success execute query
+2023-04-23 09:52:57,394 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:52:57,394 | INFO | 30: connect to DB .....
+2023-04-23 09:52:57,395 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:52:57,395 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:52:57,396 | INFO | 483: run QApplication .......
+2023-04-23 09:52:57,396 | INFO | 484: init screensize .......
+2023-04-23 09:52:57,396 | INFO | 485: init components dict .......
+
+2023-04-23 09:53:09,939 | INFO | 84: 
+success execute query
+2023-04-23 09:53:09,978 | INFO | 84: 
+success execute query
+2023-04-23 09:53:10,018 | INFO | 84: 
+success execute query
+2023-04-23 09:53:10,044 | INFO | 84: 
+success execute query
+2023-04-23 09:53:10,071 | INFO | 84: 
+success execute query
+2023-04-23 09:53:10,090 | INFO | 84: 
+success execute query
+2023-04-23 09:53:10,120 | INFO | 84: 
+success execute query
+2023-04-23 09:53:27,883 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:53:27,884 | INFO | 30: connect to DB .....
+2023-04-23 09:53:27,884 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:53:27,885 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:53:27,885 | INFO | 483: run QApplication .......
+2023-04-23 09:53:27,885 | INFO | 484: init screensize .......
+2023-04-23 09:53:27,886 | INFO | 485: init components dict .......
+
+2023-04-23 09:53:30,714 | INFO | 84: 
+success execute query
+2023-04-23 09:53:30,754 | INFO | 84: 
+success execute query
+2023-04-23 09:53:30,791 | INFO | 84: 
+success execute query
+2023-04-23 09:53:30,820 | INFO | 84: 
+success execute query
+2023-04-23 09:53:30,840 | INFO | 84: 
+success execute query
+2023-04-23 09:53:30,861 | INFO | 84: 
+success execute query
+2023-04-23 09:53:30,891 | INFO | 84: 
+success execute query
+2023-04-23 09:55:34,406 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:55:34,407 | INFO | 30: connect to DB .....
+2023-04-23 09:55:34,407 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:55:34,408 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:55:34,408 | INFO | 483: run QApplication .......
+2023-04-23 09:55:34,409 | INFO | 484: init screensize .......
+2023-04-23 09:55:34,409 | INFO | 485: init components dict .......
+
+2023-04-23 09:55:37,157 | INFO | 84: 
+success execute query
+2023-04-23 09:55:37,211 | INFO | 84: 
+success execute query
+2023-04-23 09:55:37,243 | INFO | 84: 
+success execute query
+2023-04-23 09:55:37,323 | INFO | 84: 
+success execute query
+2023-04-23 09:55:37,346 | INFO | 84: 
+success execute query
+2023-04-23 09:55:37,400 | INFO | 84: 
+success execute query
+2023-04-23 09:55:37,436 | INFO | 84: 
+success execute query
+2023-04-23 09:56:08,056 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:56:08,056 | INFO | 30: connect to DB .....
+2023-04-23 09:56:08,057 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:56:08,057 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:56:08,058 | INFO | 483: run QApplication .......
+2023-04-23 09:56:08,058 | INFO | 484: init screensize .......
+2023-04-23 09:56:08,058 | INFO | 485: init components dict .......
+
+2023-04-23 09:56:11,551 | INFO | 84: 
+success execute query
+2023-04-23 09:56:11,586 | INFO | 84: 
+success execute query
+2023-04-23 09:56:11,619 | INFO | 84: 
+success execute query
+2023-04-23 09:56:11,642 | INFO | 84: 
+success execute query
+2023-04-23 09:56:11,663 | INFO | 84: 
+success execute query
+2023-04-23 09:56:11,686 | INFO | 84: 
+success execute query
+2023-04-23 09:56:11,710 | INFO | 84: 
+success execute query
+2023-04-23 09:56:49,227 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:56:49,228 | INFO | 30: connect to DB .....
+2023-04-23 09:56:49,228 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:56:49,229 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:56:49,229 | INFO | 483: run QApplication .......
+2023-04-23 09:56:49,229 | INFO | 484: init screensize .......
+2023-04-23 09:56:49,230 | INFO | 485: init components dict .......
+
+2023-04-23 09:56:51,454 | INFO | 84: 
+success execute query
+2023-04-23 09:56:51,495 | INFO | 84: 
+success execute query
+2023-04-23 09:56:51,543 | INFO | 84: 
+success execute query
+2023-04-23 09:56:51,573 | INFO | 84: 
+success execute query
+2023-04-23 09:56:51,593 | INFO | 84: 
+success execute query
+2023-04-23 09:56:51,616 | INFO | 84: 
+success execute query
+2023-04-23 09:56:51,639 | INFO | 84: 
+success execute query
+2023-04-23 09:57:38,386 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:57:38,387 | INFO | 30: connect to DB .....
+2023-04-23 09:57:38,387 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:57:38,387 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:57:38,388 | INFO | 483: run QApplication .......
+2023-04-23 09:57:38,388 | INFO | 484: init screensize .......
+2023-04-23 09:57:38,388 | INFO | 485: init components dict .......
+
+2023-04-23 09:57:40,717 | INFO | 84: 
+success execute query
+2023-04-23 09:57:44,927 | INFO | 84: 
+success execute query
+2023-04-23 09:57:44,969 | INFO | 84: 
+success execute query
+2023-04-23 09:57:45,001 | INFO | 84: 
+success execute query
+2023-04-23 09:57:45,027 | INFO | 84: 
+success execute query
+2023-04-23 09:57:45,051 | INFO | 84: 
+success execute query
+2023-04-23 09:57:45,072 | INFO | 84: 
+success execute query
+2023-04-23 09:57:45,099 | INFO | 84: 
+success execute query
+2023-04-23 09:58:04,958 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:58:04,958 | INFO | 30: connect to DB .....
+2023-04-23 09:58:04,958 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:58:04,959 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:58:04,959 | INFO | 483: run QApplication .......
+2023-04-23 09:58:04,959 | INFO | 484: init screensize .......
+2023-04-23 09:58:04,960 | INFO | 485: init components dict .......
+
+2023-04-23 09:58:07,747 | INFO | 84: 
+success execute query
+2023-04-23 09:58:07,785 | INFO | 84: 
+success execute query
+2023-04-23 09:58:07,817 | INFO | 84: 
+success execute query
+2023-04-23 09:58:07,840 | INFO | 84: 
+success execute query
+2023-04-23 09:58:07,860 | INFO | 84: 
+success execute query
+2023-04-23 09:58:07,883 | INFO | 84: 
+success execute query
+2023-04-23 09:58:07,907 | INFO | 84: 
+success execute query
+2023-04-23 09:58:49,661 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:58:49,661 | INFO | 30: connect to DB .....
+2023-04-23 09:58:49,662 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:58:49,662 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:58:49,662 | INFO | 483: run QApplication .......
+2023-04-23 09:58:49,663 | INFO | 484: init screensize .......
+2023-04-23 09:58:49,663 | INFO | 485: init components dict .......
+
+2023-04-23 09:58:53,367 | INFO | 84: 
+success execute query
+2023-04-23 09:58:53,406 | INFO | 84: 
+success execute query
+2023-04-23 09:58:53,437 | INFO | 84: 
+success execute query
+2023-04-23 09:58:53,461 | INFO | 84: 
+success execute query
+2023-04-23 09:58:53,484 | INFO | 84: 
+success execute query
+2023-04-23 09:58:53,504 | INFO | 84: 
+success execute query
+2023-04-23 09:58:53,528 | INFO | 84: 
+success execute query
+2023-04-23 09:59:44,428 | INFO | 29: 
+Controller constructor: 
+2023-04-23 09:59:44,429 | INFO | 30: connect to DB .....
+2023-04-23 09:59:44,429 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 09:59:44,430 | INFO | 482: 
+Util constructor: 
+2023-04-23 09:59:44,430 | INFO | 483: run QApplication .......
+2023-04-23 09:59:44,430 | INFO | 484: init screensize .......
+2023-04-23 09:59:44,430 | INFO | 485: init components dict .......
+
+2023-04-23 09:59:47,810 | INFO | 84: 
+success execute query
+2023-04-23 09:59:47,847 | INFO | 84: 
+success execute query
+2023-04-23 09:59:47,884 | INFO | 84: 
+success execute query
+2023-04-23 09:59:47,907 | INFO | 84: 
+success execute query
+2023-04-23 09:59:47,927 | INFO | 84: 
+success execute query
+2023-04-23 09:59:47,950 | INFO | 84: 
+success execute query
+2023-04-23 09:59:47,974 | INFO | 84: 
+success execute query
+2023-04-23 10:00:16,859 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:00:16,859 | INFO | 30: connect to DB .....
+2023-04-23 10:00:16,860 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:00:16,860 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:00:16,860 | INFO | 483: run QApplication .......
+2023-04-23 10:00:16,861 | INFO | 484: init screensize .......
+2023-04-23 10:00:16,861 | INFO | 485: init components dict .......
+
+2023-04-23 10:00:19,806 | INFO | 84: 
+success execute query
+2023-04-23 10:00:19,844 | INFO | 84: 
+success execute query
+2023-04-23 10:00:19,876 | INFO | 84: 
+success execute query
+2023-04-23 10:00:19,903 | INFO | 84: 
+success execute query
+2023-04-23 10:00:19,923 | INFO | 84: 
+success execute query
+2023-04-23 10:00:19,944 | INFO | 84: 
+success execute query
+2023-04-23 10:00:19,970 | INFO | 84: 
+success execute query
+2023-04-23 10:01:20,870 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:01:20,871 | INFO | 30: connect to DB .....
+2023-04-23 10:01:20,871 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:01:20,872 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:01:20,872 | INFO | 483: run QApplication .......
+2023-04-23 10:01:20,872 | INFO | 484: init screensize .......
+2023-04-23 10:01:20,873 | INFO | 485: init components dict .......
+
+2023-04-23 10:01:23,484 | INFO | 84: 
+success execute query
+2023-04-23 10:01:23,521 | INFO | 84: 
+success execute query
+2023-04-23 10:01:23,552 | INFO | 84: 
+success execute query
+2023-04-23 10:01:23,577 | INFO | 84: 
+success execute query
+2023-04-23 10:01:23,599 | INFO | 84: 
+success execute query
+2023-04-23 10:01:23,621 | INFO | 84: 
+success execute query
+2023-04-23 10:01:23,648 | INFO | 84: 
+success execute query
+2023-04-23 10:05:34,987 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:05:34,987 | INFO | 30: connect to DB .....
+2023-04-23 10:05:34,987 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:05:34,988 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:05:34,988 | INFO | 483: run QApplication .......
+2023-04-23 10:05:34,988 | INFO | 484: init screensize .......
+2023-04-23 10:05:34,989 | INFO | 485: init components dict .......
+
+2023-04-23 10:05:39,867 | INFO | 84: 
+success execute query
+2023-04-23 10:05:39,907 | INFO | 84: 
+success execute query
+2023-04-23 10:05:39,938 | INFO | 84: 
+success execute query
+2023-04-23 10:05:39,961 | INFO | 84: 
+success execute query
+2023-04-23 10:05:39,983 | INFO | 84: 
+success execute query
+2023-04-23 10:05:40,004 | INFO | 84: 
+success execute query
+2023-04-23 10:05:40,030 | INFO | 84: 
+success execute query
+2023-04-23 10:14:41,039 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:14:41,040 | INFO | 30: connect to DB .....
+2023-04-23 10:14:41,040 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:14:41,040 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:14:41,041 | INFO | 483: run QApplication .......
+2023-04-23 10:14:41,041 | INFO | 484: init screensize .......
+2023-04-23 10:14:41,041 | INFO | 485: init components dict .......
+
+2023-04-23 10:14:44,376 | INFO | 84: 
+success execute query
+2023-04-23 10:14:44,425 | INFO | 84: 
+success execute query
+2023-04-23 10:14:44,454 | INFO | 84: 
+success execute query
+2023-04-23 10:14:44,477 | INFO | 84: 
+success execute query
+2023-04-23 10:14:44,501 | INFO | 84: 
+success execute query
+2023-04-23 10:17:08,069 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:17:08,069 | INFO | 30: connect to DB .....
+2023-04-23 10:17:08,070 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:17:08,070 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:17:08,071 | INFO | 483: run QApplication .......
+2023-04-23 10:17:08,071 | INFO | 484: init screensize .......
+2023-04-23 10:17:08,072 | INFO | 485: init components dict .......
+
+2023-04-23 10:17:10,866 | INFO | 84: 
+success execute query
+2023-04-23 10:17:10,905 | INFO | 84: 
+success execute query
+2023-04-23 10:17:10,937 | INFO | 84: 
+success execute query
+2023-04-23 10:17:10,958 | INFO | 84: 
+success execute query
+2023-04-23 10:17:10,982 | INFO | 84: 
+success execute query
+2023-04-23 10:17:11,002 | INFO | 84: 
+success execute query
+2023-04-23 10:17:11,026 | INFO | 84: 
+success execute query
+2023-04-23 10:39:44,663 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:39:44,663 | INFO | 30: connect to DB .....
+2023-04-23 10:39:44,664 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:39:44,664 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:39:44,665 | INFO | 483: run QApplication .......
+2023-04-23 10:39:44,665 | INFO | 484: init screensize .......
+2023-04-23 10:39:44,665 | INFO | 485: init components dict .......
+
+2023-04-23 10:39:47,428 | INFO | 84: 
+success execute query
+2023-04-23 10:39:47,466 | INFO | 84: 
+success execute query
+2023-04-23 10:39:47,500 | INFO | 84: 
+success execute query
+2023-04-23 10:39:47,526 | INFO | 84: 
+success execute query
+2023-04-23 10:39:47,548 | INFO | 84: 
+success execute query
+2023-04-23 10:39:47,570 | INFO | 84: 
+success execute query
+2023-04-23 10:39:47,594 | INFO | 84: 
+success execute query
+2023-04-23 10:40:24,892 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:40:24,893 | INFO | 30: connect to DB .....
+2023-04-23 10:40:24,893 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:40:24,894 | INFO | 482: 
+Util constructor: 
+2023-04-23 10:40:24,894 | INFO | 483: run QApplication .......
+2023-04-23 10:40:24,894 | INFO | 484: init screensize .......
+2023-04-23 10:40:24,894 | INFO | 485: init components dict .......
+
+2023-04-23 10:40:27,661 | INFO | 84: 
+success execute query
+2023-04-23 10:40:27,701 | INFO | 84: 
+success execute query
+2023-04-23 10:40:27,731 | INFO | 84: 
+success execute query
+2023-04-23 10:40:27,755 | INFO | 84: 
+success execute query
+2023-04-23 10:40:27,775 | INFO | 84: 
+success execute query
+2023-04-23 10:40:27,796 | INFO | 84: 
+success execute query
+2023-04-23 10:40:27,821 | INFO | 84: 
+success execute query
+2023-04-23 10:41:38,038 | INFO | 29: 
+Controller constructor: 
+2023-04-23 10:41:38,039 | INFO | 30: connect to DB .....
+2023-04-23 10:41:38,039 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 10:41:38,040 | INFO | 489: 
+Util constructor: 
+2023-04-23 10:41:38,040 | INFO | 490: run QApplication .......
+2023-04-23 10:41:38,041 | INFO | 491: init screensize .......
+2023-04-23 10:41:38,041 | INFO | 492: init components dict .......
+
+2023-04-23 10:41:40,784 | INFO | 84: 
+success execute query
+2023-04-23 10:41:40,823 | INFO | 84: 
+success execute query
+2023-04-23 10:41:40,860 | INFO | 84: 
+success execute query
+2023-04-23 10:41:40,893 | INFO | 84: 
+success execute query
+2023-04-23 10:41:40,917 | INFO | 84: 
+success execute query
+2023-04-23 10:41:40,937 | INFO | 84: 
+success execute query
+2023-04-23 10:41:40,962 | INFO | 84: 
+success execute query
+2023-04-23 11:11:51,610 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:11:51,610 | INFO | 30: connect to DB .....
+2023-04-23 11:11:51,610 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:11:51,618 | INFO | 489: 
+Util constructor: 
+2023-04-23 11:11:51,618 | INFO | 490: run QApplication .......
+2023-04-23 11:11:51,618 | INFO | 491: init screensize .......
+2023-04-23 11:11:51,619 | INFO | 492: init components dict .......
+
+2023-04-23 11:11:54,075 | INFO | 84: 
+success execute query
+2023-04-23 11:11:54,118 | INFO | 84: 
+success execute query
+2023-04-23 11:11:54,150 | INFO | 84: 
+success execute query
+2023-04-23 11:11:54,173 | INFO | 84: 
+success execute query
+2023-04-23 11:11:54,192 | INFO | 84: 
+success execute query
+2023-04-23 11:11:54,214 | INFO | 84: 
+success execute query
+2023-04-23 11:11:54,239 | INFO | 84: 
+success execute query
+2023-04-23 11:12:09,644 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:12:09,645 | INFO | 30: connect to DB .....
+2023-04-23 11:12:09,645 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:12:09,646 | INFO | 489: 
+Util constructor: 
+2023-04-23 11:12:09,646 | INFO | 490: run QApplication .......
+2023-04-23 11:12:09,646 | INFO | 491: init screensize .......
+2023-04-23 11:12:09,647 | INFO | 492: init components dict .......
+
+2023-04-23 11:12:12,907 | INFO | 84: 
+success execute query
+2023-04-23 11:12:12,952 | INFO | 84: 
+success execute query
+2023-04-23 11:12:12,984 | INFO | 84: 
+success execute query
+2023-04-23 11:12:13,008 | INFO | 84: 
+success execute query
+2023-04-23 11:12:13,027 | INFO | 84: 
+success execute query
+2023-04-23 11:12:13,050 | INFO | 84: 
+success execute query
+2023-04-23 11:12:13,074 | INFO | 84: 
+success execute query
+2023-04-23 11:14:07,083 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:14:07,083 | INFO | 30: connect to DB .....
+2023-04-23 11:14:07,083 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:14:07,085 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:14:07,085 | INFO | 497: run QApplication .......
+2023-04-23 11:14:07,085 | INFO | 498: init screensize .......
+2023-04-23 11:14:07,086 | INFO | 499: init components dict .......
+
+2023-04-23 11:14:09,619 | INFO | 84: 
+success execute query
+2023-04-23 11:14:09,656 | INFO | 84: 
+success execute query
+2023-04-23 11:14:09,689 | INFO | 84: 
+success execute query
+2023-04-23 11:14:09,715 | INFO | 84: 
+success execute query
+2023-04-23 11:14:09,734 | INFO | 84: 
+success execute query
+2023-04-23 11:14:09,754 | INFO | 84: 
+success execute query
+2023-04-23 11:14:09,778 | INFO | 84: 
+success execute query
+2023-04-23 11:15:00,934 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:15:00,934 | INFO | 30: connect to DB .....
+2023-04-23 11:15:00,934 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:15:00,948 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:15:00,948 | INFO | 497: run QApplication .......
+2023-04-23 11:15:00,948 | INFO | 498: init screensize .......
+2023-04-23 11:15:00,949 | INFO | 499: init components dict .......
+
+2023-04-23 11:15:03,630 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,707 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,758 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,800 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,830 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,853 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,873 | INFO | 84: 
+success execute query
+2023-04-23 11:15:10,900 | INFO | 84: 
+success execute query
+2023-04-23 11:28:41,680 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:28:41,680 | INFO | 30: connect to DB .....
+2023-04-23 11:28:41,680 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:28:41,696 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:28:41,696 | INFO | 497: run QApplication .......
+2023-04-23 11:28:41,696 | INFO | 498: init screensize .......
+2023-04-23 11:28:41,697 | INFO | 499: init components dict .......
+
+2023-04-23 11:28:44,597 | INFO | 84: 
+success execute query
+2023-04-23 11:28:44,636 | INFO | 84: 
+success execute query
+2023-04-23 11:28:44,668 | INFO | 84: 
+success execute query
+2023-04-23 11:28:44,692 | INFO | 84: 
+success execute query
+2023-04-23 11:28:44,712 | INFO | 84: 
+success execute query
+2023-04-23 11:28:44,734 | INFO | 84: 
+success execute query
+2023-04-23 11:28:44,759 | INFO | 84: 
+success execute query
+2023-04-23 11:31:13,554 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:31:13,554 | INFO | 30: connect to DB .....
+2023-04-23 11:31:13,554 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:31:13,554 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:31:13,562 | INFO | 497: run QApplication .......
+2023-04-23 11:31:13,562 | INFO | 498: init screensize .......
+2023-04-23 11:31:13,562 | INFO | 499: init components dict .......
+
+2023-04-23 11:31:16,397 | INFO | 84: 
+success execute query
+2023-04-23 11:31:16,436 | INFO | 84: 
+success execute query
+2023-04-23 11:31:16,467 | INFO | 84: 
+success execute query
+2023-04-23 11:31:16,491 | INFO | 84: 
+success execute query
+2023-04-23 11:31:16,510 | INFO | 84: 
+success execute query
+2023-04-23 11:31:16,534 | INFO | 84: 
+success execute query
+2023-04-23 11:31:16,560 | INFO | 84: 
+success execute query
+2023-04-23 11:33:28,524 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:33:28,524 | INFO | 30: connect to DB .....
+2023-04-23 11:33:28,524 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:33:28,538 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:33:28,538 | INFO | 497: run QApplication .......
+2023-04-23 11:33:28,538 | INFO | 498: init screensize .......
+2023-04-23 11:33:28,539 | INFO | 499: init components dict .......
+
+2023-04-23 11:33:31,146 | INFO | 84: 
+success execute query
+2023-04-23 11:33:31,185 | INFO | 84: 
+success execute query
+2023-04-23 11:33:31,216 | INFO | 84: 
+success execute query
+2023-04-23 11:33:31,240 | INFO | 84: 
+success execute query
+2023-04-23 11:33:31,259 | INFO | 84: 
+success execute query
+2023-04-23 11:33:31,282 | INFO | 84: 
+success execute query
+2023-04-23 11:33:31,307 | INFO | 84: 
+success execute query
+2023-04-23 11:34:27,345 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:34:27,345 | INFO | 30: connect to DB .....
+2023-04-23 11:34:27,345 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:34:27,347 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:34:27,347 | INFO | 497: run QApplication .......
+2023-04-23 11:34:27,347 | INFO | 498: init screensize .......
+2023-04-23 11:34:27,348 | INFO | 499: init components dict .......
+
+2023-04-23 11:34:56,745 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:34:56,746 | INFO | 30: connect to DB .....
+2023-04-23 11:34:56,746 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:34:56,747 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:34:56,747 | INFO | 497: run QApplication .......
+2023-04-23 11:34:56,747 | INFO | 498: init screensize .......
+2023-04-23 11:34:56,748 | INFO | 499: init components dict .......
+
+2023-04-23 11:35:00,044 | INFO | 84: 
+success execute query
+2023-04-23 11:35:00,066 | INFO | 84: 
+success execute query
+2023-04-23 11:35:00,112 | INFO | 84: 
+success execute query
+2023-04-23 11:35:00,137 | INFO | 84: 
+success execute query
+2023-04-23 11:35:00,156 | INFO | 84: 
+success execute query
+2023-04-23 11:35:00,176 | INFO | 84: 
+success execute query
+2023-04-23 11:35:00,202 | INFO | 84: 
+success execute query
+2023-04-23 11:38:37,095 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:38:37,095 | INFO | 30: connect to DB .....
+2023-04-23 11:38:37,095 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:38:37,097 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:38:37,097 | INFO | 497: run QApplication .......
+2023-04-23 11:38:37,098 | INFO | 498: init screensize .......
+2023-04-23 11:38:37,098 | INFO | 499: init components dict .......
+
+2023-04-23 11:38:41,423 | INFO | 84: 
+success execute query
+2023-04-23 11:38:41,474 | INFO | 84: 
+success execute query
+2023-04-23 11:38:41,504 | INFO | 84: 
+success execute query
+2023-04-23 11:38:41,527 | INFO | 84: 
+success execute query
+2023-04-23 11:38:41,547 | INFO | 84: 
+success execute query
+2023-04-23 11:38:41,569 | INFO | 84: 
+success execute query
+2023-04-23 11:38:41,593 | INFO | 84: 
+success execute query
+2023-04-23 11:41:52,311 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:41:52,311 | INFO | 30: connect to DB .....
+2023-04-23 11:41:52,311 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:41:52,311 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:41:52,316 | INFO | 497: run QApplication .......
+2023-04-23 11:41:52,316 | INFO | 498: init screensize .......
+2023-04-23 11:41:52,316 | INFO | 499: init components dict .......
+
+2023-04-23 11:41:54,684 | INFO | 84: 
+success execute query
+2023-04-23 11:41:54,722 | INFO | 84: 
+success execute query
+2023-04-23 11:41:54,753 | INFO | 84: 
+success execute query
+2023-04-23 11:41:54,775 | INFO | 84: 
+success execute query
+2023-04-23 11:41:54,794 | INFO | 84: 
+success execute query
+2023-04-23 11:41:54,816 | INFO | 84: 
+success execute query
+2023-04-23 11:41:54,841 | INFO | 84: 
+success execute query
+2023-04-23 11:44:21,736 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:44:21,736 | INFO | 30: connect to DB .....
+2023-04-23 11:44:21,736 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:44:21,741 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:44:21,741 | INFO | 497: run QApplication .......
+2023-04-23 11:44:21,741 | INFO | 498: init screensize .......
+2023-04-23 11:44:21,742 | INFO | 499: init components dict .......
+
+2023-04-23 11:44:24,196 | INFO | 84: 
+success execute query
+2023-04-23 11:44:24,235 | INFO | 84: 
+success execute query
+2023-04-23 11:44:24,265 | INFO | 84: 
+success execute query
+2023-04-23 11:44:24,289 | INFO | 84: 
+success execute query
+2023-04-23 11:44:24,310 | INFO | 84: 
+success execute query
+2023-04-23 11:44:24,333 | INFO | 84: 
+success execute query
+2023-04-23 11:44:24,356 | INFO | 84: 
+success execute query
+2023-04-23 11:46:11,107 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:46:11,107 | INFO | 30: connect to DB .....
+2023-04-23 11:46:11,107 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:46:11,117 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:46:11,117 | INFO | 497: run QApplication .......
+2023-04-23 11:46:11,117 | INFO | 498: init screensize .......
+2023-04-23 11:46:11,118 | INFO | 499: init components dict .......
+
+2023-04-23 11:46:13,257 | INFO | 84: 
+success execute query
+2023-04-23 11:46:13,296 | INFO | 84: 
+success execute query
+2023-04-23 11:46:13,327 | INFO | 84: 
+success execute query
+2023-04-23 11:46:13,352 | INFO | 84: 
+success execute query
+2023-04-23 11:46:13,372 | INFO | 84: 
+success execute query
+2023-04-23 11:46:13,392 | INFO | 84: 
+success execute query
+2023-04-23 11:46:13,418 | INFO | 84: 
+success execute query
+2023-04-23 11:48:24,862 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:48:24,862 | INFO | 30: connect to DB .....
+2023-04-23 11:48:24,862 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:48:24,871 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:48:24,871 | INFO | 497: run QApplication .......
+2023-04-23 11:48:24,872 | INFO | 498: init screensize .......
+2023-04-23 11:48:24,872 | INFO | 499: init components dict .......
+
+2023-04-23 11:48:30,713 | INFO | 84: 
+success execute query
+2023-04-23 11:48:30,744 | INFO | 84: 
+success execute query
+2023-04-23 11:48:30,785 | INFO | 84: 
+success execute query
+2023-04-23 11:48:30,807 | INFO | 84: 
+success execute query
+2023-04-23 11:48:30,826 | INFO | 84: 
+success execute query
+2023-04-23 11:48:30,848 | INFO | 84: 
+success execute query
+2023-04-23 11:48:30,871 | INFO | 84: 
+success execute query
+2023-04-23 11:53:00,108 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:53:00,108 | INFO | 30: connect to DB .....
+2023-04-23 11:53:00,108 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:53:00,120 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:53:00,120 | INFO | 497: run QApplication .......
+2023-04-23 11:53:00,120 | INFO | 498: init screensize .......
+2023-04-23 11:53:00,121 | INFO | 499: init components dict .......
+
+2023-04-23 11:53:02,324 | INFO | 84: 
+success execute query
+2023-04-23 11:53:02,368 | INFO | 84: 
+success execute query
+2023-04-23 11:53:02,396 | INFO | 84: 
+success execute query
+2023-04-23 11:53:02,421 | INFO | 84: 
+success execute query
+2023-04-23 11:53:02,442 | INFO | 84: 
+success execute query
+2023-04-23 11:53:02,462 | INFO | 84: 
+success execute query
+2023-04-23 11:53:02,488 | INFO | 84: 
+success execute query
+2023-04-23 11:54:27,005 | INFO | 29: 
+Controller constructor: 
+2023-04-23 11:54:27,005 | INFO | 30: connect to DB .....
+2023-04-23 11:54:27,005 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 11:54:27,014 | INFO | 496: 
+Util constructor: 
+2023-04-23 11:54:27,015 | INFO | 497: run QApplication .......
+2023-04-23 11:54:27,015 | INFO | 498: init screensize .......
+2023-04-23 11:54:27,015 | INFO | 499: init components dict .......
+
+2023-04-23 11:54:32,389 | INFO | 84: 
+success execute query
+2023-04-23 11:54:32,427 | INFO | 84: 
+success execute query
+2023-04-23 11:54:32,459 | INFO | 84: 
+success execute query
+2023-04-23 11:54:32,484 | INFO | 84: 
+success execute query
+2023-04-23 11:54:32,504 | INFO | 84: 
+success execute query
+2023-04-23 11:54:32,525 | INFO | 84: 
+success execute query
+2023-04-23 11:54:32,552 | INFO | 84: 
+success execute query
+2023-04-23 12:27:18,075 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:27:18,075 | INFO | 30: connect to DB .....
+2023-04-23 12:27:18,075 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:27:18,081 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:27:18,081 | INFO | 497: run QApplication .......
+2023-04-23 12:27:18,081 | INFO | 498: init screensize .......
+2023-04-23 12:27:18,081 | INFO | 499: init components dict .......
+
+2023-04-23 12:27:20,896 | INFO | 84: 
+success execute query
+2023-04-23 12:27:20,934 | INFO | 84: 
+success execute query
+2023-04-23 12:27:20,966 | INFO | 84: 
+success execute query
+2023-04-23 12:27:20,990 | INFO | 84: 
+success execute query
+2023-04-23 12:27:21,010 | INFO | 84: 
+success execute query
+2023-04-23 12:27:21,032 | INFO | 84: 
+success execute query
+2023-04-23 12:27:21,057 | INFO | 84: 
+success execute query
+2023-04-23 12:27:39,023 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:27:39,023 | INFO | 30: connect to DB .....
+2023-04-23 12:27:39,023 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:27:39,032 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:27:39,032 | INFO | 497: run QApplication .......
+2023-04-23 12:27:39,033 | INFO | 498: init screensize .......
+2023-04-23 12:27:39,033 | INFO | 499: init components dict .......
+
+2023-04-23 12:27:41,591 | INFO | 84: 
+success execute query
+2023-04-23 12:27:41,627 | INFO | 84: 
+success execute query
+2023-04-23 12:27:41,660 | INFO | 84: 
+success execute query
+2023-04-23 12:27:41,684 | INFO | 84: 
+success execute query
+2023-04-23 12:27:41,703 | INFO | 84: 
+success execute query
+2023-04-23 12:27:41,723 | INFO | 84: 
+success execute query
+2023-04-23 12:27:41,749 | INFO | 84: 
+success execute query
+2023-04-23 12:31:08,692 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:31:08,693 | INFO | 30: connect to DB .....
+2023-04-23 12:31:08,693 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:31:08,693 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:31:08,694 | INFO | 497: run QApplication .......
+2023-04-23 12:31:08,694 | INFO | 498: init screensize .......
+2023-04-23 12:31:08,694 | INFO | 499: init components dict .......
+
+2023-04-23 12:31:11,471 | INFO | 84: 
+success execute query
+2023-04-23 12:31:11,509 | INFO | 84: 
+success execute query
+2023-04-23 12:31:11,540 | INFO | 84: 
+success execute query
+2023-04-23 12:31:11,562 | INFO | 84: 
+success execute query
+2023-04-23 12:31:11,583 | INFO | 84: 
+success execute query
+2023-04-23 12:31:11,603 | INFO | 84: 
+success execute query
+2023-04-23 12:31:11,627 | INFO | 84: 
+success execute query
+2023-04-23 12:31:54,344 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:31:54,344 | INFO | 30: connect to DB .....
+2023-04-23 12:31:54,344 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:31:54,352 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:31:54,352 | INFO | 497: run QApplication .......
+2023-04-23 12:31:54,352 | INFO | 498: init screensize .......
+2023-04-23 12:31:54,353 | INFO | 499: init components dict .......
+
+2023-04-23 12:31:56,796 | INFO | 84: 
+success execute query
+2023-04-23 12:31:56,834 | INFO | 84: 
+success execute query
+2023-04-23 12:31:56,865 | INFO | 84: 
+success execute query
+2023-04-23 12:31:56,888 | INFO | 84: 
+success execute query
+2023-04-23 12:31:56,910 | INFO | 84: 
+success execute query
+2023-04-23 12:31:56,932 | INFO | 84: 
+success execute query
+2023-04-23 12:31:56,957 | INFO | 84: 
+success execute query
+2023-04-23 12:32:35,868 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:32:35,868 | INFO | 30: connect to DB .....
+2023-04-23 12:32:35,868 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:32:35,872 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:32:35,872 | INFO | 497: run QApplication .......
+2023-04-23 12:32:35,872 | INFO | 498: init screensize .......
+2023-04-23 12:32:35,873 | INFO | 499: init components dict .......
+
+2023-04-23 12:32:38,474 | INFO | 84: 
+success execute query
+2023-04-23 12:32:38,510 | INFO | 84: 
+success execute query
+2023-04-23 12:32:38,543 | INFO | 84: 
+success execute query
+2023-04-23 12:32:38,569 | INFO | 84: 
+success execute query
+2023-04-23 12:32:38,589 | INFO | 84: 
+success execute query
+2023-04-23 12:32:38,610 | INFO | 84: 
+success execute query
+2023-04-23 12:32:38,637 | INFO | 84: 
+success execute query
+2023-04-23 12:36:23,481 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:36:23,497 | INFO | 30: connect to DB .....
+2023-04-23 12:36:23,497 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:36:23,498 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:36:23,498 | INFO | 497: run QApplication .......
+2023-04-23 12:36:23,498 | INFO | 498: init screensize .......
+2023-04-23 12:36:23,499 | INFO | 499: init components dict .......
+
+2023-04-23 12:36:25,959 | INFO | 84: 
+success execute query
+2023-04-23 12:36:25,997 | INFO | 84: 
+success execute query
+2023-04-23 12:36:26,032 | INFO | 84: 
+success execute query
+2023-04-23 12:36:26,056 | INFO | 84: 
+success execute query
+2023-04-23 12:36:26,075 | INFO | 84: 
+success execute query
+2023-04-23 12:36:26,095 | INFO | 84: 
+success execute query
+2023-04-23 12:36:26,120 | INFO | 84: 
+success execute query
+2023-04-23 12:37:43,862 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:37:43,862 | INFO | 30: connect to DB .....
+2023-04-23 12:37:43,862 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:37:43,868 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:37:43,868 | INFO | 497: run QApplication .......
+2023-04-23 12:37:43,868 | INFO | 498: init screensize .......
+2023-04-23 12:37:43,869 | INFO | 499: init components dict .......
+
+2023-04-23 12:37:49,104 | INFO | 84: 
+success execute query
+2023-04-23 12:37:49,143 | INFO | 84: 
+success execute query
+2023-04-23 12:37:49,172 | INFO | 84: 
+success execute query
+2023-04-23 12:37:49,198 | INFO | 84: 
+success execute query
+2023-04-23 12:37:49,219 | INFO | 84: 
+success execute query
+2023-04-23 12:37:49,240 | INFO | 84: 
+success execute query
+2023-04-23 12:37:49,265 | INFO | 84: 
+success execute query
+2023-04-23 12:38:53,742 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:38:53,742 | INFO | 30: connect to DB .....
+2023-04-23 12:38:53,742 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:38:53,751 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:38:53,751 | INFO | 497: run QApplication .......
+2023-04-23 12:38:53,751 | INFO | 498: init screensize .......
+2023-04-23 12:38:53,752 | INFO | 499: init components dict .......
+
+2023-04-23 12:38:55,997 | INFO | 84: 
+success execute query
+2023-04-23 12:38:56,037 | INFO | 84: 
+success execute query
+2023-04-23 12:38:56,068 | INFO | 84: 
+success execute query
+2023-04-23 12:38:56,091 | INFO | 84: 
+success execute query
+2023-04-23 12:38:56,110 | INFO | 84: 
+success execute query
+2023-04-23 12:38:56,132 | INFO | 84: 
+success execute query
+2023-04-23 12:38:56,157 | INFO | 84: 
+success execute query
+2023-04-23 12:39:21,947 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:39:21,947 | INFO | 30: connect to DB .....
+2023-04-23 12:39:21,948 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:39:21,948 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:39:21,948 | INFO | 497: run QApplication .......
+2023-04-23 12:39:21,949 | INFO | 498: init screensize .......
+2023-04-23 12:39:21,949 | INFO | 499: init components dict .......
+
+2023-04-23 12:39:25,418 | INFO | 84: 
+success execute query
+2023-04-23 12:39:25,457 | INFO | 84: 
+success execute query
+2023-04-23 12:39:25,488 | INFO | 84: 
+success execute query
+2023-04-23 12:39:25,512 | INFO | 84: 
+success execute query
+2023-04-23 12:39:25,534 | INFO | 84: 
+success execute query
+2023-04-23 12:39:25,554 | INFO | 84: 
+success execute query
+2023-04-23 12:39:25,577 | INFO | 84: 
+success execute query
+2023-04-23 12:40:12,718 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:40:12,718 | INFO | 30: connect to DB .....
+2023-04-23 12:40:12,719 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:40:12,719 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:40:12,720 | INFO | 497: run QApplication .......
+2023-04-23 12:40:12,720 | INFO | 498: init screensize .......
+2023-04-23 12:40:12,720 | INFO | 499: init components dict .......
+
+2023-04-23 12:40:15,090 | INFO | 84: 
+success execute query
+2023-04-23 12:40:15,138 | INFO | 84: 
+success execute query
+2023-04-23 12:40:15,168 | INFO | 84: 
+success execute query
+2023-04-23 12:40:15,191 | INFO | 84: 
+success execute query
+2023-04-23 12:40:15,211 | INFO | 84: 
+success execute query
+2023-04-23 12:40:15,232 | INFO | 84: 
+success execute query
+2023-04-23 12:40:15,256 | INFO | 84: 
+success execute query
+2023-04-23 12:42:09,042 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:42:09,042 | INFO | 30: connect to DB .....
+2023-04-23 12:42:09,043 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:42:09,043 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:42:09,043 | INFO | 497: run QApplication .......
+2023-04-23 12:42:09,044 | INFO | 498: init screensize .......
+2023-04-23 12:42:09,044 | INFO | 499: init components dict .......
+
+2023-04-23 12:42:16,489 | INFO | 84: 
+success execute query
+2023-04-23 12:42:16,529 | INFO | 84: 
+success execute query
+2023-04-23 12:42:16,560 | INFO | 84: 
+success execute query
+2023-04-23 12:42:16,586 | INFO | 84: 
+success execute query
+2023-04-23 12:42:16,606 | INFO | 84: 
+success execute query
+2023-04-23 12:42:16,627 | INFO | 84: 
+success execute query
+2023-04-23 12:42:16,653 | INFO | 84: 
+success execute query
+2023-04-23 12:43:33,490 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:43:33,490 | INFO | 30: connect to DB .....
+2023-04-23 12:43:33,490 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:43:33,500 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:43:33,500 | INFO | 497: run QApplication .......
+2023-04-23 12:43:33,500 | INFO | 498: init screensize .......
+2023-04-23 12:43:33,501 | INFO | 499: init components dict .......
+
+2023-04-23 12:43:35,889 | INFO | 84: 
+success execute query
+2023-04-23 12:43:35,927 | INFO | 84: 
+success execute query
+2023-04-23 12:43:35,963 | INFO | 84: 
+success execute query
+2023-04-23 12:43:35,988 | INFO | 84: 
+success execute query
+2023-04-23 12:43:36,008 | INFO | 84: 
+success execute query
+2023-04-23 12:43:36,027 | INFO | 84: 
+success execute query
+2023-04-23 12:43:36,054 | INFO | 84: 
+success execute query
+2023-04-23 12:44:01,872 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:44:01,872 | INFO | 30: connect to DB .....
+2023-04-23 12:44:01,872 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:44:01,881 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:44:01,881 | INFO | 497: run QApplication .......
+2023-04-23 12:44:01,881 | INFO | 498: init screensize .......
+2023-04-23 12:44:01,882 | INFO | 499: init components dict .......
+
+2023-04-23 12:44:03,937 | INFO | 84: 
+success execute query
+2023-04-23 12:44:03,974 | INFO | 84: 
+success execute query
+2023-04-23 12:44:04,005 | INFO | 84: 
+success execute query
+2023-04-23 12:44:04,027 | INFO | 84: 
+success execute query
+2023-04-23 12:44:04,049 | INFO | 84: 
+success execute query
+2023-04-23 12:44:04,070 | INFO | 84: 
+success execute query
+2023-04-23 12:44:04,093 | INFO | 84: 
+success execute query
+2023-04-23 12:44:22,954 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:44:22,955 | INFO | 30: connect to DB .....
+2023-04-23 12:44:22,955 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:44:22,956 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:44:22,956 | INFO | 497: run QApplication .......
+2023-04-23 12:44:22,956 | INFO | 498: init screensize .......
+2023-04-23 12:44:22,956 | INFO | 499: init components dict .......
+
+2023-04-23 12:44:25,550 | INFO | 84: 
+success execute query
+2023-04-23 12:44:25,588 | INFO | 84: 
+success execute query
+2023-04-23 12:44:25,622 | INFO | 84: 
+success execute query
+2023-04-23 12:44:25,644 | INFO | 84: 
+success execute query
+2023-04-23 12:44:25,666 | INFO | 84: 
+success execute query
+2023-04-23 12:44:25,687 | INFO | 84: 
+success execute query
+2023-04-23 12:44:25,711 | INFO | 84: 
+success execute query
+2023-04-23 12:44:48,245 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:44:48,245 | INFO | 30: connect to DB .....
+2023-04-23 12:44:48,245 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:44:48,260 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:44:48,260 | INFO | 497: run QApplication .......
+2023-04-23 12:44:48,261 | INFO | 498: init screensize .......
+2023-04-23 12:44:48,261 | INFO | 499: init components dict .......
+
+2023-04-23 12:44:52,021 | INFO | 84: 
+success execute query
+2023-04-23 12:44:52,061 | INFO | 84: 
+success execute query
+2023-04-23 12:44:52,093 | INFO | 84: 
+success execute query
+2023-04-23 12:44:52,119 | INFO | 84: 
+success execute query
+2023-04-23 12:44:52,138 | INFO | 84: 
+success execute query
+2023-04-23 12:44:52,160 | INFO | 84: 
+success execute query
+2023-04-23 12:44:52,187 | INFO | 84: 
+success execute query
+2023-04-23 12:46:32,550 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:46:32,550 | INFO | 30: connect to DB .....
+2023-04-23 12:46:32,550 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:46:32,551 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:46:32,551 | INFO | 497: run QApplication .......
+2023-04-23 12:46:32,552 | INFO | 498: init screensize .......
+2023-04-23 12:46:32,552 | INFO | 499: init components dict .......
+
+2023-04-23 12:46:35,070 | INFO | 84: 
+success execute query
+2023-04-23 12:46:35,121 | INFO | 84: 
+success execute query
+2023-04-23 12:46:35,152 | INFO | 84: 
+success execute query
+2023-04-23 12:46:35,176 | INFO | 84: 
+success execute query
+2023-04-23 12:46:35,197 | INFO | 84: 
+success execute query
+2023-04-23 12:46:35,220 | INFO | 84: 
+success execute query
+2023-04-23 12:46:35,244 | INFO | 84: 
+success execute query
+2023-04-23 12:49:38,003 | INFO | 29: 
+Controller constructor: 
+2023-04-23 12:49:38,004 | INFO | 30: connect to DB .....
+2023-04-23 12:49:38,004 | INFO | 31: active DB cursor ..... 
+
+2023-04-23 12:49:38,004 | INFO | 496: 
+Util constructor: 
+2023-04-23 12:49:38,005 | INFO | 497: run QApplication .......
+2023-04-23 12:49:38,005 | INFO | 498: init screensize .......
+2023-04-23 12:49:38,006 | INFO | 499: init components dict .......
+
+2023-04-23 12:49:40,973 | INFO | 84: 
+success execute query
+2023-04-23 12:49:51,992 | INFO | 84: 
+success execute query
+2023-04-23 12:49:52,033 | INFO | 84: 
+success execute query
+2023-04-23 12:49:52,066 | INFO | 84: 
+success execute query
+2023-04-23 12:49:52,091 | INFO | 84: 
+success execute query
+2023-04-23 12:49:52,110 | INFO | 84: 
+success execute query
+2023-04-23 12:49:52,133 | INFO | 84: 
+success execute query
+2023-04-23 12:49:52,157 | INFO | 84: 
+success execute query

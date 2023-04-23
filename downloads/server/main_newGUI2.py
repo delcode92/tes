@@ -45,6 +45,10 @@ class Main(Util, View):
             tab1.setMaximumWidth(180)
             tab1.setIcon(QIcon(self.icon_path+"table-columns.png"))
             tab1.setStyleSheet(View.tab_button)
+            
+            if tab2==None:
+                tab1.setProperty("active", True)
+
             tabsContainer.addWidget(tab1)
         
         if tab2 != None:
@@ -53,12 +57,24 @@ class Main(Util, View):
             tab2.setStyleSheet(View.tab_button)
             tabsContainer.addWidget(tab2)
 
+        # enable exchange between tabs
         if tab1 != None and tab2 != None:
             tab1.clicked.connect(lambda: self.Tabs(tabs=(tab1,tab2), stacked_widget=stackedWidget, index=0))
             tab2.clicked.connect(lambda: self.Tabs(tabs=(tab2,tab1), stacked_widget=stackedWidget, index=1))
 
         
         tabsContainer.setAlignment(Qt.AlignLeft)
+
+    def radioFilterMenit(self,tt):
+        
+        if tt:
+            self.radio_btn_jam.setChecked(False)
+   
+    def radioFilterJam(self,tt):
+        
+        if tt:
+            self.radio_btn_menit.setChecked(False)
+            
 
     def getCellVal(self, table, page=""):
         row = table.currentRow()
@@ -138,7 +154,7 @@ class Main(Util, View):
             r = r + 1
 
     def createFormContainer(self, scrollable=False):
-
+        
         form_container = QWidget()
         form_container_lay = QVBoxLayout()
         form_container_lay.setContentsMargins(25,25,25,25)
@@ -147,9 +163,12 @@ class Main(Util, View):
         form_container.setStyleSheet("background:#222b45;")
         
         if scrollable:
+            screen = self.app.primaryScreen()
+            size = screen.size()
+
             scroll = QScrollArea()
             scroll.setWidgetResizable(True)
-            scroll.setMaximumHeight(650)
+            scroll.setMaximumHeight( size.height() - 200 )
             scroll.setWidget(form_container)
             
             return scroll,form_container_lay
@@ -1467,12 +1486,12 @@ class Main(Util, View):
                 ############### FORM CONTAINER ##############
                 res = self.createFormContainer(scrollable=True)
                 form_container = res[0]
-                form_container.setMinimumHeight(650)
+                # form_container.setMinimumHeight(650)
                 form_container_lay = res[1]
 
                 ############################################
 
-                kasir_content2_lay.setContentsMargins(25,25,25,25)
+                kasir_content2_lay.setContentsMargins(25,0,25,0)
                 kasir_content2_lay.addWidget(form_container)
 
                 
@@ -1651,7 +1670,7 @@ class Main(Util, View):
                                 ]
 
                 self.CreateComponentLayout(components_setter, form_container_lay)
-                kasir_content2_lay.addStretch(1)
+                # kasir_content2_lay.addStretch(1)
                 #######################################################
 
             case "karcis":
@@ -1942,12 +1961,20 @@ class Main(Util, View):
                 ############### FORM CONTAINER ##############
                 res = self.createFormContainer(scrollable=True)
                 form_container = res[0]
-                form_container.setMinimumHeight(650)
+                # form_container.setStyleSheet("border: 2px solid red;")
+                # form_container.setMinimumHeight(700)
                 form_container_lay = res[1]
                 ############################################
 
-                tarif_content2_lay.setContentsMargins(25,25,25,25)
+                # screen = self.app.primaryScreen()
+                # size = screen.size()
+
+                # tarif_content2.setMaximumHeight( size.height() - 200 )
+                tarif_content2_lay.setContentsMargins(25,0,25,0)
+                # tarif_content2_lay.setSpacing(0)
+
                 tarif_content2_lay.addWidget(form_container)
+                # tarif_content2.setStyleSheet("border: 2px solid blue;")
 
                 # set widget for tab1 layout
                 tab1_h_widget = QWidget()
@@ -2013,7 +2040,7 @@ class Main(Util, View):
                                                 "category":"RadioButton",
                                                 "text":"progresif",
                                                 "checked": True if tipe_tarif == "progresif" else False, 
-                                                "style":"border:none;",
+                                                "style":"border:none; color:#fff;",
                                                 "toggled": {
                                                     "method_name": self.check_tarif_type
                                                 }
@@ -2023,7 +2050,7 @@ class Main(Util, View):
                                                 "category":"RadioButton",
                                                 "text":"flat",
                                                 "checked": True if tipe_tarif == "flat" else False, 
-                                                "style":"border:none;",
+                                                "style":"border:none; color:#fff;",
                                                 "toggled": {
                                                     "method_name": self.check_tarif_type
                                                 } 
@@ -2033,7 +2060,7 @@ class Main(Util, View):
                                                 "category":"RadioButton",
                                                 "text":"other",
                                                 "checked": True if tipe_tarif == "other" else False, 
-                                                "style":"border:none;",
+                                                "style":"border:none; color:#fff;",
                                                 "toggled": {
                                                     "method_name": self.check_tarif_type
                                                 }
@@ -2347,7 +2374,7 @@ class Main(Util, View):
                                 ]
                     
                 self.CreateComponentLayout(components_setter, form_container_lay)
-                tarif_content2_lay.addStretch(1)
+                # tarif_content2_lay.addStretch(1)
 
                 self.check_tarif_type( tipe_tarif )
                 #######################################################
@@ -2578,8 +2605,10 @@ class Main(Util, View):
                 self.laporan_table = QTableWidget()
                 tgl_container = QWidget()
                 tgl_input_container = QWidget()
-                lama_container = QWidget()
-                lama_input_container = QWidget()
+                lama_container_menit = QWidget()
+                lama_input_menit_container = QWidget()
+                lama_container_jam = QWidget()
+                lama_input_jam_container = QWidget()
                 jns_kendaraan_container = QWidget()
                 stat_kendaraan_container = QWidget()
                 jns_trans_container = QWidget()
@@ -2599,8 +2628,10 @@ class Main(Util, View):
                 laporan_content1_lay = QVBoxLayout() # coba scroll disini juga
                 tgl_container_lay = QVBoxLayout()
                 tgl_input_lay = QHBoxLayout()
-                lama_container_lay = QVBoxLayout()
-                lama_input_lay = QHBoxLayout()
+                lama_container_menit_lay = QVBoxLayout()
+                lama_input_menit_lay = QHBoxLayout()
+                lama_container_jam_lay = QVBoxLayout()
+                lama_input_jam_lay = QHBoxLayout()
                 jns_kendaraan_lay = QVBoxLayout()
                 stat_kendaraan_lay = QVBoxLayout()
                 jns_trans_lay = QVBoxLayout()
@@ -2623,7 +2654,9 @@ class Main(Util, View):
                 lbl_filter = QLabel("FILTER LAPORAN:")
                 lbl_cari = QLabel("cari data:")
                 lbl_tgl = QLabel("tanggal:")
-                lbl_lama_parkir = QLabel("lama parkir(menit):")
+                self.radio_btn_menit = QRadioButton("lama parkir(menit):")
+                self.radio_btn_jam = QRadioButton("lama parkir(jam):")
+                # lbl_lama_parkir = QLabel("lama parkir(menit):")
                 lbl_jns_kendaraan = QLabel("jns kendaraan:")
                 lbl_stat_kendaraan = QLabel("stat kendaraan:")
                 lbl_jns_transaksi = QLabel("jns transaksi:")
@@ -2638,6 +2671,13 @@ class Main(Util, View):
 
                 input_menit1 = QSpinBox()
                 input_menit2 = QSpinBox()
+                input_jam1 = QSpinBox()
+                input_jam2 = QSpinBox()
+                input_jam1.setMinimum(0)
+                input_jam1.setMaximum(23)
+                
+                input_jam2.setMinimum(1)
+                input_jam2.setMaximum(24)
 
                 kendaraan = ["Mobil", "Motor"]
                 stat_parkir = ["Keluar", "Masuk"]
@@ -2706,7 +2746,8 @@ class Main(Util, View):
                 lbl_sd.setMaximumWidth(30)
                 lbl_sd.setStyleSheet( View.primary_lbl + "}" )
                 lbl_tgl.setStyleSheet( View.primary_lbl + "}" )
-                lbl_lama_parkir.setStyleSheet( View.primary_lbl + "}" )
+                self.radio_btn_menit.setStyleSheet( View.primary_radio + "}" )
+                self.radio_btn_jam.setStyleSheet( View.primary_radio + "}" )
                 lbl_jns_kendaraan.setStyleSheet( View.primary_lbl + "}" )
                 lbl_stat_kendaraan.setStyleSheet( View.primary_lbl + "}" )
                 lbl_jns_transaksi.setStyleSheet( View.primary_lbl + "}" )
@@ -2722,6 +2763,8 @@ class Main(Util, View):
                 pilih_shift.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; color:#000; }" )
                 input_menit1.setStyleSheet( View.primary_spinbox + "height: 25px; }" )
                 input_menit2.setStyleSheet( View.primary_spinbox + "height: 25px; }" )
+                input_jam1.setStyleSheet( View.primary_spinbox + "height: 25px; }" )
+                input_jam2.setStyleSheet( View.primary_spinbox + "height: 25px; }" )
 
                 action_widget.setStyleSheet("border: none;")
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
@@ -2756,8 +2799,10 @@ class Main(Util, View):
                 tgl_container.setLayout( tgl_container_lay )
                 tgl_input_container.setLayout( tgl_input_lay )
                 tab1_h_widget.setLayout(tab1_h_layout)
-                lama_container.setLayout( lama_container_lay )
-                lama_input_container.setLayout( lama_input_lay )
+                lama_container_menit.setLayout( lama_container_menit_lay )
+                lama_input_menit_container.setLayout( lama_input_menit_lay )
+                lama_container_jam.setLayout( lama_container_jam_lay )
+                lama_input_jam_container.setLayout( lama_input_jam_lay )
                 jns_kendaraan_container.setLayout( jns_kendaraan_lay )
                 stat_kendaraan_container.setLayout( stat_kendaraan_lay )
                 jns_trans_container.setLayout( jns_trans_lay )
@@ -2780,17 +2825,27 @@ class Main(Util, View):
                 self.laporan_stack.addWidget(scroll)
                 self.laporan_container_lay.addWidget(self.laporan_stack)
                 gb_waktu_lay.addWidget( tgl_container )
-                gb_waktu_lay.addWidget( lama_container )
+                gb_waktu_lay.addWidget( lama_container_menit )
+                gb_waktu_lay.addWidget( lama_container_jam )
                 tgl_container_lay.addWidget( lbl_tgl )
                 tgl_container_lay.addWidget( tgl_input_container )
                 tgl_input_lay.addWidget( pilih_tgl1 )
                 tgl_input_lay.addWidget( lbl_sd )
                 tgl_input_lay.addWidget( pilih_tgl2 )
-                lama_container_lay.addWidget( lbl_lama_parkir )
-                lama_container_lay.addWidget( lama_input_container )
-                lama_input_lay.addWidget( input_menit1 )
-                lama_input_lay.addWidget( lbl_sd )
-                lama_input_lay.addWidget( input_menit2 )
+
+                lama_container_menit_lay.addWidget( self.radio_btn_menit )
+                lama_container_menit_lay.addWidget( lama_input_menit_container )
+                lama_container_jam_lay.addWidget( self.radio_btn_jam )
+                lama_container_jam_lay.addWidget( lama_input_jam_container )
+                
+                lama_input_menit_lay.addWidget( input_menit1 )
+                lama_input_menit_lay.addWidget( lbl_sd )
+                lama_input_menit_lay.addWidget( input_menit2 )
+                
+                lama_input_jam_lay.addWidget( input_jam1 )
+                lama_input_jam_lay.addWidget( lbl_sd )
+                lama_input_jam_lay.addWidget( input_jam2 )
+                
                 gb_kendaraan_lay.addWidget( jns_kendaraan_container )
                 gb_kendaraan_lay.addWidget( stat_kendaraan_container )
                 jns_kendaraan_lay.addWidget( lbl_jns_kendaraan )
@@ -2810,8 +2865,11 @@ class Main(Util, View):
                 row_print.setIcon(QIcon(self.icon_path+"print.png"))
                 self.row_info_laporan.setReadOnly(True)
                 self.setTabButton(tab1=self.laporan_tab1, tab2=None, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
-                
-               
+                self.radio_btn_menit.clicked.connect(self.radioFilterMenit)
+                self.radio_btn_jam.clicked.connect(self.radioFilterJam)
+                # self.radio_btn_jam.setAutoExclusive(True)
+                # self.radio_btn_jam.setAutoExclusive(True)
+
                 
 
                 # create table widget

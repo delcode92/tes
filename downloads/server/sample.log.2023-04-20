@@ -1,0 +1,27 @@
+
+Controller constructor: 
+connect to DB .....
+active DB cursor ..... 
+
+
+Util constructor: 
+run QApplication .......
+init screensize .......
+init components dict .......
+
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query

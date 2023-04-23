@@ -1,3 +1,3 @@
 import os
-path = 'my_file.pdf'
+path = 'tuto2.pdf'
 os.system(path)

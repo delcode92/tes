@@ -266,23 +266,45 @@
                                                                     </tgl_container_lay>
                                                                 </tgl_container>
 
-                                                                <lama_container>
+                                                                <lama_container_menit>
                                                                     <!-- vertical layout -->
-                                                                    <lama_container_lay>
-                                                                        </lbl_lama_parkir>
+                                                                    <lama_container_menit_lay>
                                                                         
-                                                                        <lama_input_container>
+                                                                        </radio_btn_menit>
+                                                                        <!-- </lbl_lama_parkir> -->
+                                                                        
+                                                                        <lama_input_menit_container>
                                                                             <!-- horizontal layout -->
-                                                                            <lama_input_lay>
+                                                                            <lama_input_menit_lay>
                                                                                 </input_menit1>
                                                                                 </lbl_sd>
                                                                                 </input_menit2>
-                                                                            </lama_input_lay>
+                                                                            </lama_input_menit_lay>
 
-                                                                        </lama_input_container>
+                                                                        </lama_input_menit_container>
                                                                     
-                                                                    </lama_container_lay>
-                                                                </lama_container>
+                                                                    </lama_container_menit_lay>
+                                                                </lama_container_menit>
+                                                                
+                                                                <lama_container_jam>
+                                                                    <!-- vertical layout -->
+                                                                    <lama_container_jam_lay>
+                                                                        
+                                                                        </radio_btn_jam>
+                                                                        <!-- </lbl_lama_parkir> -->
+                                                                        
+                                                                        <lama_input_jam_container>
+                                                                            <!-- horizontal layout -->
+                                                                            <lama_input_jam_lay>
+                                                                                </input_jam1>
+                                                                                </lbl_sd>
+                                                                                </input_jam2>
+                                                                            </lama_input_jam_lay>
+
+                                                                        </lama_input_jam_container>
+                                                                    
+                                                                    </lama_container_menit_lay>
+                                                                </lama_container_menit>
 
                                                             </gb_waktu_lay>
 
