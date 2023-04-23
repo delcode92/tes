@@ -1,46 +1,20 @@
-// widget (berlaku sebagai container)
-laporan_tabs_container_widget = QWidget()
-self.laporan_container = QWidget()
-action_widget = QWidget()
-laporan_content1 = QWidget()
-tab1_h_widget = QWidget()
+yg dikomen & yg ditambahkan agar pebih simple saat proses dev
 
-// layouts
-laporan_tabs_container = QHBoxLayout()
-tab1_h_layout = QHBoxLayout()
-self.laporan_container_lay = QVBoxLayout()
-action_lay = QVBoxLayout()
-laporan_content1_lay = QVBoxLayout()
+==> pada main_newgui2
 
-// set layout
-laporan_tabs_container_widget.setLayout(laporan_tabs_container)
-self.laporan_container.setLayout(self.laporan_container_lay)
-action_widget.setLayout(action_lay)
-laporan_content1.setLayout( laporan_content1_lay )
-tab1_h_widget.setLayout(tab1_h_layout)
+# create thread for connect to server
+# start_new_thread(self.connect_to_server, ( sys.argv[1], sys.argv[2] ))
 
-// add widget
-self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
+==> pada main_newgui2
 
-action_lay.addWidget(row_label)
-action_lay.addWidget(self.row_info_laporan)
-action_lay.addWidget(row_search)
-action_lay.addWidget(row_delete)
-
-self.laporan_stack.addWidget(laporan_content1)
-self.laporan_container_lay.addWidget(self.laporan_stack)
-tab1_h_layout.addWidget(self.laporan_table)
-tab1_h_layout.addWidget(action_widget)
-laporan_content1_lay.addWidget(tab1_h_widget)
+komentari yg ini:
+# m.Login()()
 
 
+pada admin dashboard ditambah kode yg ini agar app gui ny jalan:
+sys.exit(self.app.exec_())
+self.windowBarAction("kelola laporan")
 
-self.stacked_widget.addWidget(self.welcome_lbl)     # --> 0
-self.stacked_widget.addWidget(self.rfid_container)  # --> 1
-self.stacked_widget.addWidget(self.users_container) # --> 2
-self.stacked_widget.addWidget(self.kasir_container) # --> 3
-self.stacked_widget.addWidget(self.karcis_container)    # --> 4
-self.stacked_widget.addWidget(self.tarif_container)     # --> 5
-self.stacked_widget.addWidget(self.voucher_container)   # --> 6
-self.stacked_widget.addWidget(self.laporan_container)   # --> 7
-self.stacked_widget.setCurrentIndex(0)
+
+lalu tambah yg ini:
+m.AdminDashboard()

@@ -60,46 +60,48 @@ class View:
     
     # admin left menu styling
     left_menu_btn = """QPushButton{
-        background:#2c3e50;
-    }
-    QPushButton:hover{
-        background:#fa0;
-    }
-    QPushButton[active="true"]{
-        background:#fa0;
-    }
-    """
+                            background:#2c3e50;
+                        }
+                        QPushButton:hover{
+                            background:#fa0;
+                        }
+                        QPushButton[active="true"]{
+                            background:#fa0;
+                        }
+                        """
+
+
     left_menu_lbl = """QLabel{
-                background:#2c3e50; 
-                color:#fff;margin-left:12px; 
-                border-bottom: 1px solid #8395a7;
-                padding-top: 8px;
-                padding-bottom: 8px;
-            }
-            QLabel:hover{
-                background: #525A62;
-            }
-            QLabel[active="true"]{
-                background: #525A62;
-            }
+                            background:#2c3e50; 
+                            color:#fff;margin-left:12px; 
+                            border-bottom: 1px solid #8395a7;
+                            padding-top: 8px;
+                            padding-bottom: 8px;
+                        }
+                        QLabel:hover{
+                            background: #525A62;
+                        }
+                        QLabel[active="true"]{
+                            background: #525A62;
+                        }
             """
     tab_button = """QPushButton{
-        color:#fff; 
-        font-size:13px; 
-        font-weight:600;
+                        color:#fff; 
+                        font-size:13px; 
+                        font-weight:600;
 
-        background: #7f89ff;
-        border: none;
-        padding: 8px;
-        border-radius: 15px;
-    }
-    QPushButton:hover{
-        background: #ff7675;
-    }
+                        background: #7f89ff;
+                        border: none;
+                        padding: 8px;
+                        border-radius: 15px;
+                    }
+                    QPushButton:hover{
+                        background: #ff7675;
+                    }
 
-    QPushButton[active="true"]{
-        background: #ff7675;
-    }
+                    QPushButton[active="true"]{
+                        background: #ff7675;
+                    }
 
     """
 
@@ -146,6 +148,30 @@ class View:
                     }
                     QPushButton:hover {
                         background-color: #9A711E;
+                    }
+    """
+
+    prev_btn = """QPushButton {
+                        background:#00b894; 
+                        padding:5px; 
+                        color:#fff;
+                        font-size:13px; 
+                        font-weight: 500;
+                    }
+                    QPushButton:hover {
+                        background-color: #0b8a71;
+                    }
+    """
+
+    next_btn = """QPushButton {
+                        background:#ff7675; 
+                        padding:5px; 
+                        color:#fff;
+                        font-size:13px; 
+                        font-weight: 500;
+                    }
+                    QPushButton:hover {
+                        background-color: #cc6362;
                     }
     """
     

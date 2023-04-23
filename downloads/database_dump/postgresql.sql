@@ -83,6 +83,8 @@ SELECT * FROM karcis WHERE EXTRACT(epoch FROM lama_parkir) BETWEEN 1200 AND 1080
 insert into karcis (datetime) values(to_timestamp(1672912953.570569));
 insert into karcis (barcode, datetime, gate, jenis_kendaraan) values ('3127192', '2023-02-05 15:02:12', '2', 'mobil');
 
+update karcis set date_keluar='2023-02-05 15:20:12', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=1;  update karcis set date_keluar='2023-03-05 15:53:39', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=2; update karcis set date_keluar='2023-02-05 15:59:00', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=3;update karcis set date_keluar='2023-02-05 17:57:44', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=4;  update karcis set date_keluar='2023-02-05 18:00:41', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=5;  update karcis set date_keluar='2023-02-05 18:20:05', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=6;  update karcis set date_keluar='2023-02-05 18:50:21', status_parkir=true, tarif=4000, nopol='BL 1123', kd_shift='s1' where id=7;  
+
 CREATE TABLE tes ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255), jns_kendaraan varchar(20) );
 insert into tes (barcode, datetime, gate, jns_kendaraan) values ('12313123', '2023-02-05 15:02:12', '1', 'motor');
 

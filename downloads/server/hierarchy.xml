@@ -379,8 +379,41 @@
                                                 </filter_main_wgt>
                                                 
                                                 <tab1_h_widget>
-                                                    ...
+                                                    
+                                                    <!-- horizontal lay -->
+                                                    <tab1_h_layout>
+                                                        
+                                                        <self.laporan_table>
+                                                            ...
+                                                        </self.laporan_table>
+
+                                                        <action_widget>
+                                                            
+                                                            <!-- vertical layout -->
+                                                            <action_lay>
+                                                                
+                                                                </row_label>
+                                                                </self.row_info_info_laporan>
+                                                                </row_detail>
+                                                                </row_refresh>
+                                                                </row_print>
+
+                                                            </action_lay>
+                                                        </action_widget>
+
+                                                    </tab1_h_layout>
                                                 </tab1_h_widget>
+
+                                                <prev_next_cont_widget>
+
+                                                    <!-- horizontal layout -->
+                                                    <prev_next_cont_lay>
+                                                        </prev_btn>
+                                                        </lbl_count>
+                                                        </next_btn>
+                                                    </prev_next_cont_lay>
+                                               
+                                                </prev_next_cont_widget>
 
                                             </laporan_content1_lay>
                                         </laporan_content1>

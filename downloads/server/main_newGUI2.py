@@ -109,7 +109,12 @@ class Main(Util, View):
             
             # set item on table column
             for i in range(cols):
-                val = str(l[i])
+                try:
+                    val = str(l[i])
+                except:
+                    val = ""
+                
+                # print(i, val)
                 
                 if val == 'None': val = ""
 
@@ -1680,7 +1685,7 @@ class Main(Util, View):
                 karcis_tabs_container_widget = QWidget()
                 
                 karcis_tabs_container = QHBoxLayout()
-                self.karcis_tab1 = QPushButton("Kelola karcis")
+                self.karcis_tab1 = QPushButton("Setting karcis")
                 karcis_tab2 = QPushButton("Setting karcis")
                 
                 self.karcis_stack = QStackedWidget()
@@ -1688,7 +1693,7 @@ class Main(Util, View):
                 karcis_content2 = QWidget()
                 
                 # tabs
-                self.setTabButton(tab1=self.karcis_tab1, tab2=karcis_tab2, tabsContainer=karcis_tabs_container, stackedWidget=self.karcis_stack)
+                self.setTabButton(tab1=self.karcis_tab1, tab2=None, tabsContainer=karcis_tabs_container, stackedWidget=self.karcis_stack)
                 
                 # set karcis layout & widget
                 self.karcis_container_lay.setContentsMargins(0,0,0,0)
@@ -2613,6 +2618,8 @@ class Main(Util, View):
                 stat_kendaraan_container = QWidget()
                 jns_trans_container = QWidget()
                 shift_container = QWidget()
+                prev_next_cont_widget = QWidget()
+                
                 
                 filter_main_wgt, filter_main_lay = self.CreateContainer( QVBoxLayout() )
                 kendaraan_container_wgt, kendaraan_container_wgt_lay = self.CreateContainer( QHBoxLayout() )
@@ -2636,6 +2643,7 @@ class Main(Util, View):
                 stat_kendaraan_lay = QVBoxLayout()
                 jns_trans_lay = QVBoxLayout()
                 shift_lay = QVBoxLayout()
+                prev_next_cont_lay = QHBoxLayout()
 
                 screen = self.app.primaryScreen()
                 size = screen.size()
@@ -2662,6 +2670,9 @@ class Main(Util, View):
                 lbl_jns_transaksi = QLabel("jns transaksi:")
                 lbl_shift = QLabel("shift:")
                 lbl_sd = QLabel("s/d")
+                prev_btn = QPushButton("prev")
+                next_btn = QPushButton("next")
+                lbl_count = QLabel(" ... from ... results ")
                 
                 input_cari = QLineEdit()
                 pilih_tgl1 = QDateEdit( calendarPopup=True )
@@ -2732,7 +2743,9 @@ class Main(Util, View):
                 self.CreateComponentLayout(groupboxes2, kendaraan_container_wgt_lay)
 
                 row_search = QPushButton("edit")
-                row_print = QPushButton("print")
+                row_detail = QPushButton("details")
+                row_refresh = QPushButton("refresh")
+                row_print = QPushButton("PRINT")
                 row_label = QLabel("No Baris:")
                 self.row_info_laporan = QLineEdit()
                 
@@ -2769,8 +2782,18 @@ class Main(Util, View):
                 action_widget.setStyleSheet("border: none;")
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
                 self.row_info_laporan.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
-                # row_search.setStyleSheet(View.edit_btn_action)
-                row_print.setStyleSheet(View.del_btn_action)
+                row_detail.setStyleSheet(View.edit_btn_action)
+                row_print.setStyleSheet(View.del_btn_action + "QPushButton{ padding: 10px; }")
+                row_refresh.setStyleSheet(View.print_btn_action)
+
+                prev_next_cont_lay.setAlignment( Qt.AlignCenter )
+                prev_btn.setIcon(QIcon(self.icon_path+"angle-left.png"))
+                next_btn.setIcon(QIcon(self.icon_path+"angle-right.png"))
+                prev_btn.setStyleSheet( View.prev_btn )
+                next_btn.setStyleSheet( View.next_btn )
+                lbl_count.setAlignment( Qt.AlignCenter )
+                lbl_count.setStyleSheet( View.primary_lbl + "}" )
+                next_btn.setLayoutDirection(Qt.RightToLeft)
 
                 # positioning
                 laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
@@ -2779,13 +2802,17 @@ class Main(Util, View):
                 filter_main_lay.setContentsMargins(10,35,10,35)
                 gb_waktu_lay.setContentsMargins(0,0,0,0)
                 kendaraan_container_wgt_lay.setContentsMargins(0,0,0,0)
-
+                prev_next_cont_lay.setContentsMargins(0,15,0,0)
+                
                 # spacing & strech
                 self.laporan_container_lay.setSpacing(0)
                 action_lay.setSpacing(0)
 
                 # sizing
                 action_widget.setMaximumWidth(180)
+                prev_btn.setMaximumWidth(100)
+                next_btn.setMaximumWidth(100)
+                lbl_count.setMinimumWidth(200)
                 
                 # set layout
                 laporan_tabs_container_widget.setLayout(laporan_tabs_container)
@@ -2807,6 +2834,8 @@ class Main(Util, View):
                 stat_kendaraan_container.setLayout( stat_kendaraan_lay )
                 jns_trans_container.setLayout( jns_trans_lay )
                 shift_container.setLayout( shift_lay )
+                prev_next_cont_widget.setLayout( prev_next_cont_lay )
+
 
                 # add widget
                 self.laporan_container_lay.addWidget(laporan_tabs_container_widget)
@@ -2817,8 +2846,9 @@ class Main(Util, View):
 
                 action_lay.addWidget(row_label)
                 action_lay.addWidget(self.row_info_laporan)
-                action_lay.addWidget(row_search)
+                action_lay.addWidget(row_detail)
                 action_lay.addWidget(row_print)
+                action_lay.addWidget(row_refresh)
                 action_lay.addStretch(1)
                 tab1_h_layout.addWidget(self.laporan_table)
                 tab1_h_layout.addWidget(action_widget)
@@ -2858,11 +2888,17 @@ class Main(Util, View):
                 jns_trans_lay.addWidget( pilih_jns_transaksi )
                 shift_lay.addWidget( lbl_shift )
                 shift_lay.addWidget( pilih_shift )
-
+                prev_next_cont_lay.addWidget( prev_btn )
+                prev_next_cont_lay.addWidget( lbl_count )
+                prev_next_cont_lay.addWidget( next_btn )
 
                 # other
-                # row_search.setIcon(QIcon(self.icon_path+"blog-pencil.png"))
+                row_detail.setIcon(QIcon(self.icon_path+"layout-fluid.png"))
+                row_refresh.setIcon(QIcon(self.icon_path+"refresh.png"))
                 row_print.setIcon(QIcon(self.icon_path+"print.png"))
+                row_print.setIconSize(QSize(50,50))
+                row_print.clicked.connect(lambda: self.printLaporan( tgl=("4/24/2023","4/24/2023") ))
+
                 self.row_info_laporan.setReadOnly(True)
                 self.setTabButton(tab1=self.laporan_tab1, tab2=None, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
                 self.radio_btn_menit.clicked.connect(self.radioFilterMenit)
@@ -2873,22 +2909,30 @@ class Main(Util, View):
                 
 
                 # create table widget
+                # fetch data from DB
+                self.row_offset = 0
+                query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+                rows_count = len(query)
+                cols = 11
+
                 self.laporan_table.resizeRowsToContents()
-                self.laporan_table.setRowCount(2)
-                self.laporan_table.setColumnCount(10)
-                self.laporan_table.setHorizontalHeaderLabels(["id", "Nopol", "J.kendaraan", "Pos", "Jam parkir", "Lama Parkir", "Status parkir", "Shift", "J.transaksi", "Biaya"])
+                self.laporan_table.setRowCount( rows_count )
+                self.laporan_table.setColumnCount( cols )
+                self.laporan_table.setHorizontalHeaderLabels(["id", "No trans" ,"Nopol", "J.kendaraan", "Pos", "Tgl masuk", "Tgl keluar", "Lama Parkir", "Status parkir", "Biaya", "J.transaksi", "Shift"])
                 self.laporan_table.setStyleSheet(View.table_style)
 
                 self.laporan_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 self.laporan_table.setColumnHidden(0, True) #hide id column
                 
-                self.laporan_table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
-                self.laporan_table.setItem(0, 1, QTableWidgetItem( "test 2" ))
-                self.laporan_table.setItem(0, 2, QTableWidgetItem( "test 3" ))
+                self.fillTable(self.laporan_table, cols, query)
+
+                # self.laporan_table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
+                # self.laporan_table.setItem(0, 1, QTableWidgetItem( "test 2" ))
+                # self.laporan_table.setItem(0, 2, QTableWidgetItem( "test 3" ))
                 
-                self.laporan_table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
-                self.laporan_table.setItem(1, 1, QTableWidgetItem( "test 5" ))
-                self.laporan_table.setItem(1, 2, QTableWidgetItem( "test 6" ))
+                # self.laporan_table.setItem(1, 0, QTableWidgetItem( "ID 4" )) # will be hidden id to edit & delete
+                # self.laporan_table.setItem(1, 1, QTableWidgetItem( "test 5" ))
+                # self.laporan_table.setItem(1, 2, QTableWidgetItem( "test 6" ))
 
                 # create edit & delete section
                 self.laporan_table.setSelectionBehavior(QTableWidget.SelectRows)
@@ -2898,6 +2942,7 @@ class Main(Util, View):
                 # laporan_content1_lay.addWidget(table)
                 laporan_content1_lay.addWidget( filter_main_wgt )
                 laporan_content1_lay.addWidget(tab1_h_widget)
+                laporan_content1_lay.addWidget(prev_next_cont_widget)
 
                 
             case default:
@@ -3526,7 +3571,13 @@ class Main(Util, View):
             self.window.setCentralWidget(main_win_widget)
 
             self.window.show()
-            # sys.exit(self.app.exec_())
+            
+            self.windowBarAction("kelola laporan")
+
+            sys.exit(self.app.exec_())
             
 m = Main()
-m.Login()()
+
+
+# m.Login()()
+m.AdminDashboard()
