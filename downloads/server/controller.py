@@ -22,6 +22,11 @@ class Controller(Client):
         self.connect_to_postgresql()
         self.sw_stat = False
         
+        # radio button laporan
+        self.r_menit = False
+        self.r_jam = False
+
+        
         # default value
         self.selected_tarif = "other"
 
@@ -1555,6 +1560,20 @@ class Controller(Client):
             case default:
                 pass
 
+
+    def radioFilterMenit(self,tt):
+        
+        if tt:
+            self.r_menit = True
+            self.radio_btn_jam.setChecked(False)
+   
+    def radioFilterJam(self,tt):
+        
+        if tt:
+            self.r_jam = True
+            self.radio_btn_menit.setChecked(False)
+    
+
     def printLaporan(self, tgl=(None,)):
         # Margin
         m= 10
@@ -1574,7 +1593,12 @@ class Controller(Client):
         pdf.cell(w=(pw/5)*5, h=ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
         
         ############################### header ###############################
-        pdf.cell(w=(pw/5), h=ch*2, txt="Lama Parkir", border=1, align='C')
+        if self.r_menit or self.r_jam:
+            pdf.cell(w=(pw/5), h=ch*2, txt="Lama Parkir", border=1, align='C')
+        else:
+            pdf.cell(w=(pw/5), h=ch*2, txt="Tanggal", border=1, align='C')
+
+
         pdf.cell(w=(pw/5), h=ch, txt="Motor", border=1)
         pdf.cell(w=(pw/5), h=ch, txt="Mobil", border=1)
         pdf.cell(w=(pw/5), h=ch, txt="Lainnya", border=1)
@@ -1598,12 +1622,57 @@ class Controller(Client):
 
         # grand total
         pdf.cell(w=(pw/5)/2, h=ch, txt="jml", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="total", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="total", border=1, ln=1)
 
         ############################ end header ###########################
 
 
+        ################### table content ########################
+
+        # tanggal atau lama parkir --> dalam menit atau jam 
+        pdf.cell(w=(pw/5), h=ch, txt="...", border=1)
+
+        # motor
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
         
+        # mobil
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        
+        # lainnya
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+
+        # grand total 
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+
+        pdf.ln()
+        
+
+        # tanggal atau lama parkir --> dalam menit atau jam 
+        pdf.cell(w=(pw/5), h=ch, txt="...", border=1)
+
+        # motor
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        
+        # mobil
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        
+        # lainnya
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+
+        # grand total 
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+
+
+        ################# end table content ######################
+
 
         lap_name = f"laporan_{tgl1}_{tgl2}.pdf"
         pdf.output(f'./{lap_name}', 'F')

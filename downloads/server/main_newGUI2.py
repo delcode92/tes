@@ -65,17 +65,6 @@ class Main(Util, View):
         
         tabsContainer.setAlignment(Qt.AlignLeft)
 
-    def radioFilterMenit(self,tt):
-        
-        if tt:
-            self.radio_btn_jam.setChecked(False)
-   
-    def radioFilterJam(self,tt):
-        
-        if tt:
-            self.radio_btn_menit.setChecked(False)
-            
-
     def getCellVal(self, table, page=""):
         row = table.currentRow()
         self.hidden_id = table.item(row, 0).text()
