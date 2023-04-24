@@ -1574,7 +1574,7 @@ class Controller(Client):
             self.radio_btn_menit.setChecked(False)
     
 
-    def printLaporan(self, tgl=(None,)):
+    def printLaporan(self):
         # Margin
         m= 10
         # Page width: Width of A4 is 210mm x 297mm 
@@ -1585,7 +1585,8 @@ class Controller(Client):
         pdf.add_page(orientation='L')
         pdf.set_font('Arial', '', 12)
 
-        tgl1,tgl2 = tgl
+        tgl1 = self.pilih_tgl1.text()
+        tgl2 = self.pilih_tgl2.text()
         tgl1 = tgl1.replace("/", "-" )
         tgl2 = tgl2.replace("/", "-" )
 
@@ -1628,6 +1629,36 @@ class Controller(Client):
 
 
         ################### table content ########################
+
+        # create query based on filter
+        # query = "select * from karcis where ... FROM karcis limit 18 OFFSET {self.row_offset}"
+        query = ""
+
+        cari_data = self.input_cari.text()
+        jns_kendaraan = self.pilih_jns_kendaraan.currentText()
+        stat_kendaraan = self.pilih_stat_kendaraan.currentText()
+        jns_transaksi = self.pilih_jns_transaksi.currentText()
+        kd_shift = self.pilih_shift.currentText()
+
+
+        # select datetime from karcis where cast(datetime as date) between '2023-02-05' and '2023-02-06';
+        # select id,lama_parkir from karcis where lama_parkir between CAST('3600 seconds' AS interval) and CAST('10800 seconds' AS interval);
+        # select id,lama_parkir from karcis where lama_parkir=CAST('3600 seconds' AS interval);
+        query = f"{query} cast( datetime as date ) between {tgl1} and {tgl2}"
+        
+        if cari_data != "" and cari_data != None:
+            query = f"{query} and barcode like '%{cari_data}%' or tarif like '%{cari_data}%' or nopol like '%{cari_data}%'"
+
+        
+        # check menit/jam filter is active ?
+        if self.r_menit:
+            query = f"{query} and "
+        elif self.r_jam:
+            ...
+        
+        # exec query
+
+        # extract result, put on cell 
 
         # tanggal atau lama parkir --> dalam menit atau jam 
         pdf.cell(w=(pw/5), h=ch, txt="...", border=1)

@@ -18,3 +18,23 @@ self.windowBarAction("kelola laporan")
 
 lalu tambah yg ini:
 m.AdminDashboard()
+
+
+==============================================================================================
+
+logika filter laporan:
+
+1. tgl1 dan tgl2 dibutuhkan utk membuat range, secara default akan terpilih current date
+    karena menggunakan between utk datetime maka harus di cast dulu ke date
+
+2. filter hal yg lain, jika form filter yg lain diisi
+
+
+
+CREATE TABLE my_table (
+    id SERIAL PRIMARY KEY,
+    duration INTERVAL
+);
+
+INSERT INTO my_table (duration)
+VALUES ('1 day 2 hours 30 minutes 15 seconds');
