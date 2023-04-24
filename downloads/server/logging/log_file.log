@@ -72091,3 +72091,28 @@ success execute query
 success execute query
 2023-04-24 07:34:17,911 | INFO | 90: 
 success execute query
+2023-04-24 07:35:53,771 | INFO | 35: 
+Controller constructor: 
+2023-04-24 07:35:53,772 | INFO | 36: connect to DB .....
+2023-04-24 07:35:53,772 | INFO | 37: active DB cursor ..... 
+
+2023-04-24 07:35:53,773 | INFO | 522: 
+Util constructor: 
+2023-04-24 07:35:53,773 | INFO | 523: run QApplication .......
+2023-04-24 07:35:53,773 | INFO | 524: init screensize .......
+2023-04-24 07:35:53,774 | INFO | 525: init components dict .......
+
+2023-04-24 07:35:53,808 | INFO | 90: 
+success execute query
+2023-04-24 07:35:54,558 | INFO | 90: 
+success execute query
+2023-04-24 07:35:54,592 | INFO | 90: 
+success execute query
+2023-04-24 07:35:54,611 | INFO | 90: 
+success execute query
+2023-04-24 07:35:54,631 | INFO | 90: 
+success execute query
+2023-04-24 07:35:54,654 | INFO | 90: 
+success execute query
+2023-04-24 07:35:54,683 | INFO | 90: 
+success execute query
