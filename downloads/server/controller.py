@@ -1640,22 +1640,52 @@ class Controller(Client):
         jns_transaksi = self.pilih_jns_transaksi.currentText()
         kd_shift = self.pilih_shift.currentText()
 
-
+        # cari data, tanggal, menit, jam, jenis pembayaran, shift,  
+        # SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift
+         
         # select datetime from karcis where cast(datetime as date) between '2023-02-05' and '2023-02-06';
         # select id,lama_parkir from karcis where lama_parkir between CAST('3600 seconds' AS interval) and CAST('10800 seconds' AS interval);
         # select id,lama_parkir from karcis where lama_parkir=CAST('3600 seconds' AS interval);
         query = f"{query} cast( datetime as date ) between {tgl1} and {tgl2}"
         
+        ######### cari data
         if cari_data != "" and cari_data != None:
             query = f"{query} and barcode like '%{cari_data}%' or tarif like '%{cari_data}%' or nopol like '%{cari_data}%'"
 
         
-        # check menit/jam filter is active ?
+        ######## check menit/jam filter is active ?
         if self.r_menit:
-            query = f"{query} and "
+            sv1 = self.input_menit1.text()
+            sv2 = self.input_menit2.text()
+            query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
         elif self.r_jam:
-            ...
+            sv1 = self.input_jam1.text()
+            sv2 = self.input_jam2.text()
+            query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
         
+        ######### jns kendaraan
+        if jns_kendaraan == "Mobil":
+            query = f"{query} and jenis_kendaraan='mobil'"
+        elif jns_kendaraan == "Motor":
+            query = f"{query} and jenis_kendaraan='motor'"
+        elif jns_kendaraan == "Mobil & Motor":
+            query = f"{query} and jenis_kendaraan='mobil' or jenis_kendaraan='motor'"
+
+        ######### stat kendaraan ===> harus convert keluar/masuk menjadi boolean true /false
+        # if stat_kendaraan == "M":
+        #     query = f"{query} and jenis_kendaraan='Mobil'"
+
+        ######### jenis transaksi
+        if jns_transaksi == "Casual":
+            query = f"{query} and jns_transaksi='casual'"
+        elif jns_transaksi == "Voucher":
+            query = f"{query} and jns_transaksi='voucher'"
+
+        ######### shift
+        if kd_shift != "":
+            query = f"{query} and kd_shift='{kd_shift}'"
+        
+            
         # exec query
 
         # extract result, put on cell 
