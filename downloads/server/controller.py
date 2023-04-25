@@ -1574,7 +1574,130 @@ class Controller(Client):
             self.radio_btn_menit.setChecked(False)
     
 
+    def searchKarcis(self):
+        # data_searched = self.search_data_karcis.text()
+        # query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis where barcode like '%{data_searched}%' ","select")
+        # rows_count = len(query)
+        # cols = 6
+
+        # self.karcis_table.setRowCount(rows_count)
+        # self.fillTable(self.karcis_table, cols, query)
+        
+         ################### table content ########################
+
+        tgl1 = self.pilih_tgl1.text()
+        tgl2 = self.pilih_tgl2.text()
+        tgl1 = tgl1.replace("/", "-" ) #for file name
+        tgl2 = tgl2.replace("/", "-" )
+
+        month, day, year = tgl1.split("-")
+        parse_tgl1 = f"{year}-{month}-{day}"
+        
+        month, day, year = tgl2.split("-")
+        parse_tgl2 = f"{year}-{month}-{day}"
+
+
+        # create query based on filter
+        query = ""
+
+        cari_data = self.input_cari.text()
+        jns_kendaraan = self.pilih_jns_kendaraan.currentText()
+        stat_kendaraan = self.pilih_stat_kendaraan.currentText()
+        jns_transaksi = self.pilih_jns_transaksi.currentText()
+        kd_shift = self.pilih_shift.currentText()
+
+        # cari data, tanggal, menit, jam, jenis pembayaran, shift,  
+        # SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift
+         
+        # select datetime from karcis where cast(datetime as date) between '2023-02-05' and '2023-02-06';
+        # select id,lama_parkir from karcis where lama_parkir between CAST('3600 seconds' AS interval) and CAST('10800 seconds' AS interval);
+        # select id,lama_parkir from karcis where lama_parkir=CAST('3600 seconds' AS interval);
+        query = f"{query} "
+        
+        ######### stat kendaraan ===> menentukan column tgl mana yg akan di filter
+        if stat_kendaraan == "Masuk":
+            query = f"{query} cast( datetime as date ) between '{parse_tgl1}' and '{parse_tgl2}'"
+        elif stat_kendaraan == "Keluar":
+            query = f"{query} cast( date_keluar as date ) between '{parse_tgl1}' and '{parse_tgl2}'"
+        elif stat_kendaraan == "Semua":
+            query = f"{query} ( cast( datetime as date ) between '{parse_tgl1}' and '{parse_tgl2}' or cast( date_keluar as date ) between '{parse_tgl1}' and '{parse_tgl2}' )"
+
+        
+        ######## check menit/jam filter is active ?
+        if self.r_menit:
+            sv1 = self.input_menit1.text()
+            sv2 = self.input_menit2.text()
+            query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
+        elif self.r_jam:
+            sv1 = self.input_jam1.text()
+            sv2 = self.input_jam2.text()
+            query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
+        
+
+        ######### jns kendaraan
+        if jns_kendaraan != "Semua":
+            query = f"{query} and jenis_kendaraan='{ jns_kendaraan.lower() }'"
+
+        # if jns_kendaraan == "Mobil":
+        #     query = f"{query} and jenis_kendaraan='mobil'"
+        # elif jns_kendaraan == "Motor":
+        #     query = f"{query} and jenis_kendaraan='motor'"
+        # elif jns_kendaraan == "Semua":
+        #     query = f"{query} and jenis_kendaraan='mobil' or jenis_kendaraan='motor'"
+
+
+        ######### jenis transaksi
+        if jns_transaksi != "Semua":
+            query = f"{query} and jns_transaksi='{ jns_transaksi.lower() }'"
+
+        # if jns_transaksi == "Casual":
+        #     query = f"{query} and jns_transaksi='casual'"
+        # elif jns_transaksi == "Voucher":
+        #     query = f"{query} and jns_transaksi='voucher'"
+        # elif jns_transaksi == "Semua":
+        #     query = f"{query} and jns_transaksi='casual' or jns_transaksi='voucher'"
+
+        ######### shift
+        if kd_shift != "Semua":
+            query = f"{query} and kd_shift='{kd_shift}'"
+        # elif kd_shift == "Semua":
+        #     # loop all shift
+        #     shift = ["s1", "s2", "s3", "s4", "s5"]
+        #     ks=""
+            
+        #     for i in range( len(shift) ):
+
+        #         if i < len(shift) :
+        #             ks = ks + f" kd_shift='{ shift[i] }' or "
+        #         elif i == len(shift) :
+        #             ks = ks + f" kd_shift='{ shift[i] }'"
+
+
+        #     query = f"{query} and {ks}"
+        
+        ######### cari data
+        if cari_data != "" and cari_data != None:
+            query = f"{query} and barcode like '%{cari_data}%' or CAST( tarif as TEXT ) like '%{cari_data}%' or nopol like '%{cari_data}%'"
+
+
+        # exec query
+        query = f"select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} limit 18 OFFSET {self.row_offset}"
+
+        print("==> query: ",query)
+
+        # extract result & fill laporan table 
+        # self.row_offset = 0
+        # res = self.exec_query( query, "SELECT")
+        # rows_count = len(res)
+        # cols = 11
+
+        # self.laporan_table.setColumnCount( cols )
+        # self.fillTable(self.laporan_table, cols, res)
+
+        # return tgl1,tgl2 
+
     def printLaporan(self):
+
         # Margin
         m= 10
         # Page width: Width of A4 is 210mm x 297mm 
@@ -1585,10 +1708,7 @@ class Controller(Client):
         pdf.add_page(orientation='L')
         pdf.set_font('Arial', '', 12)
 
-        tgl1 = self.pilih_tgl1.text()
-        tgl2 = self.pilih_tgl2.text()
-        tgl1 = tgl1.replace("/", "-" )
-        tgl2 = tgl2.replace("/", "-" )
+        tgl1,tgl2 = self.searchKarcis()
 
         pdf.cell(w=(pw/5)*5, h=ch, txt="Rekap Parkir ...", border=1, ln=1, align='C')
         pdf.cell(w=(pw/5)*5, h=ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
@@ -1628,67 +1748,7 @@ class Controller(Client):
         ############################ end header ###########################
 
 
-        ################### table content ########################
-
-        # create query based on filter
-        # query = "select * from karcis where ... FROM karcis limit 18 OFFSET {self.row_offset}"
-        query = ""
-
-        cari_data = self.input_cari.text()
-        jns_kendaraan = self.pilih_jns_kendaraan.currentText()
-        stat_kendaraan = self.pilih_stat_kendaraan.currentText()
-        jns_transaksi = self.pilih_jns_transaksi.currentText()
-        kd_shift = self.pilih_shift.currentText()
-
-        # cari data, tanggal, menit, jam, jenis pembayaran, shift,  
-        # SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift
-         
-        # select datetime from karcis where cast(datetime as date) between '2023-02-05' and '2023-02-06';
-        # select id,lama_parkir from karcis where lama_parkir between CAST('3600 seconds' AS interval) and CAST('10800 seconds' AS interval);
-        # select id,lama_parkir from karcis where lama_parkir=CAST('3600 seconds' AS interval);
-        query = f"{query} cast( datetime as date ) between {tgl1} and {tgl2}"
-        
-        ######### cari data
-        if cari_data != "" and cari_data != None:
-            query = f"{query} and barcode like '%{cari_data}%' or tarif like '%{cari_data}%' or nopol like '%{cari_data}%'"
-
-        
-        ######## check menit/jam filter is active ?
-        if self.r_menit:
-            sv1 = self.input_menit1.text()
-            sv2 = self.input_menit2.text()
-            query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
-        elif self.r_jam:
-            sv1 = self.input_jam1.text()
-            sv2 = self.input_jam2.text()
-            query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
-        
-        ######### jns kendaraan
-        if jns_kendaraan == "Mobil":
-            query = f"{query} and jenis_kendaraan='mobil'"
-        elif jns_kendaraan == "Motor":
-            query = f"{query} and jenis_kendaraan='motor'"
-        elif jns_kendaraan == "Mobil & Motor":
-            query = f"{query} and jenis_kendaraan='mobil' or jenis_kendaraan='motor'"
-
-        ######### stat kendaraan ===> harus convert keluar/masuk menjadi boolean true /false
-        # if stat_kendaraan == "M":
-        #     query = f"{query} and jenis_kendaraan='Mobil'"
-
-        ######### jenis transaksi
-        if jns_transaksi == "Casual":
-            query = f"{query} and jns_transaksi='casual'"
-        elif jns_transaksi == "Voucher":
-            query = f"{query} and jns_transaksi='voucher'"
-
-        ######### shift
-        if kd_shift != "":
-            query = f"{query} and kd_shift='{kd_shift}'"
-        
-            
-        # exec query
-
-        # extract result, put on cell 
+       
 
         # tanggal atau lama parkir --> dalam menit atau jam 
         pdf.cell(w=(pw/5), h=ch, txt="...", border=1)
@@ -1730,7 +1790,7 @@ class Controller(Client):
         # grand total 
         pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
         pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-
+        
 
         ################# end table content ######################
 
