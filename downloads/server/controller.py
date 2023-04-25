@@ -1790,7 +1790,7 @@ class Controller(Client):
         # grand total 
         pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
         pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-
+        
 
         ################# end table content ######################
 
