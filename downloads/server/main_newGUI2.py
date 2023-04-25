@@ -950,14 +950,7 @@ class Main(Util, View):
 
             self.win.show()
     
-    def searchKarcis(self):
-        data_searched = self.search_data_karcis.text()
-        query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis where barcode like '%{data_searched}%' ","select")
-        rows_count = len(query)
-        cols = 6
-
-        self.karcis_table.setRowCount(rows_count)
-        self.fillTable(self.karcis_table, cols, query)
+    
 
     def refreshKarcis(self):
         # refill karcis table
@@ -1121,7 +1114,7 @@ class Main(Util, View):
                 action_widget = QWidget()
                 action_lay = QVBoxLayout()
                 action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
+                action_widget.setMaximumWidth(120)
                 action_widget.setStyleSheet("border: none;")
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
@@ -1300,7 +1293,7 @@ class Main(Util, View):
                 action_widget = QWidget()
                 action_lay = QVBoxLayout()
                 action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
+                action_widget.setMaximumWidth(120)
                 action_widget.setStyleSheet("border: none;")
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
@@ -1500,7 +1493,7 @@ class Main(Util, View):
                 action_widget = QWidget()
                 action_lay = QVBoxLayout()
                 action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
+                action_widget.setMaximumWidth(120)
                 action_widget.setStyleSheet("border: none;")
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
@@ -1729,7 +1722,7 @@ class Main(Util, View):
                 action_widget = QWidget()
                 action_lay = QVBoxLayout()
                 action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
+                action_widget.setMaximumWidth(120)
                 action_widget.setStyleSheet("border: none;")
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
@@ -2435,7 +2428,7 @@ class Main(Util, View):
                 action_widget = QWidget()
                 action_lay = QVBoxLayout()
                 action_widget.setLayout(action_lay)
-                action_widget.setMaximumWidth(180)
+                action_widget.setMaximumWidth(120)
                 action_widget.setStyleSheet("border: none;")
                 action_lay.setContentsMargins(0,0,0,0)
                 action_lay.setSpacing(0)
@@ -2679,18 +2672,22 @@ class Main(Util, View):
                 self.input_jam2.setMinimum(1)
                 self.input_jam2.setMaximum(24)
 
-                kendaraan = ["Mobil", "Motor"]
-                stat_parkir = ["Keluar", "Masuk"]
+                kendaraan = ["Mobil", "Motor", "Semua"]
+                stat_parkir = ["Keluar", "Masuk", "Semua"]
                 self.pilih_jns_kendaraan = QComboBox()
                 self.pilih_stat_kendaraan = QComboBox()
                 self.pilih_jns_kendaraan.addItems( kendaraan )
                 self.pilih_stat_kendaraan.addItems( stat_parkir )
+                self.pilih_jns_kendaraan.setCurrentIndex( 2 )
+                self.pilih_stat_kendaraan.setCurrentIndex( 2 )
 
-                trans = ["Casual", "Voucher"]
+                trans = ["Casual", "Voucher", "Semua"]
                 self.pilih_jns_transaksi = QComboBox()
                 self.pilih_shift = QComboBox()
                 self.pilih_jns_transaksi.addItems( trans )
-                self.pilih_shift.addItems( ["s1", "s2", "s3", "s4", "s5"] )
+                self.pilih_shift.addItems( ["s1", "s2", "s3", "s4", "s5", "Semua"] )
+                self.pilih_jns_transaksi.setCurrentIndex(2)
+                self.pilih_shift.setCurrentIndex( 5 )
                 
             
                 groupboxes = [
@@ -2779,8 +2776,8 @@ class Main(Util, View):
                 prev_next_cont_lay.setAlignment( Qt.AlignCenter )
                 prev_btn.setIcon(QIcon(self.icon_path+"angle-left.png"))
                 next_btn.setIcon(QIcon(self.icon_path+"angle-right.png"))
-                prev_btn.setStyleSheet( View.prev_btn )
-                next_btn.setStyleSheet( View.next_btn )
+                prev_btn.setStyleSheet( View.prev_btn + "QPushButton{ background:#40407a; padding: 8px;}" )
+                next_btn.setStyleSheet( View.next_btn + "QPushButton{ background:#40407a; padding: 8px;}" )
                 lbl_count.setAlignment( Qt.AlignCenter )
                 lbl_count.setStyleSheet( View.primary_lbl + "}" )
                 next_btn.setLayoutDirection(Qt.RightToLeft)
@@ -2799,7 +2796,7 @@ class Main(Util, View):
                 action_lay.setSpacing(0)
 
                 # sizing
-                action_widget.setMaximumWidth(180)
+                action_widget.setMaximumWidth(120)
                 prev_btn.setMaximumWidth(100)
                 next_btn.setMaximumWidth(100)
                 lbl_count.setMinimumWidth(200)
@@ -2890,6 +2887,8 @@ class Main(Util, View):
                 row_refresh.setIcon(QIcon(self.icon_path+"refresh.png"))
                 row_print.setIcon(QIcon(self.icon_path+"print.png"))
                 row_print.setIconSize(QSize(50,50))
+
+                row_search.clicked.connect( self.searchKarcis )
                 row_print.clicked.connect( self.printLaporan )
 
                 self.row_info_laporan.setReadOnly(True)

@@ -91,3 +91,30 @@ insert into tes (barcode, datetime, gate, jns_kendaraan) values ('12313123', '20
 CREATE TABLE voucher ( id serial primary key, id_pel varchar(30), lokasi varchar(255), tarif serial, masa_berlaku date, jns_kendaraan varchar(20) );
 CREATE TABLE laporan_users ( id serial primary key, barcode varchar(30), ket varchar(255) );
 
+
+
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where  cast( datetime as date ) between '2023-3-1' and '2023-4-24'  limit 18 OFFSET 0;
+
+select id, datetime, date_keluar from karcis where cast( datetime as date ) between '2023-2-6' and '2023-2-7' or cast( date_keluar as date ) between '2023-3-1' and '2023-3-20';
+
+
+
+jika yg dipilih status_parkir = masuk ==> false,maka range tanggal hanya berlaku utk column datetime 
+jika yg dipilih status_parkir = keluar ==> true,maka range tanggal hanya berlaku utk column date_keluar 
+jika yg dipilih status_parkir = semua kondisi ==> true or false, maka range tanggal yg berlaku adalah column datetime dan column date_keluar 
+filter range tanggal harus pakai tanda kurung ==> () jika ada kombinasi ==> OR filter 
+
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where  (cast( datetime as date ) between '2022-12-1' and '2023-4-25' or cast( date_keluar as date ) between '2022-12-1' and '2023-4-25') and barcode like '%609%' and status_parkir=true;
+select * from karcis where cast( datetime as date ) between '2022-12-1' and '2023-4-25' and barcode like '%609%';
+
+
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( date_keluar as date ) between '2023-1-2' and '2023-4-25' and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' ;
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( date_keluar as date ) between '2023-1-2' and '2023-4-25' and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' or nopol like '%609%' limit 18 OFFSET 0;
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( datetime as date ) between '2023-1-2' and '2023-4-25' and status_parkir=false and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' or nopol like '%609%' limit 18 OFFSET 0;
+
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( datetime as date ) between '2023-1-2' and '2023-4-25' and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' or nopol like '%609%' limit 18 OFFSET 0;
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( date_keluar as date ) between '2023-1-2' and '2023-4-25' and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' or nopol like '%609%' limit 18 OFFSET 0;
+
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( date_keluar as date ) between '2023-1-2' and '2023-4-25' and jns_transaksi='casual' and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' or nopol like '%609%' limit 18 OFFSET 0;
+
+select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where cast( date_keluar as date ) between '2023-1-2' and '2023-4-25' and jenis_kendaraan='motor' and barcode like '%609%' or CAST( tarif as TEXT ) like '%609%' or nopol like '%609%' limit 18 OFFSET 0;
