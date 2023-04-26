@@ -62,6 +62,9 @@ CREATE TABLE clients_socket ( id serial primary key, ip character varying(20) NO
 -- id|barcode|date_time|gate|images_path 
 create table pegawai ( id serial primary key, rfid_pegawai varchar(30),nama_pegawai varchar(50) );
 CREATE TABLE karcis ( id serial primary key, barcode varchar(150), datetime timestamp(6) with time zone, gate varchar(20), images_path varchar(255), status_parkir BOOLEAN NOT NULL DEFAULT FALSE, jenis_kendaraan varchar(30), ip_raspi varchar(25) );
+ALTER TABLE karcis ADD COLUMN images_path_keluar VARCHAR(255); ALTER TABLE karcis ALTER COLUMN images_path_keluar SET AFTER images_path;
+
+
 ALTER TABLE karcis ALTER COLUMN date_keluar set DEFAULT '';
 ALTER TABLE karcis add column date_keluar timestamp without time zone;
 

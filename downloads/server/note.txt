@@ -38,3 +38,18 @@ CREATE TABLE my_table (
 
 INSERT INTO my_table (duration)
 VALUES ('1 day 2 hours 30 minutes 15 seconds');
+
+
+==================================================================================================
+
+cara print result query, dengan menggunakan name dari col nya
+jika "cols_res" passed pada method exec_query(), maka akan dibuat list secara otomnatis
+yg nantinya berisi nama2 cols berdasarkan text queryny
+kemudian nama2 cols tersebut akan di find nomor indexnya dengan perintah ===> cols.index('....')
+
+cols,res = self.exec_query("select * from tarif order by id", "cols_res")
+                    
+tipe_tarif = str(res[0][cols.index('tipe_tarif')])
+toleransi = str(res[0][cols.index('toleransi')])
+rules_mtr = json.loads( str(res[0][cols.index('base_rules')]) )
+rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )

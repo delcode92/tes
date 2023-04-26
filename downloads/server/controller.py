@@ -2,8 +2,8 @@ import sys, psycopg2, os, math, threading, logging, webbrowser
 from logging.handlers import TimedRotatingFileHandler
 
 from client.client_service import Client
-from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget ,QHeaderView, QLabel, QPushButton, QTableWidget, QTableWidgetItem)
-from PyQt5.QtCore import Qt, QRect,QPropertyAnimation, QEasingCurve
+from PyQt5.QtWidgets import (QMdiArea, QMessageBox, QMdiSubWindow, QWidget, QMainWindow, QVBoxLayout, QHeaderView, QLabel, QPushButton, QTableWidget, QTableWidgetItem)
+from PyQt5.QtCore import Qt, QRect,QPropertyAnimation, QEasingCurve, QDateTime
 from PyQt5.QtGui import QColor, QIcon
 from configparser import ConfigParser
 from escpos.printer import Usb
@@ -1561,6 +1561,146 @@ class Controller(Client):
                 pass
 
 
+    def detailPopUp(self, form_type="", form_size=(400,400)):
+        
+        if self.hidden_id != -1:
+            yellow_font = "color: #ffeaa7;"
+            id = str(self.hidden_id)
+
+            match form_type.lower():
+                case "karcis":
+                    cols,res = self.exec_query("select * from karcis where id="+id, "cols_res")
+                    img_masuk = str( res[0][cols.index('images_path')] )
+                    # img_keluar = str( res[0][cols.index('images_path_keluar')] )
+
+                    img_masuk = "" if img_masuk=="" or img_masuk==None else "./cap/"+img_masuk+".jpg"
+                    # img_keluar = "" if img_keluar=="" or img_keluar==None else "./cap/"+img_keluar+".jpg"
+
+                    
+                    components = [
+                                    {
+                                        "name":"lbl_barcode",
+                                        "category":"label",
+                                        "text": "Barcode:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_barcode",
+                                        "category":"label",
+                                        "text":str( res[0][cols.index('tipe_tarif')] ),
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_datetime",
+                                        "category":"label",
+                                        "text": "Waktu Masuk:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_datetime",
+                                        "category":"label",
+                                        "text":str( res[0][cols.index('datetime')] ),
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_gate",
+                                        "category":"label",
+                                        "text": "Gate:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_gate",
+                                        "category":"label",
+                                        "text":str( res[0][cols.index('gate')] ),
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_stat",
+                                        "category":"label",
+                                        "text": "Status Parkir:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_stat",
+                                        "category":"label",
+                                        "text": str( res[0][cols.index('status_parkir')] ),
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_jns_kendaaraan",
+                                        "category":"label",
+                                        "text": "Jenis Kendaraan:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_jns_kendaraan",
+                                        "category":"label",
+                                        "text":str( res[0][cols.index('jenis_kendaraan')] ),
+                                        "style":self.detail_lbl
+                                    },
+                                    {
+                                        "name":"lbl_photo",
+                                        "category":"label",
+                                        "text": "Photo:",
+                                        "style":self.primary_lbl + yellow_font
+                                    },
+                                    {
+                                        "name":"detail_photo",
+                                        "category":"image",
+                                        "img_path":img_masuk,
+                                        "style":self.detail_lbl
+                                    },
+                                ]
+
+                case default:
+                    pass    
+
+            self.win = QMainWindow()
+            central_widget = QWidget()
+            central_lay = QVBoxLayout()
+            
+            central_lay.setContentsMargins(25,25,25,25)
+            central_widget.setStyleSheet("background:#222b45;")
+
+            self.CreateComponentLayout(components, central_lay)
+            central_lay.addStretch(1)
+            
+            central_widget.setLayout(central_lay)
+            self.win.setCentralWidget(central_widget)
+
+            self.win.setWindowTitle(f"{form_type} details")
+            self.win.resize(form_size[0], form_size[1])
+            
+            self.win.show()
+
+
+    def fillTable(self, table, cols, query, rows=0):
+        
+        if rows != 0:
+            table.setRowCount(rows)
+            
+        # rows loop 
+        r = 0
+        for l in query:
+            
+            # set item on table column
+            for i in range(cols):
+                try:
+                    val = str(l[i])
+                except:
+                    val = ""
+                
+                
+                if val == 'None': val = ""
+                elif val == 'True': val = "keluar"
+                elif val == 'False': val = "masuk"
+
+                item = QTableWidgetItem( val )
+                table.setItem(r, i, item)
+            
+            r = r + 1
+
+
     def radioFilterMenit(self,tt):
         
         if tt:
@@ -1574,16 +1714,32 @@ class Controller(Client):
             self.radio_btn_menit.setChecked(False)
     
 
-    def searchKarcis(self):
-        # data_searched = self.search_data_karcis.text()
-        # query = self.exec_query(f"SELECT id, barcode,  datetime, gate, status_parkir, jenis_kendaraan FROM karcis where barcode like '%{data_searched}%' ","select")
-        # rows_count = len(query)
-        # cols = 6
+    def refreshKarcis(self):
 
-        # self.karcis_table.setRowCount(rows_count)
-        # self.fillTable(self.karcis_table, cols, query)
+        # reset filter form to default settings
+        self.input_cari.setText("")
+        self.pilih_jns_kendaraan.setCurrentIndex( 2 )
+        self.pilih_stat_kendaraan.setCurrentIndex( 2 )
+        self.pilih_jns_transaksi.setCurrentIndex( 2 )
+        self.pilih_shift.setCurrentIndex( 5 )
+        self.pilih_tgl1.setDateTime( QDateTime.currentDateTime() )
+        self.pilih_tgl2.setDateTime( QDateTime.currentDateTime() )
+        self.input_menit1.setValue(0)
+        self.input_menit2.setValue(0)
+        self.input_jam1.setValue(0)
+        self.input_jam2.setValue(0)
         
-         ################### table content ########################
+        # refill karcis table
+        self.row_offset = 0
+        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+        rows_count = len(query)
+        cols = 11
+
+        self.laporan_table.setRowCount(rows_count)
+        self.fillTable(self.laporan_table, cols, query)
+
+
+    def searchKarcis(self):
 
         tgl1 = self.pilih_tgl1.text()
         tgl2 = self.pilih_tgl2.text()
@@ -1638,63 +1794,38 @@ class Controller(Client):
         if jns_kendaraan != "Semua":
             query = f"{query} and jenis_kendaraan='{ jns_kendaraan.lower() }'"
 
-        # if jns_kendaraan == "Mobil":
-        #     query = f"{query} and jenis_kendaraan='mobil'"
-        # elif jns_kendaraan == "Motor":
-        #     query = f"{query} and jenis_kendaraan='motor'"
-        # elif jns_kendaraan == "Semua":
-        #     query = f"{query} and jenis_kendaraan='mobil' or jenis_kendaraan='motor'"
-
-
+        
         ######### jenis transaksi
         if jns_transaksi != "Semua":
             query = f"{query} and jns_transaksi='{ jns_transaksi.lower() }'"
 
-        # if jns_transaksi == "Casual":
-        #     query = f"{query} and jns_transaksi='casual'"
-        # elif jns_transaksi == "Voucher":
-        #     query = f"{query} and jns_transaksi='voucher'"
-        # elif jns_transaksi == "Semua":
-        #     query = f"{query} and jns_transaksi='casual' or jns_transaksi='voucher'"
-
+        
         ######### shift
         if kd_shift != "Semua":
             query = f"{query} and kd_shift='{kd_shift}'"
-        # elif kd_shift == "Semua":
-        #     # loop all shift
-        #     shift = ["s1", "s2", "s3", "s4", "s5"]
-        #     ks=""
-            
-        #     for i in range( len(shift) ):
-
-        #         if i < len(shift) :
-        #             ks = ks + f" kd_shift='{ shift[i] }' or "
-        #         elif i == len(shift) :
-        #             ks = ks + f" kd_shift='{ shift[i] }'"
-
-
-        #     query = f"{query} and {ks}"
         
+
         ######### cari data
         if cari_data != "" and cari_data != None:
             query = f"{query} and barcode like '%{cari_data}%' or CAST( tarif as TEXT ) like '%{cari_data}%' or nopol like '%{cari_data}%'"
 
 
         # exec query
-        query = f"select id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} limit 18 OFFSET {self.row_offset}"
+        query = f"select id, barcode, nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} limit 18 OFFSET {self.row_offset}"
 
         print("==> query: ",query)
 
         # extract result & fill laporan table 
-        # self.row_offset = 0
-        # res = self.exec_query( query, "SELECT")
-        # rows_count = len(res)
-        # cols = 11
+        self.row_offset = 0
+        res = self.exec_query( query, "SELECT")
+        rows_count = len(res)
+        cols = 11
 
-        # self.laporan_table.setColumnCount( cols )
-        # self.fillTable(self.laporan_table, cols, res)
+        self.laporan_table.setRowCount( rows_count )
+        self.laporan_table.setColumnCount( cols )
+        self.fillTable(self.laporan_table, cols, res)
 
-        # return tgl1,tgl2 
+        return tgl1,tgl2,res 
 
     def printLaporan(self):
 
@@ -1708,7 +1839,7 @@ class Controller(Client):
         pdf.add_page(orientation='L')
         pdf.set_font('Arial', '', 12)
 
-        tgl1,tgl2 = self.searchKarcis()
+        tgl1,tgl2,res = self.searchKarcis()
 
         pdf.cell(w=(pw/5)*5, h=ch, txt="Rekap Parkir ...", border=1, ln=1, align='C')
         pdf.cell(w=(pw/5)*5, h=ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)

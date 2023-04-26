@@ -88,30 +88,6 @@ class Main(Util, View):
             case default:
                 pass
 
-    def fillTable(self, table, cols, query, rows=0):
-        
-        if rows != 0:
-            table.setRowCount(rows)
-            
-        r = 0
-        for l in query:
-            
-            # set item on table column
-            for i in range(cols):
-                try:
-                    val = str(l[i])
-                except:
-                    val = ""
-                
-                # print(i, val)
-                
-                if val == 'None': val = ""
-
-                item = QTableWidgetItem( val )
-                table.setItem(r, i, item)
-            
-            r = r + 1
-
     def fillTableTarif(self, table, cols, query, rows=0):
         
         if rows != 0:
@@ -168,111 +144,6 @@ class Main(Util, View):
             return scroll,form_container_lay
         else:
             return form_container,form_container_lay
-
-    def detailPopUp(self, form_type="", form_size=(400,400)):
-        
-        if self.hidden_id != -1:
-            yellow_font = "color: #ffeaa7;"
-            id = str(self.hidden_id)
-
-            match form_type.lower():
-                case "karcis":
-                    res = self.exec_query("select * from karcis where id="+id, "select")
-                    components = [
-                                    {
-                                        "name":"lbl_barcode",
-                                        "category":"label",
-                                        "text": "Barcode:",
-                                        "style":self.primary_lbl + yellow_font
-                                    },
-                                    {
-                                        "name":"detail_barcode",
-                                        "category":"label",
-                                        "text":res[0][1],
-                                        "style":self.detail_lbl
-                                    },
-                                    {
-                                        "name":"lbl_datetime",
-                                        "category":"label",
-                                        "text": "Waktu Masuk:",
-                                        "style":self.primary_lbl + yellow_font
-                                    },
-                                    {
-                                        "name":"detail_datetime",
-                                        "category":"label",
-                                        "text":"date time here...",
-                                        "style":self.detail_lbl
-                                    },
-                                    {
-                                        "name":"lbl_gate",
-                                        "category":"label",
-                                        "text": "Gate:",
-                                        "style":self.primary_lbl + yellow_font
-                                    },
-                                    {
-                                        "name":"detail_gate",
-                                        "category":"label",
-                                        "text":res[0][3],
-                                        "style":self.detail_lbl
-                                    },
-                                    {
-                                        "name":"lbl_stat",
-                                        "category":"label",
-                                        "text": "Status Parkir:",
-                                        "style":self.primary_lbl + yellow_font
-                                    },
-                                    {
-                                        "name":"detail_stat",
-                                        "category":"label",
-                                        "text":"status here ...",
-                                        "style":self.detail_lbl
-                                    },
-                                    {
-                                        "name":"lbl_jns_kendaaraan",
-                                        "category":"label",
-                                        "text": "Jenis Kendaraan:",
-                                        "style":self.primary_lbl + yellow_font
-                                    },
-                                    {
-                                        "name":"detail_jns_kendaraan",
-                                        "category":"label",
-                                        "text":res[0][6],
-                                        "style":self.detail_lbl
-                                    },
-                                    {
-                                        "name":"lbl_photo",
-                                        "category":"label",
-                                        "text": "Photo:",
-                                        "style":self.primary_lbl + yellow_font
-                                    },
-                                    {
-                                        "name":"detail_photo",
-                                        "category":"image",
-                                        "img_path":"./cap/"+res[0][1]+".jpg",
-                                        "style":self.detail_lbl
-                                    },
-                                ]
-
-                case default:
-                    pass    
-
-            self.win = QMainWindow()
-            central_widget = QWidget()
-            central_lay = QVBoxLayout()
-            
-            central_lay.setContentsMargins(25,25,25,25)
-            central_widget.setStyleSheet("background:#222b45;")
-
-            self.CreateComponentLayout(components, central_lay)
-            central_lay.addStretch(1)
-            
-            central_widget.setLayout(central_lay)
-            self.win.setCentralWidget(central_widget)
-
-            self.win.setWindowTitle(f"{form_type} details")
-            self.win.resize(form_size[0], form_size[1])
-            
-            self.win.show()
 
     def editPopUp(self, form_type="", form_size=(400,400) ):
         
@@ -952,16 +823,7 @@ class Main(Util, View):
     
     
 
-    def refreshKarcis(self):
-        # refill karcis table
-        self.row_offset = 0
-        query = self.exec_query(f"SELECT id, barcode,  datetime, date_keluar, gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}","select")
-        rows_count = len(query)
-        cols = 8
-
-        self.karcis_table.setRowCount(rows_count)
-        self.fillTable(self.karcis_table, cols, query)
-
+    
     def prevNext(self, btnType):
         
         if btnType=="prev":
@@ -1692,8 +1554,8 @@ class Main(Util, View):
                 self.karcis_container_lay.addWidget(self.karcis_stack)
 
                 # add tabs
-                self.karcis_stack.addWidget(karcis_content1)
                 self.karcis_stack.addWidget(karcis_content2)
+                # self.karcis_stack.addWidget(karcis_content2)
                 
                 # set widget and layout
                 karcis_content1_lay = QVBoxLayout()
@@ -1752,7 +1614,7 @@ class Main(Util, View):
                 action_lay.addStretch(1)
 
 
-                ##################### action edit & delete ###################
+                ##################### action edit & delete ##################
                 
                 row_search.clicked.connect(self.searchKarcis)
                 row_detail.clicked.connect(lambda: self.detailPopUp(form_type="karcis", form_size=(400, 600)))
@@ -2890,6 +2752,8 @@ class Main(Util, View):
 
                 row_search.clicked.connect( self.searchKarcis )
                 row_print.clicked.connect( self.printLaporan )
+                row_refresh.clicked.connect( self.refreshKarcis )
+                row_detail.clicked.connect(lambda: self.detailPopUp(form_type="karcis", form_size=(400, 600)))
 
                 self.row_info_laporan.setReadOnly(True)
                 self.setTabButton(tab1=self.laporan_tab1, tab2=None, tabsContainer=laporan_tabs_container, stackedWidget=self.laporan_stack)
@@ -2908,6 +2772,7 @@ class Main(Util, View):
                 cols = 11
 
                 self.laporan_table.resizeRowsToContents()
+                self.laporan_table.horizontalHeader().setStretchLastSection(True)
                 self.laporan_table.setRowCount( rows_count )
                 self.laporan_table.setColumnCount( cols )
                 self.laporan_table.setHorizontalHeaderLabels(["id", "No trans" ,"Nopol", "J.kendaraan", "Pos", "Tgl masuk", "Tgl keluar", "Lama Parkir", "Status parkir", "Biaya", "J.transaksi", "Shift"])
