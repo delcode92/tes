@@ -832,14 +832,23 @@ class Main(Util, View):
                 self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
 
         elif btnType=="next":
+            print("==> ", self.row_offset, self.row_limit, self.karcis_rows[0][0])
             if self.row_offset + self.row_limit < self.karcis_rows[0][0]:
                 self.row_offset += self.row_limit
                 self.start = self.row_offset + 1
                 self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
+
+                print("==>", self.start, self.end)
             
         
         # refill/refresh table with new offset
-        query = self.exec_query(f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
+        try:
+            print("masuk 1")
+            query = self.exec_query(f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
+        except:
+            print("masuk 2")
+            query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
+        
         rows_count = len(query)
 
         if rows_count > 0:

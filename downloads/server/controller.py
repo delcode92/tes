@@ -1730,14 +1730,18 @@ class Controller(Client):
         self.input_jam2.setValue(0)
         
         # refill karcis table
+        self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
+        self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0]
         self.row_offset = 0
-        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+        self.query_search = f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id"
+        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         rows_count = len(query)
         cols = 11
 
         self.laporan_table.setRowCount(rows_count)
         self.fillTable(self.laporan_table, cols, query)
 
+        self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
 
     def searchKarcis(self):
 
