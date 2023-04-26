@@ -1587,7 +1587,7 @@ class Controller(Client):
                                     {
                                         "name":"detail_barcode",
                                         "category":"label",
-                                        "text":str( res[0][cols.index('tipe_tarif')] ),
+                                        "text":str( res[0][cols.index('barcode')] ),
                                         "style":self.detail_lbl
                                     },
                                     {
@@ -1811,9 +1811,9 @@ class Controller(Client):
 
 
         # exec query
-        query = f"select id, barcode, nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} limit 18 OFFSET {self.row_offset}"
+        query = f"select id, barcode, nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} order by id limit 18 OFFSET {self.row_offset}"
 
-        print("==> query: ",query)
+        # print("==> query: ",query)
 
         # extract result & fill laporan table 
         self.row_offset = 0

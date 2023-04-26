@@ -826,28 +826,54 @@ class Main(Util, View):
     
     def prevNext(self, btnType):
         
+        # last_offset = 1 if self.row_offset==0 else self.row_offset
+        
         if btnType=="prev":
             # check & set current offset
+            # if self.row_offset > 0:
+            #     self.row_offset = self.row_offset - 18 
+            #     print( "===>",self.row_offset )
+                # last_offset = last_offset - 18
+                # self.lv = self.row_offset-(18-1)
             if self.row_offset > 0:
-                self.row_offset = self.row_offset - 18 
+                self.row_offset -= self.row_limit
+                self.start = self.row_offset + 1
+                self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
 
         elif btnType=="next":
             # check & set current offset
-            if self.row_offset >= 0:
-                self.row_offset = self.row_offset + 18
+            if self.row_offset + self.row_limit < self.karcis_rows[0][0]:
+                print("==> ", self.row_offset + self.row_limit)
+                self.row_offset += self.row_limit
+                self.start = self.row_offset + 1
+                self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
+
+            # if self.row_offset >= 0:
+            #     self.row_offset = self.row_offset + 18
+                
+            #     last_offset = last_offset + 18
+            #     self.lv = self.row_offset+18
 
         # refill/refresh table with new offset
-        query = self.exec_query(f"SELECT id, barcode,  datetime, date_keluar, gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit 18 OFFSET {self.row_offset}", "SELECT")
         rows_count = len(query)
 
         if rows_count > 0:
-            cols = 6
+            cols = 11
 
-            self.karcis_table.setRowCount(rows_count)
-            self.fillTable(self.karcis_table, cols, query)
-        else:
-            self.row_offset = self.row_offset - 18; 
+            self.laporan_table.setRowCount(rows_count)
+            self.fillTable(self.laporan_table, cols, query)
+        
+            # set label
+        #     if rows_count < 18:
+        #         self.lv = self.lv - (18-rows_count)
+                
+            self.lbl_count.setText(f"{self.start}-{self.end} from {self.karcis_rows[0][0]} results")
 
+        # else:
+        #     self.row_offset = self.row_offset - 18;
+
+        
     # def set_image(self, image):
     #     self.image_label.setPixmap(QPixmap.fromImage(image))
 
@@ -2516,7 +2542,7 @@ class Main(Util, View):
                 lbl_sd = QLabel("s/d")
                 prev_btn = QPushButton("prev")
                 next_btn = QPushButton("next")
-                lbl_count = QLabel(" ... from ... results ")
+                self.lbl_count = QLabel()
                 
                 self.input_cari = QLineEdit()
                 self.pilih_tgl1 = QDateEdit( calendarPopup=True )
@@ -2640,8 +2666,8 @@ class Main(Util, View):
                 next_btn.setIcon(QIcon(self.icon_path+"angle-right.png"))
                 prev_btn.setStyleSheet( View.prev_btn + "QPushButton{ background:#40407a; padding: 8px;}" )
                 next_btn.setStyleSheet( View.next_btn + "QPushButton{ background:#40407a; padding: 8px;}" )
-                lbl_count.setAlignment( Qt.AlignCenter )
-                lbl_count.setStyleSheet( View.primary_lbl + "}" )
+                self.lbl_count.setAlignment( Qt.AlignCenter )
+                self.lbl_count.setStyleSheet( View.primary_lbl + "}" )
                 next_btn.setLayoutDirection(Qt.RightToLeft)
 
                 # positioning
@@ -2661,7 +2687,7 @@ class Main(Util, View):
                 action_widget.setMaximumWidth(120)
                 prev_btn.setMaximumWidth(100)
                 next_btn.setMaximumWidth(100)
-                lbl_count.setMinimumWidth(200)
+                self.lbl_count.setMinimumWidth(200)
                 
                 # set layout
                 laporan_tabs_container_widget.setLayout(laporan_tabs_container)
@@ -2740,7 +2766,7 @@ class Main(Util, View):
                 shift_lay.addWidget( lbl_shift )
                 shift_lay.addWidget( self.pilih_shift )
                 prev_next_cont_lay.addWidget( prev_btn )
-                prev_next_cont_lay.addWidget( lbl_count )
+                prev_next_cont_lay.addWidget( self.lbl_count )
                 prev_next_cont_lay.addWidget( next_btn )
 
                 # other
@@ -2761,13 +2787,17 @@ class Main(Util, View):
                 self.radio_btn_jam.clicked.connect(self.radioFilterJam)
                 # self.radio_btn_jam.setAutoExclusive(True)
                 # self.radio_btn_jam.setAutoExclusive(True)
+                
+                prev_btn.clicked.connect(lambda: self.prevNext("prev"))
+                next_btn.clicked.connect(lambda: self.prevNext("next"))
 
                 
 
                 # create table widget
                 # fetch data from DB
+                self.row_limit = 18
                 self.row_offset = 0
-                query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+                query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
                 cols = 11
 
@@ -2782,6 +2812,9 @@ class Main(Util, View):
                 self.laporan_table.setColumnHidden(0, True) #hide id column
                 
                 self.fillTable(self.laporan_table, cols, query)
+
+                self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
+                self.lbl_count.setText(f"1-18 from {self.karcis_rows[0][0]} results")
 
                 # self.laporan_table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
                 # self.laporan_table.setItem(0, 1, QTableWidgetItem( "test 2" ))

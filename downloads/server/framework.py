@@ -773,9 +773,11 @@ class Util(Controller ):
                             case "text":
                                 self.components[i["name"]].setText( i["text"] )
                             case "img_path":
-                                if i["img_path"] == "":
-                                    pixmap = QPixmap(640, 358)
-                                elif i["img_path"] == "":
+
+                                # default pixmap set 
+                                pixmap = QPixmap(640, 358)
+                                
+                                if i["img_path"] != "":
                                     pixmap = QPixmap(i["img_path"])
                                 
                                 self.components[i["name"]].setPixmap(pixmap)
