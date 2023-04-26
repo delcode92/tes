@@ -1811,12 +1811,17 @@ class Controller(Client):
 
 
         # exec query
-        query = f"select id, barcode, nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} order by id limit 18 OFFSET {self.row_offset}"
+        self.query_search = f"select id, barcode, nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} order by id"
 
         # print("==> query: ",query)
 
-        # extract result & fill laporan table 
+        # extract result & fill laporan table
+        self.karcis_rows = self.exec_query(f"select count(*) as count from karcis where {query}", "select")
+        self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0] 
         self.row_offset = 0
+        
+        
+        query = f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}"
         res = self.exec_query( query, "SELECT")
         rows_count = len(res)
         cols = 11
@@ -1825,6 +1830,8 @@ class Controller(Client):
         self.laporan_table.setColumnCount( cols )
         self.fillTable(self.laporan_table, cols, res)
 
+        self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
+        
         return tgl1,tgl2,res 
 
     def printLaporan(self):

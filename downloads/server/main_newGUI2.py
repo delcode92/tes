@@ -822,40 +822,24 @@ class Main(Util, View):
             self.win.show()
     
     
-
     
     def prevNext(self, btnType):
         
-        # last_offset = 1 if self.row_offset==0 else self.row_offset
-        
         if btnType=="prev":
-            # check & set current offset
-            # if self.row_offset > 0:
-            #     self.row_offset = self.row_offset - 18 
-            #     print( "===>",self.row_offset )
-                # last_offset = last_offset - 18
-                # self.lv = self.row_offset-(18-1)
             if self.row_offset > 0:
                 self.row_offset -= self.row_limit
                 self.start = self.row_offset + 1
                 self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
 
         elif btnType=="next":
-            # check & set current offset
             if self.row_offset + self.row_limit < self.karcis_rows[0][0]:
-                print("==> ", self.row_offset + self.row_limit)
                 self.row_offset += self.row_limit
                 self.start = self.row_offset + 1
                 self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
-
-            # if self.row_offset >= 0:
-            #     self.row_offset = self.row_offset + 18
-                
-            #     last_offset = last_offset + 18
-            #     self.lv = self.row_offset+18
-
+            
+        
         # refill/refresh table with new offset
-        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit 18 OFFSET {self.row_offset}", "SELECT")
+        query = self.exec_query(f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         rows_count = len(query)
 
         if rows_count > 0:
@@ -863,16 +847,11 @@ class Main(Util, View):
 
             self.laporan_table.setRowCount(rows_count)
             self.fillTable(self.laporan_table, cols, query)
-        
-            # set label
-        #     if rows_count < 18:
-        #         self.lv = self.lv - (18-rows_count)
-                
-            self.lbl_count.setText(f"{self.start}-{self.end} from {self.karcis_rows[0][0]} results")
 
-        # else:
-        #     self.row_offset = self.row_offset - 18;
-
+            try:    
+                self.lbl_count.setText(f"{self.start}-{self.end} from {self.karcis_rows[0][0]} results")
+            except:
+                ...
         
     # def set_image(self, image):
     #     self.image_label.setPixmap(QPixmap.fromImage(image))
@@ -2795,7 +2774,8 @@ class Main(Util, View):
 
                 # create table widget
                 # fetch data from DB
-                self.row_limit = 18
+                self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
+                self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0]
                 self.row_offset = 0
                 query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
@@ -2813,8 +2793,8 @@ class Main(Util, View):
                 
                 self.fillTable(self.laporan_table, cols, query)
 
-                self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
-                self.lbl_count.setText(f"1-18 from {self.karcis_rows[0][0]} results")
+                
+                self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
 
                 # self.laporan_table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
                 # self.laporan_table.setItem(0, 1, QTableWidgetItem( "test 2" ))
