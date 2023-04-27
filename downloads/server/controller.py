@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt, QRect,QPropertyAnimation, QEasingCurve, QDateTime
 from PyQt5.QtGui import QColor, QIcon
 from configparser import ConfigParser
 from escpos.printer import Usb
-from datetime import datetime
+from datetime import datetime, timedelta
 from fpdf import FPDF
 
 # from framework import View
@@ -1695,6 +1695,37 @@ class Controller(Client):
                 elif val == 'True': val = "keluar"
                 elif val == 'False': val = "masuk"
 
+                # print(type(val))
+                
+                item = QTableWidgetItem( val )
+                table.setItem(r, i, item)
+            
+            r = r + 1
+    
+    def fillTableKarcis(self, table, cols, res, index_tgl_masuk=None, index_tgl_keluar=None):
+            
+        # rows loop 
+        r = 0
+        for l in res:
+            
+            # set item on table column
+            for i in range(cols):
+                try:
+                    val = str(l[i])
+                except:
+                    val = ""
+                
+                
+                if val == 'None': val = ""
+                elif val == 'True': val = "keluar"
+                elif val == 'False': val = "masuk"
+
+                if index_tgl_masuk!=None and i==index_tgl_masuk or index_tgl_keluar!=None and i==index_tgl_keluar:
+                    x = val.split("-")
+                    if len(x) == 3:
+                        year, month, day = x
+                        val = f"{day}/{month}/{year}" 
+                
                 item = QTableWidgetItem( val )
                 table.setItem(r, i, item)
             
@@ -1733,13 +1764,13 @@ class Controller(Client):
         self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
         self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0]
         self.row_offset = 0
-        self.query_search = f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id"
-        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
+        self.query_search = f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id"
+        query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         rows_count = len(query)
         cols = 11
 
         self.laporan_table.setRowCount(rows_count)
-        self.fillTable(self.laporan_table, cols, query)
+        self.fillTableKarcis(self.laporan_table, cols, query, index_tgl_masuk=5, index_tgl_keluar=6)
 
         self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
 
@@ -1750,12 +1781,11 @@ class Controller(Client):
         tgl1 = tgl1.replace("/", "-" ) #for file name
         tgl2 = tgl2.replace("/", "-" )
 
-        month, day, year = tgl1.split("-")
+        day, month, year = tgl1.split("-")
         parse_tgl1 = f"{year}-{month}-{day}"
         
-        month, day, year = tgl2.split("-")
+        day, month, year = tgl2.split("-")
         parse_tgl2 = f"{year}-{month}-{day}"
-
 
         # create query based on filter
         query = ""
@@ -1781,8 +1811,8 @@ class Controller(Client):
             query = f"{query} cast( date_keluar as date ) between '{parse_tgl1}' and '{parse_tgl2}'"
         elif stat_kendaraan == "Semua":
             query = f"{query} ( cast( datetime as date ) between '{parse_tgl1}' and '{parse_tgl2}' or cast( date_keluar as date ) between '{parse_tgl1}' and '{parse_tgl2}' )"
-
-        
+            
+           
         ######## check menit/jam filter is active ?
         if self.r_menit:
             sv1 = self.input_menit1.text()
@@ -1792,6 +1822,7 @@ class Controller(Client):
             sv1 = self.input_jam1.text()
             sv2 = self.input_jam2.text()
             query = f"{query} and lama_parkir between CAST('{sv1}' AS interval) and CAST('{sv2}' AS interval)"
+        
         
 
         ######### jns kendaraan
@@ -1815,25 +1846,27 @@ class Controller(Client):
 
 
         # exec query
-        self.query_search = f"select id, barcode, nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} order by id"
+        self.query_search = f"select id, barcode, nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where {query} order by id"
+        # print("cek==>: ", query)
 
         # print("==> query: ",query)
 
         # extract result & fill laporan table
-        self.karcis_rows = self.exec_query(f"select count(*) as count from karcis where {query}", "select")
-        self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0] 
+        self.karcis_rows = self.exec_query(f"select count(*) as count from karcis where {query}", "select") # query utk hitung jumlah semua data, berdasarkan filter2ny, tidak pakai limit karena mau tau jumlah semua data
+        self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0] # menentukan jumlah limit, berdasarakan total data yg ada
         self.row_offset = 0
         
         
-        query = f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}"
-        res = self.exec_query( query, "SELECT")
-        res2 = self.exec_query( self.query_search, "SELECT")
+        query = f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}" # baru masukkan limit kedalam querynya
+        
+        res = self.exec_query( query, "SELECT") # result yg ada limitnya
+        res2 = self.exec_query( self.query_search, "SELECT") # result yg tidak ada limitnya, utk diolah pada proses yg lain, seperti cetak laporan
         rows_count = len(res)
         cols = 11
 
         self.laporan_table.setRowCount( rows_count )
         self.laporan_table.setColumnCount( cols )
-        self.fillTable(self.laporan_table, cols, res)
+        self.fillTableKarcis(self.laporan_table, cols, res, index_tgl_masuk=5, index_tgl_keluar=6)
 
         self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
         
@@ -1859,7 +1892,7 @@ class Controller(Client):
         self.m= 10
         
         # Cell height
-        self.ch = 10
+        self.ch = 6
         self.pdf = FPDF()
         
         self.pdf.set_font('Arial', '', 8)
@@ -1878,7 +1911,7 @@ class Controller(Client):
             self.pw = 297 - 2*self.m
             self.pdf.add_page(orientation='L')
 
-            self.agregatJam( tgl1,tgl2,res )
+            self.agregatJam( tgl1,tgl2 )
         
         elif self.row_opsi_print.currentText() == "rekap/tgl":
             # Page landscape: Width of A4 is 210mm x 297mm 
@@ -1886,7 +1919,7 @@ class Controller(Client):
             self.pw = 297 - 2*self.m
             self.pdf.add_page(orientation='L')
 
-            self.agregatTgl( tgl1,tgl2,res )
+            self.agregatTgl( tgl1,tgl2 )
         
         elif self.row_opsi_print.currentText() == "semua":
 
@@ -1899,7 +1932,7 @@ class Controller(Client):
 
         
 
-    def agregatJam(self,tgl1,tgl2,res):
+    def agregatJam(self,tgl1,tgl2):
 
         self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Parkir", border=1, ln=1, align='C')
         self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
@@ -1985,9 +2018,19 @@ class Controller(Client):
 
         webbrowser.open_new("file://"+path)
 
-    def agregatTgl(self,tgl1,tgl2,res):
-        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Parkir", border=1, ln=1, align='C')
-        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
+    def agregatTgl(self,tgl1,tgl2):
+        
+        day, month, year = tgl1.split("-")
+        d1 = datetime( int(year), int(month), int(day) )
+        parse_tgl1 = f"{day}/{month}/{year}"
+        
+        day, month, year = tgl2.split("-")
+        d2 = datetime( int(year), int(month), int(day) )
+        parse_tgl2 = f"{day}/{month}/{year}"
+
+        self.pdf.set_font('Arial', 'B', 8)
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Pendapatan Parkir", border=0, ln=1, align='C')
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {parse_tgl1} sampai dengan {parse_tgl2}", border=0, ln=1)
         
         ############################### header ###############################
         self.pdf.cell(w=(self.pw/5), h=self.ch*2, txt="Tanggal", border=1, align='C')
@@ -2020,45 +2063,57 @@ class Controller(Client):
 
         ############################ table content ###########################
         
-        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
 
-        # motor
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        ###### check apakah jumlah data pada list sama dengan selisih tgl1 dan tgl 2
+        ###### jika sama, artinya range tgl tersebut ada datanya semua
+        delta = d2-d1
+        # start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
+
+        for i in range(delta.days+1):
+            current_date = d1 + timedelta(days=i) 
+            tgl = current_date.strftime("%d/%m/%y")
+            tgl2 = current_date.strftime("%Y-%m-%d")
+
+
+            # jum_data = len(res)
+
+            # if delta.days != jum_data:
+            #     print("delta: ", delta.days, "jumdata: ", jum_data)
+            #     print("===> ada tgl yg kosong") 
+                ###### jika beda , masuk ke step berikutnya
+
+            self.pdf.set_font('Arial', 'B', 8)
+
+            self.pdf.cell(w=(self.pw/5), h=self.ch, txt=tgl, border=1)
+
+            # motor
+            res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and jenis_kendaraan='motor'", "SELECT")
+            j = "0" if res[0][0]==0 or res[0][0] is None else str(res[0][0])
+            t = "0" if res[0][1]==0 or res[0][1] is None else str(res[0][1])
+            
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=j, border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=t, border=1)
+            
+            # mobil
+            res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and jenis_kendaraan='mobil'", "SELECT")
+            j = "0" if res[0][0]==0 or res[0][0] is None else str(res[0][0])
+            t = "0" if res[0][1]==0 or res[0][1] is None else str(res[0][1])
+
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=j, border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=t, border=1)
+            
+            # lainnya
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+
+            # grand total 
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+
+            self.pdf.ln()
         
-        # mobil
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        
-        # lainnya
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
 
-        # grand total 
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-
-        self.pdf.ln()
-        
-
-        # tanggal atau lama parkir --> dalam menit atau jam 
-        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
-
-        # motor
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        
-        # mobil
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        
-        # lainnya
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-
-        # grand total 
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+       
         
 
         ################# end table content ######################
@@ -2072,10 +2127,10 @@ class Controller(Client):
 
     def semuaData(self,tgl1,tgl2,res):
         
-        month, day, year = tgl1.split("-")
+        day, month, year = tgl1.split("-")
         parse_tgl1 = f"{day}/{month}/{year}"
         
-        month, day, year = tgl2.split("-")
+        day, month, year = tgl2.split("-")
         parse_tgl2 = f"{day}/{month}/{year}"
 
         self.pdf.set_font('Arial', 'B', 8)
@@ -2098,18 +2153,19 @@ class Controller(Client):
             date_masuk = "" if res[i][5] is None else str(res[i][5].strftime("%d/%m/%y %H:%M:%S"))
             date_keluar = "" if res[i][6] is None else str(res[i][5].strftime("%d/%m/%y %H:%M:%S"))
             tarif = "0" if res[i][9] is None else str(res[i][9])
+            nopol = "" if res[i][2] is None else str(res[i][2])
             tot_ch = tot_ch + self.ch
 
             self.pdf.set_font('Arial', '', 8)
-            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=res[i][1], border=1)
-            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=res[i][3], border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=nopol, border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=str(res[i][3]), border=1)
             self.pdf.cell(w=(self.pw/7), h=self.ch, txt=date_masuk, border=1)
             self.pdf.cell(w=(self.pw/7), h=self.ch, txt=date_keluar, border=1)
             self.pdf.cell(w=(self.pw/7), h=self.ch, txt=str(res[i][7]), border=1)
             self.pdf.cell(w=(self.pw/7), h=self.ch, txt=str(res[i][10]), border=1)
             self.pdf.cell(w=(self.pw/7), h=self.ch, txt=tarif, border=1, ln=1)
 
-            if tot_ch == 22*self.ch:
+            if tot_ch == 39*self.ch:
                 tot_ch = 0
                 self.pdf.cell(0, 10, 'Page %s' % self.pdf.page_no(), 0, 0, 'C')
                 self.pdf.ln()

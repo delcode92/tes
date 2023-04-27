@@ -55,23 +55,3 @@ rules_mtr = json.loads( str(res[0][cols.index('base_rules')]) )
 rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )
 
 
-I have two QPushButton, one is previous button, and the last one is next button 
-those buttons is for set table result based on offset limit
-
-and I have one QLabel that shows us how many data shows from total data
-
-for example in my table in database has 51 rows of data, I want limit the max result is only 18 rows of data
-
-for first time program running it will show 1-18 rows of my table
-in QLabel, will be setText("1-18 from 51 results")
-
-if next button pressed it will give 19-36 rows of my table
-in QLabel, will be setText("19-36 from 51 results")
-
-if next button pressed again it will give 36-51 rows of my table
-in QLabel, will be setText("36-51 from 51 results")
-
-and if prev button is pressed, it will works the other way around
-
-
-create pyton code that could perform like my description above

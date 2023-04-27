@@ -842,7 +842,7 @@ class Main(Util, View):
         try:
             query = self.exec_query(f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         except:
-            query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
+            query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         
         rows_count = len(query)
 
@@ -850,7 +850,7 @@ class Main(Util, View):
             cols = 11
 
             self.laporan_table.setRowCount(rows_count)
-            self.fillTable(self.laporan_table, cols, query)
+            self.fillTableKarcis(self.laporan_table, cols, query, index_tgl_masuk=5, index_tgl_keluar=6)
 
             try:    
                 self.lbl_count.setText(f"{self.start}-{self.end} from {self.karcis_rows[0][0]} results")
@@ -1680,7 +1680,7 @@ class Main(Util, View):
 
                 # fetch data from DB
                 self.row_offset = 0
-                query = self.exec_query(f"SELECT id, barcode,  datetime, date_keluar, gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
+                query = self.exec_query(f"SELECT id, barcode,  cast(datetime as date), cast(date_keluar as date), gate, status_parkir, jenis_kendaraan, tarif FROM karcis limit 18 OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
                 cols = 8
 
@@ -2532,6 +2532,8 @@ class Main(Util, View):
                 self.pilih_tgl2 = QDateEdit( calendarPopup=True )
                 self.pilih_tgl1.setDateTime( QDateTime.currentDateTime() )
                 self.pilih_tgl2.setDateTime( QDateTime.currentDateTime() )
+                self.pilih_tgl1.setDisplayFormat("dd/MM/yyyy")
+                self.pilih_tgl2.setDisplayFormat("dd/MM/yyyy")
 
                 self.input_menit1 = QSpinBox()
                 self.input_menit2 = QSpinBox()
@@ -2790,7 +2792,7 @@ class Main(Util, View):
                 self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
                 self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0]
                 self.row_offset = 0
-                query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
+                query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
                 cols = 11
 
@@ -2804,7 +2806,7 @@ class Main(Util, View):
                 self.laporan_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
                 self.laporan_table.setColumnHidden(0, True) #hide id column
                 
-                self.fillTable(self.laporan_table, cols, query)
+                self.fillTableKarcis(self.laporan_table, cols, query, index_tgl_masuk=5, index_tgl_keluar=6)
 
                 
                 self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
