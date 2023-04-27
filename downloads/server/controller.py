@@ -1827,6 +1827,7 @@ class Controller(Client):
         
         query = f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}"
         res = self.exec_query( query, "SELECT")
+        res2 = self.exec_query( self.query_search, "SELECT")
         rows_count = len(res)
         cols = 11
 
@@ -1836,114 +1837,303 @@ class Controller(Client):
 
         self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
         
-        return tgl1,tgl2,res 
+        # enable print button
+        print_btn_action = """QPushButton {
+                                background:#ff3d71; 
+                                padding:5px;
+                                color:#fff;
+                                font-size:13px; 
+                                font-weight: 500;
+                            }
+                            QPushButton:hover {
+                                background-color: #951C3C;
+                            }"""
+        
+        self.row_print.setEnabled(True)
+        self.row_print.setStyleSheet( print_btn_action )
+        return tgl1,tgl2,res2 
 
     def printLaporan(self):
 
         # Margin
-        m= 10
-        # Page width: Width of A4 is 210mm x 297mm 
-        pw = 297 - 2*m
+        self.m= 10
+        
         # Cell height
-        ch = 12
-        pdf = FPDF()
-        pdf.add_page(orientation='L')
-        pdf.set_font('Arial', '', 12)
+        self.ch = 10
+        self.pdf = FPDF()
+        
+        self.pdf.set_font('Arial', '', 8)
 
         tgl1,tgl2,res = self.searchKarcis()
 
-        pdf.cell(w=(pw/5)*5, h=ch, txt="Rekap Parkir ...", border=1, ln=1, align='C')
-        pdf.cell(w=(pw/5)*5, h=ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
+        # print("===>")
+        # print(type(res))
+        # print(res)
+        
+        ### jenis laporan
+        if self.row_opsi_print.currentText() == "rekap/jam":
+            
+            # Page landscape: Width of A4 is 210mm x 297mm 
+            self.ph = 210
+            self.pw = 297 - 2*self.m
+            self.pdf.add_page(orientation='L')
+
+            self.agregatJam( tgl1,tgl2,res )
+        
+        elif self.row_opsi_print.currentText() == "rekap/tgl":
+            # Page landscape: Width of A4 is 210mm x 297mm 
+            self.ph = 210
+            self.pw = 297 - 2*self.m
+            self.pdf.add_page(orientation='L')
+
+            self.agregatTgl( tgl1,tgl2,res )
+        
+        elif self.row_opsi_print.currentText() == "semua":
+
+            # Page potrait: Width of A4 is 210mm x 297mm 
+            self.ph = 297
+            self.pw = 210 - 2*self.m
+            self.pdf.add_page(orientation='P')
+
+            self.semuaData( tgl1,tgl2,res )
+
+        
+
+    def agregatJam(self,tgl1,tgl2,res):
+
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Parkir", border=1, ln=1, align='C')
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
         
         ############################### header ###############################
-        if self.r_menit or self.r_jam:
-            pdf.cell(w=(pw/5), h=ch*2, txt="Lama Parkir", border=1, align='C')
-        else:
-            pdf.cell(w=(pw/5), h=ch*2, txt="Tanggal", border=1, align='C')
+        self.pdf.cell(w=(self.pw/5), h=self.ch*2, txt="Lama Parkir", border=1, align='C')
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Motor", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Mobil", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Lainnya", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Grand Total", border=1)
 
+        self.pdf.ln()
 
-        pdf.cell(w=(pw/5), h=ch, txt="Motor", border=1)
-        pdf.cell(w=(pw/5), h=ch, txt="Mobil", border=1)
-        pdf.cell(w=(pw/5), h=ch, txt="Lainnya", border=1)
-        pdf.cell(w=(pw/5), h=ch, txt="Grand Total", border=1)
-
-        pdf.ln()
-
-        pdf.cell((pw/5), ch,  border=0)
+        self.pdf.cell((self.pw/5), self.ch,  border=0)
         
         # motor
-        pdf.cell(w=(pw/5)/2, h=ch, txt="jml", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="total", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1)
 
         # mobil
-        pdf.cell(w=(pw/5)/2, h=ch, txt="jml", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="total", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1)
 
         # lainnya
-        pdf.cell(w=(pw/5)/2, h=ch, txt="jml", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="total", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1)
 
         # grand total
-        pdf.cell(w=(pw/5)/2, h=ch, txt="jml", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="total", border=1, ln=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1, ln=1)
 
         ############################ end header ###########################
 
-
-       
-
-        # tanggal atau lama parkir --> dalam menit atau jam 
-        pdf.cell(w=(pw/5), h=ch, txt="...", border=1)
+        ############################ table content ###########################
+        
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
 
         # motor
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
         
         # mobil
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
         
         # lainnya
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
 
         # grand total 
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
 
-        pdf.ln()
+        self.pdf.ln()
         
 
         # tanggal atau lama parkir --> dalam menit atau jam 
-        pdf.cell(w=(pw/5), h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
 
         # motor
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
         
         # mobil
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
         
         # lainnya
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
 
         # grand total 
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
-        pdf.cell(w=(pw/5)/2, h=ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
         
 
         ################# end table content ######################
 
-
         lap_name = f"laporan_{tgl1}_{tgl2}.pdf"
-        pdf.output(f'./{lap_name}', 'F')
+        self.pdf.output(f'./{lap_name}', 'F')
 
         path = os.path.abspath(lap_name)
 
         webbrowser.open_new("file://"+path)
 
+    def agregatTgl(self,tgl1,tgl2,res):
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Parkir", border=1, ln=1, align='C')
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
+        
+        ############################### header ###############################
+        self.pdf.cell(w=(self.pw/5), h=self.ch*2, txt="Tanggal", border=1, align='C')
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Motor", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Mobil", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Lainnya", border=1)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Grand Total", border=1)
+
+        self.pdf.ln()
+
+        self.pdf.cell((self.pw/5), self.ch,  border=0)
+        
+        # motor
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1)
+
+        # mobil
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1)
+
+        # lainnya
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1)
+
+        # grand total
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="jml", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="total", border=1, ln=1)
+
+        ############################ end header ###########################
+
+        ############################ table content ###########################
+        
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
+
+        # motor
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        
+        # mobil
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        
+        # lainnya
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+
+        # grand total 
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+
+        self.pdf.ln()
+        
+
+        # tanggal atau lama parkir --> dalam menit atau jam 
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
+
+        # motor
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        
+        # mobil
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        
+        # lainnya
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+
+        # grand total 
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        
+
+        ################# end table content ######################
+
+        lap_name = f"laporan_perjam_{tgl1}_{tgl2}.pdf"
+        self.pdf.output(f'./{lap_name}', 'F')
+
+        path = os.path.abspath(lap_name)
+
+        webbrowser.open_new("file://"+path)
+
+    def semuaData(self,tgl1,tgl2,res):
+        
+        month, day, year = tgl1.split("-")
+        parse_tgl1 = f"{day}/{month}/{year}"
+        
+        month, day, year = tgl2.split("-")
+        parse_tgl2 = f"{day}/{month}/{year}"
+
+        self.pdf.set_font('Arial', 'B', 8)
+        self.pdf.cell(w=(self.pw/7)*7, h=self.ch, txt="REKAP PARKIR HARIAN", border=0, ln=1, align='C')
+        self.pdf.cell(w=(self.pw/7)*7, h=self.ch, txt=f"periode: {parse_tgl1} sampai dengan {parse_tgl2}", border=0, align='C', ln=1)
+        
+        ############################### header ###############################
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="Nopol", border=1, align='C')
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="J.Kend", border=1, align='C')
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="W.Masuk", border=1, align='C')
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="W.Keluar", border=1, align='C')
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="Lama", border=1, align='C')
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="St.Trans", border=1, align='C')
+        self.pdf.cell(w=(self.pw/7), h=self.ch, txt="Tarif", border=1, align='C')
+        self.pdf.ln()
+        
+        tot_ch = 0
+
+        for i in range(len(res)):
+            date_masuk = "" if res[i][5] is None else str(res[i][5].strftime("%d/%m/%y %H:%M:%S"))
+            date_keluar = "" if res[i][6] is None else str(res[i][5].strftime("%d/%m/%y %H:%M:%S"))
+            tarif = "0" if res[i][9] is None else str(res[i][9])
+            tot_ch = tot_ch + self.ch
+
+            self.pdf.set_font('Arial', '', 8)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=res[i][1], border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=res[i][3], border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=date_masuk, border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=date_keluar, border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=str(res[i][7]), border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=str(res[i][10]), border=1)
+            self.pdf.cell(w=(self.pw/7), h=self.ch, txt=tarif, border=1, ln=1)
+
+            if tot_ch == 22*self.ch:
+                tot_ch = 0
+                self.pdf.cell(0, 10, 'Page %s' % self.pdf.page_no(), 0, 0, 'C')
+                self.pdf.ln()
+
+                self.pdf.set_font('Arial', 'B', 8)
+                self.pdf.cell(w=(self.pw/7)*7, h=self.ch, txt="REKAP PARKIR HARIAN", border=0, ln=1, align='C')
+                self.pdf.cell(w=(self.pw/7)*7, h=self.ch, txt=f"periode: {parse_tgl1} sampai dengan {parse_tgl2}", border=0, align='C', ln=1)
+                
+                ############################### header ###############################
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="Nopol", border=1, align='C')
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="J.Kend", border=1, align='C')
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="W.Masuk", border=1, align='C')
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="W.Keluar", border=1, align='C')
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="Lama", border=1, align='C')
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="St.Trans", border=1, align='C')
+                self.pdf.cell(w=(self.pw/7), h=self.ch, txt="Tarif", border=1, align='C')
+                self.pdf.ln()
+
+        lap_name = f"laporan_harian_{tgl1}_{tgl2}.pdf"
+        self.pdf.output(f'./{lap_name}', 'F')
+
+        path = os.path.abspath(lap_name)
+
+        webbrowser.open_new("file://"+path)
 
     def dialogBox(self, title="", msg=""):
         

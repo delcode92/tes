@@ -832,21 +832,16 @@ class Main(Util, View):
                 self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
 
         elif btnType=="next":
-            print("==> ", self.row_offset, self.row_limit, self.karcis_rows[0][0])
             if self.row_offset + self.row_limit < self.karcis_rows[0][0]:
                 self.row_offset += self.row_limit
                 self.start = self.row_offset + 1
                 self.end = min( self.row_offset + self.row_limit, self.karcis_rows[0][0] )
 
-                print("==>", self.start, self.end)
-            
         
         # refill/refresh table with new offset
         try:
-            print("masuk 1")
             query = self.exec_query(f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         except:
-            print("masuk 2")
             query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, datetime, date_keluar, lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
         
         rows_count = len(query)
@@ -2607,8 +2602,12 @@ class Main(Util, View):
                 row_search = QPushButton("search")
                 row_detail = QPushButton("details")
                 row_refresh = QPushButton("refresh")
-                row_print = QPushButton("PRINT")
+                self.row_print = QPushButton("PRINT")
                 row_label = QLabel("No Baris:")
+                row_label_print = QLabel("Opsi Print:")
+                self.row_opsi_print = QComboBox()
+                self.row_opsi_print.addItems( ["rekap/tgl", "rekap/jam", "semua"] )
+
                 self.row_info_laporan = QLineEdit()
                 
 
@@ -2643,10 +2642,12 @@ class Main(Util, View):
 
                 action_widget.setStyleSheet("border: none;")
                 row_label.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-bottom: 5px; padding:5px;")
+                row_label_print.setStyleSheet("color:#fff; font-size:13px; font-weight: 500; background:#384F67; margin-top:35px; margin-bottom: 5px; padding:5px;")
+                self.row_opsi_print.setStyleSheet("font-size:13px; background:#fff; margin-bottom: 5px; padding:5px;")
                 self.row_info_laporan.setStyleSheet("background:#fff; padding:8px; margin-bottom: 5px; color: #000; border:none;")
                 row_search.setStyleSheet(View.edit_btn_action)
                 row_detail.setStyleSheet(View.detail_btn_action)
-                row_print.setStyleSheet(View.del_btn_action + "QPushButton{ padding: 10px; }")
+                self.row_print.setStyleSheet(View.del_btn_action + "QPushButton{ background:#951C3C; padding: 5px; }")
                 row_refresh.setStyleSheet(View.print_btn_action)
 
                 prev_next_cont_lay.setAlignment( Qt.AlignCenter )
@@ -2711,7 +2712,9 @@ class Main(Util, View):
                 action_lay.addWidget(self.row_info_laporan)
                 action_lay.addWidget(row_search)
                 action_lay.addWidget(row_detail)
-                action_lay.addWidget(row_print)
+                action_lay.addWidget(row_label_print)
+                action_lay.addWidget(self.row_opsi_print)
+                action_lay.addWidget(self.row_print)
                 action_lay.addWidget(row_refresh)
                 action_lay.addStretch(1)
 
@@ -2761,11 +2764,12 @@ class Main(Util, View):
                 row_search.setIcon(QIcon(self.icon_path+"search.png"))
                 row_detail.setIcon(QIcon(self.icon_path+"layout-fluid.png"))
                 row_refresh.setIcon(QIcon(self.icon_path+"refresh.png"))
-                row_print.setIcon(QIcon(self.icon_path+"print.png"))
-                row_print.setIconSize(QSize(50,50))
+                self.row_print.setIcon(QIcon(self.icon_path+"print.png"))
+                self.row_print.setIconSize(QSize(40,40))
 
                 row_search.clicked.connect( self.searchKarcis )
-                row_print.clicked.connect( self.printLaporan )
+                self.row_print.clicked.connect( self.printLaporan )
+                self.row_print.setEnabled(False)
                 row_refresh.clicked.connect( self.refreshKarcis )
                 row_detail.clicked.connect(lambda: self.detailPopUp(form_type="karcis", form_size=(400, 600)))
 
