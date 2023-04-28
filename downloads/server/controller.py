@@ -1933,9 +1933,18 @@ class Controller(Client):
         
 
     def agregatJam(self,tgl1,tgl2):
+        self.ch = 5
+        day, month, year = tgl1.split("-")
+        d1 = datetime( int(year), int(month), int(day) )
+        parse_tgl1 = f"{day}/{month}/{year}"
+        
+        day, month, year = tgl2.split("-")
+        d2 = datetime( int(year), int(month), int(day) )
+        parse_tgl2 = f"{day}/{month}/{year}"
 
-        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Parkir", border=1, ln=1, align='C')
-        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {tgl1} sampai dengan {tgl2}", border=1, ln=1)
+        self.pdf.set_font('Arial', 'B', 10)
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="REKAP PENDAPATAN PARKIR", border=0, ln=1, align='C')
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {parse_tgl1} sampai dengan {parse_tgl2}", border=0, ln=1)
         
         ############################### header ###############################
         self.pdf.cell(w=(self.pw/5), h=self.ch*2, txt="Lama Parkir", border=1, align='C')
@@ -1968,47 +1977,172 @@ class Controller(Client):
 
         ############################ table content ###########################
         
-        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
+        bottom_j_motor = 0
+        bottom_j_mobil = 0
+        bottom_j_gt = 0
+        bottom_t_motor = 0
+        bottom_t_mobil = 0
+        bottom_t_gt = 0
+        
+        # toleransi dalam menit, jadi harus di konversi kedalam detik
+        toleransi = self.exec_query(f"select toleransi from tarif where id=1","select")
+        toleransi = int(toleransi[0][0]) * 60
 
+        self.pdf.set_font('Arial', '', 10)
+        for i in range(25):
+            
+            self.pdf.cell(w=(self.pw/5), h=self.ch, txt=f"{i} Jam", border=1)
+            
+            # konversi jam ke detik
+            i_before = i * 3600
+            i_after = (i+1) * 3600
+            
+            # motor
+            if i==0:
+                res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {toleransi}
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
+                        and status_parkir=true
+                        and jenis_kendaraan='motor' """, "select")
+
+            else:
+                res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {i_before}
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
+                        and status_parkir=true
+                        and jenis_kendaraan='motor' """, "select")
+    
+            j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+            t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_motor ).replace(",", "."), border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_motor ).replace(",", "."), border=1)
+            bottom_j_motor += j_motor
+            bottom_t_motor += t_motor
+
+            # mobil
+            if i==0:
+                res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {toleransi}
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
+                        and status_parkir=true
+                        and jenis_kendaraan='mobil' """, "select")
+
+            else:
+                res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {i_before}
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
+                        and status_parkir=true
+                        and jenis_kendaraan='mobil' """, "select")
+    
+            j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+            t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_mobil ).replace(",", "."), border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_mobil ).replace(",", "."), border=1)
+            bottom_j_mobil += j_mobil
+            bottom_t_mobil += t_mobil
+
+            # lainnya
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+
+            # grand total 
+            gth_jum = int(j_motor) + int(j_mobil) 
+            gth_tot = int(t_motor) + int(t_mobil) 
+            bottom_j_gt += gth_jum
+            bottom_t_gt += gth_tot
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_jum ).replace(",", "."), border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_tot ).replace(",", "."), border=1)
+
+            self.pdf.ln()
+
+
+
+        #### > 24 jam
+        day1_in_seconds = 24 * 3600  
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="> 24 Jam", border=1,)
+        
         # motor
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) > {day1_in_seconds}
+                        and status_parkir=true
+                        and jenis_kendaraan='motor' """, "select")
+        
+        j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+        t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_motor ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_motor ).replace(",", "."), border=1)
+        bottom_j_motor += j_motor
+        bottom_t_motor += t_motor
+        
         
         # mobil
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) > {day1_in_seconds}
+                        and status_parkir=true
+                        and jenis_kendaraan='mobil' """, "select")
+        
+        j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+        t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_mobil ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_mobil ).replace(",", "."), border=1)
+        bottom_j_mobil += j_mobil
+        bottom_t_mobil += t_mobil
         
         # lainnya
         self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
         self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-
-        # grand total 
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-
+        
+        # grand total
+        gth_jum = int(j_motor) + int(j_mobil) 
+        gth_tot = int(t_motor) + int(t_mobil) 
+        bottom_j_gt += gth_jum
+        bottom_t_gt += gth_tot
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_jum ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_tot ).replace(",", "."), border=1)
+        
         self.pdf.ln()
         
-
-        # tanggal atau lama parkir --> dalam menit atau jam 
-        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="...", border=1)
-
+        
+        #### bottom row-cell
+        self.pdf.set_font('Arial', 'B', 10)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="TOTAL", border=1, align='C')
+        
         # motor
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_j_motor ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_t_motor ).replace(",", "."), border=1)
         
         # mobil
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_j_mobil ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_t_mobil ).replace(",", "."), border=1)
         
         # lainnya
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-
-        # grand total 
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="", border=1)
         
-
+        # grand total
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_j_gt ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_t_gt ).replace(",", "."), border=1)
+        
+        self.pdf.ln()
+        
         ################# end table content ######################
 
         lap_name = f"laporan_{tgl1}_{tgl2}.pdf"
@@ -2029,7 +2163,7 @@ class Controller(Client):
         parse_tgl2 = f"{day}/{month}/{year}"
 
         self.pdf.set_font('Arial', 'B', 8)
-        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="Rekap Pendapatan Parkir", border=0, ln=1, align='C')
+        self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt="REKAP PENDAPATAN PARKIR", border=0, ln=1, align='C')
         self.pdf.cell(w=(self.pw/5)*5, h=self.ch, txt=f"periode: {parse_tgl1} sampai dengan {parse_tgl2}", border=0, ln=1)
         
         ############################### header ###############################
@@ -2069,52 +2203,77 @@ class Controller(Client):
         delta = d2-d1
         # start_date = datetime.strptime(start_date_str, "%Y-%m-%d")
 
+        bottom_j_motor = 0
+        bottom_j_mobil = 0
+        bottom_j_gt = 0
+        bottom_t_motor = 0
+        bottom_t_mobil = 0
+        bottom_t_gt = 0
+        
+        self.pdf.set_font('Arial', '', 8)
         for i in range(delta.days+1):
             current_date = d1 + timedelta(days=i) 
             tgl = current_date.strftime("%d/%m/%y")
             tgl2 = current_date.strftime("%Y-%m-%d")
 
 
-            # jum_data = len(res)
-
-            # if delta.days != jum_data:
-            #     print("delta: ", delta.days, "jumdata: ", jum_data)
-            #     print("===> ada tgl yg kosong") 
-                ###### jika beda , masuk ke step berikutnya
-
-            self.pdf.set_font('Arial', 'B', 8)
 
             self.pdf.cell(w=(self.pw/5), h=self.ch, txt=tgl, border=1)
 
             # motor
             res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and jenis_kendaraan='motor'", "SELECT")
-            j = "0" if res[0][0]==0 or res[0][0] is None else str(res[0][0])
-            t = "0" if res[0][1]==0 or res[0][1] is None else str(res[0][1])
-            
-            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=j, border=1)
-            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=t, border=1)
+            j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+            t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_motor ).replace(",", "."), border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_motor ).replace(",", "."), border=1)
+            bottom_j_motor += j_motor
+            bottom_t_motor += t_motor
             
             # mobil
             res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and jenis_kendaraan='mobil'", "SELECT")
-            j = "0" if res[0][0]==0 or res[0][0] is None else str(res[0][0])
-            t = "0" if res[0][1]==0 or res[0][1] is None else str(res[0][1])
-
-            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=j, border=1)
-            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt=t, border=1)
+            j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+            t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+            bottom_j_mobil += j_mobil
+            bottom_t_mobil += t_mobil
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_mobil ).replace(",", "."), border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_mobil ).replace(",", "."), border=1)
             
             # lainnya
             self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
             self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
 
-            # grand total 
-            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
-            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+            # grand total
+            gth_jum = int(j_motor) + int(j_mobil) 
+            gth_tot = int(t_motor) + int(t_mobil) 
+            bottom_j_gt += gth_jum
+            bottom_t_gt += gth_tot
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_jum ).replace(",", "."), border=1)
+            self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_tot ).replace(",", "."), border=1)
 
             self.pdf.ln()
         
 
-       
+        # bottom row-cell
+        self.pdf.set_font('Arial', 'B', 8)
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="TOTAL", border=1, align='C')
         
+        # motor
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_j_motor ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_t_motor ).replace(",", "."), border=1)
+        
+        # mobil
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_j_mobil ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_t_mobil ).replace(",", "."), border=1)
+        
+        # lainnya
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="", border=1)
+        
+        # grand total
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_j_gt ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( bottom_t_gt ).replace(",", "."), border=1)
+        
+        self.pdf.ln()
 
         ################# end table content ######################
 

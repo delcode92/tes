@@ -79,8 +79,6 @@ update karcis set lama_parkir=300 where id=5;
 
 update karcis set lama_parkir='1 Hours' where id=2; update karcis set lama_parkir='20 Minutes' where id=3; update karcis set lama_parkir='2 Hours 5 Minutes' where id=4;
 
-select cast(EXTRACT(epoch FROM lama_parkir) as integer) AS interval_seconds from karcis where id=1;
-SELECT * FROM karcis WHERE EXTRACT(epoch FROM lama_parkir) BETWEEN 1200 AND 10800;
 
 
 insert into karcis (datetime) values(to_timestamp(1672912953.570569));
@@ -128,3 +126,20 @@ select * from karcis where  cast( datetime as date ) between '2023-01-01' and '2
 select id, barcode, nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where   ( cast( datetime as date ) between '2023-01-01' and '2023-04-27' or cast( date_keluar as date ) between '2023-01-01' and '2023-04-27' ) order by id
 select id, barcode, nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift from karcis where   ( cast( datetime as date ) between '2023-01-01' and '2023-04-27' or cast( date_keluar as date ) between '2023-01-01' and '2023-04-27' ) order by id;
 select id, barcode, nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift f, tarif, jns_transaksi, kd_shift from karcis where   ( cast( datetime as date ) between '2023-01-01' and '2023-04-27');
+
+
+select cast(EXTRACT(epoch FROM lama_parkir) as integer) AS interval_seconds from karcis where id=1;
+SELECT * FROM karcis WHERE EXTRACT(epoch FROM lama_parkir) BETWEEN 1200 AND 10800;
+
+0 sampai <1jam
+toleransi_waktu sampai < 1jam
+600 
+select count(*) as jum , SUM(tarif) as total from karcis where CAST(date_keluar as date) between '2023-02-01' and '2023-02-28' and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= 600 and cast(EXTRACT(epoch FROM lama_parkir) as integer) < 3600;
+select * from karcis where cast(EXTRACT(epoch FROM lama_parkir) as integer)=3600; 
+
+select * from karcis where CAST(date_keluar as date) 
+between '2023-02-01' and '2023-02-28' 
+and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= 600 
+and cast(EXTRACT(epoch FROM lama_parkir) as integer) < 3600
+and status_parkir=true
+and jenis_kendaraan='mobil';
