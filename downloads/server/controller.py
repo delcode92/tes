@@ -630,6 +630,29 @@ class Controller(Client):
             elif h >= int(max_hours):  
                 return json_txt
 
+    def add_kendaraan(self):
+        
+        kendaraan = self.components["inp_jns_kend"].text().lower()
+        denda = self.components["inp_denda_kend"].text()
+        c = self.exec_query(f"select count(jns_kendaraan) as jum from tarif where jns_kendaraan='{kendaraan}'","select")
+
+        if c[0][0] == 0:
+            # save to tbl tarif
+            res = self.exec_query(f"select * from tarif where id=1","select")
+            rules = res[0][1]
+            toleransi = res[0][3]
+            tipe_tarif = res[0][4]
+            base_rule = res[0][5]
+
+            query = self.exec_query(f"insert into tarif (rules, jns_kendaraan, toleransi, tipe_tarif, base_rules, denda) values ('{rules}', '{kendaraan}', {toleransi}, '{tipe_tarif}', '{base_rule}', {denda})")
+            
+            if query:
+                print("update gui form")
+
+        elif c[0][0] > 0:
+            self.dialogBox(title="Alert", msg=f"Jenis Kendaraan ==> {kendaraan} sudah ada !")
+
+
     def getKendaraanList(self):
         res = self.exec_query(f"select jns_kendaraan, denda from tarif order by id", "select")
         l = []
@@ -704,7 +727,7 @@ class Controller(Client):
                         "style":"border:none;",
                         "children":[
                             {
-                                "name":"inp_nm_kend",
+                                "name":"inp_jns_kend",
                                 "category":"lineEdit",
                                 "max_width":200,
                                 "style":self.primary_input
@@ -720,7 +743,10 @@ class Controller(Client):
                                 "category":"pushButton",
                                 "text":"ADD",
                                 "max_width":100,
-                                "style":self.primary_add_button
+                                "style":self.primary_add_button,
+                                "clicked": {
+                                    "method_name": self.add_kendaraan
+                                }
                             }
                         ]
                     }]

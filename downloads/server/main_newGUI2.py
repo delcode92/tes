@@ -1782,7 +1782,7 @@ class Main(Util, View):
                 
                 tarif_tabs_container = QHBoxLayout()
                 self.tarif_tab1 = QPushButton("Kelola tarif")
-                self.tarif_tab2 = QPushButton("Add kendaraan & Denda")
+                self.tarif_tab2 = QPushButton("Add kendaraan-Denda")
                 
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
