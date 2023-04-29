@@ -1786,7 +1786,7 @@ class Main(Util, View):
                 
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
-                tarif_content2 = QWidget()
+                self.tarif_content2 = QWidget()
                 
                 # tabs
                 self.setTabButton(tab1=self.tarif_tab1, tab2=self.tarif_tab2, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
@@ -1807,15 +1807,15 @@ class Main(Util, View):
 
                 # add tabs
                 self.tarif_stack.addWidget(tarif_content1)
-                self.tarif_stack.addWidget(tarif_content2)
+                self.tarif_stack.addWidget(self.tarif_content2)
                 
                 # set widget and layout
                 tarif_content1_lay = QVBoxLayout()
                 tarif_content1.setLayout( tarif_content1_lay )
 
                 # set widget and layout
-                tarif_content2_lay = QVBoxLayout()
-                tarif_content2.setLayout( tarif_content2_lay )
+                self.tarif_content2_lay = QVBoxLayout()
+                self.tarif_content2.setLayout( self.tarif_content2_lay )
 
                 ############### FORM CONTAINER ##############
                 res = self.createFormContainer(scrollable=True)
@@ -1830,7 +1830,7 @@ class Main(Util, View):
 
                 # tarif_content2.setMaximumHeight( size.height() - 200 )
                 tarif_content1_lay.setContentsMargins(25,0,25,0)
-                tarif_content2_lay.setContentsMargins(25,25,25,25)
+                self.tarif_content2_lay.setContentsMargins(25,25,25,25)
                 # tarif_content2_lay.setSpacing(0)
 
                 tarif_content1_lay.addWidget(form_container)
@@ -2240,7 +2240,7 @@ class Main(Util, View):
                 #######################################################
 
                 ############# set kendaraan & denda ###################
-                components_setter = [{
+                self.tarif_components_setter = [{
                                         "name":"main_kendaraan",
                                         "category":"widget",
                                         "layout": "VBoxLayout",
@@ -2253,11 +2253,19 @@ class Main(Util, View):
                 # return value as list
                 # add new value into first and last index
                 
-                components_setter[0]["children"] = self.getKendaraanList()
+                self.tarif_components_setter[0]["children"] = self.getKendaraanList()
 
 
-                self.CreateComponentLayout(components_setter, tarif_content2_lay)
-                tarif_content2_lay.addStretch(1)
+                self.CreateComponentLayout(self.tarif_components_setter, self.tarif_content2_lay)
+                # x = QLabel("tester")
+                # y = QPushButton("tst btn")
+                
+                # x.setStyleSheet(self.primary_lbl + "}")
+                # y.setStyleSheet(self.primary_button + "}")
+                # self.tarif_content2_lay.addWidget(x)
+                # self.tarif_content2_lay.addWidget(y)
+
+                self.tarif_content2_lay.addStretch(1)
                 #######################################################
 
             case "voucher":

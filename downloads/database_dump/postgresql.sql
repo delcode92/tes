@@ -44,6 +44,26 @@ CREATE TABLE tarif ( id serial primary key, tarif_dasar integer, tarif_max integ
 insert into tarif (tarif_dasar, jns_kendaraan) values (1000, 'motor');
 insert into tarif (tarif_dasar, jns_kendaraan) values (2000, 'mobil');
 
+insert into tarif (id, rules, jns_kendaraan, toleransi, tipe_tarif, base_rules, denda) 
+values (2, 
+'{"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}',
+'motor',
+10,
+'other',
+'{"0" : "1000", "4":"1500", "6":"1500", "24":"5500"}',
+0
+);
+
+insert into tarif (id, rules, jns_kendaraan, toleransi, tipe_tarif, base_rules, denda) 
+values (2, 
+'{"0" : "2000", "4":"1000", "10":"1000", "16":"1000", "24":"6000"}',
+'mobil',
+10,
+'other',
+'{"0" : "2000", "4":"1000", "6":"1000", "24":"6000"}',
+0
+);
+
 ALTER TABLE tarif add column tipe_tarif varchar(20);
 ALTER TABLE tarif add column denda integer default 0;
 ALTER TABLE tarif add column base_rules TEXT;
