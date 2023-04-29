@@ -55,3 +55,121 @@ rules_mtr = json.loads( str(res[0][cols.index('base_rules')]) )
 rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )
 
 
+=========================================
+
+
+                                            {
+                                                "name":"header_wgt",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style":"border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"header1",
+                                                        "category":"label",
+                                                        "text":"JENIS KENDARAAN",
+                                                        "style":self.primary_lbl + "margin-left: 40px;"
+                                                    },
+                                                    {
+                                                        "name":"header1",
+                                                        "category":"label",
+                                                        "text":"DENDA",
+                                                        "style":self.primary_lbl + "margin-left: 60px;"
+                                                    },
+                                                    {
+                                                        "name":"header1",
+                                                        "category":"label",
+                                                        "text":"ACTION",
+                                                        "style":self.primary_lbl + "margin-left: 80px;"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name":"kendaraan1_wgt",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style":"border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"lbl_kend1",
+                                                        "category":"label",
+                                                        "text":"Motor:",
+                                                        "max_width":200,
+                                                        "style":self.primary_lbl
+                                                    },
+                                                    {
+                                                        "name":"denda1",
+                                                        "category":"lineedit",
+                                                        "max_width":200,
+                                                        "style":self.primary_input
+                                                    },
+                                                    {
+                                                        "name":"update1",
+                                                        "category":"pushButton",
+                                                        "text":"update",
+                                                        "max_width":100,
+                                                        "style":self.primary_update_button
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name":"kendaraan2_wgt",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style":"border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"lbl_kend2",
+                                                        "category":"label",
+                                                        "text":"Mobil:",
+                                                        "max_width":200,
+                                                        "style":self.primary_lbl
+                                                    },
+                                                    {
+                                                        "name":"denda2",
+                                                        "category":"lineedit",
+                                                        "max_width":200,
+                                                        "style":self.primary_input
+                                                    },
+                                                    {
+                                                        "name":"update2",
+                                                        "category":"pushButton",
+                                                        "text":"update",
+                                                        "max_width":100,
+                                                        "style":self.primary_update_button,
+                                                        "clicked": {
+                                                            "method_name": self.update_denda, 
+                                                            "arguments": "mobil"
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name":"add_kendaraan_wgt",
+                                                "category":"widget",
+                                                "layout": "HBoxLayout",
+                                                "style":"border:none;",
+                                                "children":[
+                                                    {
+                                                        "name":"inp_nm_kend",
+                                                        "category":"lineEdit",
+                                                        "max_width":200,
+                                                        "style":self.primary_input
+                                                    },
+                                                    {
+                                                        "name":"inp_denda_kend",
+                                                        "category":"lineEditint",
+                                                        "max_width":200,
+                                                        "style":self.primary_input
+                                                    },
+                                                    {
+                                                        "name":"add_kendaraan",
+                                                        "category":"pushButton",
+                                                        "text":"ADD",
+                                                        "max_width":100,
+                                                        "style":self.primary_add_button
+                                                    }
+                                                ]
+                                            },
+                                            
+                                        

@@ -629,7 +629,109 @@ class Controller(Client):
             
             elif h >= int(max_hours):  
                 return json_txt
-                        
+
+    def getKendaraanList(self):
+        res = self.exec_query(f"select jns_kendaraan, denda from tarif order by id", "select")
+        l = []
+
+        for i in range( len(res) ):
+            l = l + [{
+                        "name":f"kendaraan{i}_wgt",
+                        "category":"widget",
+                        "layout": "HBoxLayout",
+                        "style":"border:none;",
+                        "children":[
+                            {
+                                "name":f"lbl_kend{i}",
+                                "category":"label",
+                                "text":str( res[i][0] ).capitalize(),
+                                "max_width":200,
+                                "style":self.primary_lbl
+                            },
+                            {
+                                "name":f"denda{i}",
+                                "category":"lineedit",
+                                "text":str( res[i][1] ),
+                                "max_width":200,
+                                "style":self.primary_input
+                            },
+                            {
+                                "name":f"update{i}",
+                                "category":"pushButton",
+                                "text":"update",
+                                "max_width":100,
+                                "style":self.primary_update_button,
+                                "clicked": {
+                                    "method_name": self.update_denda, 
+                                    "arguments": str( res[i][0] )
+                                }
+                            }
+                        ]
+                    }]
+
+
+        l_header = [{
+                        "name":"header_wgt",
+                        "category":"widget",
+                        "layout": "HBoxLayout",
+                        "style":"border:none;",
+                        "children":[
+                            {
+                                "name":"header1",
+                                "category":"label",
+                                "text":"JENIS KENDARAAN",
+                                "style":self.primary_lbl + "margin-left: 40px;"
+                            },
+                            {
+                                "name":"header1",
+                                "category":"label",
+                                "text":"DENDA",
+                                "style":self.primary_lbl + "margin-left: 60px;"
+                            },
+                            {
+                                "name":"header1",
+                                "category":"label",
+                                "text":"ACTION",
+                                "style":self.primary_lbl + "margin-left: 80px;"
+                            }
+                        ]
+                    }]
+        
+        l_bottom = [{
+                        "name":"add_kendaraan_wgt",
+                        "category":"widget",
+                        "layout": "HBoxLayout",
+                        "style":"border:none;",
+                        "children":[
+                            {
+                                "name":"inp_nm_kend",
+                                "category":"lineEdit",
+                                "max_width":200,
+                                "style":self.primary_input
+                            },
+                            {
+                                "name":"inp_denda_kend",
+                                "category":"lineEditint",
+                                "max_width":200,
+                                "style":self.primary_input
+                            },
+                            {
+                                "name":"add_kendaraan",
+                                "category":"pushButton",
+                                "text":"ADD",
+                                "max_width":100,
+                                "style":self.primary_add_button
+                            }
+                        ]
+                    }]
+
+        return l_header + l + l_bottom
+
+        
+
+    def update_denda( self, j ):
+        print("==>", j)
+
 
     def set_tarif(self, tipe_tarif):
         
@@ -2006,7 +2108,8 @@ class Controller(Client):
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {toleransi}
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
                         and status_parkir=true
-                        and jenis_kendaraan='motor' """, "select")
+                        and lost_ticket=false
+                        and (jenis_kendaraan='motor' or jenis_kendaraan='Motor') """, "select")
 
             else:
                 res = self.exec_query(f"""
@@ -2016,7 +2119,8 @@ class Controller(Client):
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {i_before}
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
                         and status_parkir=true
-                        and jenis_kendaraan='motor' """, "select")
+                        and lost_ticket=false
+                        and (jenis_kendaraan='motor' or jenis_kendaraan='Motor') """, "select")
     
             j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
             t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
@@ -2034,7 +2138,8 @@ class Controller(Client):
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {toleransi}
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
                         and status_parkir=true
-                        and jenis_kendaraan='mobil' """, "select")
+                        and lost_ticket=false
+                        and (jenis_kendaraan='mobil' or jenis_kendaraan='Mobil') """, "select")
 
             else:
                 res = self.exec_query(f"""
@@ -2044,7 +2149,8 @@ class Controller(Client):
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= {i_before}
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) < {i_after}
                         and status_parkir=true
-                        and jenis_kendaraan='mobil' """, "select")
+                        and lost_ticket=false
+                        and (jenis_kendaraan='mobil' or jenis_kendaraan='Mobil') """, "select")
     
             j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
             t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
@@ -2080,7 +2186,8 @@ class Controller(Client):
                         between '{d1}' and '{d2}' 
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) > {day1_in_seconds}
                         and status_parkir=true
-                        and jenis_kendaraan='motor' """, "select")
+                        and lost_ticket=false
+                        and (jenis_kendaraan='motor' or jenis_kendaraan='Motor') """, "select")
         
         j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
         t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
@@ -2097,7 +2204,8 @@ class Controller(Client):
                         between '{d1}' and '{d2}' 
                         and cast(EXTRACT(epoch FROM lama_parkir) as integer) > {day1_in_seconds}
                         and status_parkir=true
-                        and jenis_kendaraan='mobil' """, "select")
+                        and lost_ticket=false
+                        and (jenis_kendaraan='mobil' or jenis_kendaraan='Mobil') """, "select")
         
         j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
         t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
@@ -2120,7 +2228,61 @@ class Controller(Client):
         
         self.pdf.ln()
         
+        #### pass
+        self.pdf.cell(w=(self.pw/5), h=self.ch, txt="Pass", border=1,)
         
+        # motor
+        res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) <= {toleransi}
+                        and status_parkir=true
+                        and lost_ticket=false
+                        and (jenis_kendaraan='motor' or jenis_kendaraan='Motor') """, "select")
+        
+        j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+        t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_motor ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_motor ).replace(",", "."), border=1)
+        bottom_j_motor += j_motor
+        bottom_t_motor += t_motor
+        
+        
+        # mobil
+        res = self.exec_query(f"""
+                        select count(*) as jml, SUM(tarif) as total from karcis 
+                        where CAST(date_keluar as date) 
+                        between '{d1}' and '{d2}' 
+                        and cast(EXTRACT(epoch FROM lama_parkir) as integer) <= {toleransi}
+                        and status_parkir=true
+                        and lost_ticket=false
+                        and (jenis_kendaraan='mobil' or jenis_kendaraan='Mobil') """, "select")
+        
+        j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
+        t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_mobil ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( t_mobil ).replace(",", "."), border=1)
+        bottom_j_mobil += j_mobil
+        bottom_t_mobil += t_mobil
+        
+        # lainnya
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="...", border=1)
+        
+        # grand total
+        gth_jum = int(j_motor) + int(j_mobil) 
+        gth_tot = int(t_motor) + int(t_mobil) 
+        bottom_j_gt += gth_jum
+        bottom_t_gt += gth_tot
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_jum ).replace(",", "."), border=1)
+        self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( gth_tot ).replace(",", "."), border=1)
+        
+        self.pdf.ln()
+
+        ### lost ticket
+        
+
         #### bottom row-cell
         self.pdf.set_font('Arial', 'B', 10)
         self.pdf.cell(w=(self.pw/5), h=self.ch, txt="TOTAL", border=1, align='C')
@@ -2221,7 +2383,7 @@ class Controller(Client):
             self.pdf.cell(w=(self.pw/5), h=self.ch, txt=tgl, border=1)
 
             # motor
-            res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and jenis_kendaraan='motor'", "SELECT")
+            res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and (jenis_kendaraan='motor' or jenis_kendaraan='Motor') and lost_ticket=false", "SELECT")
             j_motor = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
             t_motor = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
             self.pdf.cell(w=(self.pw/5)/2, h=self.ch, txt="{:,}".format( j_motor ).replace(",", "."), border=1)
@@ -2230,7 +2392,7 @@ class Controller(Client):
             bottom_t_motor += t_motor
             
             # mobil
-            res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and jenis_kendaraan='mobil'", "SELECT")
+            res = self.exec_query(f"select count(*) as jml, SUM(tarif) as total from karcis where cast(date_keluar as date)='{tgl2}' and (jenis_kendaraan='mobil' or jenis_kendaraan='Mobil') and lost_ticket=false", "SELECT")
             j_mobil = 0 if res[0][0]==0 or res[0][0] is None else res[0][0]
             t_mobil = 0 if res[0][1]==0 or res[0][1] is None else res[0][1]
             bottom_j_mobil += j_mobil

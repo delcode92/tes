@@ -125,6 +125,36 @@ class View:
                     background-color: #4B78FF;
     """
 
+    primary_update_button ="""QPushButton {
+                    height:35px; 
+                    background-color: #36f; 
+                    color:#fff; 
+                    border:none;
+
+                    font-family: Helvetica;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+                QPushButton:focus{ background-color: #4B78FF; }
+                QPushButton:hover {
+                    background-color: #4B78FF;
+    """
+
+    primary_add_button ="""QPushButton {
+                    height:35px; 
+                    background-color: #fa0; 
+                    color:#fff; 
+                    border:none;
+
+                    font-family: Helvetica;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+                QPushButton:focus{ background-color: #4B78FF; }
+                QPushButton:hover {
+                    background-color: #9A711E;
+    """
+
     # edit_btn_action = """QPushButton {
     #                     background-color:#DDF9FF; 
     #                     color: #fff; 

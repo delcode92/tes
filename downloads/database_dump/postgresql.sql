@@ -45,6 +45,7 @@ insert into tarif (tarif_dasar, jns_kendaraan) values (1000, 'motor');
 insert into tarif (tarif_dasar, jns_kendaraan) values (2000, 'mobil');
 
 ALTER TABLE tarif add column tipe_tarif varchar(20);
+ALTER TABLE tarif add column denda integer default 0;
 ALTER TABLE tarif add column base_rules TEXT;
 
 update tarif set base_rules='{"2" : "1000", "4":"1000", "6":"1000", "24":"5000"}' where id=1;
@@ -67,6 +68,7 @@ ALTER TABLE karcis ADD COLUMN images_path_keluar VARCHAR(255); ALTER TABLE karci
 
 ALTER TABLE karcis ALTER COLUMN date_keluar set DEFAULT '';
 ALTER TABLE karcis add column date_keluar timestamp without time zone;
+ALTER TABLE karcis add column lost_ticket BOOLEAN NOT NULL DEFAULT FALSE;
 
 ALTER TABLE karcis add column lama_parkir interval;ALTER TABLE karcis add column tarif integer;ALTER TABLE karcis add column nopol varchar(60);ALTER TABLE karcis add column kd_shift varchar(20);ALTER TABLE karcis add column jns_transaksi varchar(60);
 
@@ -143,3 +145,5 @@ and cast(EXTRACT(epoch FROM lama_parkir) as integer) >= 600
 and cast(EXTRACT(epoch FROM lama_parkir) as integer) < 3600
 and status_parkir=true
 and jenis_kendaraan='mobil';
+
+insert into karcis (barcode, jenis_kendaraan,  nopol, date_keluar, tarif, lost_ticket) values ('000', 'mobil', 'BL 3345', '2023-02-05 15:02:12', 20000, true );

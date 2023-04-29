@@ -1782,13 +1782,14 @@ class Main(Util, View):
                 
                 tarif_tabs_container = QHBoxLayout()
                 self.tarif_tab1 = QPushButton("Kelola tarif")
+                self.tarif_tab2 = QPushButton("Add kendaraan & Denda")
                 
                 self.tarif_stack = QStackedWidget()
                 tarif_content1 = QWidget()
                 tarif_content2 = QWidget()
                 
                 # tabs
-                self.setTabButton(tab1=self.tarif_tab1, tab2=None, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
+                self.setTabButton(tab1=self.tarif_tab1, tab2=self.tarif_tab2, tabsContainer=tarif_tabs_container, stackedWidget=self.tarif_stack)
                 
                 # set tarif layout & widget
                 self.tarif_container_lay.setContentsMargins(0,0,0,0)
@@ -1805,8 +1806,8 @@ class Main(Util, View):
                 self.tarif_container_lay.addWidget(self.tarif_stack)
 
                 # add tabs
+                self.tarif_stack.addWidget(tarif_content1)
                 self.tarif_stack.addWidget(tarif_content2)
-                # self.tarif_stack.addWidget(tarif_content2)
                 
                 # set widget and layout
                 tarif_content1_lay = QVBoxLayout()
@@ -1828,10 +1829,11 @@ class Main(Util, View):
                 # size = screen.size()
 
                 # tarif_content2.setMaximumHeight( size.height() - 200 )
-                tarif_content2_lay.setContentsMargins(25,0,25,0)
+                tarif_content1_lay.setContentsMargins(25,0,25,0)
+                tarif_content2_lay.setContentsMargins(25,25,25,25)
                 # tarif_content2_lay.setSpacing(0)
 
-                tarif_content2_lay.addWidget(form_container)
+                tarif_content1_lay.addWidget(form_container)
                 # tarif_content2.setStyleSheet("border: 2px solid blue;")
 
                 # set widget for tab1 layout
@@ -2235,6 +2237,27 @@ class Main(Util, View):
                 # tarif_content2_lay.addStretch(1)
 
                 self.check_tarif_type( tipe_tarif )
+                #######################################################
+
+                ############# set kendaraan & denda ###################
+                components_setter = [{
+                                        "name":"main_kendaraan",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "max_width":700,
+                                        "style":self.block_children,
+                                        "children":[]
+                                    }]
+
+                # loop component based on tarif table via method
+                # return value as list
+                # add new value into first and last index
+                
+                components_setter[0]["children"] = self.getKendaraanList()
+
+
+                self.CreateComponentLayout(components_setter, tarif_content2_lay)
+                tarif_content2_lay.addStretch(1)
                 #######################################################
 
             case "voucher":
