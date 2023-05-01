@@ -647,57 +647,31 @@ class Controller(Client):
             query = self.exec_query(f"insert into tarif (rules, jns_kendaraan, toleransi, tipe_tarif, base_rules, denda) values ('{rules}', '{kendaraan}', {toleransi}, '{tipe_tarif}', '{base_rule}', {denda})")
             
             if query:
-                lbl1 = QLabel("test 123")
-                lbl1.setStyleSheet(self.primary_lbl + "}")
-                # print("==> before: ", self.components["main_kendaraan"].height())
-                self.components["header_wgt"].deleteLater()
-                self.components["add_kendaraan_wgt"].deleteLater()
-                # self.components["main_kendaraan"] = None
-                # print("==> after: ", self.components["main_kendaraan"].height())
-                # self.tarif_content2.layout().removeWidget( self.components["main_kendaraan"] )
-                # self.tarif_content2_lay.removeWidget( self.components["main_kendaraan"] )
-                self.components["main_kendaraan"].layout().addWidget( lbl1 )
-                # self.tarif_content2_lay.addWidget( lbl1 )
-                # self.tarif_content2_lay.addStretch(1)
+                self.tarif_stack.removeWidget(self.tarif_content2)
+                self.tarif_content2 = QWidget()
+                self.tarif_content2_lay = QVBoxLayout()
+                self.tarif_content2.setLayout( self.tarif_content2_lay )
+                self.tarif_content2_lay.setContentsMargins(25,25,25,25)
 
-                # self.tarif_content2_lay = QVBoxLayout()
-                # self.tarif_content2.setLayout( self.tarif_content2_lay )
-                # print(type(self.tarif_content2_lay), self.tarif_content2_lay.count())
+                self.tarif_stack.addWidget( self.tarif_content2 )
+
+                self.tarif_components_setter = [{
+                                        "name":"main_kendaraan",
+                                        "category":"widget",
+                                        "layout": "VBoxLayout",
+                                        "max_width":700,
+                                        "style":self.block_children,
+                                        "children":[]
+                                    }]
+                self.tarif_components_setter[0]["children"] = self.getKendaraanList()
+
+
+                self.CreateComponentLayout(self.tarif_components_setter, self.tarif_content2_lay)
+                self.tarif_content2_lay.addStretch(1)
+
+                self.tarif_stack.setCurrentIndex( 1 )
                 
-                # self.components["main_kendaraan"].setParent(None)
-                # self.tarif_content2_lay = None
-                # self.tarif_content2_lay = QVBoxLayout()
-                # lbl1 = QLabel("test 123")
-
-                # self.tarif_content2_lay.addWidget(lbl1)
-
-                # print(type(self.tarif_content2_lay), self.tarif_content2_lay.count())
-                # for i in reversed(range(self.tarif_content2_lay.count())): 
-                #     print(self.tarif_content2_lay.itemAt(i).widget())
-
-                # while self.tarif_content2_lay.count():
-                #     item = self.tarif_content2_lay.takeAt(0)
-                #     widget = item.widget()
-                #     widget.deleteLater()
-
-                # for i in reversed(range(self.tarif_content2_lay.count())): 
-                #     self.tarif_content2_lay.itemAt(i).widget().setParent(None)
-                # print("==> jum 1", self.tarif_content2_lay.count())
-                # self.components["main_kendaraan"].setParent(None)
-                # self.components["main_kendaraan"].deleteLater()
-                # print("==> jum 2", self.tarif_content2_lay.count())
-
-
-                # self.tarif_components_setter = [{
-                #                         "name":"main_kendaraan",
-                #                         "category":"widget",
-                #                         "layout": "VBoxLayout",
-                #                         "max_width":700,
-                #                         "style":self.block_children,
-                #                         "children":[]
-                #                     }]
-                # self.tarif_components_setter[0]["children"] = self.getKendaraanList()
-                # self.CreateComponentLayout(self.tarif_components_setter, self.tarif_content2_lay)
+                self.dialogBox(title="Alert", msg=f"Berhasil ditambah")
 
         elif c[0][0] > 0:
             self.dialogBox(title="Alert", msg=f"Jenis Kendaraan ==> {kendaraan} sudah ada !")
@@ -736,8 +710,7 @@ class Controller(Client):
                                 "style":self.primary_update_button,
                                 "clicked": {
                                     "method_name": self.update_denda, 
-                                    "arguments": str( res[i][0] )
-                                }
+                                    "arguments": ( i, str( res[i][0] ) )                                 }
                             }
                         ]
                     }]
@@ -805,8 +778,16 @@ class Controller(Client):
 
         
 
-    def update_denda( self, j ):
-        print("==>", j)
+    def update_denda( self, args ):
+        row_id, jns_kendaraan= args
+
+        denda = self.components[f"denda{row_id}"].text()
+
+        print(f"update tarif set denda={denda} where jns_kendaraan='{jns_kendaraan}'")
+
+        query = self.exec_query(f"update tarif set denda={denda} where jns_kendaraan='{jns_kendaraan}'")
+        if query:
+            self.dialogBox(title="Alert", msg=f"Berhasil diupdate")
 
 
     def set_tarif(self, tipe_tarif):
