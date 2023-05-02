@@ -1888,7 +1888,7 @@ class Main(Util, View):
 
 
                 # components
-                components_setter = [
+                self.tarif_form_setter = [
                                     {
                                         "name":"widget_tipe_tarif",
                                         "category":"widget",
@@ -1936,7 +1936,7 @@ class Main(Util, View):
                                             {
                                                 "name":"t_lbl1",
                                                 "category":"label",
-                                                "text":"Toleransi mobil/motor ",
+                                                "text":"Toleransi waktu ",
                                                 "style":self.primary_lbl + "max-width:150px; border: none;"
                                             },
                                             {
@@ -2232,12 +2232,15 @@ class Main(Util, View):
                                         "style": self.primary_button
                                     }
                                 ]
-                    
-                self.CreateComponentLayout(components_setter, form_container_lay)
+                
+                self.getKendaraanForm()   
+                self.CreateComponentLayout(self.tarif_form_setter, form_container_lay)
                 # tarif_content2_lay.addStretch(1)
 
                 self.check_tarif_type( tipe_tarif )
                 #######################################################
+
+
 
                 ############# set kendaraan & denda ###################
                 self.tarif_components_setter = [{

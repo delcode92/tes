@@ -1,4 +1,4 @@
-import sys, psycopg2, os, math, threading, logging, webbrowser
+import sys, json, psycopg2, os, math, threading, logging, webbrowser
 from logging.handlers import TimedRotatingFileHandler
 
 from client.client_service import Client
@@ -676,6 +676,85 @@ class Controller(Client):
         elif c[0][0] > 0:
             self.dialogBox(title="Alert", msg=f"Jenis Kendaraan ==> {kendaraan} sudah ada !")
 
+    def getKendaraanForm(self, component_setter=""):
+        res = self.exec_query(f"select jns_kendaraan, base_rules from tarif order by id", "select")
+        
+        # parse base rules ==> get hours
+        base_rules = json.loads( str(res[0][1]) )
+        json_keys = [] 
+
+        # extract ket-value from json
+        for key in base_rules.keys():
+            json_keys.append( str(key) )
+
+        for j in range(4):
+            l = []
+            l_jam = []
+            txt_jam = ""
+            key = str(json_keys[j])
+            n = j+1
+            
+            # sub_container2_biaya1
+            # sub_container2_biaya2
+            # sub_container2_biaya3
+            # sub_container2_biaya4
+            
+            # create label & time children list
+            if j==0:
+                txt_jam = "jam pertama"
+            elif j==1 or j==2 :
+                txt_jam = "jam berikutnya"
+            elif j==3:
+                txt_jam = "jam"
+            
+            l_jam =  [{
+                                "name":"lbl",
+                                "category":"label",
+                                "min_width":140 if j==3 else 0,
+                                "text": "Tarif maksimal per " if j==3 else "Tarif: ",
+                                "style":self.primary_lbl + "max-width:50px; border: none;"
+                            },
+                            {
+                                "name":f"add_time{n}",
+                                "category":"spinbox",
+                                "range":(0,24),
+                                "value":f"{key}",
+                                "style":self.primary_spinbox 
+                            },
+                            {
+                                "name":"lbl",
+                                "category":"label",
+                                "text":txt_jam ,
+                                "style":self.primary_lbl + "border: none;"
+                            }]
+            
+            for i in range( len(res) ):
+                jns_kendaraan = res[i][0]
+
+                # parse base rules based on key
+                br = json.loads( str(res[i][1]) )
+                biaya = br[ key ] 
+
+                # create children list
+                l = l + [{
+                        "name":"lbl",
+                        "category":"label",
+                        "text":f"{jns_kendaraan}(Rp) ",
+                        "style":self.primary_lbl + "border: none;"
+                    },
+                    {
+                        "name":f"add_{jns_kendaraan}_biaya{n}",
+                        "category":"lineEditInt",
+                        "text": f"{biaya}", # ==> "text": tarif_motor_kondisi1,
+                        "style":self.primary_input 
+                    }]
+                
+
+            # jam 
+            self.tarif_form_setter[1+n]["children"][0]["children"] = l_jam 
+            
+            self.tarif_form_setter[1+n]["children"][1]["children"] = l
+            
 
     def getKendaraanList(self):
         res = self.exec_query(f"select jns_kendaraan, denda from tarif order by id", "select")

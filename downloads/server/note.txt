@@ -172,4 +172,36 @@ rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )
                                                 ]
                                             },
                                             
-                                        
+                                
+
+
+
+
+
+
+
+[   {
+    'name': 'lbl', 'category': 'label', 
+    'text': 'Motor(Rp) ', 
+    'style': 'QLabel{\n                        font-family: Helvetica;\n                        font-size: 13px;\n                        font-weight:600;\n                        margin-bottom: 5px;\n                        color: #fff;\n    border: none;'}, 
+    
+    {
+        'name': 'add_motor_biaya1', 
+        'category': 'lineEditInt', 
+        'text': '1000', 
+        'style': 'QLineEdit{\n                        height:30px; \n                        border:1px solid #dfe6e9;\n                        background-color: #dfe6e9;\n                        color: #000;\n                        font-family: Helvetica;\n
+   font-size: 14px;\n    '}, 
+   
+   {'name': 'lbl', 'category': 'label', 'text': 'Mobil(Rp) ', 'style': 'QLabel{\n                        font-family: Helvetica;\n
+               font-size: 13px;\n                        font-weight:600;\n                        margin-bottom: 5px;\n                        color: #fff;\n    border: none;'}, {'name': 'add_mobil_biaya1', 'category': 'lineEditInt', 'text': '2000', 'style': 'QLineEdit{\n                        height:30px; \n
+      border:1px solid #dfe6e9;\n                        background-color: #dfe6e9;\n                        color: #000;\n                        font-family: Helvetica;\n                        font-size: 14px;\n    '}]
+
+
+[{'name': 'lbl', 'category': 'label', 'text': 'Motor(Rp) ', 'style': 'QLabel{\n                        font-family: Helvetica;\n                        font-size: 13px;\n                        font-weight:600;\n                        margin-bottom: 5px;\n                        color: #fff;\n    border: none;'}, {'name': 'add_motor_biaya2', 'category': 'lineEditInt', 'text': '1500', 'style': 'QLineEdit{\n                        height:30px; \n                        border:1px solid #dfe6e9;\n                        background-color: #dfe6e9;\n                        color: #000;\n                        font-family: Helvetica;\n
+   font-size: 14px;\n    '}, {'name': 'lbl', 'category': 'label', 'text': 'Mobil(Rp) ', 'style': 'QLabel{\n                        font-family: Helvetica;\n
+               font-size: 13px;\n                        font-weight:600;\n                        margin-bottom: 5px;\n                        color: #fff;\n    border: none;'}, {'name': 'add_mobil_biaya2', 'category': 'lineEditInt', 'text': '1000', 'style': 'QLineEdit{\n                        height:30px; \n
+      border:1px solid #dfe6e9;\n                        background-color: #dfe6e9;\n                        color: #000;\n                        font-family: Helvetica;\n                        font-size: 14px;\n    '}]
+[{'name': 'lbl', 'category': 'label', 'text': 'Motor(Rp) ', 'style': 'QLabel{\n                        font-family: Helvetica;\n                        font-size: 13px;\n                        font-weight:600;\n                        margin-bottom: 5px;\n                        color: #fff;\n    border: none;'}, {'name': 'add_motor_biaya3', 'category': 'lineEditInt', 'text': '1500', 'style': 'QLineEdit{\n                        height:30px; \n                        border:1px solid #dfe6e9;\n                        background-color: #dfe6e9;\n                        color: #000;\n                        font-family: Helvetica;\n
+   font-size: 14px;\n    '}, {'name': 'lbl', 'category': 'label', 'text': 'Mobil(Rp) ', 'style': 'QLabel{\n                        font-family: Helvetica;\n
+               font-size: 13px;\n                        font-weight:600;\n                        margin-bottom: 5px;\n                        color: #fff;\n    border: none;'}, {'name': 'add_mobil_biaya3', 'category': 'lineEditInt', 'text': '1000', 'style': 'QLineEdit{\n                        height:30px; \n
+      border:1px solid #dfe6e9;\n                        background-color: #dfe6e9;\n                        color: #000;\n                        font-family: Helvetica;\n                        font-size: 14px;\n    '}]
