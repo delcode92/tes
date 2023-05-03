@@ -416,6 +416,14 @@
                                                
                                                 </prev_next_cont_widget>
 
+                                                <total_income_wgt>
+                                                    <!-- horizontal layout-->
+                                                    <total_income_lay>
+                                                        </total_income_lbl>
+                                                    </total_income_lay>
+
+                                                </total_income_wgt>
+
                                             </laporan_content1_lay>
                                         </laporan_content1>
                                     <scroll>

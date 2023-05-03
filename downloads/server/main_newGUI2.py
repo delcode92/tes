@@ -129,7 +129,8 @@ class Main(Util, View):
         form_container_lay = QVBoxLayout()
         form_container_lay.setContentsMargins(25,25,25,25)
         form_container.setLayout(form_container_lay)
-        form_container.setMaximumWidth(700)
+        form_container.setMaximumWidth(800)
+
         form_container.setStyleSheet("background:#222b45;")
         
         if scrollable:
@@ -1785,7 +1786,7 @@ class Main(Util, View):
                 self.tarif_tab2 = QPushButton("Add kendaraan-Denda")
                 
                 self.tarif_stack = QStackedWidget()
-                tarif_content1 = QWidget()
+                self.tarif_content1 = QWidget()
                 self.tarif_content2 = QWidget()
                 
                 # tabs
@@ -1806,12 +1807,12 @@ class Main(Util, View):
                 self.tarif_container_lay.addWidget(self.tarif_stack)
 
                 # add tabs
-                self.tarif_stack.addWidget(tarif_content1)
+                self.tarif_stack.addWidget(self.tarif_content1)
                 self.tarif_stack.addWidget(self.tarif_content2)
                 
                 # set widget and layout
-                tarif_content1_lay = QVBoxLayout()
-                tarif_content1.setLayout( tarif_content1_lay )
+                self.tarif_content1_lay = QVBoxLayout()
+                self.tarif_content1.setLayout( self.tarif_content1_lay )
 
                 # set widget and layout
                 self.tarif_content2_lay = QVBoxLayout()
@@ -1819,21 +1820,22 @@ class Main(Util, View):
 
                 ############### FORM CONTAINER ##############
                 res = self.createFormContainer(scrollable=True)
-                form_container = res[0]
+                self.form_container = res[0] # scrollarea widget
                 # form_container.setStyleSheet("border: 2px solid red;")
-                # form_container.setMinimumHeight(700)
-                form_container_lay = res[1]
+                # self.tarif_content1.setMinimumWidth(700)
+                # self.form_container.setMinimumWidth(700)
+                self.form_tarif_container_lay = res[1] # scroll area layout
                 ############################################
 
                 # screen = self.app.primaryScreen()
                 # size = screen.size()
 
                 # tarif_content2.setMaximumHeight( size.height() - 200 )
-                tarif_content1_lay.setContentsMargins(25,0,25,0)
+                self.tarif_content1_lay.setContentsMargins(25,0,25,0)
                 self.tarif_content2_lay.setContentsMargins(25,25,25,25)
                 # tarif_content2_lay.setSpacing(0)
 
-                tarif_content1_lay.addWidget(form_container)
+                self.tarif_content1_lay.addWidget(self.form_container)
                 # tarif_content2.setStyleSheet("border: 2px solid blue;")
 
                 # set widget for tab1 layout
@@ -2234,7 +2236,7 @@ class Main(Util, View):
                                 ]
                 
                 self.getKendaraanForm()   
-                self.CreateComponentLayout(self.tarif_form_setter, form_container_lay)
+                self.CreateComponentLayout(self.tarif_form_setter, self.form_tarif_container_lay)
                 # tarif_content2_lay.addStretch(1)
 
                 self.check_tarif_type( tipe_tarif )
@@ -2506,6 +2508,7 @@ class Main(Util, View):
                 jns_trans_container = QWidget()
                 shift_container = QWidget()
                 prev_next_cont_widget = QWidget()
+                total_income_wgt = QWidget()
                 
                 
                 filter_main_wgt, filter_main_lay = self.CreateContainer( QVBoxLayout() )
@@ -2531,6 +2534,7 @@ class Main(Util, View):
                 jns_trans_lay = QVBoxLayout()
                 shift_lay = QVBoxLayout()
                 prev_next_cont_lay = QHBoxLayout()
+                total_income_lay = QHBoxLayout()
 
                 screen = self.app.primaryScreen()
                 size = screen.size()
@@ -2538,7 +2542,7 @@ class Main(Util, View):
                 scroll = QScrollArea() 
                 scroll.setWidget(laporan_content1)
                 scroll.setWidgetResizable(True)
-                scroll.setMaximumHeight( size.height() - 200 )
+                scroll.setMaximumHeight( size.height() - 100 )
 
                 ###################### end init widgets & layouts #########################
                 
@@ -2560,6 +2564,7 @@ class Main(Util, View):
                 prev_btn = QPushButton("prev")
                 next_btn = QPushButton("next")
                 self.lbl_count = QLabel()
+                self.total_income_lbl = QLabel("TOTAL INCOME: ... ")
                 
                 self.input_cari = QLineEdit()
                 self.pilih_tgl1 = QDateEdit( calendarPopup=True )
@@ -2694,6 +2699,8 @@ class Main(Util, View):
                 self.lbl_count.setAlignment( Qt.AlignCenter )
                 self.lbl_count.setStyleSheet( View.primary_lbl + "}" )
                 next_btn.setLayoutDirection(Qt.RightToLeft)
+                self.total_income_lbl.setAlignment( Qt.AlignLeft )
+                self.total_income_lbl.setStyleSheet( View.primary_lbl + " padding-top:10px; font-size: 16px;}" )
 
                 # positioning
                 laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
@@ -2735,6 +2742,7 @@ class Main(Util, View):
                 jns_trans_container.setLayout( jns_trans_lay )
                 shift_container.setLayout( shift_lay )
                 prev_next_cont_widget.setLayout( prev_next_cont_lay )
+                total_income_wgt.setLayout( total_income_lay )
 
 
                 # add widget
@@ -2795,6 +2803,7 @@ class Main(Util, View):
                 prev_next_cont_lay.addWidget( prev_btn )
                 prev_next_cont_lay.addWidget( self.lbl_count )
                 prev_next_cont_lay.addWidget( next_btn )
+                total_income_lay.addWidget( self.total_income_lbl )
 
                 # other
                 row_search.setIcon(QIcon(self.icon_path+"search.png"))
@@ -2823,12 +2832,13 @@ class Main(Util, View):
 
                 # create table widget
                 # fetch data from DB
+                q_income = self.exec_query("select SUM(tarif) as tot_income from karcis", "select")
                 self.karcis_rows = self.exec_query("select count(*) as count from karcis", "select")
                 self.row_limit = 18 if self.karcis_rows[0][0] >= 18 else self.karcis_rows[0][0]
                 self.row_offset = 0
                 query = self.exec_query(f"SELECT id, barcode,  nopol, jenis_kendaraan, gate, cast(datetime as date), cast(date_keluar as date), lama_parkir, status_parkir, tarif, jns_transaksi, kd_shift FROM karcis order by id limit {self.row_limit} OFFSET {self.row_offset}", "SELECT")
                 rows_count = len(query)
-                cols = 11
+                cols = 12
 
                 self.laporan_table.resizeRowsToContents()
                 self.laporan_table.horizontalHeader().setStretchLastSection(True)
@@ -2845,6 +2855,7 @@ class Main(Util, View):
                 
                 self.lbl_count.setText(f"1-{self.row_limit} from {self.karcis_rows[0][0]} results")
 
+                self.total_income_lbl.setText("TOTAL INCOME: Rp " +  "{:,}".format( q_income[0][0] ).replace(",", ".") )
                 # self.laporan_table.setItem(0, 0, QTableWidgetItem( "ID 1" )) # will be hidden id to edit & delete
                 # self.laporan_table.setItem(0, 1, QTableWidgetItem( "test 2" ))
                 # self.laporan_table.setItem(0, 2, QTableWidgetItem( "test 3" ))
@@ -2862,8 +2873,9 @@ class Main(Util, View):
                 laporan_content1_lay.addWidget( filter_main_wgt )
                 laporan_content1_lay.addWidget(tab1_h_widget)
                 laporan_content1_lay.addWidget(prev_next_cont_widget)
+                laporan_content1_lay.addWidget(total_income_wgt)
 
-                
+                # print("css ==>: ", self.pilih_tgl1.styleSheet())
             case default:
                 pass    
 

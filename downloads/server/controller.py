@@ -757,7 +757,7 @@ class Controller(Client):
             
 
     def getKendaraanList(self):
-        res = self.exec_query(f"select jns_kendaraan, denda from tarif order by id", "select")
+        res = self.exec_query(f"select jns_kendaraan, denda, id from tarif order by id", "select")
         l = []
 
         for i in range( len(res) ):
@@ -768,11 +768,11 @@ class Controller(Client):
                         "style":"border:none;",
                         "children":[
                             {
-                                "name":f"lbl_kend{i}",
-                                "category":"label",
+                                "name":f"nm_kend{i}",
+                                "category":"lineedit",
                                 "text":str( res[i][0] ).capitalize(),
                                 "max_width":200,
-                                "style":self.primary_lbl
+                                "style":self.primary_input
                             },
                             {
                                 "name":f"denda{i}",
@@ -789,7 +789,7 @@ class Controller(Client):
                                 "style":self.primary_update_button,
                                 "clicked": {
                                     "method_name": self.update_denda, 
-                                    "arguments": ( i, str( res[i][0] ) )                                 }
+                                    "arguments": ( i, str( res[i][2] ) )                                 }
                             }
                         ]
                     }]
@@ -858,16 +858,42 @@ class Controller(Client):
         
 
     def update_denda( self, args ):
-        row_id, jns_kendaraan= args
+        elem_id, row_id= args
 
-        denda = self.components[f"denda{row_id}"].text()
+        jns_kendaraan = self.components[f"nm_kend{elem_id}"].text()
+        denda = self.components[f"denda{elem_id}"].text()
 
-        print(f"update tarif set denda={denda} where jns_kendaraan='{jns_kendaraan}'")
+        query = self.exec_query(f"update tarif set jns_kendaraan='{jns_kendaraan}', denda={denda} where id={row_id}")
+       
+        if query: self.dialogBox(title="Alert", msg=f"Berhasil diupdate")
 
-        query = self.exec_query(f"update tarif set denda={denda} where jns_kendaraan='{jns_kendaraan}'")
-        if query:
-            self.dialogBox(title="Alert", msg=f"Berhasil diupdate")
+        # set tarif form
+        self.tarif_stack.removeWidget(self.tarif_content1)
+        # self.tarif_content1.deleteLater()
 
+        self.tarif_content1 = QWidget()
+        # self.tarif_content1.setStyleSheet("border: 2px solid red;")
+        # self.tarif_content1_lay = None
+        self.tarif_content1_lay = QVBoxLayout()
+        self.tarif_content1.setLayout( self.tarif_content1_lay )
+        self.tarif_content1_lay.setContentsMargins(25,0,25,0)
+        # self.tarif_content1_lay.addWidget(self.form_container)
+
+        self.tarif_content1.setMaximumWidth(800)
+        self.tarif_content1.setStyleSheet("margin-left: 25px; background:#222b45; border: 1px solid #b2bec3;")
+        self.tarif_content1_lay.setContentsMargins(25,25,25,25)
+
+        self.tarif_stack.insertWidget( 0, self.tarif_content1 )
+
+        # components
+        
+        # self.tarif_form_setter 
+
+        self.getKendaraanForm()
+        
+        # self.tarif_stack.update()
+        self.CreateComponentLayout( self.tarif_form_setter, self.tarif_content1_lay )
+        # self.components["widget_tipe_tarif"].setStyleSheet("background:#222b45;")
 
     def set_tarif(self, tipe_tarif):
         
@@ -2095,9 +2121,9 @@ class Controller(Client):
         self.row_offset = 0
         
         
-        query = f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}" # baru masukkan limit kedalam querynya
+        query_limit = f"{self.query_search} limit {self.row_limit} OFFSET {self.row_offset}" # baru masukkan limit kedalam querynya
         
-        res = self.exec_query( query, "SELECT") # result yg ada limitnya
+        res = self.exec_query( query_limit, "SELECT") # result yg ada limitnya
         res2 = self.exec_query( self.query_search, "SELECT") # result yg tidak ada limitnya, utk diolah pada proses yg lain, seperti cetak laporan
         rows_count = len(res)
         cols = 11
@@ -2122,6 +2148,12 @@ class Controller(Client):
         
         self.row_print.setEnabled(True)
         self.row_print.setStyleSheet( print_btn_action )
+
+        # update total income
+        # print(f"select SUM(tarif) as tot_income from karcis where {query}")
+        q_income = self.exec_query(f"select SUM(tarif) as tot_income from karcis where {query}", "SELECT")
+        self.total_income_lbl.setText("TOTAL INCOME: Rp " +  "{:,}".format( q_income[0][0] ).replace(",", ".") )
+
         return tgl1,tgl2,res2 
 
     def printLaporan(self):
