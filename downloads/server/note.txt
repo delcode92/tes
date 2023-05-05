@@ -1,3 +1,6 @@
+==> pada programkasir dashboard terkadang ada muncul error
+QThread: Destroyed while thread is still running
+
 yg dikomen & yg ditambahkan agar pebih simple saat proses dev
 
 ==> pada main_newgui2

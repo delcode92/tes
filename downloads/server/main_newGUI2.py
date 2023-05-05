@@ -3,6 +3,7 @@ import sys,cv2,os, json, logging
 from framework import *
 # from kasir_ipcam import *
 from _thread import start_new_thread
+from configparser import ConfigParser
 
 class ClickableLabel(QLabel):
     def __init__(self, text):
@@ -2952,6 +2953,17 @@ class Main(Util, View):
             sys.exit(self.app.exec_())
    
     def KasirDashboard(self):
+
+        ####### get ipcam ip ########
+        ini = self.getPath(fileName="app.ini")
+            
+        configur = ConfigParser()
+        configur.read(ini)
+
+        ipcam1 = configur["gate1"]["ipcam1"]
+        ipcam2 = configur["gate1"]["ipcam2"]
+        ##############################
+
         class Debug():
             def __init__(self) -> None:
                 self.logger = logging.getLogger()
@@ -2991,7 +3003,7 @@ class Main(Util, View):
                     try:
 
                         if not self.capture:
-                            rtsp = 'rtsp://admin:admin@192.168.100.121'        
+                            rtsp = f'rtsp://admin:admin@{ipcam1}'        
                             debug.logger.info("Run video capture from --> "+ rtsp)
                             self.capture = cv2.VideoCapture(rtsp)
                             
@@ -3036,7 +3048,7 @@ class Main(Util, View):
                     try:
 
                         if not self.capture:
-                            rtsp = 'rtsp://admin:admin@192.168.100.121'        
+                            rtsp = f'rtsp://admin:admin@{ipcam2}'        
                             debug.logger.info("Run video capture from --> "+ rtsp)
                             self.capture = cv2.VideoCapture(rtsp)
                             
@@ -3268,12 +3280,12 @@ class Main(Util, View):
         # self.CreateComponentLayout(right_content, right_vbox)
         ipcam_lbl1 = QLabel("CAM 1")
         self.image_label = QLabel()
-        self.image_label.setMaximumSize(360, 270) # 4:3
+        self.image_label.setMaximumSize(380, 200) # 4:3
         self.image_label.setAlignment(Qt.AlignCenter)
 
         ipcam_lbl2 = QLabel("CAM 2")
         self.image_label2 = QLabel()
-        self.image_label2.setMaximumSize(360, 270) # 4:3
+        self.image_label2.setMaximumSize(380, 200) # 4:3
         self.image_label2.setAlignment(Qt.AlignCenter)
 
         # self.stream_url_1 = 'rtsp://admin:admin@192.168.100.121'

@@ -8,7 +8,9 @@ from framework import *
 from configparser import ConfigParser
 
 class Debug():
+    
     def __init__(self) -> None:
+        
         self.logger = logging.getLogger()
         self.logger.setLevel(logging.NOTSET)
         self.logfile_path = "./logging/log_file.log"
@@ -36,9 +38,10 @@ class Thread(QThread):
     changePixmaps = pyqtSignal(QImage)
     
     def run(self):
+        
         debug = Debug()
         
-        debug.logger.info("Run Cam Thread ...")
+        debug.logger.info("Run IP Cam 1 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -47,7 +50,7 @@ class Thread(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = 'rtsp://admin:admin@192.168.100.121'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam1}'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -82,9 +85,10 @@ class Thread2(QThread):
     changePixmaps2 = pyqtSignal(QImage)
     
     def run(self):
+        
         debug = Debug()
         
-        debug.logger.info("Run Cam Thread ...")
+        debug.logger.info("Run IP Cam 2 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -93,7 +97,8 @@ class Thread2(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = 'http://192.168.100.69:4747/video'        
+                    # rtsp = 'http://192.168.100.69:4747/video'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -124,9 +129,23 @@ class Thread2(QThread):
             debug.logger.info("IP CAM not connected ... ")
 
 class IPCam(Util, View):
+    
     img_name = ""
+
+    ####### get ipcam ip ########
+    ini = Util.getPath(None,fileName="app.ini")
+        
+    configur = ConfigParser()
+    configur.read(ini)
+
+    ipcam1 = configur["gate1"]["ipcam1"]
+    ipcam2 = configur["gate1"]["ipcam2"]
+    ##############################
+
     def __init__(self, multiproc_conn) -> None:
         
+        
+
         self.debug = Debug()
 
         self.process_conn = multiproc_conn
@@ -315,7 +334,9 @@ class Server:
 
     db_cursor = None
     list_of_clients = {}
-    
+    ipcam1 = ""
+    ipcam2 = ""
+
     def __init__(self, host, port, multiproc_conn ) -> None:
         
         # init debug
