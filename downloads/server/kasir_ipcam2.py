@@ -1,7 +1,9 @@
-import cv2, sys
+import sys
+import cv2
+from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.QtWidgets import QApplication,QLabel, QWidget, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QLabel, QWidget, QHBoxLayout, QVBoxLayout
 
 
 class DisplayWidget(QWidget):
@@ -11,9 +13,9 @@ class DisplayWidget(QWidget):
         self.image_label.setMinimumSize(640, 480)
         self.image_label.setAlignment(Qt.AlignCenter)
 
-        # self.layout = QVBoxLayout()
-        # self.layout.addWidget(self.image_label)
-        # self.setLayout(self.layout)
+        self.layout = QVBoxLayout()
+        self.layout.addWidget(self.image_label)
+        self.setLayout(self.layout)
 
     def set_image(self, image):
         self.image_label.setPixmap(QPixmap.fromImage(image))
@@ -21,11 +23,11 @@ class DisplayWidget(QWidget):
 
 class VideoPlayer(QWidget):
     def __init__(self, parent=None):
-        
-        self.stream_url_1 = "http://192.168.100.69:4747/video"
+        super(VideoPlayer, self).__init__(parent)
+        self.setWindowTitle("IP Camera Video Player")
+
+        self.stream_url_1 = "rtsp://admin:admin@192.168.100.121"
         self.stream_url_2 = "rtsp://admin:admin@192.168.100.121"
-        # self.stream_url_1 = 0
-        # self.stream_url_2 = 0
 
         self.display_widget_1 = DisplayWidget()
         self.display_widget_2 = DisplayWidget()
@@ -58,7 +60,7 @@ class VideoPlayer(QWidget):
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     player = VideoPlayer()
-    # player.showMinimized()
+    player.show()
     sys.exit(app.exec_())

@@ -1,4 +1,6 @@
 import os,sys, re, socket, psycopg2, logging, datetime, json, multiprocessing
+import typing
+from PyQt5.QtCore import QObject
 from time import sleep
 from cv2 import add
 from _thread import start_new_thread
@@ -31,8 +33,8 @@ class Debug():
 # class worker
 class Thread(QThread):
 
-    changePixmap = pyqtSignal(QImage)
-
+    changePixmaps = pyqtSignal(QImage)
+    
     def run(self):
         debug = Debug()
         
@@ -47,7 +49,7 @@ class Thread(QThread):
                 if not self.capture:
                     rtsp = 'rtsp://admin:admin@192.168.100.121'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
-                    self.capture = cv2.VideoCapture(0)
+                    self.capture = cv2.VideoCapture(rtsp)
                     
                 elif not ret:
                     debug.logger.error("Failed to read from video stream!")
@@ -61,7 +63,53 @@ class Thread(QThread):
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                    self.changePixmap.emit(p)
+                    self.changePixmaps.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+class Thread2(QThread):
+
+    changePixmaps2 = pyqtSignal(QImage)
+    
+    def run(self):
+        debug = Debug()
+        
+        debug.logger.info("Run Cam Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    rtsp = 'http://192.168.100.69:4747/video'        
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps2.emit(p)
             
             except Exception as e:
                 self.is_running = False
@@ -108,53 +156,59 @@ class IPCam(Util, View):
         main_layout = self.CreateLayout(("VBoxLayout", False), self.window)
             
         main_layout.setContentsMargins(200, 50, 200, 50)
-        cam_layout = self.CreateLayout(("FormLayout", False), main_layout)
-        
-        right_list = self.CreateLayout(("VBoxLayout", False))
-        right_list.setContentsMargins(0,0,0,0)
-        right_list.setSpacing(0)
-        
-        # disini bro
 
-        status_layout =  self.CreateLayout(("FormLayout", False))
-        
-        # set right layout background
-        right_widget = QWidget()
-        right_widget.setLayout(right_list)
-        right_widget.setStyleSheet(View.bg_grey)
-        right_widget.setMinimumHeight(20)
-        right_widget.setMinimumWidth(250)
-
-        # inside right_widget --> there is widget that contain status layout(form lay)
-
-        # set status widget
-        stat_widget = QWidget()
-        stat_widget.setLayout(status_layout)
-        stat_widget.setMaximumHeight(150)
-        stat_widget.setMaximumWidth(250)
-        
-        # put component into right form
         gate_lbl = QLabel("GATE 1")
         gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
+        main_layout.addWidget(gate_lbl)
 
-        ip_lbl = QLabel("IP Address: ")
-        ip_lbl.setMinimumWidth(100)
-        ip_lbl.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
-
-        ip_val = QLabel("192.168.100.1")
-        ip_val.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
-
-        stat_lbl = QLabel("Status: ")
-        stat_lbl.setMinimumWidth(100)
-        stat_lbl.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
+        cam_layout = self.CreateLayout(("FormLayout", False), main_layout)
         
-        stat_val = QLabel("CONNECTED")
-        stat_val.setFont( View.fontStyle(None, "Helvetica", 12, 80) )
-        stat_val.setStyleSheet(View.bg_light_green + View.color_white + "padding :8px")
 
-        status_layout.addRow(gate_lbl)
-        status_layout.addRow(ip_lbl, ip_val)
-        status_layout.addRow(stat_lbl, stat_val)
+        
+        # right_list = self.CreateLayout(("VBoxLayout", False))
+        # right_list.setContentsMargins(0,0,0,0)
+        # right_list.setSpacing(0)
+        
+        # # disini bro
+
+        # status_layout =  self.CreateLayout(("FormLayout", False))
+        
+        # # set right layout background
+        # right_widget = QWidget()
+        # right_widget.setLayout(right_list)
+        # right_widget.setStyleSheet(View.bg_grey)
+        # right_widget.setMinimumHeight(20)
+        # right_widget.setMinimumWidth(250)
+
+        # # inside right_widget --> there is widget that contain status layout(form lay)
+
+        # # set status widget
+        # stat_widget = QWidget()
+        # stat_widget.setLayout(status_layout)
+        # stat_widget.setMaximumHeight(150)
+        # stat_widget.setMaximumWidth(250)
+        
+        # # put component into right form
+        
+
+        # ip_lbl = QLabel("IP Address: ")
+        # ip_lbl.setMinimumWidth(100)
+        # ip_lbl.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
+
+        # ip_val = QLabel("192.168.100.1")
+        # ip_val.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
+
+        # stat_lbl = QLabel("Status: ")
+        # stat_lbl.setMinimumWidth(100)
+        # stat_lbl.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
+        
+        # stat_val = QLabel("CONNECTED")
+        # stat_val.setFont( View.fontStyle(None, "Helvetica", 12, 80) )
+        # stat_val.setStyleSheet(View.bg_light_green + View.color_white + "padding :8px")
+
+        # status_layout.addRow(gate_lbl)
+        # status_layout.addRow(ip_lbl, ip_val)
+        # status_layout.addRow(stat_lbl, stat_val)
 
         # snap_button = QPushButton("snap")
         # status_layout.addRow(stat_lbl, snap_button)
@@ -163,19 +217,29 @@ class IPCam(Util, View):
 
         # web cam image here with label helper
         self.lbl1 = QLabel()
-        self.lbl1.setMinimumWidth(640)
-        self.lbl1.setMinimumHeight(400)
+        self.lbl1.setMaximumWidth(640)
+        self.lbl1.setMaximumHeight(400)
         self.lbl1.setStyleSheet(View.bg_black)
+        
+        self.lbl2 = QLabel()
+        self.lbl2.setMaximumWidth(640)
+        self.lbl2.setMaximumHeight(400)
+        self.lbl2.setStyleSheet(View.bg_black)
 
         # connect pixmap with label, using thread
         th = Thread()
-        th.changePixmap.connect(self.setImage) # using pyqt5 slot and signal 
+        th.changePixmaps.connect(self.setImage) # using pyqt5 slot and signal 
         th.start()
-
-        right_list.addWidget(stat_widget)
+        
+        th2 = Thread2()
+        th2.changePixmaps2.connect(self.setImage2) # using pyqt5 slot and signal 
+        th2.start()
+        
+        
+        # right_list.addWidget(stat_widget)
 
         # add cam & others data to from layout
-        cam_layout.addRow(self.lbl1, right_widget)
+        cam_layout.addRow(self.lbl1, self.lbl2)
 
         # add cam layout(from layout) to main layout
         main_layout.addLayout(cam_layout)
@@ -191,7 +255,11 @@ class IPCam(Util, View):
         
         self.window.setCentralWidget(scroll)
 
+        main_layout.addStretch(1)
+
         self.window.showMinimized()
+        self.window.setWindowFlag(Qt.WindowCloseButtonHint, True) # set false to hide running proccess
+        
         sys.exit(self.app.exec_())
 
     def snap_func(self):
@@ -231,6 +299,14 @@ class IPCam(Util, View):
             self.snap_stat = False
             image = QImage()
             self.debug.logger.info("save snapshot image & re-init QImage ...")
+
+    def setImage2(self, image):
+        try:
+            self.lbl2.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.error(str(e))
 
 # HOST = "127.0.0.1" --> sys.argv[1]
 # PORT = 65430 --> sys.argv[2]

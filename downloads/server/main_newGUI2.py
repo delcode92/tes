@@ -1,4 +1,4 @@
-import sys,cv2,os, json
+import sys,cv2,os, json, logging
 
 from framework import *
 # from kasir_ipcam import *
@@ -32,7 +32,7 @@ class Main(Util, View):
         # steps
         
         # create thread for connect to server
-        # start_new_thread(self.connect_to_server, ( sys.argv[1], sys.argv[2] ))
+        start_new_thread(self.connect_to_server, ( sys.argv[1], sys.argv[2] ))
         
 
     def setMenuClicked(self, button=None, label=None, page=""):
@@ -861,19 +861,21 @@ class Main(Util, View):
     # def set_image(self, image):
     #     self.image_label.setPixmap(QPixmap.fromImage(image))
 
+    
     def play(self):
-        ret_1, frame_1 = self.cap_1.read()
-        ret_2, frame_2 = self.cap_2.read()
+        ...
+        # ret_1, frame_1 = self.cap_1.read()
+        # ret_2, frame_2 = self.cap_2.read()
 
-        if ret_1:
-            frame_1 = cv2.cvtColor(frame_1, cv2.COLOR_BGR2RGB)
-            image_1 = QImage(frame_1, frame_1.shape[1], frame_1.shape[0], frame_1.strides[0], QImage.Format_RGB888)
-            self.image_label.setPixmap(QPixmap.fromImage(image_1))
+        # if ret_1:
+        #     frame_1 = cv2.cvtColor(frame_1, cv2.COLOR_BGR2RGB)
+        #     image_1 = QImage(frame_1, frame_1.shape[1], frame_1.shape[0], frame_1.strides[0], QImage.Format_RGB888)
+        #     self.image_label.setPixmap(QPixmap.fromImage(image_1))
 
-        if ret_2:
-            frame_2 = cv2.cvtColor(frame_2, cv2.COLOR_BGR2RGB)
-            image_2 = QImage(frame_2, frame_2.shape[1], frame_2.shape[0], frame_2.strides[0], QImage.Format_RGB888)
-            self.image_label2.setPixmap(QPixmap.fromImage(image_2))
+        # if ret_2:
+        #     frame_2 = cv2.cvtColor(frame_2, cv2.COLOR_BGR2RGB)
+        #     image_2 = QImage(frame_2, frame_2.shape[1], frame_2.shape[0], frame_2.strides[0], QImage.Format_RGB888)
+        #     self.image_label2.setPixmap(QPixmap.fromImage(image_2))
 
     def findVoucher(self):
         print("search voucher status ... ")
@@ -2700,7 +2702,7 @@ class Main(Util, View):
                 self.lbl_count.setStyleSheet( View.primary_lbl + "}" )
                 next_btn.setLayoutDirection(Qt.RightToLeft)
                 self.total_income_lbl.setAlignment( Qt.AlignLeft )
-                self.total_income_lbl.setStyleSheet( View.primary_lbl + " padding-top:10px; font-size: 16px;}" )
+                self.total_income_lbl.setStyleSheet( View.primary_lbl + " padding-top:10px; font-size: 16px; color:#fa0; }" )
 
                 # positioning
                 laporan_tabs_container.setContentsMargins(25, 20, 0, 0)
@@ -2950,6 +2952,121 @@ class Main(Util, View):
             sys.exit(self.app.exec_())
    
     def KasirDashboard(self):
+        class Debug():
+            def __init__(self) -> None:
+                self.logger = logging.getLogger()
+                self.logger.setLevel(logging.NOTSET)
+                self.logfile_path = "./logging/log_file.log"
+
+                # our first handler is a console handler
+                console_handler = logging.StreamHandler()
+                console_handler.setLevel(logging.DEBUG)
+                console_handler_format = '%(levelname)s: %(message)s'
+                console_handler.setFormatter(logging.Formatter(console_handler_format))
+
+                # start logging and show messages
+
+                # the second handler is a file handler
+                file_handler = logging.FileHandler(self.logfile_path)
+                file_handler.setLevel(logging.INFO)
+                file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+                file_handler.setFormatter(logging.Formatter(file_handler_format))
+
+                self.logger.addHandler(console_handler)
+                self.logger.addHandler(file_handler)
+
+
+        class playCam1(QThread):
+            
+            cp = pyqtSignal(QImage)
+            def run(self):
+                debug = Debug()
+                
+                debug.logger.info("Run Cam Thread ...")
+
+                self.is_running = True
+                self.capture = None
+                
+                while self.is_running:
+                    try:
+
+                        if not self.capture:
+                            rtsp = 'rtsp://admin:admin@192.168.100.121'        
+                            debug.logger.info("Run video capture from --> "+ rtsp)
+                            self.capture = cv2.VideoCapture(rtsp)
+                            
+                        elif not ret:
+                            debug.logger.error("Failed to read from video stream!")
+                            raise Exception("Failed to read from video stream!")   
+                        
+                        ret, frame = self.capture.read()
+                        if ret:
+                            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    
+                            h, w, ch = rgbImage.shape
+                            bytesPerLine = ch * w
+                            convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                            p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                            self.cp.emit(p)
+                    
+                    except Exception as e:
+                        self.is_running = False
+                        self.capture = None
+                        self.msleep(5000)
+                        self.is_running = True
+
+                        debug.logger.info("something wrong with ipcam .... ")
+                        debug.logger.error(str(e))
+                        debug.logger.info("retrying to connect.... ")
+                else:
+                    debug.logger.info("IP CAM not connected ... ")
+
+        class playCam2(QThread):
+            
+            cp2 = pyqtSignal(QImage)
+            def run(self):
+                debug = Debug()
+                
+                debug.logger.info("Run Cam Thread ...")
+
+                self.is_running = True
+                self.capture = None
+                
+                while self.is_running:
+                    try:
+
+                        if not self.capture:
+                            rtsp = 'rtsp://admin:admin@192.168.100.121'        
+                            debug.logger.info("Run video capture from --> "+ rtsp)
+                            self.capture = cv2.VideoCapture(rtsp)
+                            
+                        elif not ret:
+                            debug.logger.error("Failed to read from video stream!")
+                            raise Exception("Failed to read from video stream!")   
+                        
+                        ret, frame = self.capture.read()
+                        if ret:
+                            rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                    
+                            h, w, ch = rgbImage.shape
+                            bytesPerLine = ch * w
+                            convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                            p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                            self.cp2.emit(p)
+                    
+                    except Exception as e:
+                        self.is_running = False
+                        self.capture = None
+                        self.msleep(5000)
+                        self.is_running = True
+
+                        debug.logger.info("something wrong with ipcam .... ")
+                        debug.logger.error(str(e))
+                        debug.logger.info("retrying to connect.... ")
+                else:
+                    debug.logger.info("IP CAM not connected ... ")
+
+
         window_setter = {
             "title":"Kasir Dashboard", 
             "style":self.win_dashboard
@@ -3151,23 +3268,36 @@ class Main(Util, View):
         # self.CreateComponentLayout(right_content, right_vbox)
         ipcam_lbl1 = QLabel("CAM 1")
         self.image_label = QLabel()
-        self.image_label.setMaximumSize(280, 210) # 4:3
+        self.image_label.setMaximumSize(360, 270) # 4:3
         self.image_label.setAlignment(Qt.AlignCenter)
 
         ipcam_lbl2 = QLabel("CAM 2")
         self.image_label2 = QLabel()
-        self.image_label2.setMaximumSize(280, 210) # 4:3
+        self.image_label2.setMaximumSize(360, 270) # 4:3
         self.image_label2.setAlignment(Qt.AlignCenter)
 
-        self.stream_url_1 = 'rtsp://admin:admin@192.168.100.121'
-        self.stream_url_2 = 'http://192.168.100.4:4747/video'
+        # self.stream_url_1 = 'rtsp://admin:admin@192.168.100.121'
+        # self.stream_url_2 = 'http://192.168.100.69:4747/video'
 
-        self.cap_1 = cv2.VideoCapture(self.stream_url_1)
-        self.cap_2 = cv2.VideoCapture(self.stream_url_2)
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.play)
-        self.timer.start(30)
+        th = playCam1()
+        th.cp.connect(self.setImageKasir) 
+        th.start()
+        
+        th2 = playCam2()
+        th2.cp2.connect(self.setImageKasir2) 
+        th2.start()
+
+       
+
+        # self.cap_1 = cv2.VideoCapture(self.stream_url_1)
+        # self.cap_2 = cv2.VideoCapture(self.stream_url_2)
+
+        # self.timer = QTimer()
+        # self.timer.timeout.connect(self.play)
+        # self.timer.start(30)
+
+
 
         right_vbox.addWidget(ipcam_lbl1)
         right_vbox.addWidget(self.image_label)
@@ -3213,6 +3343,25 @@ class Main(Util, View):
 
         self.window.setCentralWidget(main_widget)
         self.window.show()
+
+
+    def setImageKasir(self, image):
+        try:
+            self.image_label.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.error(str(e))
+    
+    def setImageKasir2(self, image):
+        try:
+            self.image_label2.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.error(str(e))
+       
+
 
     def AdminDashboard(self):
             window_setter = {
@@ -3503,12 +3652,12 @@ class Main(Util, View):
 
             self.window.show()
             
-            self.windowBarAction("kelola laporan")
+            # self.windowBarAction("kelola laporan")
 
-            sys.exit(self.app.exec_())
+            # sys.exit(self.app.exec_())
             
 m = Main()
 
 
-# m.Login()()
-m.AdminDashboard()
+m.Login()()
+# m.AdminDashboard()

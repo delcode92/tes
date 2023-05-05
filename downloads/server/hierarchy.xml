@@ -419,7 +419,7 @@
                                                 <total_income_wgt>
                                                     <!-- horizontal layout-->
                                                     <total_income_lay>
-                                                        </total_income_lbl>
+                                                        </self.total_income_lbl>
                                                     </total_income_lay>
 
                                                 </total_income_wgt>
@@ -441,4 +441,24 @@
 
     </main_win_layout>
 </main_win_widget>
+
+
+<!-- ipcam dashboard -->
+
+<!-- scrollable window -->
+<window>
+
+    <widget>
+        <!-- vertical layout -->
+        <main_layout>
+            
+            <!-- form layout -->
+            <cam_layout>
+                <!-- left col  |  right col -->
+                </self.lbl1>     </self.lbl2>
+            </cam_layout>
+        </main_layout>
+    </widget>
+</window>
+
 
