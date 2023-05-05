@@ -3,7 +3,7 @@ QThread: Destroyed while thread is still running
 
 yg dikomen & yg ditambahkan agar pebih simple saat proses dev
 
-==> pada main_newgui2
+==> pada main_newgui2 
 
 # create thread for connect to server
 # start_new_thread(self.connect_to_server, ( sys.argv[1], sys.argv[2] ))
