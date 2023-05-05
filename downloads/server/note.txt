@@ -1,5 +1,6 @@
-==> pada programkasir dashboard terkadang ada muncul error
+==> pada program kasir dashboard terkadang ada muncul error
 QThread: Destroyed while thread is still running
+===============================
 
 yg dikomen & yg ditambahkan agar pebih simple saat proses dev
 
