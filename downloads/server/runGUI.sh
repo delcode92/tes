@@ -1,0 +1,1 @@
+python ./main_newGUI2.py 192.168.1.19 65430

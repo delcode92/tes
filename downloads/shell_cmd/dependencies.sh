@@ -21,3 +21,5 @@ pip install opencv-python
 pip install postgres
 
 pip install fpdf
+pip install keyboard
+pip install pynput 

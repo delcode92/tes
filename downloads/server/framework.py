@@ -5,7 +5,7 @@ QLineEdit, QSpinBox, QCheckBox, QGroupBox, QComboBox, QRadioButton, QScrollArea,
 )
 
 from PyQt5.QtGui import QKeySequence, QImage, QPixmap, QFont, QCursor, QIcon, QDoubleValidator
-from PyQt5.QtCore import QTimer, QDate, QDateTime, QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
+from PyQt5.QtCore import QTimer, QTime, QDate, QDateTime, QPropertyAnimation, QThread, QSize, Qt, QEvent, QObject, QCoreApplication, pyqtSignal, pyqtSlot
 
 from controller import Controller
 

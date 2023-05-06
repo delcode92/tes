@@ -175,7 +175,13 @@ rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )
                                                     }
                                                 ]
                                             },
-                                            
+
+
+=========================================================
+-logout button kasir dashboard
+
+-comment getprice method
+ -ada yg error saat getprice --> out of index, sepertinya karena ada posisi kolom yg berubah                                           
                                 
 
 

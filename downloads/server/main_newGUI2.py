@@ -1,9 +1,9 @@
 import sys,cv2,os, json, logging
-
 from framework import *
 # from kasir_ipcam import *
 from _thread import start_new_thread
 from configparser import ConfigParser
+from PyQt5.QtWidgets import QDialog
 
 class ClickableLabel(QLabel):
     def __init__(self, text):
@@ -881,6 +881,20 @@ class Main(Util, View):
     def findVoucher(self):
         print("search voucher status ... ")
 
+    def PopUpReportUser(self):
+
+        dlg = QMessageBox(self.window)
+        dlg.setWindowTitle( "test title" )
+        dlg.setLayout(QVBoxLayout())
+        label = QLabel("This is a popup window")
+        dlg.layout().addWidget(label)
+
+        # dlg.setText( msg )
+        # dlg.setIcon(QMessageBox.Information)
+        
+        dlg.exec()
+
+
     def openGate(self):
         print("OPEN GATE KELUAR")
         
@@ -903,6 +917,9 @@ class Main(Util, View):
         
         elif command=="save": #laporan user bermasalah
             shortcut.activated.connect( self.setReport )
+        
+        elif command=="popup-user-bermasalah":
+            shortcut.activated.connect( self.PopUpReportUser )
             
         elif command=="open-gate":
             shortcut.activated.connect( self.openGate )
@@ -3090,6 +3107,11 @@ class Main(Util, View):
 
         ################# create windows layout ###############
         # header
+        header_img = QLabel()
+        header_img.setPixmap(QPixmap('header_placeholder.png'))
+        header_img.setAlignment(Qt.AlignCenter)
+        header_img.setMaximumHeight(80)
+        
         header_container = QWidget()
         header_container_lay = QHBoxLayout()
         header_container.setLayout( header_container_lay )
@@ -3109,6 +3131,7 @@ class Main(Util, View):
         main_widget = QWidget()
         main_widget.setLayout(main_layout)
         
+        main_layout.addWidget(header_img)
         main_layout.addWidget(header_container)
         main_layout.addWidget(content_container)
         main_layout.addWidget(footer_container)
@@ -3119,10 +3142,15 @@ class Main(Util, View):
         # get username login
         uname = self.components["input_uname"].text().upper()
         lbl1 = QLabel("KASIR LOGIN: " + uname)
+        date_lbl = QLabel("DATE: ...")
+        self.time_lbl = QLabel("TIME: ...")
         
         logout = QPushButton("LOGOUT")
         logout.setStyleSheet(View.logout_button)
         logout.setMaximumWidth(120)
+        logout.setMaximumHeight(50)
+
+        logout.clicked.connect( self.kasirLogout )
 
         ##### content #####
         groupboxes = [
@@ -3134,14 +3162,14 @@ class Main(Util, View):
                     "max_height": 600,
                     "style": self.gb_styling
                 },
-                {
-                    "name": "gb_center",
-                    "category":"GroupBox",
-                    "title": "Lap.User Bermasalah",
-                    "max_width": 440,
-                    "max_height": 600,
-                    "style": self.gb_styling
-                },
+                # {
+                #     "name": "gb_center",
+                #     "category":"GroupBox",
+                #     "title": "Lap.User Bermasalah",
+                #     "max_width": 440,
+                #     "max_height": 600,
+                #     "style": self.gb_styling
+                # },
                 {
                     "name": "gb_right",
                     "category":"GroupBox",
@@ -3162,7 +3190,7 @@ class Main(Util, View):
         # set gb layout
         self.components["gb_left"].setLayout(left_vbox)
         self.components["gb_right"].setLayout(right_vbox)
-        self.components["gb_center"].setLayout(center_vbox)
+        # self.components["gb_center"].setLayout(center_vbox)
 
         left_content = [
                     {
@@ -3272,9 +3300,9 @@ class Main(Util, View):
         left_vbox.addStretch(1)
 
         # add components to center
-        center_vbox.addStretch(1)
-        self.CreateComponentLayout(center_content, center_vbox)
-        center_vbox.addStretch(1)
+        # center_vbox.addStretch(1)
+        # self.CreateComponentLayout(center_content, center_vbox)
+        # center_vbox.addStretch(1)
         
         # add components to right
         # self.CreateComponentLayout(right_content, right_vbox)
@@ -3320,15 +3348,34 @@ class Main(Util, View):
         # right_vbox.addStretch(1)
         ###################
 
-        lbl3 = QLabel("COPYRIGHT 2023")
-        lbl3.setAlignment( Qt.AlignCenter )
+        footer_lbl = QLabel()
+        footer_lbl.setPixmap(QPixmap('footer_placeholder.png'))
+        footer_lbl.setMaximumHeight(40)
+        footer_lbl.setAlignment( Qt.AlignCenter )
 
-        lbl1.setStyleSheet("background: #222B45; font-weight:600; padding: 10px;")
-        lbl3.setStyleSheet("color: #fff;")
+        lbl1.setStyleSheet("background: #fade72; color: #222f3e; font-weight:600; padding: 5px;")
+        date_lbl.setStyleSheet("background: #f8d343; color: #222f3e; font-weight:600; padding: 5px;")
+        self.time_lbl.setStyleSheet("background: #f7c815; color: #222f3e; font-weight:600; padding: 5px;")
+        # lbl3.setStyleSheet("color: #fff;")
 
+        ###### set date & time value
+
+        # Get & set current date
+        current_date = QDate.currentDate().toString('MM/dd/yyyy')
+        date_lbl.setText(current_date)
+
+        # get & set time
+        timer = QTimer(self.window)
+        timer.timeout.connect(self.updateTime)
+        timer.start(1000) 
+
+        header_container_lay.setSpacing(0)
         header_container_lay.addWidget(lbl1)
+        header_container_lay.addWidget(date_lbl)
+        header_container_lay.addWidget(self.time_lbl)
         header_container_lay.addWidget(logout)
-        footer_container_lay.addWidget(lbl3)
+        
+        footer_container_lay.addWidget(footer_lbl)
         
         #######################################################
         
@@ -3343,7 +3390,8 @@ class Main(Util, View):
         self.keyShortcut(keyCombination="Ctrl+b", command="pay")
         
         # lap user bermasalah
-        self.keyShortcut(keyCombination="Ctrl+l", targetWidget=self.components["barcode_bermasalah"])
+        # self.keyShortcut(keyCombination="Ctrl+l", targetWidget=self.components["barcode_bermasalah"])
+        self.keyShortcut(keyCombination="Ctrl+l", command="popup-user-bermasalah")
         
         # save btn - lap user bermasalah
         self.keyShortcut(keyCombination="Ctrl+s", command="save")
@@ -3356,7 +3404,17 @@ class Main(Util, View):
         self.window.setCentralWidget(main_widget)
         self.window.show()
 
+    def updateTime(self):
+        # Get current time
+        current_time = QTime.currentTime().toString('hh:mm:ss')
 
+        # Update digital clock label
+        self.time_lbl.setText(current_time)
+    
+    def kasirLogout(self):
+        self.closeWindow(self.window)
+        self.Login()
+        
     def setImageKasir(self, image):
         try:
             self.image_label.setPixmap(QPixmap.fromImage(image))
