@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,19 +98,22 @@
                 <input type="number" id="hari" min="1" max="31" value="0"><br>
                 
                 <label>jam:</label>
-                <input type="number" id="jam" min="1" max="24" value="1"><br>
+                <input type="number" id="jam" min="1" max="23" value="1"><br>
                 
                 <label>menit:</label>
-                <input type="number" id="menit" min="1" max="60" value="20"><br>
+                <input type="number" id="menit" min="1" max="59" value="20"><br>
                 
                 <label>detik:</label>
-                <input type="number" id="detik" min="1" max="60" value="15"><br>
+                <input type="number" id="detik" min="1" max="59" value="15"><br>
             </div>
             <br><br>
 
             <div class="kalkulasi_biaya">
-                <button id="calc_biaya_btn">kalkulasi biaya</button>
-                <input type="text" readonly>
+                <button id="calc_biaya_btn">kalkulasi biaya</button><br><br>
+                
+                <span>MOBIL: </span><input id="res_mbl" type="text" readonly>
+                <br>
+                <span>MOTOR: </span><input id="res_mtr" type="text" readonly>
             </div>
         </div>
 
@@ -154,6 +158,84 @@
 
         }
 
+        function calculate_parking_payment(rules="",  parking_seconds=0){
+            // get max key:val
+            // Get the keys and values of the object
+            var keys = Object.keys(rules);
+            var values = Object.values(rules);
+
+            // Get the last key-value pair
+            var lastKey = keys.pop();
+            var lastValue = values.pop();
+
+            
+            // car enumerate
+            for (let key in rules) {
+            
+                
+                rate_seconds = key * 3600;
+                rate_price = rules[key];
+
+                if( (parking_seconds <= rate_seconds) && (parking_seconds != (lastKey*3600)) ) {
+                    // console.log("ok 1");
+                    // get loop price
+                    each_loop_price = 0;
+                    // each_loop_price_mtr = 0;
+
+                    for (let key2 in rules) {
+                        // add price until `key`
+                        rp = rules[key2] * 1;
+                        each_loop_price += rp;
+                        
+                        // rp_mtr = rules_mtr[key2] * 1;
+                        // each_loop_price_mtr += rp_mtr;
+                        
+                        if(key == key2){ break; }
+                    }
+                    
+                    total_payment = each_loop_price
+                    // total_payment_mtr = each_loop_price_mtr
+                    // console.log("biaya parkir mobil: ", total_payment_mbl);
+                    // console.log("biaya parkir motor: ", total_payment_mtr);
+
+                    return total_payment;
+
+                }
+
+                else if(parking_seconds > (lastKey*3600)){
+                    // console.log("ok 2");
+                    // get how many days
+                    days = Math.floor( parking_seconds / (lastKey*3600) ) ; 
+                    total_payment = days * lastValue;
+                    // console.log("tot pay: ", total_payment);
+                    
+                    // total_payment_mtr = days * p_max_mtr;
+                    
+                    // remaining time
+                    remaining_time = parking_seconds - (days*lastKey*60*60);
+                    // console.log("remainting time: ", remaining_time);
+                    
+                    if( remaining_time > 0){
+                        total_payment = total_payment + calculate_parking_payment(rules, remaining_time);
+                    }
+
+                    // total_payment_mtr = total_payment_mtr + calculate_parking_payment(remaining_time);
+
+                    // console.log("biaya parkir mobil: ", total_payment_mbl);
+                    // console.log("biaya parkir motor: ", total_payment_mtr);
+
+                    return total_payment;
+                }
+
+                else if(parking_seconds == (lastKey*3600)){
+                    // console.log("ok 3");
+                    total_payment = (parking_seconds / (lastKey*3600)) * lastValue;
+
+                    return total_payment;
+                }
+            }
+        }
+
         $('#calc_biaya_btn').click(function(){
             // get parking seconds
             days = $("#hari").val() * 24 * 60 * 60;
@@ -165,61 +247,50 @@
             // get tolerance
             tolerance = $("#toleransi").val()*60;
 
+            h1 = $("#jam1").val() * 1;
+            p1_mbl = $("#tarif_jam1_mobil").val() * 1;
+            p1_mtr = $("#tarif_jam1_motor").val() * 1;
+            
+            h2 = $("#jam2").val() * 1;
+            h2_before = h2;
+            p2_mbl = $("#tarif_jam2_mobil").val() * 1;
+            p2_mtr = $("#tarif_jam2_motor").val() * 1;
+            
+            h3 = $("#jam3").val() * 1;
+            h3_before = h3;
+            p3_mbl = $("#tarif_jam3_mobil").val() * 1;
+            p3_mtr = $("#tarif_jam3_motor").val() * 1;
+            
+            h_max = $("#jam_max").val() * 1;
+            p_max_mbl = $("#tarif_max_mobil").val() * 1;
+            p_max_mtr = $("#tarif_max_motor").val() * 1;
+            
+            // create json rules based on time settings
+            h2 = h2 + h1;
+            h3 = h3 + h2;
+
+            rules_between_mbl = getBetween(h3_before, h3, h_max, p3_mbl); 
+            rules_between_mtr = getBetween(h3_before, h3, h_max, p3_mtr); 
+
+            rules_mbl = JSON.parse('{"'+h1+'":"'+p1_mbl+'", "'+h2+'":"'+p2_mbl+'", "'+h3+'":"'+p3_mbl+'", '+rules_between_mbl+ '"'+h_max+'":"'+p_max_mbl+'"}');
+            rules_mtr = JSON.parse('{"'+h1+'":"'+p1_mtr+'", "'+h2+'":"'+p2_mtr+'", "'+h3+'":"'+p3_mtr+'", '+rules_between_mtr+ '"'+h_max+'":"'+p_max_mtr+'"}');
+            
             if(parking_seconds > tolerance){
-                h1 = $("#jam1").val() * 1;
-                p1_mbl = $("#tarif_jam1_mobil").val() * 1;
-                p1_mtr = $("#tarif_jam1_motor").val() * 1;
-                
-                h2 = $("#jam2").val() * 1;
-                h2_before = h2;
-                p2_mbl = $("#tarif_jam2_mobil").val() * 1;
-                p2_mtr = $("#tarif_jam2_motor").val() * 1;
-                
-                h3 = $("#jam3").val() * 1;
-                h3_before = h3;
-                p3_mbl = $("#tarif_jam3_mobil").val() * 1;
-                p3_mtr = $("#tarif_jam3_motor").val() * 1;
-                
-                h_max = $("#jam_max").val() * 1;
-                p_max_mbl = $("#tarif_max_mobil").val() * 1;
-                p_max_mtr = $("#tarif_max_motor").val() * 1;
 
                 if( stat == 3 ){
-                    // run other
-
-                    // create json rules based on time settings
-                    // rules = json.loads('{ "2":"2000", "6":"1000", "12":"1000", "18":"1000", "24":"6000" }')
-                    h2 = h2 + h1;
-                    h3 = h3 + h2;
-
-                    rules_between_mbl = getBetween(h3_before, h3, h_max, p3_mbl); 
-                    rules_between_mtr = getBetween(h3_before, h3, h_max, p3_mtr); 
-
-                    rules_mbl = JSON.parse('{"'+h1+'":"'+p1_mbl+'", "'+h2+'":"'+p2_mbl+'", "'+h3+'":"'+p3_mbl+'", '+rules_between_mbl+ '"'+h_max+'":"'+p_max_mbl+'"}');
-                    rules_mtr = JSON.parse('{"'+h1+'":"'+p1_mtr+'", "'+h2+'":"'+p2_mtr+'", "'+h3+'":"'+p3_mtr+'", '+rules_between_mtr+ '"'+h_max+'":"'+p_max_mtr+'"}');
                     
-                    // console.log(rules_mbl);
+                    tot_pay_mbl = calculate_parking_payment(rules_mbl, parking_seconds);
+                    tot_pay_mtr = calculate_parking_payment(rules_mtr, parking_seconds);
 
-                    // get max key:val
-                    // Get the keys and values of the object
-                    var keys = Object.keys(rules_mbl);
-                    var values = Object.values(rules_mbl);
+                    $("#res_mbl").val("");
+                    $("#res_mtr").val("");
 
-                    // Get the last key-value pair
-                    var lastKey = keys.pop();
-                    var lastValue = values.pop();
-
-                    // car enumerate
-                    for (let key in rules_mbl) {
-                    //    console.log(key + ": " + rules_mbl[key]);
-
-                        rate_seconds = key * 3600;
-                        rate_price = rules_mbl[key];
-
-                        if( (parking_seconds <= rate_seconds) && (parking_seconds != (lastKey*3600)) ) {
-                            
-                        }
-                    }
+                    $("#res_mbl").val(tot_pay_mbl);
+                    $("#res_mtr").val(tot_pay_mtr);
+                    // console.log("biaya parkir mobil: ", tot_pay_mbl);
+                    // console.log("rules: ", rules_mtr);
+                    // console.log("biaya parkir motor: ", tot_pay_mtr);
+                    
                 }
                 else if( stat == 2 ){
                     // run flat
@@ -227,8 +298,14 @@
                     final_price_mbl = p1_mbl;
                     final_price_mtr = p1_mtr;
 
-                    console.log("biaya parkir mobil: ", final_price_mbl);
-                    console.log("biaya parkir motor: ", final_price_mtr);
+                    $("#res_mbl").val("");
+                    $("#res_mtr").val("");
+
+                    $("#res_mbl").val(final_price_mbl);
+                    $("#res_mtr").val(final_price_mtr);
+
+                    // console.log("biaya parkir mobil: ", final_price_mbl);
+                    // console.log("biaya parkir motor: ", final_price_mtr);
                 }
                 else if( stat == 1 ){
                     // run progressive
@@ -259,11 +336,20 @@
                     console.log("biaya parkir mobil: ", final_price_mbl);
                     console.log("biaya parkir motor: ", final_price_mtr);
 
+                    $("#res_mbl").val("");
+                    $("#res_mtr").val("");
+                    
+                    $("#res_mbl").val(final_price_mbl);
+                    $("#res_mtr").val(final_price_mtr);
+
                 }
 
             }
             
-
+            else{
+                $("#res_mbl").val("");
+                $("#res_mtr").val("");
+            }
 
             // run rates calculation
         });

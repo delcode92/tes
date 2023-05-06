@@ -74,100 +74,110 @@
 
 
 
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QStackedWidget
+# import sys
+# from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout, QStackedWidget
 
-class MainWindow(QWidget):
-    def __init__(self):
-        super().__init__()
+# class MainWindow(QWidget):
+#     def __init__(self):
+#         super().__init__()
 
-        self.initUI()
+#         self.initUI()
 
-    def initUI(self):
-        self.label1 = QLabel('Label 1-1')
-        self.label2 = QLabel('Label 1-2')
-        self.label3 = QLabel('Label 2-1')
-        self.label4 = QLabel('Label 2-2')
-        self.btn_replace = QPushButton('Replace')
+#     def initUI(self):
+#         self.label1 = QLabel('Label 1-1')
+#         self.label2 = QLabel('Label 1-2')
+#         self.label3 = QLabel('Label 2-1')
+#         self.label4 = QLabel('Label 2-2')
+#         self.btn_replace = QPushButton('Replace')
 
-        self.Stack = QStackedWidget()
+#         self.Stack = QStackedWidget()
 
-        # ==> main_kendaraan widget as main container
-        self.container_wgt1 =QWidget()
-        self.container_wgt2 =QWidget()
+#         # ==> main_kendaraan widget as main container
+#         self.container_wgt1 =QWidget()
+#         self.container_wgt2 =QWidget()
 
-        self.win_lay = QVBoxLayout()
-        self.container_lay1 = QHBoxLayout()
-        self.container_lay2 = QHBoxLayout()
-
-
-        self.setLayout(self.win_lay)
-
-        self.win_lay.addWidget( self.Stack )
-        self.win_lay.addWidget( self.btn_replace )
+#         self.win_lay = QVBoxLayout()
+#         self.container_lay1 = QHBoxLayout()
+#         self.container_lay2 = QHBoxLayout()
 
 
-        self.container_wgt1.setLayout( self.container_lay1 )
-        self.container_wgt2.setLayout( self.container_lay2 )
+#         self.setLayout(self.win_lay)
+
+#         self.win_lay.addWidget( self.Stack )
+#         self.win_lay.addWidget( self.btn_replace )
+
+
+#         self.container_wgt1.setLayout( self.container_lay1 )
+#         self.container_wgt2.setLayout( self.container_lay2 )
         
-        self.container_lay1.addWidget(self.label1)
-        self.container_lay1.addWidget(self.label2)
+#         self.container_lay1.addWidget(self.label1)
+#         self.container_lay1.addWidget(self.label2)
 
-        self.container_lay2.addWidget(self.label3)
-        self.container_lay2.addWidget(self.label4)
-        
-
-        self.Stack.addWidget( self.container_wgt1 )
-        self.Stack.addWidget( self.container_wgt2 )
-        
-        self.Stack.setStyleSheet("border: 4px solid red;")
-        self.container_wgt1.setStyleSheet("border: 2px solid blue;")
-        self.container_wgt2.setStyleSheet("border: 2px solid yellow;")
-
-        self.Stack.setCurrentIndex(0) 
-
-        # self.container_lay.addWidget(self.btn_replace)
-        
-        # self.container_lay.addStretch(1)
-        # # self.setLayout(self.vbox)
-
-        self.btn_replace.clicked.connect(self.replace_label)
-
-    def replace_label(self):
-        self.container_new = QWidget()
-        self.container_new_lay = QHBoxLayout()
-        self.container_new.setLayout( self.container_new_lay )
-        self.label5 = QLabel('Label next')
-        
-        self.Stack.removeWidget( self.container_wgt1 )
-        print( "==>", self.Stack.count() )
-
-        self.container_new.setStyleSheet("background: grey;")
-        self.Stack.addWidget( self.container_new )
-        self.Stack.setCurrentIndex(1) 
-        # self.container_wgt.deleteLater()
-
-
-
-
-        # self.win_lay.addWidget( self.container_wgt )
-
-        # self.label2.deleteLater()
-        # self.label2 = None
+#         self.container_lay2.addWidget(self.label3)
+#         self.container_lay2.addWidget(self.label4)
         
 
-        # self.label3 = QLabel('Label 3')
-        # self.win_lay.addWidget( self.label3 )
-
-        # # self.vbox.removeWidget( self.label1 )
-        # self.vbox.addWidget( self.label3 )
-        # self.layout().removeWidget(self.label1)
+#         self.Stack.addWidget( self.container_wgt1 )
+#         self.Stack.addWidget( self.container_wgt2 )
         
-        # self.label1.deleteLater()
-        # self.label1 = None
+#         self.Stack.setStyleSheet("border: 4px solid red;")
+#         self.container_wgt1.setStyleSheet("border: 2px solid blue;")
+#         self.container_wgt2.setStyleSheet("border: 2px solid yellow;")
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+#         self.Stack.setCurrentIndex(0) 
+
+#         # self.container_lay.addWidget(self.btn_replace)
+        
+#         # self.container_lay.addStretch(1)
+#         # # self.setLayout(self.vbox)
+
+#         self.btn_replace.clicked.connect(self.replace_label)
+
+#     def replace_label(self):
+#         self.container_new = QWidget()
+#         self.container_new_lay = QHBoxLayout()
+#         self.container_new.setLayout( self.container_new_lay )
+#         self.label5 = QLabel('Label next')
+        
+#         self.Stack.removeWidget( self.container_wgt1 )
+#         print( "==>", self.Stack.count() )
+
+#         self.container_new.setStyleSheet("background: grey;")
+#         self.Stack.addWidget( self.container_new )
+#         self.Stack.setCurrentIndex(1) 
+#         # self.container_wgt.deleteLater()
+
+
+
+
+#         # self.win_lay.addWidget( self.container_wgt )
+
+#         # self.label2.deleteLater()
+#         # self.label2 = None
+        
+
+#         # self.label3 = QLabel('Label 3')
+#         # self.win_lay.addWidget( self.label3 )
+
+#         # # self.vbox.removeWidget( self.label1 )
+#         # self.vbox.addWidget( self.label3 )
+#         # self.layout().removeWidget(self.label1)
+        
+#         # self.label1.deleteLater()
+#         # self.label1 = None
+
+# if __name__ == '__main__':
+#     app = QApplication(sys.argv)
+#     window = MainWindow()
+#     window.show()
+#     sys.exit(app.exec_())
+
+import json, math
+
+rules = json.loads( '{"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}' )
+key,value = next( iter(rules.items()) )
+last_key,last_value = rules.popitem()
+
+print(last_key, last_value)
+
+# print(math.floor(10/3))

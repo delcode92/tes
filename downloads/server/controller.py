@@ -124,83 +124,172 @@ class Controller(Client):
                 self.closeWindow(arg[0])
                 self.KasirDashboard()
     
+    def calculate_parking_payment(self, rules, parking_seconds):
+        # get max key:val
+        lastKey,lastValue = rules.popitem()
+
+        # loop all keys in dictionary
+        for k,v in rules.items():
+            rate_seconds = k * 3600;
+            rate_price = rules[k];
+    
+            if (parking_seconds <= rate_seconds) and (parking_seconds != (lastKey*3600))  :
+                each_loop_price = 0
+
+                for k2,v2 in rules.items():
+                    # add price until `key`
+                    rp = rules[k2]
+                    each_loop_price += rp
+
+                    if k == k2: break
+                
+                total_payment = each_loop_price
+                return total_payment
+            
+            elif parking_seconds > (lastKey*3600):
+                ...
+                
+            elif parking_seconds == (lastKey*3600):
+                ...
+
     def getPrice(self):
+        """ this method execute when press enter in barcode lineEdit """
+
         jns_kendaraan = ""
-        # try:
-        #     # get time based on barcode
-        #     barcode = self.components["barcode_transaksi"].text()
-        #     barcode_time = self.exec_query(f"select datetime, jenis_kendaraan, status_parkir, ip_raspi from karcis where barcode='{barcode}'", "select")
-        #     jns_kendaraan = barcode_time[0][1].capitalize()
-        #     self.ip_raspi = barcode_time[0][3]
+        status_parkir = ""
 
-        #     if barcode_time[0][2]:
-        #         status_parkir = "LUNAS"
-        #     elif not barcode_time[0][2]:
-        #         status_parkir = "BELUM LUNAS"
+        try:
+
+            # =================== base information ========================
+            # get time based on barcode
+            barcode = self.components["barcode_transaksi"].text()
+            query_karcis = self.exec_query(f"select datetime, date_keluar, jenis_kendaraan, status_parkir from karcis where barcode='{barcode}'", "select")
+            jns_kendaraan = query_karcis[0][2].capitalize()
+            self.components["jns_kendaraan"].setText( jns_kendaraan )
+            # self.ip_raspi = barcode_time[0][3]
+
+            # =============================================================
+
+            if query_karcis[0][3]:
+                status_parkir = "LUNAS"
+            elif not query_karcis[0][3]:
+                status_parkir = "BELUM LUNAS"
             
-        #     if len(barcode_time[0]) > 0:
-        #         price = 0
-        #         self.time_now = datetime.now()
-        #         self.time_now = self.time_now.replace(tzinfo=None)
-                
-        #         barcode_time = barcode_time[0][0].replace(tzinfo=None)
+            self.components["ket_status"].setText( status_parkir )
 
-        #         diff = self.time_now - barcode_time
-        #         total_hours = math.ceil(diff.total_seconds()/3600)
+            # jika ada data
+            if len(query_karcis[0]) > 0:
                 
-        #         print("====================")
-        #         print("TH", total_hours, type(total_hours))
-        #         print("jns kendaraan:", jns_kendaraan)
-        #         print("====================\n\n")
+                # get toleransi
+                query = self.exec_query(f"select toleransi, tipe_tarif, rules from tarif where jns_kendaraan='{jns_kendaraan}' or jns_kendaraan='{jns_kendaraan.lower()}'", "select")
+                tolerance = int(query[0][0]) * 60
+
+                # parse rules
+                rules = json.loads( query[0][2] )
+
+                # lama parkir ==> (datetime masuk - current time)
+                self.time_now = datetime.now()
+                self.time_now = self.time_now.replace(tzinfo=None)
+                barcode_time = query_karcis[0][0].replace(tzinfo=None)
+
+                diff = self.time_now - barcode_time
+                parking_seconds = diff.total_seconds()
+
+                # check apakah lama parkir melewati batas toleransi ?
+                if parking_seconds > tolerance:
+                    
+                    # cek kategori tarif
+                    if query[0][1] == "other":
+                        tot_pay = self.calculate_parking_payment(rules, parking_seconds)
+                        self.components["tarif_transaksi"].setText( str(tot_pay) )
+
+                    elif query[0][1] == "flat":
+                        # tarif flat artinya tarif konstan
+                        # get first key:value from json rules
+                        key,value = next( iter(rules.items()) )
+
+                        # set lineEdit
+                        self.components["tarif_transaksi"].setText( str(value) )
+
+                    
+                    elif query[0][1] == "progresif":
+                        # tarif artinya kelipatan dari jam yg di set
+                        h1,value = next( iter(rules.items()) )
+                        ph= parking_seconds/3600;
+                        h1_seconds = h1 * 60 * 60;
+                        final_price = 0
+
+                        if parking_seconds>h1_seconds:
+                            mod = parking_seconds % 3600;
+
+                            # exact multiple
+                            if mod==0:
+                                final_price = ph * value 
+                            elif mod>0:
+                                ph =math.floor( ph/h1 )
+                                final_price_mbl = ( ph  * value) + value;
+                                
+                        elif parking_seconds <= h1_seconds:
+                            final_price = value
+                        
+                        # set lineEdit
+                        self.components["tarif_transaksi"].setText( str(final_price) )
+
+                # total_hours = math.ceil(diff.total_seconds()/3600)
+                
+                # print("====================")
+                # print("TH", total_hours, type(total_hours))
+                # print("jns kendaraan:", jns_kendaraan)
+                # print("====================\n\n")
             
-        #         # get base price from db
-        #         base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
-        #         base_price_perjam = base_price[0][0] 
-        #         base_price_per24jam = base_price[0][1] 
+                # # get base price from db
+                # base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
+                # base_price_perjam = base_price[0][0] 
+                # base_price_per24jam = base_price[0][1] 
                 
-        #         if total_hours==0:
-        #             jam = 1
-        #             price = jam * base_price_perjam
-        #             print("================")
-        #             print(jam, "jam")
-        #             print(price, "Rupiah")
-        #             print("================\n\n")
+                # if total_hours==0:
+                #     jam = 1
+                #     price = jam * base_price_perjam
+                #     print("================")
+                #     print(jam, "jam")
+                #     print(price, "Rupiah")
+                #     print("================\n\n")
                 
-        #         elif total_hours<24 and total_hours>0:
-        #             price = total_hours * base_price_perjam
+                # elif total_hours<24 and total_hours>0:
+                #     price = total_hours * base_price_perjam
                     
-        #             print("================")
-        #             print(total_hours, "jam")
-        #             print(price, "Rupiah")
-        #             print("================\n\n")
+                #     print("================")
+                #     print(total_hours, "jam")
+                #     print(price, "Rupiah")
+                #     print("================\n\n")
                 
-        #         elif total_hours>24:
-        #             hari = math.floor(total_hours/24)
-        #             jam = total_hours-(hari*24)
+                # elif total_hours>24:
+                #     hari = math.floor(total_hours/24)
+                #     jam = total_hours-(hari*24)
 
-        #             price = (hari*base_price_per24jam) + (jam*base_price_perjam)
+                #     price = (hari*base_price_per24jam) + (jam*base_price_perjam)
 
-        #             print("================")
-        #             print(hari, "hari")
-        #             print(jam, "jam")
-        #             print(price, "Rupiah")
-        #             print("================\n\n")
+                #     print("================")
+                #     print(hari, "hari")
+                #     print(jam, "jam")
+                #     print(price, "Rupiah")
+                #     print("================\n\n")
                 
-        #         # set value to textbox
-        #         self.components["jns_kendaraan"].setText( jns_kendaraan )
-        #         self.components["ket_status"].setText( str(status_parkir) )
+                # # set value to textbox
+                # self.components["jns_kendaraan"].setText( jns_kendaraan )
+                # self.components["ket_status"].setText( str(status_parkir) )
                 
-        #         # just show tarif and enable button if "BELUM LUNAS"
-        #         if status_parkir == "BELUM LUNAS":
-        #             self.components["tarif_transaksi"].setText( str(price) )
+                # # just show tarif and enable button if "BELUM LUNAS"
+                # if status_parkir == "BELUM LUNAS":
+                #     self.components["tarif_transaksi"].setText( str(price) )
                     
-        # except Exception as e:
-        #     # clear text box if false input barcode
-        #     self.components["jns_kendaraan"].setText("")
-        #     self.components["ket_status"].setText("")
-        #     self.components["tarif_transaksi"].setText("")
+        except Exception as e:
+            # clear text box if false input barcode
+            self.components["jns_kendaraan"].setText("")
+            self.components["ket_status"].setText("")
+            self.components["tarif_transaksi"].setText("")
 
-        #     self.logger.error(str(e))
+            self.logger.error(str(e))
     
     def hideSuccess(self):
         self.components["lbl_success"].setHidden(True)
