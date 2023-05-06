@@ -3110,6 +3110,7 @@ class Main(Util, View):
         header_img = QLabel()
         header_img.setPixmap(QPixmap('header_placeholder.png'))
         header_img.setAlignment(Qt.AlignCenter)
+        # header_img.setMaximumWidth(1024)
         header_img.setMaximumHeight(80)
         
         header_container = QWidget()
@@ -3157,19 +3158,19 @@ class Main(Util, View):
                 {
                     "name": "gb_left",
                     "category":"GroupBox",
-                    "title":"Transaksi",
+                    "title":"Status",
                     "max_width": 440,
                     "max_height": 600,
                     "style": self.gb_styling
                 },
-                # {
-                #     "name": "gb_center",
-                #     "category":"GroupBox",
-                #     "title": "Lap.User Bermasalah",
-                #     "max_width": 440,
-                #     "max_height": 600,
-                #     "style": self.gb_styling
-                # },
+                {
+                    "name": "gb_center",
+                    "category":"GroupBox",
+                    "title": "Transaksi",
+                    "max_width": 440,
+                    "max_height": 600,
+                    "style": self.gb_styling
+                },
                 {
                     "name": "gb_right",
                     "category":"GroupBox",
@@ -3190,9 +3191,49 @@ class Main(Util, View):
         # set gb layout
         self.components["gb_left"].setLayout(left_vbox)
         self.components["gb_right"].setLayout(right_vbox)
-        # self.components["gb_center"].setLayout(center_vbox)
+        self.components["gb_center"].setLayout(center_vbox)
 
         left_content = [
+                    {
+                        "name":"lbl_stat_koneksi",
+                        "text":"STAT:",
+                        "category":"label",
+                        "style":self.primary_lbl
+                    },
+                    {
+                        "name":"lbl_stat",
+                        "text":"CONNECTED",
+                        "category":"label",
+                        "style":self.primary_lbl + "background: #00b894; padding:5px; color: #fff;"
+                    },
+                    {
+                        "name":"lbl_ket_shift",
+                        "text":"SHIFT:",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top: 25px;"
+                    },
+                    {
+                        "name":"lbl_stat",
+                        "text":"shift ... ",
+                        "category":"label",
+                        "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff;"
+                    },
+                    {
+                        "name":"lbl_ket_pos",
+                        "text":"POS:",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top: 25px;"
+                    },
+                    {
+                        "name":"lbl_pos",
+                        "text":"PK1",
+                        "category":"label",
+                        "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff;"
+                    },
+                    
+                ]
+    
+        center_content = [
                     {
                         "name":"lbl_barcode_transaksi",
                         "text":"Barcode/Voucher",
@@ -3246,51 +3287,51 @@ class Main(Util, View):
                     
                 ]
     
-        center_content = [
-                {
-                        "name":"lbl_barcode_bermasalah",
-                        "text":"BL/Barcode",
-                        "category":"label",
-                        "style":self.primary_lbl
-                    },
-                    {
-                        "name":"barcode_bermasalah",
-                        "category":"lineEdit",
-                        "style": self.primary_input
-                    },
-                    # {
-                    #     "name":"lbl_tarif_bermasalah",
-                    #     "text":"Tarif(Rp)",
-                    #     "category":"label",
-                    #     "style":self.primary_lbl + "margin-top:15px;"
-                    # },
-                    # {
-                    #     "name":"tarif_bermasalah",
-                    #     "category":"lineEdit",
-                    #     "min_height": 40,
-                    #     "editable": False,
-                    #     "style":self.primary_input
-                    # },
-                    {
-                        "name":"lbl_ket_bermasalah",
-                        "text":"Keterangan",
-                        "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
-                    },
-                    {
-                        "name":"ket_bermasalah",
-                        "category":"lineEdit",
-                        "min_height": 40,
-                        "style": "border:1px solid #ecf0f1;"+self.bg_grey,
-                        "font":self.helvetica_12
-                    },
-                    # {
-                    #     "name":"btn_simpan_bermasalah",
-                    #     "category":"pushButton",
-                    #     "text": "Simpan",
-                    #     "style": self.primary_button
-                    # }
-        ]
+        # center_content = [
+        #         {
+        #                 "name":"lbl_barcode_bermasalah",
+        #                 "text":"BL/Barcode",
+        #                 "category":"label",
+        #                 "style":self.primary_lbl
+        #             },
+        #             {
+        #                 "name":"barcode_bermasalah",
+        #                 "category":"lineEdit",
+        #                 "style": self.primary_input
+        #             },
+        #             # {
+        #             #     "name":"lbl_tarif_bermasalah",
+        #             #     "text":"Tarif(Rp)",
+        #             #     "category":"label",
+        #             #     "style":self.primary_lbl + "margin-top:15px;"
+        #             # },
+        #             # {
+        #             #     "name":"tarif_bermasalah",
+        #             #     "category":"lineEdit",
+        #             #     "min_height": 40,
+        #             #     "editable": False,
+        #             #     "style":self.primary_input
+        #             # },
+        #             {
+        #                 "name":"lbl_ket_bermasalah",
+        #                 "text":"Keterangan",
+        #                 "category":"label",
+        #                 "style":self.primary_lbl + "margin-top:15px;"
+        #             },
+        #             {
+        #                 "name":"ket_bermasalah",
+        #                 "category":"lineEdit",
+        #                 "min_height": 40,
+        #                 "style": "border:1px solid #ecf0f1;"+self.bg_grey,
+        #                 "font":self.helvetica_12
+        #             },
+        #             # {
+        #             #     "name":"btn_simpan_bermasalah",
+        #             #     "category":"pushButton",
+        #             #     "text": "Simpan",
+        #             #     "style": self.primary_button
+        #             # }
+        # ]
 
         # add components to left
         left_vbox.addStretch(1)
@@ -3300,9 +3341,9 @@ class Main(Util, View):
         left_vbox.addStretch(1)
 
         # add components to center
-        # center_vbox.addStretch(1)
-        # self.CreateComponentLayout(center_content, center_vbox)
-        # center_vbox.addStretch(1)
+        center_vbox.addStretch(1)
+        self.CreateComponentLayout(center_content, center_vbox)
+        center_vbox.addStretch(1)
         
         # add components to right
         # self.CreateComponentLayout(right_content, right_vbox)
@@ -3320,11 +3361,11 @@ class Main(Util, View):
         # self.stream_url_2 = 'http://192.168.100.69:4747/video'
 
 
-        th = playCam1()
+        th = playCam1(parent=self.window)
         th.cp.connect(self.setImageKasir) 
         th.start()
         
-        th2 = playCam2()
+        th2 = playCam2(parent=self.window)
         th2.cp2.connect(self.setImageKasir2) 
         th2.start()
 
@@ -3350,6 +3391,7 @@ class Main(Util, View):
 
         footer_lbl = QLabel()
         footer_lbl.setPixmap(QPixmap('footer_placeholder.png'))
+        # footer_lbl.setMaximumWidth(1020)
         footer_lbl.setMaximumHeight(40)
         footer_lbl.setAlignment( Qt.AlignCenter )
 
@@ -3362,7 +3404,7 @@ class Main(Util, View):
 
         # Get & set current date
         current_date = QDate.currentDate().toString('MM/dd/yyyy')
-        date_lbl.setText(current_date)
+        date_lbl.setText("TANGGAL: " + current_date)
 
         # get & set time
         timer = QTimer(self.window)
@@ -3409,7 +3451,7 @@ class Main(Util, View):
         current_time = QTime.currentTime().toString('hh:mm:ss')
 
         # Update digital clock label
-        self.time_lbl.setText(current_time)
+        self.time_lbl.setText("JAM: "+ current_time)
     
     def kasirLogout(self):
         self.closeWindow(self.window)
