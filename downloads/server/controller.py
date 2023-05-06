@@ -130,7 +130,7 @@ class Controller(Client):
 
         # loop all keys in dictionary
         for k,v in rules.items():
-            rate_seconds = k * 3600; 
+            rate_seconds = k * 3600;
             rate_price = rules[k];
     
             if (parking_seconds <= rate_seconds) and (parking_seconds != (lastKey*3600))  :
@@ -148,7 +148,7 @@ class Controller(Client):
             
             elif parking_seconds > (lastKey*3600):
                 ...
-
+                
             elif parking_seconds == (lastKey*3600):
                 ...
 
