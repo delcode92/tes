@@ -125,32 +125,63 @@ class Controller(Client):
                 self.KasirDashboard()
     
     def calculate_parking_payment(self, rules, parking_seconds):
+        
         # get max key:val
         lastKey,lastValue = rules.popitem()
-
+        lastKey = int(lastKey)
+        lastValue = int(lastValue)
+        
         # loop all keys in dictionary
         for k,v in rules.items():
-            rate_seconds = k * 3600;
+
+            key_rules = int(k)
+            val_rules = int(v)
+        
+            rate_seconds = key_rules * 3600;
             rate_price = rules[k];
-    
-            if (parking_seconds <= rate_seconds) and (parking_seconds != (lastKey*3600))  :
+
+            # print("rates price:", rate_price)
+            # print(parking_seconds, type(parking_seconds))
+            # print(rate_seconds, type(rate_seconds))
+            # print(lastKey, type(lastKey))
+
+            if parking_seconds <= rate_seconds and parking_seconds != (lastKey*3600) :
                 each_loop_price = 0
 
                 for k2,v2 in rules.items():
+                    k2_rules = int(k2)
+                    rp = int(v2)
+                    
                     # add price until `key`
-                    rp = rules[k2]
+                    # rp = rules[k2_rules]
                     each_loop_price += rp
-
-                    if k == k2: break
+                    
+                    
+                    if key_rules == k2_rules: break
                 
                 total_payment = each_loop_price
                 return total_payment
             
             elif parking_seconds > (lastKey*3600):
-                ...
+                days = math.floor( parking_seconds / (lastKey*3600) )
+                total_payment = days * lastValue
+            
+                remaining_time = parking_seconds - (days*lastKey*60*60)
                 
+                if remaining_time > 0:
+                    
+                    # print(total_payment, type(total_payment))
+                    # print(rules, type(rules))
+                    # print(remaining_time, type(remaining_time))
+
+                    total_payment = total_payment + self.calculate_parking_payment(rules, remaining_time)
+
+                return total_payment
+            
             elif parking_seconds == (lastKey*3600):
-                ...
+                total_payment = (parking_seconds / (lastKey*3600)) * lastValue
+
+                return total_payment
 
     def getPrice(self):
         """ this method execute when press enter in barcode lineEdit """
@@ -188,12 +219,14 @@ class Controller(Client):
                 rules = json.loads( query[0][2] )
 
                 # lama parkir ==> (datetime masuk - current time)
-                self.time_now = datetime.now()
-                self.time_now = self.time_now.replace(tzinfo=None)
+                self.time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                self.time_now = datetime.strptime(self.time_now, '%Y-%m-%d %H:%M:%S')
                 barcode_time = query_karcis[0][0].replace(tzinfo=None)
 
                 diff = self.time_now - barcode_time
-                parking_seconds = diff.total_seconds()
+                parking_seconds = int( diff.total_seconds() )
+
+                # print("parking seconds: ", parking_seconds, type(parking_seconds))
 
                 # check apakah lama parkir melewati batas toleransi ?
                 if parking_seconds > tolerance:
@@ -201,6 +234,7 @@ class Controller(Client):
                     # cek kategori tarif
                     if query[0][1] == "other":
                         tot_pay = self.calculate_parking_payment(rules, parking_seconds)
+                        
                         self.components["tarif_transaksi"].setText( str(tot_pay) )
 
                     elif query[0][1] == "flat":
@@ -215,19 +249,22 @@ class Controller(Client):
                     elif query[0][1] == "progresif":
                         # tarif artinya kelipatan dari jam yg di set
                         h1,value = next( iter(rules.items()) )
-                        ph= parking_seconds/3600;
-                        h1_seconds = h1 * 60 * 60;
+                        h1 = int(h1)
+                        value = int(value)
+
+                        ph = math.floor(parking_seconds/3600)
+                        h1_seconds = h1 * 60 * 60
                         final_price = 0
 
                         if parking_seconds>h1_seconds:
-                            mod = parking_seconds % 3600;
+                            mod = parking_seconds % 3600
 
                             # exact multiple
                             if mod==0:
                                 final_price = ph * value 
                             elif mod>0:
                                 ph =math.floor( ph/h1 )
-                                final_price_mbl = ( ph  * value) + value;
+                                final_price = ( ph  * value) + value
                                 
                         elif parking_seconds <= h1_seconds:
                             final_price = value
