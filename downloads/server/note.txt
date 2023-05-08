@@ -184,13 +184,81 @@ rules_mbl = json.loads( str(res[1][cols.index('base_rules')]) )
  -ada yg error saat getprice --> out of index, sepertinya karena ada posisi kolom yg berubah                                           
                                 
 
+rules:
+{"1" : "2000", "4":"1000", "10":"1000", "16":"1000", "24":"6000"}
+
+base rules:
+{"1" : "2000", "4":"1000", "6":"1000", "24":"6000"}
+
+ 16 | 4077102  | 2023-02-06 10:01:22
+
+ update karcis set datetime='2023-05-07 11:30:00' where id=16;
 
 
-----+-------------------------------------------------------------------+---------------+-----------+------------+-----------------------------------------------------+-------
-  2 | {"0" : "2000", "4":"1000", "10":"1000", "16":"1000", "24":"6000"} | mobil         |        10 | progresif  | {"0" : "2000", "4":"1000", "6":"1000", "24":"6000"} | 30000
-  1 | {"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"} | motor         |        10 | progresif  | {"0" : "1000", "4":"1500", "6":"1500", "24":"5500"} | 20000
- 49 | {"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"} | Truck         |        10 | progresif  | {"0" : "1000", "4":"1500", "6":"1500", "24":"5500"} |  6000
+def set_tarif(self, tipe_tarif):
+        
+        # get tolerance
+        toleransi = self.components["add_toleransi"].text()
+        
+        # tarif kondisi 1
+        time_kondisi1 = int( self.components["add_time1"].text() )
+        tarif_motor_kondisi1 = int( self.components["add_motor_biaya1"].text() )    
+        tarif_mobil_kondisi1 = int( self.components["add_mobil_biaya1"].text() )  
+        
+        ###### set rules for progresif/flat ######
+        rules_motor = f'"{time_kondisi1}" : "{tarif_motor_kondisi1}"'
+        rules_mobil = f'"{time_kondisi1}" : "{tarif_mobil_kondisi1}"'
+        ##########################################
 
- update tarif set rules='{"1" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}', base_rules='{"1" : "1000", "4":"1500", "6":"1500", "24":"5500"}' where id=1;
- update tarif set rules='{"1" : "2000", "4":"1000", "10":"1000", "16":"1000", "24":"6000"}', base_rules='{"1" : "2000", "4":"1000", "6":"1000", "24":"6000"}' where id=2;
- update tarif set rules='{"1" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}', base_rules='{"1" : "1000", "4":"1500", "6":"1500", "24":"5500"}' where id=49;
+
+        if self.selected_tarif == "other":
+            
+            # tarif kondisi 2
+            time_kondisi2 = int( self.components["add_time2"].text() )   
+            time_kondisi2_before = time_kondisi2    
+            tarif_motor_kondisi2 = int( self.components["add_motor_biaya2"].text() )
+            tarif_mobil_kondisi2 = int( self.components["add_mobil_biaya2"].text() )
+
+            # tarif kondisi 3
+            time_kondisi3 = int( self.components["add_time3"].text() )
+            time_kondisi3_before = time_kondisi3
+            tarif_motor_kondisi3 = int( self.components["add_motor_biaya3"].text() )   
+            tarif_mobil_kondisi3 = int( self.components["add_mobil_biaya3"].text() )
+            
+            # tarif max
+            time_max = int( self.components["add_time4"].text() )    
+            tarif_motor_max = int( self.components["add_motor_biaya4"].text() )    
+            tarif_mobil_max = int( self.components["add_mobil_biaya4"].text() )    
+
+            # add hours
+            time_kondisi2 = time_kondisi2 + time_kondisi1
+            time_kondisi3 = time_kondisi3 + time_kondisi2
+
+            rules_between_mtr = self.getBetween(time_kondisi3_before, time_kondisi3, time_max, tarif_motor_kondisi3)
+            rules_between_mbl = self.getBetween(time_kondisi3_before, time_kondisi3, time_max, tarif_mobil_kondisi3)
+
+            # add new rules
+            base_rules_motor = rules_motor + f', "{time_kondisi2_before}":"{tarif_motor_kondisi2}", "{time_kondisi3_before}":"{tarif_motor_kondisi3}", "{time_max}":"{tarif_motor_max}"'
+            base_rules_mobil = rules_mobil + f', "{time_kondisi2_before}":"{tarif_mobil_kondisi2}", "{time_kondisi3_before}":"{tarif_mobil_kondisi3}", "{time_max}":"{tarif_mobil_max}"'
+            
+            rules_motor = rules_motor + f', "{time_kondisi2}":"{tarif_motor_kondisi2}", "{time_kondisi3}":"{tarif_motor_kondisi3}", {rules_between_mtr} "{time_max}":"{tarif_motor_max}"'
+            rules_mobil = rules_mobil + f', "{time_kondisi2}":"{tarif_mobil_kondisi2}", "{time_kondisi3}":"{tarif_mobil_kondisi3}", {rules_between_mbl} "{time_max}":"{tarif_mobil_max}"'
+        
+        # set final JSON string
+        base_rules_motor = '{' + base_rules_motor + '}'
+        base_rules_mobil = '{' + base_rules_mobil + '}'
+
+        rules_motor = '{' + rules_motor + '}'
+        rules_mobil = '{' + rules_mobil + '}'
+
+        # set for update
+        query_mtr = f"update tarif set rules='{rules_motor}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_motor}' where id=1;"
+        query_mbl = f"update tarif set rules='{rules_mobil}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_mobil}' where id=2;"
+        print("===>")
+        print(query_mtr)
+
+        res = self.exec_query(query_mtr + query_mbl)
+
+        if res:
+            self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
+

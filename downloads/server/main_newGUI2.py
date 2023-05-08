@@ -3236,21 +3236,21 @@ class Main(Util, View):
         center_content = [
                     {
                         "name":"lbl_barcode_transaksi",
-                        "text":"Barcode/Voucher",
+                        "text":"Barcode/Voucher:",
                         "category":"label",
                         "style":self.primary_lbl
                     },
                     {
                         "name":"barcode_transaksi",
                         "category":"lineEdit",
-                        "style": self.primary_input,
+                        "style": self.primary_input + "font-weight: 600;",
                         "event": {
                             "method_name": self.getPrice
                         }
                     },
                     {
                         "name":"lbl_jns_kendaraan",
-                        "text":"Jenis Kendaraan",
+                        "text":"Jenis Kendaraan:",
                         "category":"label",
                         "style":self.primary_lbl + "margin-top:15px;"
                     },
@@ -3258,11 +3258,11 @@ class Main(Util, View):
                         "name":"jns_kendaraan",
                         "category":"lineEdit",
                         "editable":False,
-                        "style": self.primary_input
+                        "style": self.primary_input + "font-weight: 600;"
                     },
                     {
                         "name":"lbl_status",
-                        "text":"Status",
+                        "text":"Status:",
                         "category":"label",
                         "style":self.primary_lbl + "margin-top:15px;"
                     },
@@ -3270,11 +3270,11 @@ class Main(Util, View):
                         "name":"ket_status",
                         "category":"lineEdit",
                         "editable":False,
-                        "style": self.primary_input
+                        "style": self.primary_input + "font-weight: 600;"
                     },
                     {
                         "name":"lbl_tarif_transaksi",
-                        "text":"Tarif(Rp)",
+                        "text":"Tarif(Rp):",
                         "category":"label",
                         "style":self.primary_lbl + "margin-top:15px;"
                     },
@@ -3282,7 +3282,7 @@ class Main(Util, View):
                         "name":"tarif_transaksi",
                         "category":"lineEdit",
                         "editable": False,
-                        "style": self.primary_input + "height: 45px; font-weight: 600; font-size:23px;",
+                        "style": self.primary_input + "height: 45px; font-weight: 600; font-size:23px; background:#ffeaa7;",
                     },
                     
                 ]

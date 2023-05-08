@@ -135,16 +135,12 @@ class Controller(Client):
         for k,v in rules.items():
 
             key_rules = int(k)
-            val_rules = int(v)
+            # val_rules = int(v)
         
             rate_seconds = key_rules * 3600;
-            rate_price = rules[k];
+            # rate_price = rules[k];
 
-            # print("rates price:", rate_price)
-            # print(parking_seconds, type(parking_seconds))
-            # print(rate_seconds, type(rate_seconds))
-            # print(lastKey, type(lastKey))
-
+            
             if parking_seconds <= rate_seconds and parking_seconds != (lastKey*3600) :
                 each_loop_price = 0
 
@@ -155,7 +151,6 @@ class Controller(Client):
                     # add price until `key`
                     # rp = rules[k2_rules]
                     each_loop_price += rp
-                    
                     
                     if key_rules == k2_rules: break
                 
@@ -170,10 +165,6 @@ class Controller(Client):
                 
                 if remaining_time > 0:
                     
-                    # print(total_payment, type(total_payment))
-                    # print(rules, type(rules))
-                    # print(remaining_time, type(remaining_time))
-
                     total_payment = total_payment + self.calculate_parking_payment(rules, remaining_time)
 
                 return total_payment
@@ -226,8 +217,6 @@ class Controller(Client):
                 diff = self.time_now - barcode_time
                 parking_seconds = int( diff.total_seconds() )
 
-                # print("parking seconds: ", parking_seconds, type(parking_seconds))
-
                 # check apakah lama parkir melewati batas toleransi ?
                 if parking_seconds > tolerance:
                     
@@ -272,6 +261,10 @@ class Controller(Client):
                         # set lineEdit
                         self.components["tarif_transaksi"].setText( str(final_price) )
 
+                elif parking_seconds < tolerance:
+                    self.components["ket_status"].setText("FREE")
+                    self.components["tarif_transaksi"].setText("0")
+                    
                 # total_hours = math.ceil(diff.total_seconds()/3600)
                 
                 # print("====================")
