@@ -137,7 +137,7 @@ class Controller(Client):
             key_rules = int(k)
             # val_rules = int(v)
         
-            rate_seconds = key_rules * 3600;
+            rate_seconds = key_rules * 3600
             # rate_price = rules[k];
 
             
@@ -849,6 +849,7 @@ class Controller(Client):
             
             for i in range( len(res) ):
                 jns_kendaraan = res[i][0]
+                jns_kendaraan = jns_kendaraan.lower()
 
                 # parse base rules based on key
                 br = json.loads( str(res[i][1]) )
@@ -1014,7 +1015,7 @@ class Controller(Client):
         self.CreateComponentLayout( self.tarif_form_setter, self.tarif_content1_lay )
         # self.components["widget_tipe_tarif"].setStyleSheet("background:#222b45;")
 
-    def set_tarif(self, tipe_tarif):
+    def set_tarif(self):
         
         # get tolerance
         toleransi = self.components["add_toleransi"].text()
@@ -1073,13 +1074,52 @@ class Controller(Client):
         # set for update
         query_mtr = f"update tarif set rules='{rules_motor}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_motor}' where id=1;"
         query_mbl = f"update tarif set rules='{rules_mobil}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_mobil}' where id=2;"
-        print("===>")
-        print(query_mtr)
+        # print("===>")
+        # print(query_mtr)
 
-        res = self.exec_query(query_mtr + query_mbl)
+        ### create query for update
 
-        if res:
-            self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
+        # loop based on jenis kendaraan
+        q_jkendaraan = self.exec_query(f"select id,jns_kendaraan from tarif order by id", "select")
+        final_rules = ""
+        final_query = ""
+
+        for i in range( len(q_jkendaraan) ):
+            id_kendaraan = q_jkendaraan[i][0]
+            j_kendaraan = q_jkendaraan[i][1]
+            j_kendaraan = j_kendaraan.lower()
+
+            # loop based on row form
+            for i in range(4):
+                n = i+1
+                jam = self.components[f'add_time{n}'].text()
+                tarif = self.components[f'add_{j_kendaraan}_biaya{n}'].text()
+
+                final_rules = final_rules + f'"{jam}":"{tarif}",'
+
+            # remove last comma
+            final_rules = final_rules[:-1]
+
+            # create query + final rules + where id=...
+            value_between = self.getBetween(6, 10, 24, 1500)
+            print("==> between:", value_between)
+            final_query = final_query + f"update tarif set toleransi='', base_rules='{final_rules}' where id={id_kendaraan};"
+
+            # clear
+            final_rules = ""
+
+        print("==> final query: ", final_query)
+
+        ###### tinggal buat value utk toleransi
+
+        # update tarif set toleransi=, base_rules='"2":"1200","4":"1500","6":"1500","24":"5500"' where id=1;
+        # update tarif set toleransi=, base_rules='"2":"2000","4":"1000","6":"1000","24":"6300"' where id=2;
+        # update tarif set toleransi=, base_rules='"2":"1000","4":"1500","6":"1500","24":"5500"' where id=49;
+        
+        # res = self.exec_query(query_mtr + query_mbl)
+
+        # if res:
+        #     self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
 
     def save_edit_voucher(self):
         
