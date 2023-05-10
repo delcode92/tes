@@ -1914,15 +1914,16 @@ class Main(Util, View):
                                     {
                                         "name":"widget_tipe_tarif",
                                         "category":"widget",
-                                        "layout": "VBoxLayout",
+                                        "layout": "HBoxLayout",
                                         "style":self.block_children,
+                                        "max_height":50,
                                         "children":[
                                             {
                                                 "name":"r_progressive",
                                                 "category":"RadioButton",
                                                 "text":"progresif",
                                                 "checked": True if tipe_tarif == "progresif" else False, 
-                                                "style":"border:none; color:#fff;",
+                                                "style":"border:none; color:#fff; font-size:12px; font-weight:500;",
                                                 "toggled": {
                                                     "method_name": self.check_tarif_type
                                                 }
@@ -1932,7 +1933,7 @@ class Main(Util, View):
                                                 "category":"RadioButton",
                                                 "text":"flat",
                                                 "checked": True if tipe_tarif == "flat" else False, 
-                                                "style":"border:none; color:#fff;",
+                                                "style":"border:none; color:#fff; font-size:12px; font-weight:500;",
                                                 "toggled": {
                                                     "method_name": self.check_tarif_type
                                                 } 
@@ -1942,7 +1943,7 @@ class Main(Util, View):
                                                 "category":"RadioButton",
                                                 "text":"other",
                                                 "checked": True if tipe_tarif == "other" else False, 
-                                                "style":"border:none; color:#fff;",
+                                                "style":"border:none; color:#fff; font-size:12px; font-weight:500;",
                                                 "toggled": {
                                                     "method_name": self.check_tarif_type
                                                 }
@@ -1954,6 +1955,7 @@ class Main(Util, View):
                                         "category":"widget",
                                         "layout": "HBoxLayout",
                                         "style":self.block_children,
+                                        "max_height":50,
                                         "children":[
                                             {
                                                 "name":"t_lbl1",

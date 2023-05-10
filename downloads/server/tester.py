@@ -175,9 +175,22 @@
 import json, math
 
 rules = json.loads( '{"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}' )
-key,value = next( iter(rules.items()) )
-last_key,last_value = rules.popitem()
+els = list(rules.items()) 
 
-print(last_key, last_value)
+# key,value = next( iter(rules.items()) )
+# last_key,last_value = rules.popitem()
+lk,lv = els[-1]
+
+print("els len: ", len(els))
+print(lk, lv)
+# print(last_key, last_value)
 
 # print(math.floor(10/3))
+
+# dict1 = {"key1": "value1", "key2": "value2", "key3": "value3"}
+# dict2 = {"key4_1": "value4_1", "key5_1": "value5_1"}
+
+# dict1.update(dict2)
+# # dict1[list(dict1.keys())[-1]] = dict1.pop(list(dict1.keys())[-1])
+
+# print(dict1)

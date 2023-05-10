@@ -262,3 +262,11 @@ def set_tarif(self, tipe_tarif):
         if res:
             self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
 
+
+No I mean like this:
+dict1 = {"key1": "value1", "key2": "value2", "key3": "value3"}
+dict2 = {"key4_1": "value4_1", "key5_1": "value5_1"}
+
+I want the output be like:
+output : {"key1": "value1", "key2": "value2", "key4_1": "value4_1", "key5_1": "value5_1", "key3": "value3"}
+

@@ -141,13 +141,28 @@
         });
 
         function getBetween(hours_before, hours_after, max_hours, price){
+            console.log("hours_before: ", hours_before)
+            console.log("hours_after: ", hours_after)
+            console.log("max_hours: ", max_hours)
+            console.log("price: ", price)
+
             json_txt = "";
             h = 0;
             for(i=1; i<=24; i++){
-                h = h + hours_after + hours_before;
+                // 0 + 11 + 6
+                // 17 + 6
+                // h + hours before
+                if (h==0) {
+                    h = h + hours_after + hours_before;
+                }
+                else{ h = h + hours_before; }
+            
                 // console.log(h, max_hours);
                 
                 if( h<max_hours ){
+                    console.log("masuk: ", i)
+                    console.log("h:",h , "max:", max_hours)
+                    
                     json_txt = json_txt + '"'+h+'":"'+price+'",';
                 }
                 else if( h>=max_hours ){  
@@ -274,7 +289,10 @@
 
             rules_mbl = JSON.parse('{"'+h1+'":"'+p1_mbl+'", "'+h2+'":"'+p2_mbl+'", "'+h3+'":"'+p3_mbl+'", '+rules_between_mbl+ '"'+h_max+'":"'+p_max_mbl+'"}');
             rules_mtr = JSON.parse('{"'+h1+'":"'+p1_mtr+'", "'+h2+'":"'+p2_mtr+'", "'+h3+'":"'+p3_mtr+'", '+rules_between_mtr+ '"'+h_max+'":"'+p_max_mtr+'"}');
-            
+
+            console.log(rules_mbl)
+            console.log(rules_mtr)
+
             if(parking_seconds > tolerance){
 
                 if( stat == 3 ){

@@ -738,16 +738,24 @@ class Controller(Client):
         return True
 
     def getBetween(self, hours_before, hours_after, max_hours, price):
+        hours_before = int(hours_before)
+        hours_after = int(hours_after)
+        max_hours = int(max_hours)
+
         json_txt = ""
         h = 0
+        
         for i in range(24):
-            h = h + int(hours_after) + int(hours_before)
             
-            if h < int(max_hours):
+            h = h + hours_after + hours_before if h==0 else h + hours_before
+            
+            if h < max_hours:
                 json_txt = json_txt + f'"{h}":"{price}",'
             
-            elif h >= int(max_hours):  
-                return json_txt
+            elif h >= max_hours:
+                json_txt = json_txt[:-1]  
+                return json.loads("{"+json_txt+"}")
+                # return json_txt
 
     def add_kendaraan(self):
         
@@ -859,8 +867,8 @@ class Controller(Client):
                 l = l + [{
                         "name":"lbl",
                         "category":"label",
-                        "text":f"{jns_kendaraan}(Rp) ",
-                        "style":self.primary_lbl + "border: none;"
+                        "text":f"{jns_kendaraan}(Rp):",
+                        "style":self.primary_lbl + "border: none; margin-left:6px;"
                     },
                     {
                         "name":f"add_{jns_kendaraan}_biaya{n}",
@@ -1018,70 +1026,13 @@ class Controller(Client):
     def set_tarif(self):
         
         # get tolerance
-        toleransi = self.components["add_toleransi"].text()
+        tolerance = self.components["add_toleransi"].text()
         
-        # tarif kondisi 1
-        time_kondisi1 = int( self.components["add_time1"].text() )
-        tarif_motor_kondisi1 = int( self.components["add_motor_biaya1"].text() )    
-        tarif_mobil_kondisi1 = int( self.components["add_mobil_biaya1"].text() )  
-        
-        ###### set rules for progresif/flat ######
-        rules_motor = f'"{time_kondisi1}" : "{tarif_motor_kondisi1}"'
-        rules_mobil = f'"{time_kondisi1}" : "{tarif_mobil_kondisi1}"'
-        ##########################################
-
-
-        if self.selected_tarif == "other":
-            
-            # tarif kondisi 2
-            time_kondisi2 = int( self.components["add_time2"].text() )   
-            time_kondisi2_before = time_kondisi2    
-            tarif_motor_kondisi2 = int( self.components["add_motor_biaya2"].text() )
-            tarif_mobil_kondisi2 = int( self.components["add_mobil_biaya2"].text() )
-
-            # tarif kondisi 3
-            time_kondisi3 = int( self.components["add_time3"].text() )
-            time_kondisi3_before = time_kondisi3
-            tarif_motor_kondisi3 = int( self.components["add_motor_biaya3"].text() )   
-            tarif_mobil_kondisi3 = int( self.components["add_mobil_biaya3"].text() )
-            
-            # tarif max
-            time_max = int( self.components["add_time4"].text() )    
-            tarif_motor_max = int( self.components["add_motor_biaya4"].text() )    
-            tarif_mobil_max = int( self.components["add_mobil_biaya4"].text() )    
-
-            # add hours
-            time_kondisi2 = time_kondisi2 + time_kondisi1
-            time_kondisi3 = time_kondisi3 + time_kondisi2
-
-            rules_between_mtr = self.getBetween(time_kondisi3_before, time_kondisi3, time_max, tarif_motor_kondisi3)
-            rules_between_mbl = self.getBetween(time_kondisi3_before, time_kondisi3, time_max, tarif_mobil_kondisi3)
-
-            # add new rules
-            base_rules_motor = rules_motor + f', "{time_kondisi2_before}":"{tarif_motor_kondisi2}", "{time_kondisi3_before}":"{tarif_motor_kondisi3}", "{time_max}":"{tarif_motor_max}"'
-            base_rules_mobil = rules_mobil + f', "{time_kondisi2_before}":"{tarif_mobil_kondisi2}", "{time_kondisi3_before}":"{tarif_mobil_kondisi3}", "{time_max}":"{tarif_mobil_max}"'
-            
-            rules_motor = rules_motor + f', "{time_kondisi2}":"{tarif_motor_kondisi2}", "{time_kondisi3}":"{tarif_motor_kondisi3}", {rules_between_mtr} "{time_max}":"{tarif_motor_max}"'
-            rules_mobil = rules_mobil + f', "{time_kondisi2}":"{tarif_mobil_kondisi2}", "{time_kondisi3}":"{tarif_mobil_kondisi3}", {rules_between_mbl} "{time_max}":"{tarif_mobil_max}"'
-        
-        # set final JSON string
-        base_rules_motor = '{' + base_rules_motor + '}'
-        base_rules_mobil = '{' + base_rules_mobil + '}'
-
-        rules_motor = '{' + rules_motor + '}'
-        rules_mobil = '{' + rules_mobil + '}'
-
-        # set for update
-        query_mtr = f"update tarif set rules='{rules_motor}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_motor}' where id=1;"
-        query_mbl = f"update tarif set rules='{rules_mobil}', toleransi='{toleransi}', tipe_tarif='{self.selected_tarif}', base_rules='{base_rules_mobil}' where id=2;"
-        # print("===>")
-        # print(query_mtr)
-
         ### create query for update
 
         # loop based on jenis kendaraan
         q_jkendaraan = self.exec_query(f"select id,jns_kendaraan from tarif order by id", "select")
-        final_rules = ""
+        base_rules = ""
         final_query = ""
 
         for i in range( len(q_jkendaraan) ):
@@ -1095,31 +1046,60 @@ class Controller(Client):
                 jam = self.components[f'add_time{n}'].text()
                 tarif = self.components[f'add_{j_kendaraan}_biaya{n}'].text()
 
-                final_rules = final_rules + f'"{jam}":"{tarif}",'
+                base_rules = base_rules + f'"{jam}":"{tarif}",'
 
-            # remove last comma
-            final_rules = final_rules[:-1]
+            # remove last comma from base rules string
+            base_rules = base_rules[:-1]
+            
+            # convert base rules to json
+            base_rules = "{"+base_rules+"}"
+            br = json.loads(base_rules)
+            br_key = list(br.keys()) 
 
-            # create query + final rules + where id=...
-            value_between = self.getBetween(6, 10, 24, 1500)
-            print("==> between:", value_between)
-            final_query = final_query + f"update tarif set toleransi='', base_rules='{final_rules}' where id={id_kendaraan};"
+            # =============== set rules ================
+            k1 = br_key[0]
+            v1 = br[ str(k1) ]
+            
+            k2 = int(k1) + int(br_key[1])
+            v2 = br[ br_key[1] ]
+            
+            k3 = int(k2) + int(br_key[2])
+            v3 = br[ br_key[2] ]
+
+            rules = { str(k1):str(v1), str(k2):str(v2), str(k3):str(v3) }
+            
+            h_before = int(br_key[2])
+            h_after = k2 + int(br_key[2])
+            max_hour = int(br_key[-1])
+            price = int( br[ str(br_key[1]) ] )
+
+            # print("h_before", h_before)
+            # print("h_after", h_after)
+            # print("max_hour", max_hour)
+            # print("price", price)
+
+            value_between = self.getBetween(h_before, h_after, max_hour, price)
+            rules.update(value_between)
+            
+            max_key = str(max_hour)
+            max_key_val = {max_key:br[max_key]}
+            
+            rules.update(max_key_val)
+            rules = json.dumps(rules)
+            
+            # print("==> rules: ", rules)
+
+            # print("==> between:", value_between)
+            final_query = final_query + f"update tarif set rules='{rules}', toleransi={tolerance}, tipe_tarif='{self.selected_tarif}', base_rules='{base_rules}' where id={id_kendaraan};"
 
             # clear
-            final_rules = ""
+            base_rules = ""
 
-        print("==> final query: ", final_query)
-
-        ###### tinggal buat value utk toleransi
-
-        # update tarif set toleransi=, base_rules='"2":"1200","4":"1500","6":"1500","24":"5500"' where id=1;
-        # update tarif set toleransi=, base_rules='"2":"2000","4":"1000","6":"1000","24":"6300"' where id=2;
-        # update tarif set toleransi=, base_rules='"2":"1000","4":"1500","6":"1500","24":"5500"' where id=49;
         
-        # res = self.exec_query(query_mtr + query_mbl)
+        res = self.exec_query(final_query)
 
-        # if res:
-        #     self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
+        if res:
+            self.dialogBox(title="Alert", msg="Tarif berhasil diupdate")
 
     def save_edit_voucher(self):
         
