@@ -3363,13 +3363,15 @@ class Main(Util, View):
         # self.stream_url_2 = 'http://192.168.100.69:4747/video'
 
 
-        th = playCam1(parent=self.window)
-        th.cp.connect(self.setImageKasir) 
-        th.start()
+        # self.th = playCam1(parent=self.window)
+        self.th = playCam1()
+        self.th.cp.connect(self.setImageKasir) 
+        self.th.start()
         
-        th2 = playCam2(parent=self.window)
-        th2.cp2.connect(self.setImageKasir2) 
-        th2.start()
+        # self.th2 = playCam2(parent=self.window)
+        self.th2 = playCam2()
+        self.th2.cp2.connect(self.setImageKasir2) 
+        self.th2.start()
 
        
 
@@ -3456,7 +3458,11 @@ class Main(Util, View):
         self.time_lbl.setText("JAM: "+ current_time)
     
     def kasirLogout(self):
+        # self.th.quit()
+        # self.th2.quit()    
+            
         self.closeWindow(self.window)
+        # self.window = QMainWindow()
         self.Login()
         
     def setImageKasir(self, image):

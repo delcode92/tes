@@ -2291,7 +2291,14 @@ class Controller(Client):
         # update total income
         # print(f"select SUM(tarif) as tot_income from karcis where {query}")
         q_income = self.exec_query(f"select SUM(tarif) as tot_income from karcis where {query}", "SELECT")
-        self.total_income_lbl.setText("TOTAL INCOME: Rp " +  "{:,}".format( q_income[0][0] ).replace(",", ".") )
+        income_res = 0 if q_income[0][0] is None else q_income[0][0]
+        # print(q_income[0][0], type(q_income[0][0]))
+
+        if income_res > 0:
+            self.total_income_lbl.setText("TOTAL INCOME: Rp " +  "{:,}".format( q_income[0][0] ).replace(",", ".") )
+        else:
+            self.total_income_lbl.setText("TOTAL INCOME: Rp 0" )
+
 
         return tgl1,tgl2,res2 
 
