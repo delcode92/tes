@@ -3052,6 +3052,11 @@ class Main(Util, View):
                 else:
                     debug.logger.info("IP CAM not connected ... ")
 
+            def stop(self):
+                self.terminate()
+                # self.quit()
+                self.wait()
+
         class playCam2(QThread):
             
             cp2 = pyqtSignal(QImage)
@@ -3096,6 +3101,11 @@ class Main(Util, View):
                         debug.logger.info("retrying to connect.... ")
                 else:
                     debug.logger.info("IP CAM not connected ... ")
+
+            def stop(self):
+                self.terminate()
+                # self.quit()
+                self.wait()
 
 
         window_setter = {
@@ -3363,13 +3373,13 @@ class Main(Util, View):
         # self.stream_url_2 = 'http://192.168.100.69:4747/video'
 
 
-        # self.th = playCam1(parent=self.window)
-        self.th = playCam1()
+        self.th = playCam1(parent=self.window)
+        # self.th = playCam1()
         self.th.cp.connect(self.setImageKasir) 
         self.th.start()
         
-        # self.th2 = playCam2(parent=self.window)
-        self.th2 = playCam2()
+        self.th2 = playCam2(parent=self.window)
+        # self.th2 = playCam2()
         self.th2.cp2.connect(self.setImageKasir2) 
         self.th2.start()
 
@@ -3458,11 +3468,23 @@ class Main(Util, View):
         self.time_lbl.setText("JAM: "+ current_time)
     
     def kasirLogout(self):
-        # self.th.quit()
-        # self.th2.quit()    
-            
+        self.th.stop()
+        self.th2.stop()    
+        # print("==> thread: ", self.th, type(self.th))
+
         self.closeWindow(self.window)
         # self.window = QMainWindow()
+       
+        # window_setter = {
+        #     "title":"Kasir Dashboard", 
+        #     "style":self.win_dashboard
+        # }
+
+        # # create window
+        # self.CreateWindow(window_setter, self.window)
+
+        # self.window.show()
+       
         self.Login()
         
     def setImageKasir(self, image):
