@@ -194,6 +194,8 @@
 # # dict1[list(dict1.keys())[-1]] = dict1.pop(list(dict1.keys())[-1])
 
 # print(dict1)
+
+# start code
 from configparser import ConfigParser
 from framework import *
 
@@ -218,21 +220,42 @@ class IPCam(Util, View):
             break;
 
     
-    ipcam1 = configur["gate1"]["ipcam1"]
-    ipcam2 = configur["gate1"]["ipcam2"]
-    ##############################
-
-    # print("jum gate: ", jum_gate)
-
     def __init__(self) -> None:
         x = IPCam.jum_gate
-        y = IPCam.jum_gate
+        self.methods = []
 
-        if x<=8:
-            print("init gate 1")
-            x = x-1
+        for i in range(IPCam.jum_gate):
+            method_name = f"initGate{i+1}"
+            method = getattr(self, method_name, None)
             
-            if 
+            method()
 
+        
+
+    def initGate1(self):
+        print("init gate1")
+    
+    def initGate2(self):
+        print("init gate2")
+    
+    def initGate3(self):
+        print("init gate3")
+    
+    def initGate4(self):
+        print("init gate4")
+    
+    def initGate5(self):
+        print("init gate5")
+    
+    def initGate6(self):
+        print("init gate6")
+    
+    def initGate7(self):
+        print("init gate7")
+    
+    def initGate8(self):
+        print("init gate8")
 
 IPCam()
+
+# end code

@@ -50,7 +50,7 @@ class Thread(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam1}'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[0]}'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -74,11 +74,11 @@ class Thread(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.info("something wrong with ipcam 1 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 1 not connected ... ")
 
 class Thread2(QThread):
 
@@ -98,7 +98,7 @@ class Thread2(QThread):
 
                 if not self.capture:
                     # rtsp = 'http://192.168.100.69:4747/video'        
-                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[1]}'            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -122,11 +122,11 @@ class Thread2(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.info("something wrong with ipcam 2 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 2 not connected ... ")
 
 class Thread3(QThread):
 
@@ -145,7 +145,7 @@ class Thread3(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'http://192.168.100.69:4747/video'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[2]}'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -169,11 +169,11 @@ class Thread3(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.info("something wrong with ipcam 3 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 3 not connected ... ")
 
 class Thread4(QThread):
 
@@ -183,7 +183,7 @@ class Thread4(QThread):
         
         debug = Debug()
         
-        debug.logger.info("Run IP Cam 2 Thread ...")
+        debug.logger.info("Run IP Cam 4 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -192,8 +192,7 @@ class Thread4(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = 'http://192.168.100.69:4747/video'        
-                    # rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[3]}'            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -221,17 +220,17 @@ class Thread4(QThread):
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 4 not connected ... ")
 
 class Thread5(QThread):
 
-    changePixmaps = pyqtSignal(QImage)
+    changePixmaps5 = pyqtSignal(QImage)
     
     def run(self):
         
         debug = Debug()
         
-        debug.logger.info("Run IP Cam 1 Thread ...")
+        debug.logger.info("Run IP Cam 5 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -240,7 +239,7 @@ class Thread5(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam1}'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[4]}'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -256,7 +255,7 @@ class Thread5(QThread):
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                    self.changePixmaps.emit(p)
+                    self.changePixmaps5.emit(p)
             
             except Exception as e:
                 self.is_running = False
@@ -264,21 +263,21 @@ class Thread5(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.info("something wrong with ipcam 5 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 5 not connected ... ")
 
 class Thread6(QThread):
 
-    changePixmaps2 = pyqtSignal(QImage)
+    changePixmaps6 = pyqtSignal(QImage)
     
     def run(self):
         
         debug = Debug()
         
-        debug.logger.info("Run IP Cam 2 Thread ...")
+        debug.logger.info("Run IP Cam 6 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -287,8 +286,7 @@ class Thread6(QThread):
             try:
 
                 if not self.capture:
-                    # rtsp = 'http://192.168.100.69:4747/video'        
-                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[5]}'            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -304,7 +302,7 @@ class Thread6(QThread):
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                    self.changePixmaps2.emit(p)
+                    self.changePixmaps6.emit(p)
             
             except Exception as e:
                 self.is_running = False
@@ -312,21 +310,21 @@ class Thread6(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.info("something wrong with ipcam 6 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 6 not connected ... ")
 
 class Thread7(QThread):
 
-    changePixmaps3 = pyqtSignal(QImage)
+    changePixmaps7 = pyqtSignal(QImage)
     
     def run(self):
         
         debug = Debug()
         
-        debug.logger.info("Run IP Cam 3 Thread ...")
+        debug.logger.info("Run IP Cam 7 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -335,7 +333,7 @@ class Thread7(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'http://192.168.100.69:4747/video'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[6]}'       
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -351,7 +349,7 @@ class Thread7(QThread):
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                    self.changePixmaps3.emit(p)
+                    self.changePixmaps7.emit(p)
             
             except Exception as e:
                 self.is_running = False
@@ -359,21 +357,21 @@ class Thread7(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.info("something wrong with ipcam 7 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 7 not connected ... ")
 
 class Thread8(QThread):
 
-    changePixmaps4 = pyqtSignal(QImage)
+    changePixmaps8 = pyqtSignal(QImage)
     
     def run(self):
         
         debug = Debug()
         
-        debug.logger.info("Run IP Cam 2 Thread ...")
+        debug.logger.info("Run IP Cam 8 Thread ...")
 
         self.is_running = True
         self.capture = None
@@ -382,8 +380,7 @@ class Thread8(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = 'http://192.168.100.69:4747/video'        
-                    # rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[7]}'            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -399,7 +396,7 @@ class Thread8(QThread):
                     bytesPerLine = ch * w
                     convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
                     p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
-                    self.changePixmaps4.emit(p)
+                    self.changePixmaps8.emit(p)
             
             except Exception as e:
                 self.is_running = False
@@ -407,11 +404,11 @@ class Thread8(QThread):
                 self.msleep(5000)
                 self.is_running = True
 
-                debug.logger.info("something wrong with ipcam 4 .... ")
+                debug.logger.info("something wrong with ipcam 8 .... ")
                 debug.logger.error(str(e))
                 debug.logger.info("retrying to connect.... ")
         else:
-            debug.logger.info("IP CAM not connected ... ")
+            debug.logger.info("IP CAM 8 not connected ... ")
 
 
 
@@ -424,8 +421,19 @@ class IPCam(Util, View):
     configur = ConfigParser()
     configur.read(ini)
 
-    ipcam1 = configur["gate1"]["ipcam1"]
-    ipcam2 = configur["gate1"]["ipcam2"]
+    jum_gate = 0
+    list_ip = []
+
+    for i in range(8):
+        try:
+            n = i+1
+            ip = [configur[f"gate{n}"]["ipcam1"], configur[f"gate{n}"]["ipcam2"]]
+            list_ip = list_ip + ip
+            
+            jum_gate+=1
+        except:
+            break;
+    
     ##############################
 
     def __init__(self, multiproc_conn) -> None:
@@ -482,6 +490,9 @@ class IPCam(Util, View):
         self.lbl2.setStyleSheet(View.bg_black)
 
         # connect pixmap with label, using thread
+
+        
+
         self.ss_th = Thread()
         self.ss_th.changePixmaps.connect(self.setImage) # using pyqt5 slot and signal 
         self.ss_th.start()
@@ -579,7 +590,7 @@ class IPCam(Util, View):
             self.lbl1.setPixmap(QPixmap.fromImage(image))
             
         except Exception as e:
-            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.info("Something wrong with set image frame to QLabel 1 ...")
             self.debug.logger.error(str(e))
         
         if self.snap_thread_stat == False:
@@ -590,14 +601,14 @@ class IPCam(Util, View):
             image.save(f"./cap/{self.snap_barcode}.jpg","JPG")
             self.snap_stat = False
             image = QImage()
-            self.debug.logger.info("save snapshot image & re-init QImage ...")
+            self.debug.logger.info("save snapshot image & re-init QImage 1 ...")
 
     def setImage2(self, image):
         try:
             self.lbl2.setPixmap(QPixmap.fromImage(image))
             
         except Exception as e:
-            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.info("Something wrong with set image frame to QLabel 2 ...")
             self.debug.logger.error(str(e))
 
     def setImage3(self, image):
@@ -605,7 +616,7 @@ class IPCam(Util, View):
             self.lbl3.setPixmap(QPixmap.fromImage(image))
             
         except Exception as e:
-            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.info("Something wrong with set image frame to QLabel 3 ...")
             self.debug.logger.error(str(e))
 
     def setImage4(self, image):
@@ -613,7 +624,39 @@ class IPCam(Util, View):
             self.lbl4.setPixmap(QPixmap.fromImage(image))
             
         except Exception as e:
-            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.info("Something wrong with set image frame to QLabel 4 ...")
+            self.debug.logger.error(str(e))
+    
+    def setImage5(self, image):
+        try:
+            self.lbl5.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel 5 ...")
+            self.debug.logger.error(str(e))
+
+    def setImage6(self, image):
+        try:
+            self.lbl6.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel 6 ...")
+            self.debug.logger.error(str(e))
+
+    def setImage7(self, image):
+        try:
+            self.lbl7.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel 7 ...")
+            self.debug.logger.error(str(e))
+
+    def setImage8(self, image):
+        try:
+            self.lbl8.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel 8 ...")
             self.debug.logger.error(str(e))
 
 # HOST = "127.0.0.1" --> sys.argv[1]
