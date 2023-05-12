@@ -59,6 +59,7 @@ class GPIOHandler:
                     start_new_thread( self.rfid_input,() )
                     self.run_GPIO()
                 except Exception as e:
+                    # self.s = None
                     self.logger.info("GPIO handshake fail")
                     self.logger.error(str(e))
         
@@ -97,8 +98,8 @@ class GPIOHandler:
         return '/'.join([path, fileName])
 
 
-    def print_barcode(self,barcode):
-        
+    def print_barcode(self,barcode, status_online=True):
+         
         vid = int( self.config['PRINTER']['VID'], 16 )
         pid = int( self.config['PRINTER']['PID'], 16 )
         in_ep = int( self.config['PRINTER']['IN'], 16 )
@@ -123,7 +124,12 @@ class GPIOHandler:
         
         p.text(gate_name + " " + gate_num + "\n")
         p.text(vehicle_type + "\n")
-        p.text(new_time_text + "\n\n")
+        p.text(new_time_text + "\n")
+        
+        if status_online==False:
+            p.text("OFFLINE\n")
+        
+        p.text("\n")
         
         p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
         # p.qr("test", size=5)
@@ -180,6 +186,9 @@ class GPIOHandler:
                 try:
                     self.s.sendall( bytes(dict_txt, 'utf-8') )
                 except Exception as e:
+                    # call print barcode here , with certain parameter
+                    self.print_barcode(self.barcode ,status_online=False)
+                    
                     self.logger.error(str(e))
                 
             elif GPIO.input(self.button) == GPIO.HIGH and GPIO.input(self.loop1) == GPIO.LOW and self.stateButton:

@@ -128,8 +128,294 @@ class Thread2(QThread):
         else:
             debug.logger.info("IP CAM not connected ... ")
 
-class IPCam(Util, View):
+class Thread3(QThread):
+
+    changePixmaps3 = pyqtSignal(QImage)
     
+    def run(self):
+        
+        debug = Debug()
+        
+        debug.logger.info("Run IP Cam 3 Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    rtsp = f'http://192.168.100.69:4747/video'        
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps3.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+class Thread4(QThread):
+
+    changePixmaps4 = pyqtSignal(QImage)
+    
+    def run(self):
+        
+        debug = Debug()
+        
+        debug.logger.info("Run IP Cam 2 Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    rtsp = 'http://192.168.100.69:4747/video'        
+                    # rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps4.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam 4 .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+class Thread5(QThread):
+
+    changePixmaps = pyqtSignal(QImage)
+    
+    def run(self):
+        
+        debug = Debug()
+        
+        debug.logger.info("Run IP Cam 1 Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam1}'        
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+class Thread6(QThread):
+
+    changePixmaps2 = pyqtSignal(QImage)
+    
+    def run(self):
+        
+        debug = Debug()
+        
+        debug.logger.info("Run IP Cam 2 Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    # rtsp = 'http://192.168.100.69:4747/video'        
+                    rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps2.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+class Thread7(QThread):
+
+    changePixmaps3 = pyqtSignal(QImage)
+    
+    def run(self):
+        
+        debug = Debug()
+        
+        debug.logger.info("Run IP Cam 3 Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    rtsp = f'http://192.168.100.69:4747/video'        
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps3.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+class Thread8(QThread):
+
+    changePixmaps4 = pyqtSignal(QImage)
+    
+    def run(self):
+        
+        debug = Debug()
+        
+        debug.logger.info("Run IP Cam 2 Thread ...")
+
+        self.is_running = True
+        self.capture = None
+        
+        while self.is_running:
+            try:
+
+                if not self.capture:
+                    rtsp = 'http://192.168.100.69:4747/video'        
+                    # rtsp = f'rtsp://admin:admin@{IPCam.ipcam2}'            
+                    debug.logger.info("Run video capture from --> "+ rtsp)
+                    self.capture = cv2.VideoCapture(rtsp)
+                    
+                elif not ret:
+                    debug.logger.error("Failed to read from video stream!")
+                    raise Exception("Failed to read from video stream!")   
+                
+                ret, frame = self.capture.read()
+                if ret:
+                    rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            
+                    h, w, ch = rgbImage.shape
+                    bytesPerLine = ch * w
+                    convertToQtFormat = QImage(rgbImage.data, w, h, bytesPerLine, QImage.Format_RGB888)
+                    p = convertToQtFormat.scaled(640, 480, Qt.KeepAspectRatio)
+                    self.changePixmaps4.emit(p)
+            
+            except Exception as e:
+                self.is_running = False
+                self.capture = None
+                self.msleep(5000)
+                self.is_running = True
+
+                debug.logger.info("something wrong with ipcam 4 .... ")
+                debug.logger.error(str(e))
+                debug.logger.info("retrying to connect.... ")
+        else:
+            debug.logger.info("IP CAM not connected ... ")
+
+
+
+class IPCam(Util, View):
     img_name = ""
 
     ####### get ipcam ip ########
@@ -145,7 +431,8 @@ class IPCam(Util, View):
     def __init__(self, multiproc_conn) -> None:
         
         
-
+        self.cam_comp = {}
+        self.lbl_comp = {}
         self.debug = Debug()
 
         self.process_conn = multiproc_conn
@@ -172,68 +459,17 @@ class IPCam(Util, View):
         self.CreateWindow(window_setter, self.window)
         
         # create layouts
-        main_layout = self.CreateLayout(("VBoxLayout", False), self.window)
-            
+        main_layout = self.CreateLayout(("VBoxLayout", False), self.window)            
         main_layout.setContentsMargins(200, 50, 200, 50)
 
+        # loop cam gui based on app.ini
+        # ===================== start cam loop =========================
         gate_lbl = QLabel("GATE 1")
         gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
         main_layout.addWidget(gate_lbl)
 
         cam_layout = self.CreateLayout(("FormLayout", False), main_layout)
         
-
-        
-        # right_list = self.CreateLayout(("VBoxLayout", False))
-        # right_list.setContentsMargins(0,0,0,0)
-        # right_list.setSpacing(0)
-        
-        # # disini bro
-
-        # status_layout =  self.CreateLayout(("FormLayout", False))
-        
-        # # set right layout background
-        # right_widget = QWidget()
-        # right_widget.setLayout(right_list)
-        # right_widget.setStyleSheet(View.bg_grey)
-        # right_widget.setMinimumHeight(20)
-        # right_widget.setMinimumWidth(250)
-
-        # # inside right_widget --> there is widget that contain status layout(form lay)
-
-        # # set status widget
-        # stat_widget = QWidget()
-        # stat_widget.setLayout(status_layout)
-        # stat_widget.setMaximumHeight(150)
-        # stat_widget.setMaximumWidth(250)
-        
-        # # put component into right form
-        
-
-        # ip_lbl = QLabel("IP Address: ")
-        # ip_lbl.setMinimumWidth(100)
-        # ip_lbl.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
-
-        # ip_val = QLabel("192.168.100.1")
-        # ip_val.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
-
-        # stat_lbl = QLabel("Status: ")
-        # stat_lbl.setMinimumWidth(100)
-        # stat_lbl.setFont( View.fontStyle(None, "Helvetica", 12, 40) )
-        
-        # stat_val = QLabel("CONNECTED")
-        # stat_val.setFont( View.fontStyle(None, "Helvetica", 12, 80) )
-        # stat_val.setStyleSheet(View.bg_light_green + View.color_white + "padding :8px")
-
-        # status_layout.addRow(gate_lbl)
-        # status_layout.addRow(ip_lbl, ip_val)
-        # status_layout.addRow(stat_lbl, stat_val)
-
-        # snap_button = QPushButton("snap")
-        # status_layout.addRow(stat_lbl, snap_button)
-
-        # snap_button.clicked.connect(self.snap_func)
-
         # web cam image here with label helper
         self.lbl1 = QLabel()
         self.lbl1.setMaximumWidth(640)
@@ -246,14 +482,34 @@ class IPCam(Util, View):
         self.lbl2.setStyleSheet(View.bg_black)
 
         # connect pixmap with label, using thread
-        th = Thread()
-        th.changePixmaps.connect(self.setImage) # using pyqt5 slot and signal 
-        th.start()
+        self.ss_th = Thread()
+        self.ss_th.changePixmaps.connect(self.setImage) # using pyqt5 slot and signal 
+        self.ss_th.start()
         
-        th2 = Thread2()
-        th2.changePixmaps2.connect(self.setImage2) # using pyqt5 slot and signal 
-        th2.start()
+        self.ss_th2 = Thread2()
+        self.ss_th2.changePixmaps2.connect(self.setImage2) # using pyqt5 slot and signal 
+        self.ss_th2.start()
         
+        # ==================================================
+        self.lbl3 = QLabel()
+        self.lbl3.setMaximumWidth(640)
+        self.lbl3.setMaximumHeight(400)
+        self.lbl3.setStyleSheet(View.bg_black)
+        
+        self.lbl4 = QLabel()
+        self.lbl4.setMaximumWidth(640)
+        self.lbl4.setMaximumHeight(400)
+        self.lbl4.setStyleSheet(View.bg_black)
+
+        # connect pixmap with label, using thread
+        self.ss_th3 = Thread3()
+        self.ss_th3.changePixmaps3.connect(self.setImage3) # using pyqt5 slot and signal 
+        self.ss_th3.start()
+        
+        self.ss_th4 = Thread4()
+        self.ss_th4.changePixmaps4.connect(self.setImage4) # using pyqt5 slot and signal 
+        self.ss_th4.start()
+        # ================================================
         
         # right_list.addWidget(stat_widget)
 
@@ -263,6 +519,12 @@ class IPCam(Util, View):
         # add cam layout(from layout) to main layout
         main_layout.addLayout(cam_layout)
         
+        main_layout.addWidget(QLabel("GATE 2"))
+        cam_layout.addRow(self.lbl3, self.lbl4)
+        
+        # ============= end cam loop =================
+
+
         widget = QWidget()
         widget.setLayout(main_layout)
         
@@ -279,7 +541,18 @@ class IPCam(Util, View):
         self.window.showMinimized()
         self.window.setWindowFlag(Qt.WindowCloseButtonHint, True) # set false to hide running proccess
         
+        self.app.aboutToQuit.connect(self.stopThreads)
         sys.exit(self.app.exec_())
+
+    def stopThreads(self):
+        print("kill all threads")
+        # self.ss_th.quit()
+        # self.ss_th.terminate()
+        # # self.ss_th.wait()
+
+        # self.ss_th2.quit()
+        # self.ss_th2.terminate()
+        # self.ss_th2.wait()
 
     def snap_func(self):
         self.snap_stat = True
@@ -322,6 +595,22 @@ class IPCam(Util, View):
     def setImage2(self, image):
         try:
             self.lbl2.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.error(str(e))
+
+    def setImage3(self, image):
+        try:
+            self.lbl3.setPixmap(QPixmap.fromImage(image))
+            
+        except Exception as e:
+            self.debug.logger.info("Something wrong with set image frame to QLabel ...")
+            self.debug.logger.error(str(e))
+
+    def setImage4(self, image):
+        try:
+            self.lbl4.setPixmap(QPixmap.fromImage(image))
             
         except Exception as e:
             self.debug.logger.info("Something wrong with set image frame to QLabel ...")
@@ -559,8 +848,8 @@ class Server:
 
 def run():
     conn1, conn2 = multiprocessing.Pipe()
-    process_1 = multiprocessing.Process(target=IPCam, args=(conn1,))
-    process_2 = multiprocessing.Process(target=Server, args=(sys.argv[1], sys.argv[2], conn2))
+    process_1 = multiprocessing.Process(target=IPCam, args=(conn1,), name="IPCAM")
+    process_2 = multiprocessing.Process(target=Server, args=(sys.argv[1], sys.argv[2], conn2), name="SERVER")
     process_1.start()
     process_2.start()
     process_1.join()

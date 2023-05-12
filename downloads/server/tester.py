@@ -172,17 +172,17 @@
 #     window.show()
 #     sys.exit(app.exec_())
 
-import json, math
+# import json, math
 
-rules = json.loads( '{"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}' )
-els = list(rules.items()) 
+# rules = json.loads( '{"0" : "1000", "4":"1500", "10":"1500", "16":"1500", "24":"5500"}' )
+# els = list(rules.items()) 
 
-# key,value = next( iter(rules.items()) )
-# last_key,last_value = rules.popitem()
-lk,lv = els[-1]
+# # key,value = next( iter(rules.items()) )
+# # last_key,last_value = rules.popitem()
+# lk,lv = els[-1]
 
-print("els len: ", len(els))
-print(lk, lv)
+# print("els len: ", len(els))
+# print(lk, lv)
 # print(last_key, last_value)
 
 # print(math.floor(10/3))
@@ -194,3 +194,45 @@ print(lk, lv)
 # # dict1[list(dict1.keys())[-1]] = dict1.pop(list(dict1.keys())[-1])
 
 # print(dict1)
+from configparser import ConfigParser
+from framework import *
+
+class IPCam(Util, View):
+    img_name = ""
+
+    ####### get ipcam ip ########
+    ini = Util.getPath(None,fileName="app.ini")
+        
+    configur = ConfigParser()
+    configur.read(ini)
+
+    jum_gate = 0
+    for i in range(8):
+        try:
+            n = i+1
+            ip = configur[f"gate{n}"]["ipcam1"]
+            ip2 = configur[f"gate{n}"]["ipcam2"]
+
+            jum_gate+=1
+        except:
+            break;
+
+    
+    ipcam1 = configur["gate1"]["ipcam1"]
+    ipcam2 = configur["gate1"]["ipcam2"]
+    ##############################
+
+    # print("jum gate: ", jum_gate)
+
+    def __init__(self) -> None:
+        x = IPCam.jum_gate
+        y = IPCam.jum_gate
+
+        if x<=8:
+            print("init gate 1")
+            x = x-1
+            
+            if 
+
+
+IPCam()
