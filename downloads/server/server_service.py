@@ -6,6 +6,7 @@ from cv2 import add
 from _thread import start_new_thread
 from framework import *
 from configparser import ConfigParser
+import copy
 
 class Debug():
     
@@ -47,10 +48,12 @@ class Thread(QThread):
         self.capture = None
         
         while self.is_running:
+            
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[0]}'        
+                    rtsp = IPCam.list_ip[0]        
+                    # rtsp = f'rtsp://admin:admin@{IPCam.list_ip[0]}'        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -97,8 +100,7 @@ class Thread2(QThread):
             try:
 
                 if not self.capture:
-                    # rtsp = 'http://192.168.100.69:4747/video'        
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[1]}'            
+                    rtsp = IPCam.list_ip[1]            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -145,7 +147,7 @@ class Thread3(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[2]}'        
+                    rtsp = IPCam.list_ip[2]        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -192,7 +194,7 @@ class Thread4(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[3]}'            
+                    rtsp = IPCam.list_ip[3]            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -239,7 +241,7 @@ class Thread5(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[4]}'        
+                    rtsp = IPCam.list_ip[4]        
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -286,7 +288,7 @@ class Thread6(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[5]}'            
+                    rtsp = IPCam.list_ip[5]            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -333,7 +335,7 @@ class Thread7(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[6]}'       
+                    rtsp = IPCam.list_ip[6]
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -380,7 +382,7 @@ class Thread8(QThread):
             try:
 
                 if not self.capture:
-                    rtsp = f'rtsp://admin:admin@{IPCam.list_ip[7]}'            
+                    rtsp = IPCam.list_ip[7]            
                     debug.logger.info("Run video capture from --> "+ rtsp)
                     self.capture = cv2.VideoCapture(rtsp)
                     
@@ -467,87 +469,40 @@ class IPCam(Util, View):
         self.CreateWindow(window_setter, self.window)
         
         # create layouts
-        main_layout = self.CreateLayout(("VBoxLayout", False), self.window)            
-        main_layout.setContentsMargins(200, 50, 200, 50)
+        self.main_layout = self.CreateLayout(("VBoxLayout", False), self.window)            
+        self.main_layout.setContentsMargins(200, 50, 200, 50)
 
         # loop cam gui based on app.ini
         # ===================== start cam loop =========================
-        gate_lbl = QLabel("GATE 1")
-        gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
-        main_layout.addWidget(gate_lbl)
+        
+        self.cam_layout = self.CreateLayout(("FormLayout", False), self.main_layout)
+        self.main_layout.addLayout(self.cam_layout)
+        
+        self.methods = []
 
-        cam_layout = self.CreateLayout(("FormLayout", False), main_layout)
-        
-        # web cam image here with label helper
-        self.lbl1 = QLabel()
-        self.lbl1.setMaximumWidth(640)
-        self.lbl1.setMaximumHeight(400)
-        self.lbl1.setStyleSheet(View.bg_black)
-        
-        self.lbl2 = QLabel()
-        self.lbl2.setMaximumWidth(640)
-        self.lbl2.setMaximumHeight(400)
-        self.lbl2.setStyleSheet(View.bg_black)
+        for i in range(IPCam.jum_gate):
+            method_name = f"initGate{i+1}"
+            print(f"==> method: {method_name}")
+            method = getattr(self, method_name, None)
+            
+            method()
+            sleep(1)
 
-        # connect pixmap with label, using thread
-
-        
-
-        self.ss_th = Thread()
-        self.ss_th.changePixmaps.connect(self.setImage) # using pyqt5 slot and signal 
-        self.ss_th.start()
-        
-        self.ss_th2 = Thread2()
-        self.ss_th2.changePixmaps2.connect(self.setImage2) # using pyqt5 slot and signal 
-        self.ss_th2.start()
-        
-        # ==================================================
-        self.lbl3 = QLabel()
-        self.lbl3.setMaximumWidth(640)
-        self.lbl3.setMaximumHeight(400)
-        self.lbl3.setStyleSheet(View.bg_black)
-        
-        self.lbl4 = QLabel()
-        self.lbl4.setMaximumWidth(640)
-        self.lbl4.setMaximumHeight(400)
-        self.lbl4.setStyleSheet(View.bg_black)
-
-        # connect pixmap with label, using thread
-        self.ss_th3 = Thread3()
-        self.ss_th3.changePixmaps3.connect(self.setImage3) # using pyqt5 slot and signal 
-        self.ss_th3.start()
-        
-        self.ss_th4 = Thread4()
-        self.ss_th4.changePixmaps4.connect(self.setImage4) # using pyqt5 slot and signal 
-        self.ss_th4.start()
-        # ================================================
-        
-        # right_list.addWidget(stat_widget)
-
-        # add cam & others data to from layout
-        cam_layout.addRow(self.lbl1, self.lbl2)
-
-        # add cam layout(from layout) to main layout
-        main_layout.addLayout(cam_layout)
-        
-        main_layout.addWidget(QLabel("GATE 2"))
-        cam_layout.addRow(self.lbl3, self.lbl4)
-        
         # ============= end cam loop =================
 
 
         widget = QWidget()
-        widget.setLayout(main_layout)
+        widget.setLayout(self.main_layout)
         
         scroll = QScrollArea() 
         scroll.setWidget(widget)
         scroll.setWidgetResizable(True)
         scroll.setMinimumWidth(100)
-        # scroll.setMaximumWidth(1200)
+        scroll.setMaximumHeight(1200)
         
         self.window.setCentralWidget(scroll)
 
-        main_layout.addStretch(1)
+        self.main_layout.addStretch(1)
 
         self.window.showMinimized()
         self.window.setWindowFlag(Qt.WindowCloseButtonHint, True) # set false to hide running proccess
@@ -584,6 +539,124 @@ class IPCam(Util, View):
                 self.snap_stat = True
                 self.snap_barcode = snap
 
+    # ========= init gate ==========
+    def initGate1(self):
+        gate_lbl = QLabel("GATE 1")
+        gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
+       
+        # web cam image here with label helper
+        self.lbl1 = QLabel()
+        self.lbl1.setMaximumWidth(640)
+        self.lbl1.setMaximumHeight(400)
+        self.lbl1.setStyleSheet(View.bg_black)
+        
+        self.lbl2 = QLabel()
+        self.lbl2.setMaximumWidth(640)
+        self.lbl2.setMaximumHeight(400)
+        self.lbl2.setStyleSheet(View.bg_black)
+
+        # connect pixmap with label, using thread
+        self.th = Thread()
+        self.th.changePixmaps.connect(self.setImage) # using pyqt5 slot and signal 
+        self.th.start()
+        
+        self.th2 = Thread2()
+        self.th2.changePixmaps2.connect(self.setImage2) # using pyqt5 slot and signal 
+        self.th2.start()
+
+        # add cam & others data to from layout
+        self.cam_layout.addRow(gate_lbl)
+        self.cam_layout.addRow(self.lbl1, self.lbl2)
+
+    
+    def initGate2(self):
+        gate_lbl = QLabel("GATE 2")
+        gate_lbl.setStyleSheet("margin-top: 20px;")
+        gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
+        
+        # web cam image here with label helper
+        self.lbl3 = QLabel()
+        self.lbl3.setMaximumWidth(640)
+        self.lbl3.setMaximumHeight(400)
+        self.lbl3.setStyleSheet(View.bg_black)
+        
+        self.lbl4 = QLabel()
+        self.lbl4.setMaximumWidth(640)
+        self.lbl4.setMaximumHeight(400)
+        self.lbl4.setStyleSheet(View.bg_black)
+        
+        # connect pixmap with label, using thread
+        self.th3 = Thread3()
+        self.th3.changePixmaps3.connect(self.setImage3) # using pyqt5 slot and signal 
+        self.th3.start()
+        
+        self.th4 = Thread4()
+        self.th4.changePixmaps4.connect(self.setImage4) # using pyqt5 slot and signal 
+        self.th4.start()
+
+        # add cam & others data to from layout
+        self.cam_layout.addRow(gate_lbl)
+        self.cam_layout.addRow(self.lbl3, self.lbl4)
+    
+    def initGate3(self):
+        gate_lbl = QLabel("GATE 3")
+        gate_lbl.setStyleSheet("margin-top: 20px;")
+        gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
+        
+        # web cam image here with label helper
+        self.lbl5 = QLabel()
+        self.lbl5.setMaximumWidth(640)
+        self.lbl5.setMaximumHeight(400)
+        self.lbl5.setStyleSheet(View.bg_black)
+        
+        self.lbl6 = QLabel()
+        self.lbl6.setMaximumWidth(640)
+        self.lbl6.setMaximumHeight(400)
+        self.lbl6.setStyleSheet(View.bg_black)
+        
+        # connect pixmap with label, using thread
+        self.th5 = Thread5()
+        self.th5.changePixmaps5.connect(self.setImage5) # using pyqt5 slot and signal 
+        self.th5.start()
+        
+        self.th6 = Thread6()
+        self.th6.changePixmaps6.connect(self.setImage6) # using pyqt5 slot and signal 
+        self.th6.start()
+
+        # add cam & others data to from layout
+        self.cam_layout.addRow(gate_lbl)
+        self.cam_layout.addRow(self.lbl5, self.lbl6)
+    
+    def initGate4(self):
+        gate_lbl = QLabel("GATE 4")
+        gate_lbl.setStyleSheet("margin-top: 20px;")
+        gate_lbl.setFont( View.fontStyle(None, "Helvetica", 20, 80) )
+        
+        # web cam image here with label helper
+        self.lbl7 = QLabel()
+        self.lbl7.setMaximumWidth(640)
+        self.lbl7.setMaximumHeight(400)
+        self.lbl7.setStyleSheet(View.bg_black)
+        
+        self.lbl8 = QLabel()
+        self.lbl8.setMaximumWidth(640)
+        self.lbl8.setMaximumHeight(400)
+        self.lbl8.setStyleSheet(View.bg_black)
+        
+        # connect pixmap with label, using thread
+        self.th7 = Thread7()
+        self.th7.changePixmaps7.connect(self.setImage7) # using pyqt5 slot and signal 
+        self.th7.start()
+        
+        self.th8 = Thread8()
+        self.th8.changePixmaps8.connect(self.setImage8) # using pyqt5 slot and signal 
+        self.th8.start()
+
+        # add cam & others data to from layout
+        self.cam_layout.addRow(gate_lbl)
+        self.cam_layout.addRow(self.lbl7, self.lbl8)
+    # ==============================
+    
     # @pyqtSlot(QtGui.QImage)
     def setImage(self, image):
         try:
