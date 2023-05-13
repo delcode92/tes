@@ -30,6 +30,9 @@ class GPIOHandler:
         host = sys.argv[1]
         port = int(sys.argv[2])
         
+        # self.run_GPIO()
+        # start_new_thread( self.run_GPIO,() )
+        
         while True:
 
             try:
@@ -57,7 +60,7 @@ class GPIOHandler:
 
                     # run input RFID thread
                     start_new_thread( self.rfid_input,() )
-                    self.run_GPIO()
+                    # self.run_GPIO()
                 except Exception as e:
                     # self.s = None
                     self.logger.info("GPIO handshake fail")
@@ -131,7 +134,7 @@ class GPIOHandler:
         
         p.text("\n")
         
-        p.barcode("{B" + barcode, "CODE128", height=128, width=3, function_type="B")
+        p.barcode("{B" + str(barcode), "CODE128", height=128, width=3, function_type="B")
         # p.qr("test", size=5)
         # p.barcode('1324354657687', 'EAN13', 64, 3, '', '')
 
@@ -175,7 +178,7 @@ class GPIOHandler:
                 time_now = datetime.now().strftime("%Y%m%d%H%M%S")
                 
                 # send barcode and datetime here
-                # barcode --> shorten datetime
+                # barcode --> shorten 
                 #  2.023.011  - 2.246.060 = 901501
                 self.barcode = int(time_now[0:7]) - int(time_now[7:14])
                 if self.barcode<0 : self.barcode=self.barcode * -1
@@ -184,6 +187,7 @@ class GPIOHandler:
                 self.logger.debug(dict_txt)  
 
                 try:
+                    # komen disini
                     self.s.sendall( bytes(dict_txt, 'utf-8') )
                 except Exception as e:
                     # call print barcode here , with certain parameter
