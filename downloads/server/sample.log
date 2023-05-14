@@ -7228,3 +7228,294 @@ can't connect to server
 can't connect to server
 success connect to server
 success connect to server
+
+success execute query
+
+success execute query
+Run Cam Thread 2 ...
+Run Cam Thread 1 ...
+Run Cam Thread 2 ...
+Run Cam Thread 1 ...
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+
+success execute query
+
+success execute query
+
+success execute query
+
+success execute query
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Failed to read from video stream!
+Failed to read from video stream!
+Failed to read from video stream!
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+success connect to server
+success connect to server
+Failed to read from video stream!
+Failed to read from video stream!
+Failed to read from video stream!
+Failed to read from video stream!
+Failed to read from video stream!
+can't connect to server
+can't connect to server
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+something wrong with ipcam 2 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+something wrong with ipcam 1 .... 
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+Failed to read from video stream!
+retrying to connect.... 
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+can't connect to server
+can't connect to server
+[WinError 10053] An established connection was aborted by the software in your host machine
+[WinError 10053] An established connection was aborted by the software in your host machine
+Failed to read from video stream!
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+can't connect to server
+can't connect to server
+[WinError 10065] A socket operation was attempted to an unreachable host
+[WinError 10065] A socket operation was attempted to an unreachable host
+can't connect to server
+can't connect to server
+something wrong with ipcam 1 .... 
+Failed to read from video stream!
+retrying to connect.... 
+Run video capture from --> rtsp://admin:admin@192.168.100.121
+can't connect to server
+can't connect to server
+[WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+[WinError 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+can't connect to server
+can't connect to server
