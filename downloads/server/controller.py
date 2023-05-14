@@ -179,29 +179,32 @@ class Controller(Client):
 
         jns_kendaraan = ""
         status_parkir = ""
-
+        self.diff_formatted = ""
         try:
 
             # =================== base information ========================
             # get time based on barcode
             barcode = self.components["barcode_transaksi"].text()
-            query_karcis = self.exec_query(f"select datetime, date_keluar, jenis_kendaraan, status_parkir from karcis where barcode='{barcode}'", "select")
-            jns_kendaraan = query_karcis[0][2].capitalize()
-            self.components["jns_kendaraan"].setText( jns_kendaraan )
-            # self.ip_raspi = barcode_time[0][3]
+            q_karcis_count = self.exec_query(f"select count(*) as jum from karcis where barcode='{barcode}'", "select")
+            q_voucher_count = self.exec_query(f"select count(*) as jum from voucher where id_pel='{barcode}'", "select")
 
-            # =============================================================
-
-            if query_karcis[0][3]:
-                status_parkir = "LUNAS"
-            elif not query_karcis[0][3]:
-                status_parkir = "BELUM LUNAS"
+            # print("==>val: ", query_karcis[0], type(query_karcis[0]))
             
-            self.components["ket_status"].setText( status_parkir )
-
             # jika ada data
-            if len(query_karcis[0]) > 0:
+            if int(q_karcis_count[0][0]) > 0:
+                query_karcis = self.exec_query(f"select datetime, date_keluar, jenis_kendaraan, status_parkir from karcis where barcode='{barcode}'", "select")
+               
+                jns_kendaraan = query_karcis[0][2].capitalize()
+                self.components["jns_kendaraan"].setText( jns_kendaraan )
+               
+                if query_karcis[0][3]:
+                    status_parkir = "LUNAS"
+                elif not query_karcis[0][3]:
+                    status_parkir = "BELUM LUNAS"
                 
+                self.components["ket_status"].setText( status_parkir )
+
+
                 # get toleransi
                 query = self.exec_query(f"select toleransi, tipe_tarif, rules from tarif where jns_kendaraan='{jns_kendaraan}' or jns_kendaraan='{jns_kendaraan.lower()}'", "select")
                 tolerance = int(query[0][0]) * 60
@@ -216,6 +219,10 @@ class Controller(Client):
 
                 diff = self.time_now - barcode_time
                 parking_seconds = int( diff.total_seconds() )
+
+                self.diff_formatted = str(timedelta(seconds = parking_seconds))
+
+                print("==> lama parkir: ", self.diff_formatted)
 
                 # check apakah lama parkir melewati batas toleransi ?
                 if parking_seconds > tolerance:
@@ -312,7 +319,13 @@ class Controller(Client):
                 # # just show tarif and enable button if "BELUM LUNAS"
                 # if status_parkir == "BELUM LUNAS":
                 #     self.components["tarif_transaksi"].setText( str(price) )
-                    
+
+            if int(q_voucher_count[0][0]) > 0:
+                self.components["jns_kendaraan"].setText("")
+                self.components["ket_status"].setText( "VOUCHER" )
+                self.components["tarif_transaksi"].setText("0")
+                print("==> cari di voucher")
+
         except Exception as e:
             # clear text box if false input barcode
             self.components["jns_kendaraan"].setText("")
@@ -465,8 +478,9 @@ class Controller(Client):
 
             # update status to true, tarif and date_keluar
             dt_keluar = self.time_now.strftime('%Y-%m-%d %H:%M:%S')
+            if self.diff_formatted == "" : self.diff_formatted = "00:00:00"
 
-            self.exec_query(f"update karcis set status_parkir=true, tarif='{tarif}', date_keluar='{dt_keluar}' where barcode='{barcode}'")
+            self.exec_query(f"update karcis set status_parkir=true, tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='casual' where barcode='{barcode}'")
             
             # clear all text box and disable button
             self.components["barcode_transaksi"].setText("")

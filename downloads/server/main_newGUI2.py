@@ -3013,7 +3013,7 @@ class Main(Util, View):
             def run(self):
                 debug = Debug()
                 
-                debug.logger.info("Run Cam Thread ...")
+                debug.logger.info("Run Cam Thread 1 ...")
 
                 self.is_running = True
                 self.capture = None
@@ -3022,7 +3022,7 @@ class Main(Util, View):
                     try:
 
                         if not self.capture:
-                            rtsp = f'rtsp://admin:admin@{ipcam1}'        
+                            rtsp = ipcam1        
                             debug.logger.info("Run video capture from --> "+ rtsp)
                             self.capture = cv2.VideoCapture(rtsp)
                             
@@ -3046,11 +3046,11 @@ class Main(Util, View):
                         self.msleep(5000)
                         self.is_running = True
 
-                        debug.logger.info("something wrong with ipcam .... ")
+                        debug.logger.info("something wrong with ipcam 1 .... ")
                         debug.logger.error(str(e))
                         debug.logger.info("retrying to connect.... ")
                 else:
-                    debug.logger.info("IP CAM not connected ... ")
+                    debug.logger.info("IP CAM 1 not connected ... ")
 
             def stop(self):
                 self.terminate()
@@ -3063,7 +3063,7 @@ class Main(Util, View):
             def run(self):
                 debug = Debug()
                 
-                debug.logger.info("Run Cam Thread ...")
+                debug.logger.info("Run Cam Thread 2 ...")
 
                 self.is_running = True
                 self.capture = None
@@ -3072,7 +3072,7 @@ class Main(Util, View):
                     try:
 
                         if not self.capture:
-                            rtsp = f'rtsp://admin:admin@{ipcam2}'        
+                            rtsp = ipcam2        
                             debug.logger.info("Run video capture from --> "+ rtsp)
                             self.capture = cv2.VideoCapture(rtsp)
                             
@@ -3096,11 +3096,11 @@ class Main(Util, View):
                         self.msleep(5000)
                         self.is_running = True
 
-                        debug.logger.info("something wrong with ipcam .... ")
+                        debug.logger.info("something wrong with ipcam 1 .... ")
                         debug.logger.error(str(e))
                         debug.logger.info("retrying to connect.... ")
                 else:
-                    debug.logger.info("IP CAM not connected ... ")
+                    debug.logger.info("IP CAM 1 not connected ... ")
 
             def stop(self):
                 self.terminate()

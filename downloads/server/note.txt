@@ -940,3 +940,16 @@ def run():
 
 if __name__ == "__main__":
     run()
+
+
+I have  python code like below:
+
+# start 
+self.time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+self.time_now = datetime.strptime(self.time_now, '%Y-%m-%d %H:%M:%S')
+
+diff = self.time_now - barcode_time
+
+# end code
+
+I want to convert `diff` to `%H:%M:%S` format,  how ?? 
