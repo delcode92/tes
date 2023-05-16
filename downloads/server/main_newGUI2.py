@@ -3261,6 +3261,18 @@ class Main(Util, View):
                         }
                     },
                     {
+                    
+                        "name":"lbl_nopol",
+                        "text":"Nopol:",
+                        "category":"label",
+                        "style":self.primary_lbl
+                    },
+                    {
+                        "name":"nopol_transaksi",
+                        "category":"lineEdit",
+                        "style": self.primary_input + "font-weight: 600;",
+                    },
+                    {
                         "name":"lbl_jns_kendaraan",
                         "text":"Jenis Kendaraan:",
                         "category":"label",

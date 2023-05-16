@@ -196,66 +196,96 @@
 # print(dict1)
 
 # start code
-from configparser import ConfigParser
-from framework import *
+# from configparser import ConfigParser
+# from framework import *
 
-class IPCam(Util, View):
-    img_name = ""
+# class IPCam(Util, View):
+#     img_name = ""
 
-    ####### get ipcam ip ########
-    ini = Util.getPath(None,fileName="app.ini")
+#     ####### get ipcam ip ########
+#     ini = Util.getPath(None,fileName="app.ini")
         
-    configur = ConfigParser()
-    configur.read(ini)
+#     configur = ConfigParser()
+#     configur.read(ini)
 
-    jum_gate = 0
-    for i in range(8):
-        try:
-            n = i+1
-            ip = configur[f"gate{n}"]["ipcam1"]
-            ip2 = configur[f"gate{n}"]["ipcam2"]
+#     jum_gate = 0
+#     for i in range(8):
+#         try:
+#             n = i+1
+#             ip = configur[f"gate{n}"]["ipcam1"]
+#             ip2 = configur[f"gate{n}"]["ipcam2"]
 
-            jum_gate+=1
-        except:
-            break;
+#             jum_gate+=1
+#         except:
+#             break;
 
     
-    def __init__(self) -> None:
-        x = IPCam.jum_gate
-        self.methods = []
+#     def __init__(self) -> None:
+#         x = IPCam.jum_gate
+#         self.methods = []
 
-        for i in range(IPCam.jum_gate):
-            method_name = f"initGate{i+1}"
-            method = getattr(self, method_name, None)
+#         for i in range(IPCam.jum_gate):
+#             method_name = f"initGate{i+1}"
+#             method = getattr(self, method_name, None)
             
-            method()
+#             method()
 
         
 
-    def initGate1(self):
-        print("init gate1")
+#     def initGate1(self):
+#         print("init gate1")
     
-    def initGate2(self):
-        print("init gate2")
+#     def initGate2(self):
+#         print("init gate2")
     
-    def initGate3(self):
-        print("init gate3")
+#     def initGate3(self):
+#         print("init gate3")
     
-    def initGate4(self):
-        print("init gate4")
+#     def initGate4(self):
+#         print("init gate4")
     
-    def initGate5(self):
-        print("init gate5")
+#     def initGate5(self):
+#         print("init gate5")
     
-    def initGate6(self):
-        print("init gate6")
+#     def initGate6(self):
+#         print("init gate6")
     
-    def initGate7(self):
-        print("init gate7")
+#     def initGate7(self):
+#         print("init gate7")
     
-    def initGate8(self):
-        print("init gate8")
+#     def initGate8(self):
+#         print("init gate8")
 
-IPCam()
+# IPCam()
 
 # end code
+
+
+
+import cv2
+
+# RTSP URL
+rtsp_url = "rtsp://192.168.42.1/live"
+
+# Open RTSP stream
+cap = cv2.VideoCapture(rtsp_url)
+
+# Loop to read frames
+while True:
+    # Read a frame
+    ret, frame = cap.read()
+
+    # If frame is not empty, display it
+    if ret:
+        cv2.imshow('RTSP Stream', frame)
+
+    # Wait for key press
+    key = cv2.waitKey(1)
+
+    # If 'q' is pressed, exit loop
+    if key == ord('q'):
+        break
+
+# Release resources
+cap.release()
+cv2.destroyAllWindows()
