@@ -893,6 +893,15 @@ class Main(Util, View):
         # dlg.setIcon(QMessageBox.Information)
         
         dlg.exec()
+    
+    def Help(self):
+        dlg = QMessageBox(self.window)
+        dlg.setWindowTitle( "Keterangan Shortcut" )
+        
+        dlg.setText("CTRL + h ==> HELP  \n\nCTRL + t ==> barcode focus \n\nCTRL + e ==> logout")
+        dlg.setStyleSheet("QLabel{margin-bottom:20px; margin-top: 20px; font-weight: 600; font-size: 13px;}");
+        
+        dlg.exec()
 
 
     def openGate(self):
@@ -920,6 +929,12 @@ class Main(Util, View):
         
         elif command=="popup-user-bermasalah":
             shortcut.activated.connect( self.PopUpReportUser )
+        
+        elif command=="logout":
+            shortcut.activated.connect( self.kasirLogout )
+        
+        elif command=="help":
+            shortcut.activated.connect( self.Help )
             
         elif command=="open-gate":
             shortcut.activated.connect( self.openGate )
@@ -2972,7 +2987,7 @@ class Main(Util, View):
             sys.exit(self.app.exec_())
    
     def KasirDashboard(self):
-
+        
         ####### get ipcam ip ########
         ini = self.getPath(fileName="app.ini")
             
@@ -3204,7 +3219,14 @@ class Main(Util, View):
         self.components["gb_left"].setLayout(left_vbox)
         self.components["gb_right"].setLayout(right_vbox)
         self.components["gb_center"].setLayout(center_vbox)
-
+        
+        # list kendaraan
+        q_kendaraan = self.exec_query(f"select jns_kendaraan from tarif", "select")
+        list_kendaraan = []
+        # print("==> len: ", len(q_kendaraan))
+        for i in range( len(q_kendaraan) ):
+            list_kendaraan.append(q_kendaraan[i][0].lower())
+        
         left_content = [
                     {
                         "name":"lbl_stat_koneksi",
@@ -3254,23 +3276,28 @@ class Main(Util, View):
                     },
                     {
                         "name":"barcode_transaksi",
-                        "category":"lineEdit",
+                        "category":"lineEditInt",
                         "style": self.primary_input + "font-weight: 600;",
                         "event": {
                             "method_name": self.getPrice
                         }
                     },
                     {
-                    
-                        "name":"lbl_nopol",
+                       "name":"lbl_nopol",
                         "text":"Nopol:",
                         "category":"label",
-                        "style":self.primary_lbl
+                        "style":self.primary_lbl + "margin-top:15px;"
                     },
                     {
                         "name":"nopol_transaksi",
                         "category":"lineEdit",
+                        "text":"BL ",
                         "style": self.primary_input + "font-weight: 600;",
+                        # "event":{
+                        #     "trigger": "tab",
+                        #     "method_name": self.comboPopup,
+                        #     "arguments": self.components['jns_kendaraan']
+                        # }
                     },
                     {
                         "name":"lbl_jns_kendaraan",
@@ -3280,9 +3307,9 @@ class Main(Util, View):
                     },
                     {
                         "name":"jns_kendaraan",
-                        "category":"lineEdit",
-                        "editable":False,
-                        "style": self.primary_input + "font-weight: 600;"
+                        "category":"comboBox",
+                        "items":list_kendaraan,
+                        "style":self.primary_combobox + "font-weight: 600; background:none; color:#000;"
                     },
                     {
                         "name":"lbl_status",
@@ -3311,52 +3338,6 @@ class Main(Util, View):
                     
                 ]
     
-        # center_content = [
-        #         {
-        #                 "name":"lbl_barcode_bermasalah",
-        #                 "text":"BL/Barcode",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl
-        #             },
-        #             {
-        #                 "name":"barcode_bermasalah",
-        #                 "category":"lineEdit",
-        #                 "style": self.primary_input
-        #             },
-        #             # {
-        #             #     "name":"lbl_tarif_bermasalah",
-        #             #     "text":"Tarif(Rp)",
-        #             #     "category":"label",
-        #             #     "style":self.primary_lbl + "margin-top:15px;"
-        #             # },
-        #             # {
-        #             #     "name":"tarif_bermasalah",
-        #             #     "category":"lineEdit",
-        #             #     "min_height": 40,
-        #             #     "editable": False,
-        #             #     "style":self.primary_input
-        #             # },
-        #             {
-        #                 "name":"lbl_ket_bermasalah",
-        #                 "text":"Keterangan",
-        #                 "category":"label",
-        #                 "style":self.primary_lbl + "margin-top:15px;"
-        #             },
-        #             {
-        #                 "name":"ket_bermasalah",
-        #                 "category":"lineEdit",
-        #                 "min_height": 40,
-        #                 "style": "border:1px solid #ecf0f1;"+self.bg_grey,
-        #                 "font":self.helvetica_12
-        #             },
-        #             # {
-        #             #     "name":"btn_simpan_bermasalah",
-        #             #     "category":"pushButton",
-        #             #     "text": "Simpan",
-        #             #     "style": self.primary_button
-        #             # }
-        # ]
-
         # add components to left
         left_vbox.addStretch(1)
         self.CreateComponentLayout(left_content, left_vbox)
@@ -3369,6 +3350,15 @@ class Main(Util, View):
         self.CreateComponentLayout(center_content, center_vbox)
         center_vbox.addStretch(1)
         
+        # combobox popup when, press tab in nopol
+        # print("==> binder1: ", self.components['nopol_transaksi'], type(self.components['nopol_transaksi']))
+        # print("==> binder2: ", self.window, type(self.window))
+
+        EventBinder(self.components['nopol_transaksi'],lambda: self.comboPopup(self.components['jns_kendaraan']), "tab")
+        EventBinder(self.window, self.kasirWindowEnter )
+        self.components['jns_kendaraan'].activated.connect(self.changeVehicle)
+
+
         # add components to right
         # self.CreateComponentLayout(right_content, right_vbox)
         ipcam_lbl1 = QLabel("CAM 1")
@@ -3461,6 +3451,10 @@ class Main(Util, View):
         # self.keyShortcut(keyCombination="Ctrl+l", targetWidget=self.components["barcode_bermasalah"])
         self.keyShortcut(keyCombination="Ctrl+l", command="popup-user-bermasalah")
         
+        self.keyShortcut(keyCombination="Ctrl+e", command="logout")
+        
+        self.keyShortcut(keyCombination="Ctrl+h", command="help")
+        
         # save btn - lap user bermasalah
         self.keyShortcut(keyCombination="Ctrl+s", command="save")
         
@@ -3482,21 +3476,8 @@ class Main(Util, View):
     def kasirLogout(self):
         self.th.stop()
         self.th2.stop()    
-        # print("==> thread: ", self.th, type(self.th))
-
+        
         self.closeWindow(self.window)
-        # self.window = QMainWindow()
-       
-        # window_setter = {
-        #     "title":"Kasir Dashboard", 
-        #     "style":self.win_dashboard
-        # }
-
-        # # create window
-        # self.CreateWindow(window_setter, self.window)
-
-        # self.window.show()
-       
         self.Login()
         
     def setImageKasir(self, image):

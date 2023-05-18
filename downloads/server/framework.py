@@ -358,7 +358,10 @@ class View:
     """
     
     # lineedit styling
-    primary_input = """QLineEdit{
+    primary_input = """QLineEdit:focus {
+                        border: 2px solid #e74c3c;
+                    }
+                    QLineEdit{
                         height:30px; 
                         border:1px solid #dfe6e9;
                         background-color: #dfe6e9;
@@ -520,11 +523,12 @@ class View:
 
 class EventBinder(QObject):
 
-    def __init__(self, target, event_target):
+    def __init__(self, target, event_target, key_trigger=None):
         super().__init__(target)
         self._target = target
         self.eventTarget = event_target
         self.target.installEventFilter(self)
+        self.key_trigger = key_trigger
     
     @property
     def target(self):
@@ -532,10 +536,24 @@ class EventBinder(QObject):
 
     def eventFilter(self, source, event):
         if event.type() == QEvent.KeyPress and source is self.target:
-            if event.key() == Qt.Key_Return and self.target.hasFocus():
-                print('Enter pressed')
-                self.eventTarget()
+            if self.key_trigger is None:
+                if event.key() == Qt.Key_Return:
+                    print('===> Enter pressed bro')
+                    self.eventTarget() # run method
 
+                # if event.key() == Qt.Key_Return and self.target.hasFocus():
+                #     print('===> Enter pressed bro')
+                #     self.eventTarget() # run method
+                
+                # elif event.key() == Qt.Key_Return and not self.target.hasFocus():
+                #     print('all position Enter pressed')
+                    # self.eventTarget() # run method
+                
+            elif self.key_trigger == "tab":
+                if event.key() == Qt.Key_Tab and self.target.hasFocus():
+                    print('tab pressed')
+                    self.eventTarget() # run method
+            
         return super().eventFilter(source, event)
 
 class Util(Controller ):
@@ -851,12 +869,13 @@ class Util(Controller ):
                             
                             case "event":
                                 method_name = i["event"]["method_name"]
+                                trigger = i["event"]["trigger"]  if "trigger" in i["event"] else None
                                 
                                 if "arguments" in i["event"]:
                                     arg = i["event"]["arguments"]
-                                    EventBinder(self.components[i["name"]], lambda: method_name(arg) )
+                                    EventBinder(self.components[i["name"]], lambda: method_name(arg), trigger )
                                 elif "arguments" not in i["event"]:
-                                    EventBinder(self.components[i["name"]], method_name )
+                                    EventBinder(self.components[i["name"]], method_name , trigger)
                                                            
 
                             case "items":

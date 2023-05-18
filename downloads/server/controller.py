@@ -1,4 +1,4 @@
-import sys, json, psycopg2, os, math, threading, logging, webbrowser
+import sys, json, psycopg2, os, math, threading, logging, webbrowser, re
 from logging.handlers import TimedRotatingFileHandler
 
 from client.client_service import Client
@@ -174,7 +174,7 @@ class Controller(Client):
 
                 return total_payment
 
-    def getPrice(self):
+    def getPrice(self, vehicle=None):
         """ this method execute when press enter in barcode lineEdit """
 
         jns_kendaraan = ""
@@ -194,8 +194,8 @@ class Controller(Client):
             if int(q_karcis_count[0][0]) > 0:
                 query_karcis = self.exec_query(f"select datetime, date_keluar, jenis_kendaraan, status_parkir from karcis where barcode='{barcode}'", "select")
                
-                jns_kendaraan = query_karcis[0][2].capitalize()
-                self.components["jns_kendaraan"].setText( jns_kendaraan )
+                jns_kendaraan = query_karcis[0][2].lower() if vehicle is None else vehicle
+                self.components["jns_kendaraan"].setCurrentText( jns_kendaraan )
                
                 if query_karcis[0][3]:
                     status_parkir = "LUNAS"
@@ -321,19 +321,39 @@ class Controller(Client):
                 #     self.components["tarif_transaksi"].setText( str(price) )
 
             if int(q_voucher_count[0][0]) > 0:
-                self.components["jns_kendaraan"].setText("")
+                self.components["jns_kendaraan"].setCurrentIndex(0)
                 self.components["ket_status"].setText( "VOUCHER" )
                 self.components["tarif_transaksi"].setText("0")
                 print("==> cari di voucher")
 
         except Exception as e:
             # clear text box if false input barcode
-            self.components["jns_kendaraan"].setText("")
+            self.components["jns_kendaraan"].setCurrentIndex(0)
             self.components["ket_status"].setText("")
             self.components["tarif_transaksi"].setText("")
 
             self.logger.error(str(e))
     
+    def changeVehicle(self):
+        # update price
+        print("==> change vehicle ... get new price")
+        # print("==> ",self.components['jns_kendaraan'].currentText())
+        
+        self.getPrice( vehicle=self.components['jns_kendaraan'].currentText() )
+        
+
+    def comboPopup(self, element):
+        element.showPopup()
+    
+    def kasirWindowEnter(self):
+        # check if all input are filled
+        # if (self.components['barcode_transaksi'].text() != "" and 
+        #     self.components['nopol_transaksi'].text() != "" and 
+        #     self.components['jns_kendaraan'].currentText() != ""):
+            
+        #     print("==> bayar ...")
+        self.setPay()
+
     def hideSuccess(self):
         self.components["lbl_success"].setHidden(True)
 
@@ -470,36 +490,71 @@ class Controller(Client):
     def setPay(self):
         # get barcode
         barcode = self.components["barcode_transaksi"].text()
-        kendaraan = self.components["jns_kendaraan"].text()
+        nopol = self.components["nopol_transaksi"].text()
+        kendaraan = self.components["jns_kendaraan"].currentText()
         stat = self.components["ket_status"].text()
+        stat = stat.lower()
         tarif = self.components["tarif_transaksi"].text()
 
-        if barcode != "" and kendaraan != "" and stat != "" and tarif != "":
+        pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
+        pattern2 = r'^\D+\d{1,4}\s*\D*$'
 
-            # update status to true, tarif and date_keluar
-            dt_keluar = self.time_now.strftime('%Y-%m-%d %H:%M:%S')
-            if self.diff_formatted == "" : self.diff_formatted = "00:00:00"
-
-            self.exec_query(f"update karcis set status_parkir=true, tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='casual' where barcode='{barcode}'")
+        try:
+            match1 = re.match(pattern1, nopol)
+            match2 = re.match(pattern2, nopol)
             
-            # clear all text box and disable button
-            self.components["barcode_transaksi"].setText("")
-            self.components["jns_kendaraan"].setText("")
-            self.components["ket_status"].setText("")
-            self.components["tarif_transaksi"].setText("")
+            if (barcode != "" and nopol != "" and kendaraan != "" 
+                and stat == "belum lunas" and tarif != "" and
+                (match1 or match2)):
             
-            # send data to server to open the gate
-            self.logger.debug("open gate ... ")
+                # update status to true, tarif and date_keluar
+                dt_keluar = self.time_now.strftime('%Y-%m-%d %H:%M:%S')
+                if self.diff_formatted == "" : self.diff_formatted = "00:00:00"
 
+                # self.exec_query(f"update karcis set status_parkir=true, jenis_kendaraan='{kendaraan}', tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='casual' where barcode='{barcode}'")
+                
+                # clear all text box and disable button
+                self.components["barcode_transaksi"].setText("")
+                self.components["jns_kendaraan"].setCurrentIndex(0)
+                self.components["nopol_transaksi"].setText("")
+                self.components["ket_status"].setText("")
+                self.components["tarif_transaksi"].setText("")
+                
+                # send data to server to open the gate
+                self.logger.debug("open gate ... ")
+                # self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+
+                # modal
+                dlg = QMessageBox(self.window)
+                
+                dlg.setWindowTitle("Alert")
+                dlg.setText("Payment success --> OPEN GATE KELUAR")
+                dlg.setIcon(QMessageBox.Information)
+                dlg.exec()
+
+            # else:
+            #     nopol = nopol.replace(' ', '').lower()
+
+            #     if nopol != "bl":
+            #         # modal
+            #         dlg = QMessageBox(self.window)
+                    
+            #         dlg.setWindowTitle("Alert")
+            #         dlg.setText("NOPOL tidak valid !")
+            #         dlg.setIcon(QMessageBox.Information)
+            #         dlg.exec()
+
+        except Exception as e:
+            print(str(e))
             # modal
             dlg = QMessageBox(self.window)
             
             dlg.setWindowTitle("Alert")
-            dlg.setText("Payment success --> OPEN GATE KELUAR")
+            dlg.setText("NOPOL tidak valid !")
             dlg.setIcon(QMessageBox.Information)
             dlg.exec()
 
-            # self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+        
 
     def setReport(self):
         barcode = self.components["barcode_bermasalah"].text() 
@@ -1003,6 +1058,7 @@ class Controller(Client):
         elem_id, row_id= args
 
         jns_kendaraan = self.components[f"nm_kend{elem_id}"].text()
+        jns_kendaraan = jns_kendaraan.lower()
         denda = self.components[f"denda{elem_id}"].text()
 
         query = self.exec_query(f"update tarif set jns_kendaraan='{jns_kendaraan}', denda={denda} where id={row_id}")

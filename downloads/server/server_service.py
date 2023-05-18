@@ -847,6 +847,7 @@ class Server:
                                 barcode = res["barcode"]
                                 time = res["time"]
                                 jns_kendaraan = res["jns_kendaraan"]
+                                jns_kendaraan = jns_kendaraan.lower()
                                 gate = res["gate"]
                                 ip_raspi = res["ip_raspi"]
                                 # save to db

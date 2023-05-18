@@ -262,30 +262,122 @@
 
 
 
-import cv2
+# importing libraries
+# from PyQt5.QtWidgets import *
+# from PyQt5 import QtCore, QtGui
+# from PyQt5.QtGui import *
+# from PyQt5.QtCore import *
+# import sys
 
-# RTSP URL
-rtsp_url = "rtsp://192.168.42.1/live"
 
-# Open RTSP stream
-cap = cv2.VideoCapture(rtsp_url)
+# class Window(QMainWindow):
 
-# Loop to read frames
-while True:
-    # Read a frame
-    ret, frame = cap.read()
+# 	def __init__(self):
+# 		super().__init__()
 
-    # If frame is not empty, display it
-    if ret:
-        cv2.imshow('RTSP Stream', frame)
+# 		# setting title
+# 		self.setWindowTitle("Python ")
 
-    # Wait for key press
-    key = cv2.waitKey(1)
+# 		# setting geometry
+# 		self.setGeometry(100, 100, 600, 400)
 
-    # If 'q' is pressed, exit loop
-    if key == ord('q'):
-        break
+# 		# calling method
+# 		self.UiComponents()
 
-# Release resources
-cap.release()
-cv2.destroyAllWindows()
+# 		# showing all the widgets
+# 		self.show()
+
+# 	# method for widgets
+# 	def UiComponents(self):
+
+# 		# creating a combo box widget
+# 		self.combo_box = QComboBox(self)
+
+# 		# setting geometry of combo box
+# 		self.combo_box.setGeometry(200, 150, 120, 30)
+
+# 		# geek list
+# 		geek_list = ["Geek", "Geeky Geek", "Legend Geek", "Ultra Legend Geek"]
+
+# 		# adding list of items to combo box
+# 		self.combo_box.addItems(geek_list)
+
+# 		# item
+# 		item ="Legend Geek"
+
+# 		# setting current item
+# 		self.combo_box.currentText()
+
+
+# # create pyqt5 app
+# App = QApplication(sys.argv)
+
+# # create the instance of our Window
+# window = Window()
+
+# # start the app
+# sys.exit(App.exec())
+
+import sys
+from PyQt5.Qt import QApplication
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QIntValidator, QDoubleValidator
+from PyQt5.QtWidgets import QWidget, QLineEdit, QFormLayout
+
+
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.e1 = QLineEdit()
+        self.e1.setValidator(QIntValidator())
+        self.e1.setMaxLength(4)
+        self.e1.setAlignment(Qt.AlignRight)
+
+        # This control will focus using the tab key
+        self.e1.setFocusPolicy(Qt.ClickFocus | Qt.TabFocus)
+
+        e2 = QLineEdit()
+        e2.setValidator(QDoubleValidator(0.99, 99.99, 2))
+
+        # This control will not focus using the tab key
+        e2.setFocusPolicy(Qt.ClickFocus | Qt.NoFocus)
+
+        self.flo = QFormLayout()
+        self.flo.addRow("integer validator", self.e1)
+        self.flo.addRow("Double validator", e2)
+
+        e3 = QLineEdit()
+        e3.setInputMask('+99_9999_999999')
+        self.flo.addRow("Input Mask", e3)
+
+        # This control will not focus using the tab key
+        e3.setFocusPolicy(Qt.ClickFocus | Qt.NoFocus)
+
+        e4 = QLineEdit()
+        self.flo.addRow("Text changed", e4)
+
+        # This control will focus using the tab key (this is the default behaviour you don't need to explicitly set it)
+        e4.setFocusPolicy(Qt.ClickFocus | Qt.TabFocus)
+
+        # Default focus behaviour
+        e5 = QLineEdit()
+        e5.setEchoMode(QLineEdit.Password)
+        self.flo.addRow("Password", e5)
+
+        e6 = QLineEdit("Hello Python")
+        e6.setReadOnly(True)
+        self.flo.addRow("Read Only", e6)
+
+        self.setLayout(self.flo)
+        self.setWindowTitle("Example")
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    mainWindow = MainWindow()
+    mainWindow.show()
+    sys.exit(app.exec_())
+
+
+
