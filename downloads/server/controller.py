@@ -177,6 +177,7 @@ class Controller(Client):
     def getPrice(self, vehicle=None):
         """ this method execute when press enter in barcode lineEdit """
 
+        print("==> masuk getPrice ..")
         jns_kendaraan = ""
         status_parkir = ""
         self.diff_formatted = ""
@@ -320,20 +321,37 @@ class Controller(Client):
                 # if status_parkir == "BELUM LUNAS":
                 #     self.components["tarif_transaksi"].setText( str(price) )
 
+            else:
+                self.clearKasirForm()
+
             if int(q_voucher_count[0][0]) > 0:
                 self.components["jns_kendaraan"].setCurrentIndex(0)
                 self.components["ket_status"].setText( "VOUCHER" )
                 self.components["tarif_transaksi"].setText("0")
                 print("==> cari di voucher")
 
+            else:
+                self.clearKasirForm()
+
+            # set focused on nopol
+            self.components['nopol_transaksi'].setFocus()
+            if vehicle is None:
+                self.components['nopol_transaksi'].setText("BL ")
+
+
         except Exception as e:
             # clear text box if false input barcode
-            self.components["jns_kendaraan"].setCurrentIndex(0)
-            self.components["ket_status"].setText("")
-            self.components["tarif_transaksi"].setText("")
-
+            self.clearKasirForm()
             self.logger.error(str(e))
     
+
+    def clearKasirForm(self):
+        self.components["barcode_transaksi"].setText("")
+        self.components["jns_kendaraan"].setCurrentIndex(0)
+        self.components["nopol_transaksi"].setText("")
+        self.components["ket_status"].setText("")
+        self.components["tarif_transaksi"].setText("")
+
     def changeVehicle(self):
         # update price
         print("==> change vehicle ... get new price")
@@ -513,16 +531,15 @@ class Controller(Client):
 
                 # self.exec_query(f"update karcis set status_parkir=true, jenis_kendaraan='{kendaraan}', tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='casual' where barcode='{barcode}'")
                 
-                # clear all text box and disable button
-                self.components["barcode_transaksi"].setText("")
-                self.components["jns_kendaraan"].setCurrentIndex(0)
-                self.components["nopol_transaksi"].setText("")
-                self.components["ket_status"].setText("")
-                self.components["tarif_transaksi"].setText("")
+                # clear all text box and disable input
+                self.clearKasirForm()
                 
                 # send data to server to open the gate
                 self.logger.debug("open gate ... ")
                 # self.s.sendall( bytes('gate#'+self.ip_raspi+'#end', 'utf-8') )
+
+                # set focus back to input barcode
+                self.components['barcode_transaksi'].setFocus()
 
                 # modal
                 dlg = QMessageBox(self.window)

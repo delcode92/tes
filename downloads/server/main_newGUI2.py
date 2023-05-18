@@ -3222,7 +3222,7 @@ class Main(Util, View):
         
         # list kendaraan
         q_kendaraan = self.exec_query(f"select jns_kendaraan from tarif", "select")
-        list_kendaraan = []
+        list_kendaraan = ["--"]
         # print("==> len: ", len(q_kendaraan))
         for i in range( len(q_kendaraan) ):
             list_kendaraan.append(q_kendaraan[i][0].lower())
@@ -3291,7 +3291,6 @@ class Main(Util, View):
                     {
                         "name":"nopol_transaksi",
                         "category":"lineEdit",
-                        "text":"BL ",
                         "style": self.primary_input + "font-weight: 600;",
                         # "event":{
                         #     "trigger": "tab",
