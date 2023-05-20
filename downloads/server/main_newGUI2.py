@@ -880,27 +880,43 @@ class Main(Util, View):
 
     def findVoucher(self):
         print("search voucher status ... ")
+    
+   
+    def lostTicket(self):
+        class PopupWindow(QDialog):
+            def __init__(self, parent=None):
+                super().__init__(parent)
+                
+                layout = QVBoxLayout()
+                inpt_nopol = QLineEdit()
+                layout.addWidget( QLabel("NOPOL:") )
+                layout.addWidget(inpt_nopol)
+                
+                self.setLayout(layout)
+                self.setWindowModality(Qt.ApplicationModal)
+                self.setWindowTitle("Lost Ticket")
 
-    def PopUpReportUser(self):
-
-        dlg = QMessageBox(self.window)
-        dlg.setWindowTitle( "test title" )
-        dlg.setLayout(QVBoxLayout())
-        label = QLabel("This is a popup window")
-        dlg.layout().addWidget(label)
-
-        # dlg.setText( msg )
-        # dlg.setIcon(QMessageBox.Information)
+            def keyPressEvent(self, event):
+                if event.key() == Qt.Key_Escape:
+                    self.close()
         
-        dlg.exec()
+        popup_window = PopupWindow()
+        popup_window.exec_()
     
     def Help(self):
         dlg = QMessageBox(self.window)
         dlg.setWindowTitle( "Keterangan Shortcut" )
         
-        dlg.setText("CTRL + h ==> HELP  \n\nCTRL + t ==> barcode focus \n\nCTRL + e ==> logout")
-        dlg.setStyleSheet("QLabel{margin-bottom:20px; margin-top: 20px; font-weight: 600; font-size: 13px;}");
+        dlg.setText(
+        """
+        CTRL + h ==> HELP  \n\n
+        CTRL + t ==> Barcode Focus \n\n
+        CTRL + e ==> LOGOUT \n\n
+        CTRL + o ==> Open Gate(darurat) \n\n
+        CTRL + l ==> Lost Ticket
+        """)
         
+        dlg.setStyleSheet("QLabel{margin-bottom:20px; margin-top: 20px; font-weight: 600; font-size: 13px;}");
         dlg.exec()
 
 
@@ -927,8 +943,8 @@ class Main(Util, View):
         elif command=="save": #laporan user bermasalah
             shortcut.activated.connect( self.setReport )
         
-        elif command=="popup-user-bermasalah":
-            shortcut.activated.connect( self.PopUpReportUser )
+        elif command=="lost-ticket":
+            shortcut.activated.connect( self.lostTicket )
         
         elif command=="logout":
             shortcut.activated.connect( self.kasirLogout )
@@ -940,6 +956,8 @@ class Main(Util, View):
             shortcut.activated.connect( self.openGate )
         elif command=="search-voucher":
             shortcut.activated.connect( self.findVoucher )
+    
+
 
     def setColsStretch(self, table, cols):
         header = table.horizontalHeader()
@@ -3334,6 +3352,11 @@ class Main(Util, View):
                         "editable": False,
                         "style": self.primary_input + "height: 45px; font-weight: 600; font-size:23px; background:#ffeaa7;",
                     },
+                    {
+                        "name":"lbl_ket_karcis",
+                        "category":"label",
+                        "style": self.primary_lbl + "font-size:13px; color:#fff; font-style: italic; margin-top:15px;"
+                    }
                     
                 ]
     
@@ -3447,15 +3470,14 @@ class Main(Util, View):
         self.keyShortcut(keyCombination="Ctrl+b", command="pay")
         
         # lap user bermasalah
-        # self.keyShortcut(keyCombination="Ctrl+l", targetWidget=self.components["barcode_bermasalah"])
-        self.keyShortcut(keyCombination="Ctrl+l", command="popup-user-bermasalah")
+        self.keyShortcut(keyCombination="Ctrl+l", command="lost-ticket")
         
         self.keyShortcut(keyCombination="Ctrl+e", command="logout")
         
         self.keyShortcut(keyCombination="Ctrl+h", command="help")
         
         # save btn - lap user bermasalah
-        self.keyShortcut(keyCombination="Ctrl+s", command="save")
+        # self.keyShortcut(keyCombination="Ctrl+s", command="save")
         
         # open gate keluar
         self.keyShortcut(keyCombination="Ctrl+o", command="open-gate")

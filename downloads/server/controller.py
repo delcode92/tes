@@ -187,12 +187,13 @@ class Controller(Client):
             # get time based on barcode
             barcode = self.components["barcode_transaksi"].text()
             q_karcis_count = self.exec_query(f"select count(*) as jum from karcis where barcode='{barcode}'", "select")
-            q_voucher_count = self.exec_query(f"select count(*) as jum from voucher where id_pel='{barcode}'", "select")
+            # q_voucher_count = self.exec_query(f"select count(*) as jum from voucher where id_pel='{barcode}'", "select")
 
             # print("==>val: ", query_karcis[0], type(query_karcis[0]))
             
-            # jika ada data
+            ############### jika ada data bayar ##############
             if int(q_karcis_count[0][0]) > 0:
+
                 query_karcis = self.exec_query(f"select datetime, date_keluar, jenis_kendaraan, status_parkir from karcis where barcode='{barcode}'", "select")
                
                 jns_kendaraan = query_karcis[0][2].lower() if vehicle is None else vehicle
@@ -200,8 +201,10 @@ class Controller(Client):
                
                 if query_karcis[0][3]:
                     status_parkir = "LUNAS"
+                    self.components["lbl_ket_karcis"].setText("**karcis sudah pernah terpakai dan lunas")
                 elif not query_karcis[0][3]:
                     status_parkir = "BELUM LUNAS"
+                    self.components["lbl_ket_karcis"].setText("")
                 
                 self.components["ket_status"].setText( status_parkir )
 
@@ -272,71 +275,45 @@ class Controller(Client):
                 elif parking_seconds < tolerance:
                     self.components["ket_status"].setText("FREE")
                     self.components["tarif_transaksi"].setText("0")
-                    
-                # total_hours = math.ceil(diff.total_seconds()/3600)
+
+                # set focused on nopol
+                self.components['nopol_transaksi'].setFocus()
+                if vehicle is None:
+                    self.components['nopol_transaksi'].setText("BL ")
+
                 
-                # print("====================")
-                # print("TH", total_hours, type(total_hours))
-                # print("jns kendaraan:", jns_kendaraan)
-                # print("====================\n\n")
+
+            # elif int(q_karcis_count[0][0]) == 0:
+            #     # jika data karcis tidak ada, cari di voucher
+            #     if int(q_voucher_count[0][0]) > 0:
+            #         # get jns_kendaraan from voucher based on id_pel
+                    
+            #         q_jns = self.exec_query(f"select jns_kendaraan from voucher where id_pel='{barcode}'", "select")
+            #         jk = q_jns[0][0].lower()
+            #         self.components["jns_kendaraan"].setCurrentText(jk)
+                    
+            #         self.components["ket_status"].setText( "VOUCHER" )
+            #         self.components["tarif_transaksi"].setText("0")
+                    
+            #     elif int(q_voucher_count[0][0]) == 0:
+            #         self.clearKasirForm()
             
-                # # get base price from db
-                # base_price = self.exec_query(f"select tarif_perjam,tarif_per24jam from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
-                # base_price_perjam = base_price[0][0] 
-                # base_price_per24jam = base_price[0][1] 
+            ################################################
+
+            ############### jika ada data voucher ##############
+            
+
+            # else:
+            #     self.clearKasirForm()
+
+            ###################################################
+
+            # if int(q_karcis_count[0][0]) > 0:
                 
-                # if total_hours==0:
-                #     jam = 1
-                #     price = jam * base_price_perjam
-                #     print("================")
-                #     print(jam, "jam")
-                #     print(price, "Rupiah")
-                #     print("================\n\n")
-                
-                # elif total_hours<24 and total_hours>0:
-                #     price = total_hours * base_price_perjam
-                    
-                #     print("================")
-                #     print(total_hours, "jam")
-                #     print(price, "Rupiah")
-                #     print("================\n\n")
-                
-                # elif total_hours>24:
-                #     hari = math.floor(total_hours/24)
-                #     jam = total_hours-(hari*24)
-
-                #     price = (hari*base_price_per24jam) + (jam*base_price_perjam)
-
-                #     print("================")
-                #     print(hari, "hari")
-                #     print(jam, "jam")
-                #     print(price, "Rupiah")
-                #     print("================\n\n")
-                
-                # # set value to textbox
-                # self.components["jns_kendaraan"].setText( jns_kendaraan )
-                # self.components["ket_status"].setText( str(status_parkir) )
-                
-                # # just show tarif and enable button if "BELUM LUNAS"
-                # if status_parkir == "BELUM LUNAS":
-                #     self.components["tarif_transaksi"].setText( str(price) )
-
-            else:
-                self.clearKasirForm()
-
-            if int(q_voucher_count[0][0]) > 0:
-                self.components["jns_kendaraan"].setCurrentIndex(0)
-                self.components["ket_status"].setText( "VOUCHER" )
-                self.components["tarif_transaksi"].setText("0")
-                print("==> cari di voucher")
-
-            else:
-                self.clearKasirForm()
-
-            # set focused on nopol
-            self.components['nopol_transaksi'].setFocus()
-            if vehicle is None:
-                self.components['nopol_transaksi'].setText("BL ")
+            #     # set focused on nopol
+            #     self.components['nopol_transaksi'].setFocus()
+            #     if vehicle is None:
+            #         self.components['nopol_transaksi'].setText("BL ")
 
 
         except Exception as e:
@@ -611,7 +588,10 @@ class Controller(Client):
             timer.start()        
 
     def add_voucher(self):
-        id_pel = self.components["add_voucher_idpel"].text()    
+        # remove space and set to lowercase
+        id_pel = self.components["add_voucher_idpel"].text()
+        id_pel = id_pel.replace(' ', '').lower()       
+
         lokasi = self.components["add_voucher_lokasi"].text()    
         tarif = self.components["add_voucher_tarif"].text()    
         masa_berlaku = self.components["add_voucher_masa_berlaku"].text()    
