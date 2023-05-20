@@ -259,7 +259,7 @@ class Main(Util, View):
                 case "kasir":
                     
                     res = self.exec_query("select * from kasir where id="+id, "select")
-
+                    shift = res[0][8]
                     components = [      {
                                             "name":"lbl_add_nik",
                                             "category":"label",
@@ -340,9 +340,21 @@ class Main(Util, View):
                                         },
                                         {
                                             "name":"add_nmr_pos",
-                                            "category":"lineEdit",
+                                            "category":"lineEditInt",
                                             "text":res[0][7],
                                             "style":self.primary_input
+                                        },
+                                        {
+                                            "name":"lbl_add_shift",
+                                            "category":"label",
+                                            "text": "Shift",
+                                            "style":self.primary_lbl + margin_top
+                                        },
+                                        {
+                                            "name":"add_nmr_shift",
+                                            "category":"comboBox",
+                                            "items":["shift-1", "shift-2", "shift-3", "shift-4", "shift-5"],
+                                            "style":self.primary_combobox + "background:none; color:#000;"
                                         },
                                         {
                                             "name":"btn_add_kasir",
@@ -820,7 +832,10 @@ class Main(Util, View):
             if form_type.lower() == "tarif":
                 self.check_tarif_type(tipe_tarif)
                 # print("==> tipe tarif: ", tipe_tarif)
-
+            
+            elif form_type.lower() == "kasir":
+                self.components['add_nmr_shift'].setCurrentText(shift)
+               
             self.win.show()
     
     
@@ -1461,9 +1476,9 @@ class Main(Util, View):
                 # create table widget
 
                 # fetch data from DB
-                query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
+                query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos, shift FROM kasir", "SELECT")
                 rows_count = len(query)
-                cols = 8
+                cols = 9
 
                 self.kasir_table.resizeRowsToContents()
                 self.kasir_table.horizontalHeader().setStretchLastSection(True)
@@ -1471,7 +1486,7 @@ class Main(Util, View):
                 self.kasir_table.setRowCount(rows_count)
                 self.kasir_table.setColumnCount(cols)
 
-                self.kasir_table.setHorizontalHeaderLabels(["id", "NIK", "Nama", "HP", "Alamat", "Jam Masuk", "Jam Kel", "POS/GATE"])
+                self.kasir_table.setHorizontalHeaderLabels(["id", "NIK", "Nama", "HP", "Alamat", "Jam Masuk", "Jam Kel", "POS/GATE", "SHIFT"])
                 self.kasir_table.setStyleSheet(View.table_style)
 
                 self.kasir_table.horizontalHeader().setDefaultAlignment(Qt.AlignLeft)
@@ -1508,7 +1523,7 @@ class Main(Util, View):
                                         "name":"lbl_add_nama",
                                         "category":"label",
                                         "text": "Nama",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl + "margin-top:15px;"
                                     },
                                     {
                                         "name":"add_nama",
@@ -1519,7 +1534,7 @@ class Main(Util, View):
                                         "name":"lbl_add_hp",
                                         "category":"label",
                                         "text": "Nomor HP",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl + "margin-top:15px;"
                                     },
                                     {
                                         "name":"add_hp",
@@ -1530,7 +1545,7 @@ class Main(Util, View):
                                         "name":"lbl_add_alamat",
                                         "category":"label",
                                         "text": "Alamat",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl + "margin-top:15px;"
                                     },
                                     {
                                         "name":"add_alamat",
@@ -1541,7 +1556,7 @@ class Main(Util, View):
                                         "name":"lbl_add_jam_masuk",
                                         "category":"label",
                                         "text": "Jam Masuk",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl + "margin-top:15px;"
                                     },
                                     {
                                         "name":"add_jam_masuk",
@@ -1552,7 +1567,7 @@ class Main(Util, View):
                                         "name":"lbl_add_jam_keluar",
                                         "category":"label",
                                         "text": "Jam Keluar",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl + "margin-top:15px;"
                                     },
                                     {
                                         "name":"add_jam_keluar",
@@ -1563,12 +1578,24 @@ class Main(Util, View):
                                         "name":"lbl_add_nmr_pos",
                                         "category":"label",
                                         "text": "Nomor Pos/Gate",
-                                        "style":self.primary_lbl + margin_top
+                                        "style":self.primary_lbl + "margin-top:15px;"
                                     },
                                     {
                                         "name":"add_nmr_pos",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
+                                    },
+                                    {
+                                        "name":"lbl_shift",
+                                        "category":"label",
+                                        "text": "Nomor Shift",
+                                        "style":self.primary_lbl + "margin-top:15px;"
+                                    },
+                                    {
+                                        "name":"add_nmr_shift",
+                                        "category":"comboBox",
+                                        "items":["shift-1", "shift-2", "shift-3", "shift-4", "shift-5"],
+                                        "style":self.primary_combobox + "background:none; color:#000;"
                                     },
                                     {
                                         "name":"btn_add_kasir",
@@ -3011,9 +3038,14 @@ class Main(Util, View):
             
         configur = ConfigParser()
         configur.read(ini)
+        
+        kasir_uname = self.components["input_uname"].text().lower()
+        q_kasir = self.exec_query(f"select nik, nama, jm_masuk, jm_keluar, no_pos, shift from kasir where nama='{kasir_uname}'","select")
+        no_pos = q_kasir[0][4]
+        no_shift = q_kasir[0][5]
 
-        ipcam1 = configur["gate1"]["ipcam1"]
-        ipcam2 = configur["gate1"]["ipcam2"]
+        ipcam1 = configur[f"gate{no_pos}"]["ipcam1"]
+        ipcam2 = configur[f"gate{no_pos}"]["ipcam2"]
         ##############################
 
         class Debug():
@@ -3266,7 +3298,7 @@ class Main(Util, View):
                     },
                     {
                         "name":"lbl_stat",
-                        "text":"shift ... ",
+                        "text":f"shift {no_shift}",
                         "category":"label",
                         "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff;"
                     },
@@ -3278,7 +3310,7 @@ class Main(Util, View):
                     },
                     {
                         "name":"lbl_pos",
-                        "text":"PK1",
+                        "text":f"PK{no_pos}",
                         "category":"label",
                         "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff;"
                     },
@@ -3288,9 +3320,9 @@ class Main(Util, View):
         center_content = [
                     {
                         "name":"lbl_barcode_transaksi",
-                        "text":"Barcode/Voucher:",
+                        "text":"BARCODE/VOUCHER:",
                         "category":"label",
-                        "style":self.primary_lbl
+                        "style":self.primary_lbl + "color:#f1c40f;"
                     },
                     {
                         "name":"barcode_transaksi",
@@ -3302,9 +3334,9 @@ class Main(Util, View):
                     },
                     {
                        "name":"lbl_nopol",
-                        "text":"Nopol:",
+                        "text":"NOPOL:",
                         "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
+                        "style":self.primary_lbl + "margin-top:20px; color:#f1c40f;"
                     },
                     {
                         "name":"nopol_transaksi",
@@ -3318,9 +3350,9 @@ class Main(Util, View):
                     },
                     {
                         "name":"lbl_jns_kendaraan",
-                        "text":"Jenis Kendaraan:",
+                        "text":"JENIS KENDARAAN:",
                         "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
+                        "style":self.primary_lbl + "margin-top:20px; color:#f1c40f;"
                     },
                     {
                         "name":"jns_kendaraan",
@@ -3330,9 +3362,9 @@ class Main(Util, View):
                     },
                     {
                         "name":"lbl_status",
-                        "text":"Status:",
+                        "text":"STATUS:",
                         "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
+                        "style":self.primary_lbl + "margin-top:20px; color:#f1c40f;"
                     },
                     {
                         "name":"ket_status",
@@ -3342,9 +3374,9 @@ class Main(Util, View):
                     },
                     {
                         "name":"lbl_tarif_transaksi",
-                        "text":"Tarif(Rp):",
+                        "text":"TARIF(Rp):",
                         "category":"label",
-                        "style":self.primary_lbl + "margin-top:15px;"
+                        "style":self.primary_lbl + "margin-top:20px; color:#f1c40f;"
                     },
                     {
                         "name":"tarif_transaksi",
@@ -3384,11 +3416,13 @@ class Main(Util, View):
         # add components to right
         # self.CreateComponentLayout(right_content, right_vbox)
         ipcam_lbl1 = QLabel("CAM 1")
+        ipcam_lbl1.setStyleSheet("color:#fff; font-weight:600;")
         self.image_label = QLabel()
         self.image_label.setMaximumSize(380, 200) # 4:3
         self.image_label.setAlignment(Qt.AlignCenter)
 
         ipcam_lbl2 = QLabel("CAM 2")
+        ipcam_lbl2.setStyleSheet("color:#fff; font-weight:600;")
         self.image_label2 = QLabel()
         self.image_label2.setMaximumSize(380, 200) # 4:3
         self.image_label2.setAlignment(Qt.AlignCenter)

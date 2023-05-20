@@ -410,7 +410,7 @@ class View:
                             background: #fff;
                         }
                         QComboBox{
-                            height:40px; 
+                            height:35px; 
                             background-color: blue;
                             selection-background-color: #192038;
                             color: #fff;

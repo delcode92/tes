@@ -33,7 +33,8 @@ insert into rfid(rfid, nama) values ('0014442825', 'susi');
 
 CREATE TABLE kasir ( id serial primary key, nik varchar(100), nama varchar(80), hp varchar(15), alamat varchar(255), jm_masuk varchar(10), jm_keluar varchar(10), no_pos varchar(10) );
 insert into kasir (nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos) values ('111223344', 'susi', '085263636', 'darussalam', '08:00', '12:00', '1');insert into kasir (nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos) values ('1144523344', 'budi', '0852636234', 'darussalam', '12:00', '18:00', '1');
- 
+ALTER TABLE kasir add column shift varchar(30);
+
 
 CREATE TABLE gate ( id serial primary key, no_pos varchar(10), tipe_pos varchar(30), jns_kendaraan varchar(50), ip_cam varchar(60) );
 insert into gate (no_pos, tipe_pos, jns_kendaraan, ip_cam) values ('1', 'masuk', 'motor', '192.168.100.10#192.168.100.12');

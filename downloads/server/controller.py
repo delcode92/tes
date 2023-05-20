@@ -493,16 +493,17 @@ class Controller(Client):
         jm_masuk = self.components["add_jam_masuk"].text()    
         jm_keluar = self.components["add_jam_keluar"].text()    
         no_pos = self.components["add_nmr_pos"].text()    
+        no_shift = self.components["add_nmr_shift"].currentText()    
         
         # save data
-        query = f"insert into kasir (nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos) values ('{nik}', '{nama}', '{hp}', '{alamat}', '{jm_masuk}', '{jm_keluar}', '{no_pos}');"
+        query = f"insert into kasir (nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos, shift) values ('{nik}', '{nama}', '{hp}', '{alamat}', '{jm_masuk}', '{jm_keluar}', '{no_pos}', '{no_shift}');"
         res = self.exec_query(query)
         
         if res:
 
             # reset table value
-            query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
-            cols = 8
+            query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos, shift FROM kasir", "SELECT")
+            cols = 9
 
             self.fillTable(self.kasir_table, cols, query, len(query))
 
@@ -763,17 +764,18 @@ class Controller(Client):
         jm_masuk = self.components["add_jam_masuk"].text()
         jm_keluar = self.components["add_jam_keluar"].text()
         no_pos = self.components["add_nmr_pos"].text()
+        no_shift = self.components["add_nmr_shift"].currentText()
 
         # run update query
-        self.exec_query(f"update kasir set nik='{nik}', nama='{nama}', hp='{hp}', alamat='{alamat}', jm_masuk='{jm_masuk}', jm_keluar='{jm_keluar}', no_pos='{no_pos}'  where id="+id)
+        self.exec_query(f"update kasir set nik='{nik}', nama='{nama}', hp='{hp}', alamat='{alamat}', jm_masuk='{jm_masuk}', jm_keluar='{jm_keluar}', no_pos='{no_pos}', shift='{no_shift}'  where id="+id)
         
 
         # close window edit
         self.win.close()
 
         # reset table value
-        query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos FROM kasir", "SELECT")
-        cols = 8
+        query = self.exec_query("SELECT id, nik, nama, hp, alamat, jm_masuk, jm_keluar, no_pos, shift FROM kasir", "SELECT")
+        cols = 9
 
         self.fillTable(self.kasir_table, cols, query)
 
@@ -1785,7 +1787,7 @@ class Controller(Client):
                                     },
                                     {
                                         "name":"add_nmr_pos",
-                                        "category":"lineEdit",
+                                        "category":"lineEditInt",
                                         "style":self.primary_input
                                     },
                                     {
