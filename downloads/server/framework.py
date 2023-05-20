@@ -538,7 +538,7 @@ class EventBinder(QObject):
         if event.type() == QEvent.KeyPress and source is self.target:
             if self.key_trigger is None:
                 if event.key() == Qt.Key_Return:
-                    print('===> Enter pressed bro')
+                    # print('===> Enter pressed bro')
                     self.eventTarget() # run method
 
                 # if event.key() == Qt.Key_Return and self.target.hasFocus():

@@ -3297,7 +3297,7 @@ class Main(Util, View):
                         "category":"lineEditInt",
                         "style": self.primary_input + "font-weight: 600;",
                         "event": {
-                            "method_name": self.getPrice
+                            "method_name": self.nopolFocus
                         }
                     },
                     {
