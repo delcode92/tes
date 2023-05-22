@@ -898,15 +898,62 @@ class Main(Util, View):
     
    
     def lostTicket(self):
+        
         class PopupWindow(QDialog):
-            def __init__(self, parent=None):
+            
+            def __init__(self, query, parent=None):
                 super().__init__(parent)
                 
+                self.resize(400, 350)
+                self.setContentsMargins(15,15,15,15)
+
+                print("===>> ", self.parentWidget(), type(self))
+                # self.parentWidget().setStyleSheet("margin: 8px;")
+                # self.setStyleSheet("margin: 8px;")
+
                 layout = QVBoxLayout()
                 inpt_nopol = QLineEdit()
-                layout.addWidget( QLabel("NOPOL:") )
+                jns_kendaraan = QComboBox()
+                stat = QLabel("...")
+                tarif = QLabel("...")
+                nopol = QLabel("NOPOL:")
+                jns_kend_lbl = QLabel("JENIS KENDARAAN:")
+                stat_lbl = QLabel("STATUS:")
+                tarif_lbl = QLabel("TARIF(Rp):")
+
+                css = "margin-top:15px; font-size:13px; font-weight:500;"
+
+                inpt_nopol.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+                jns_kendaraan.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+                nopol.setStyleSheet("font-weight:500;")
+                jns_kend_lbl.setStyleSheet(css)
+                stat_lbl.setStyleSheet(css)
+                tarif_lbl.setStyleSheet(css)
+
+                stat.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
+                tarif.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
+                # list kendaraan
+                list_kendaraan = ["--"]
+                for i in range( len(query) ):
+                    list_kendaraan.append(query[i][0].lower())
+
+                jns_kendaraan.addItems( list_kendaraan )
+
+                layout.addWidget( nopol )
                 layout.addWidget(inpt_nopol)
                 
+
+                layout.addWidget( jns_kend_lbl )
+                layout.addWidget(jns_kendaraan)
+                
+                layout.addWidget(stat_lbl)
+                layout.addWidget(stat)
+               
+                layout.addWidget(tarif_lbl)
+                layout.addWidget(tarif)
+                
+                layout.addStretch(1)
+
                 self.setLayout(layout)
                 self.setWindowModality(Qt.ApplicationModal)
                 self.setWindowTitle("Lost Ticket")
@@ -915,7 +962,8 @@ class Main(Util, View):
                 if event.key() == Qt.Key_Escape:
                     self.close()
         
-        popup_window = PopupWindow()
+        self.q_kendaraan = self.exec_query(f"select jns_kendaraan from tarif", "select")
+        popup_window = PopupWindow(self.q_kendaraan)
         popup_window.exec_()
     
     def Help(self):
@@ -3273,7 +3321,6 @@ class Main(Util, View):
         # list kendaraan
         q_kendaraan = self.exec_query(f"select jns_kendaraan from tarif", "select")
         list_kendaraan = ["--"]
-        # print("==> len: ", len(q_kendaraan))
         for i in range( len(q_kendaraan) ):
             list_kendaraan.append(q_kendaraan[i][0].lower())
         
@@ -3298,7 +3345,7 @@ class Main(Util, View):
                     },
                     {
                         "name":"lbl_stat",
-                        "text":f"shift {no_shift}",
+                        "text":f"{no_shift}",
                         "category":"label",
                         "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff;"
                     },
@@ -3501,6 +3548,7 @@ class Main(Util, View):
         self.keyShortcut(keyCombination="Ctrl+f", command="search-voucher")
         
         # btn bayar
+
         self.keyShortcut(keyCombination="Ctrl+b", command="pay")
         
         # lap user bermasalah
