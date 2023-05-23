@@ -1,9 +1,10 @@
-import sys,cv2,os, json, logging
+import sys,cv2,os, json, logging, re
 from framework import *
 # from kasir_ipcam import *
 from _thread import start_new_thread
 from configparser import ConfigParser
 from PyQt5.QtWidgets import QDialog
+from datetime import datetime
 
 class ClickableLabel(QLabel):
     def __init__(self, text):
@@ -15,6 +16,9 @@ class ClickableLabel(QLabel):
     clicked = pyqtSignal()
 
 class Main(Util, View):
+    no_pos = ""
+    kd_shift = ""
+
     def __init__(self) -> None:
         # 1. initialize important property & method from all parents
         # exampel : in Components Class --> self.components = {}
@@ -29,7 +33,6 @@ class Main(Util, View):
         self.mdi = None
         self.app_stat = False
         self.hidden_id = -1 # hidden id
-
         # steps
         
         # create thread for connect to server
@@ -898,7 +901,7 @@ class Main(Util, View):
     
    
     def lostTicket(self):
-        
+       
         class PopupWindow(QDialog):
             
             def __init__(self, query, parent=None):
@@ -907,15 +910,14 @@ class Main(Util, View):
                 self.resize(400, 350)
                 self.setContentsMargins(15,15,15,15)
 
-                print("===>> ", self.parentWidget(), type(self))
                 # self.parentWidget().setStyleSheet("margin: 8px;")
                 # self.setStyleSheet("margin: 8px;")
 
                 layout = QVBoxLayout()
-                inpt_nopol = QLineEdit()
-                jns_kendaraan = QComboBox()
-                stat = QLabel("...")
-                tarif = QLabel("...")
+                self.inpt_nopol = QLineEdit()
+                self.jns_kendaraan = QComboBox()
+                stat = QLabel("LOST TICKET")
+                self.tarif = QLabel("...")
                 nopol = QLabel("NOPOL:")
                 jns_kend_lbl = QLabel("JENIS KENDARAAN:")
                 stat_lbl = QLabel("STATUS:")
@@ -923,40 +925,106 @@ class Main(Util, View):
 
                 css = "margin-top:15px; font-size:13px; font-weight:500;"
 
-                inpt_nopol.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
-                jns_kendaraan.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+                self.inpt_nopol.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+                self.jns_kendaraan.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
                 nopol.setStyleSheet("font-weight:500;")
                 jns_kend_lbl.setStyleSheet(css)
                 stat_lbl.setStyleSheet(css)
                 tarif_lbl.setStyleSheet(css)
 
                 stat.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
-                tarif.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
+                self.tarif.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
                 # list kendaraan
                 list_kendaraan = ["--"]
                 for i in range( len(query) ):
                     list_kendaraan.append(query[i][0].lower())
 
-                jns_kendaraan.addItems( list_kendaraan )
+                self.jns_kendaraan.addItems( list_kendaraan )
 
                 layout.addWidget( nopol )
-                layout.addWidget(inpt_nopol)
+                layout.addWidget(self.inpt_nopol)
                 
 
                 layout.addWidget( jns_kend_lbl )
-                layout.addWidget(jns_kendaraan)
+                layout.addWidget(self.jns_kendaraan)
                 
                 layout.addWidget(stat_lbl)
                 layout.addWidget(stat)
                
                 layout.addWidget(tarif_lbl)
-                layout.addWidget(tarif)
+                layout.addWidget(self.tarif)
                 
                 layout.addStretch(1)
+
+                # binder
+                EventBinder(self.inpt_nopol, self.nopolEnter)
+                self.jns_kendaraan.activated.connect(self.changeVehicle)
 
                 self.setLayout(layout)
                 self.setWindowModality(Qt.ApplicationModal)
                 self.setWindowTitle("Lost Ticket")
+            
+            def nopolEnter(self):
+                # check if nopol valid ?
+                pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
+                pattern2 = r'^\D+\d{1,4}\s*\D*$'
+
+                match1 = re.match(pattern1, self.inpt_nopol.text())
+                match2 = re.match(pattern2, self.inpt_nopol.text())
+
+                if match1 or match2:
+
+                    # check if all field is filled
+                    if self.inpt_nopol.text() != "" and self.jns_kendaraan.currentText() != "--":
+                        self.setPay()
+
+                    elif self.inpt_nopol.text() != "" and self.jns_kendaraan.currentText() == "--":
+                        self.focusDropDown()
+                else:
+                    dlg = QMessageBox()
+            
+                    dlg.setWindowTitle("Alert")
+                    dlg.setText("Nopol Tidak Valid!")
+                    dlg.setIcon(QMessageBox.Information)
+                    dlg.exec()
+
+            def setPay(self):
+                # logic setpay
+                date_now = datetime.now()
+                date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+                
+                q = Controller.exec_query(f"""insert into karcis (
+                    barcode, gate, 
+                    status_parkir, jenis_kendaraan, 
+                    date_keluar, tarif, nopol, 
+                    kd_shift, jns_transaksi, 
+                    images_path_keluar, lost_ticket) 
+                    values('000000', '{Main.no_pos}', true, 
+                    '{self.jns_kendaraan.currentText()}', 
+                    '{date_now}', {int(self.denda)}, 
+                    '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
+               
+                print("from setpay")
+                
+                # open gate
+
+                # alert save success
+
+
+            
+            def getPrice(self):
+                jns_kendaraan = self.jns_kendaraan.currentText().lower()
+                q_denda = Controller.exec_query(f"select denda from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
+                self.denda = q_denda[0][0]
+                self.tarif.setText(self.denda)
+
+            def changeVehicle(self):
+                self.getPrice()
+                self.inpt_nopol.setFocus()
+            
+            def focusDropDown(self):
+                self.jns_kendaraan.setFocus()
+                self.jns_kendaraan.showPopup()
 
             def keyPressEvent(self, event):
                 if event.key() == Qt.Key_Escape:
@@ -3091,6 +3159,11 @@ class Main(Util, View):
         q_kasir = self.exec_query(f"select nik, nama, jm_masuk, jm_keluar, no_pos, shift from kasir where nama='{kasir_uname}'","select")
         no_pos = q_kasir[0][4]
         no_shift = q_kasir[0][5]
+
+        # ========== for lost ticket & offline ticket ===============
+        Main.no_pos = q_kasir[0][4]
+        Main.kd_shift = q_kasir[0][5]
+        # ===========================================================
 
         ipcam1 = configur[f"gate{no_pos}"]["ipcam1"]
         ipcam2 = configur[f"gate{no_pos}"]["ipcam2"]

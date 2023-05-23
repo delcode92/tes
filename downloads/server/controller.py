@@ -13,6 +13,7 @@ from fpdf import FPDF
 # from framework import View
 
 class Controller(Client):
+    
     def __init__(self) -> None:
         # self.Util.__init__(self)
         
@@ -357,6 +358,7 @@ class Controller(Client):
     
     def kasirWindowEnter(self):
         print("==> kasirWindowEnter()")
+        print("lost ticket", Controller.lostTicket_form)
         
         # check if barcode  and nopol filled ?
         barcode = self.components['barcode_transaksi'].text()
