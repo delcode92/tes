@@ -5,6 +5,7 @@ from _thread import start_new_thread
 from configparser import ConfigParser
 from PyQt5.QtWidgets import QDialog
 from datetime import datetime
+from time import sleep
 
 class ClickableLabel(QLabel):
     def __init__(self, text):
@@ -18,6 +19,7 @@ class ClickableLabel(QLabel):
 class Main(Util, View):
     no_pos = ""
     kd_shift = ""
+    kasir_uname = ""
 
     def __init__(self) -> None:
         # 1. initialize important property & method from all parents
@@ -3146,7 +3148,46 @@ class Main(Util, View):
         if not self.app_stat:
             self.app_stat = True
             sys.exit(self.app.exec_())
-   
+    
+    def checkRoller(self, win, x):
+        # while True:
+        print(f"select roller_stat from kasir where nama='{self.kasir_uname}'")
+
+        q_roller = self.exec_query(f"select roller_stat from kasir where nama='{self.kasir_uname}'","select")
+        print("==> roller: ", q_roller[0][0], type(q_roller[0][0]))
+
+        if not q_roller[0][0]:
+            # self.dialogBox(title="Alert Roller Printer", msg="ROLLER PRINTER HABIS, TOLONG DICEK DI GATE MASUK !!!")
+            
+            dlg = QMessageBox(win)
+            dlg.setWindowTitle( "Alert Roller Printer" )
+            dlg.setText( "ROLLER PRINTER HABIS, TOLONG DICEK DI GATE MASUK !!!" )
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
+           
+            # class PopupWindow(QDialog):
+            
+            #     def __init__(self, parent=None):
+            #         super().__init__(parent)
+                    
+            #         self.resize(400, 350)
+            #         self.setContentsMargins(15,15,15,15)  
+            #         self.setWindowModality(Qt.ApplicationModal)
+            #         self.setWindowTitle("Lost Ticket")
+            #         self.show()
+
+            # x = PopupWindow()
+            # x.exec
+
+        elif q_roller[0][0]:
+            print("roller masih ada")
+
+            # sleep(5)
+    
+    def coba(self, uname):
+        x = Controller.exec_query(f"select * from kasir", "select")
+        print(" data 123 bro")
+
     def KasirDashboard(self):
         
         ####### get ipcam ip ########
@@ -3155,8 +3196,10 @@ class Main(Util, View):
         configur = ConfigParser()
         configur.read(ini)
         
-        kasir_uname = self.components["input_uname"].text().lower()
-        q_kasir = self.exec_query(f"select nik, nama, jm_masuk, jm_keluar, no_pos, shift from kasir where nama='{kasir_uname}'","select")
+        self.kasir_uname = self.components["input_uname"].text().lower()
+        Main.kasir_uname = self.components["input_uname"].text().lower()
+
+        q_kasir = self.exec_query(f"select nik, nama, jm_masuk, jm_keluar, no_pos, shift from kasir where nama='{self.kasir_uname}'","select")
         no_pos = q_kasir[0][4]
         no_shift = q_kasir[0][5]
 
@@ -3169,6 +3212,10 @@ class Main(Util, View):
         ipcam2 = configur[f"gate{no_pos}"]["ipcam2"]
         ##############################
 
+        # check print roller  thread
+        # start_new_thread(self.checkRoller, (self.window,None))
+       
+            
         class Debug():
             def __init__(self) -> None:
                 self.logger = logging.getLogger()
@@ -3192,6 +3239,28 @@ class Main(Util, View):
                 self.logger.addHandler(console_handler)
                 self.logger.addHandler(file_handler)
 
+        class checkRoller(QThread, Controller):
+            def run(self):
+                debug = Debug()
+                
+                debug.logger.info("Run Cam Thread 1 ...")
+
+                while True:
+                    try:
+                        # print(f"select roller_stat from kasir where nama='{Main.kasir_uname}'")
+                        # x = Controller.exec_query("select * from kasir","select")
+                        # # Main.coba(None)
+                        # print(x)
+                        ...
+                        # print("==> roller: ", q_roller, type(q_roller))
+                        # print("==> roller: ", q_roller[0][0], type(q_roller[0][0]))
+                    except Exception as e:
+                        debug.logger.error(str(e))
+
+                    self.msleep(5000)
+            
+            # def uname(self, uname):
+            #     return uname
 
         class playCam1(QThread):
             
@@ -3561,7 +3630,9 @@ class Main(Util, View):
         self.th2.cp2.connect(self.setImageKasir2) 
         self.th2.start()
 
-       
+        roller_thread = checkRoller(parent=self.window)   
+        # roller_thread.uname(self.kasir_uname)
+        roller_thread.start()
 
         # self.cap_1 = cv2.VideoCapture(self.stream_url_1)
         # self.cap_2 = cv2.VideoCapture(self.stream_url_2)

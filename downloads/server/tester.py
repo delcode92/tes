@@ -318,52 +318,54 @@
 # # start the app
 # sys.exit(App.exec())
 
-import sys
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QVBoxLayout, QLabel,QLineEdit
+import sys,re
+# from PyQt5.QtCore import Qt
+# from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog, QVBoxLayout, QLabel,QLineEdit
 
 
-class PopupWindow(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
+# class PopupWindow(QDialog):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
         
-        layout = QVBoxLayout()
-        label = QLabel("This is a popup window.")
-        n_input = QLineEdit()
-        layout.addWidget(label)
-        layout.addWidget(n_input)
+#         layout = QVBoxLayout()
+#         label = QLabel("This is a popup window.")
+#         n_input = QLineEdit()
+#         layout.addWidget(label)
+#         layout.addWidget(n_input)
         
-        self.setLayout(layout)
-        self.setWindowModality(Qt.ApplicationModal)
-        self.setWindowTitle("Popup Window")
+#         self.setLayout(layout)
+#         self.setWindowModality(Qt.ApplicationModal)
+#         self.setWindowTitle("Popup Window")
 
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Escape:
-            self.close()
-
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.setWindowTitle("Main Window")
-        self.setGeometry(100, 100, 400, 300)
-
-    def keyPressEvent(self, event):
-        if event.modifiers() == Qt.ControlModifier and event.key() == Qt.Key_N:
-            self.open_popup_window()
-
-    def open_popup_window(self):
-        popup_window = PopupWindow(self)
-        popup_window.exec_()
+#     def keyPressEvent(self, event):
+#         if event.key() == Qt.Key_Escape:
+#             self.close()
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+
+#         self.setWindowTitle("Main Window")
+#         self.setGeometry(100, 100, 400, 300)
+
+#     def keyPressEvent(self, event):
+#         if event.modifiers() == Qt.ControlModifier and event.key() == Qt.Key_N:
+#             self.open_popup_window()
+
+#     def open_popup_window(self):
+#         popup_window = PopupWindow(self)
+#         popup_window.exec_()
+
+
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     window = MainWindow()
+#     window.show()
+#     sys.exit(app.exec_())
 
 
 
 
+gate_number = re.search('roller#(.+?)#end', 'roller#"2"#end').group(1)
+print("==> gate number: ", gate_number)

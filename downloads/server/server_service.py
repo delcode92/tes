@@ -903,6 +903,22 @@ class Server:
                             self.debug.logger.info("Open gate with ip : "+ ip)
 
                             self.list_of_clients[ip].sendall( bytes(f'open-true', 'utf-8') )
+                        
+                        elif "roller#" in msg:
+                            
+                            gate_number = re.search('roller#(.+?)#end', f'{msg}').group(1)
+                            gate_number = gate_number.replace('"', '')
+                            q_roller = self.exec_query(f"update kasir set roller_stat=false where no_pos='{gate_number}'")
+                            self.debug.logger.info("Karcis Habis, Gate : "+ gate_number)
+                            
+                        elif "resetRoller#" in msg:
+                            gate_number = re.search('resetRoller#(.+?)#end', f'{msg}').group(1)
+                            gate_number = gate_number.replace('"', '')
+                            
+                            print(f"update kasir set roller_stat=true where no_pos='{gate_number}'")
+                            q_roller = self.exec_query(f"update kasir set roller_stat=false where no_pos='{gate_number}'")
+                            self.debug.logger.info("reset roller, gate : "+ gate_number)
+                            
                     if not data:
                         break
             except:

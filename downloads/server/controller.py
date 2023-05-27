@@ -9,6 +9,7 @@ from configparser import ConfigParser
 from escpos.printer import Usb
 from datetime import datetime, timedelta
 from fpdf import FPDF
+# from time import sleep
 
 # from framework import View
 
@@ -127,6 +128,26 @@ class Controller(Client):
                 self.closeWindow(arg[0])
                 self.KasirDashboard()
     
+
+    # def checkRoller(self):
+    #     while True:
+    #         q_roller = self.exec_query(f"select roller_stat from kasir where nama='{self.kasir_uname}'","select")
+    #         print("==> roller: ", q_roller[0][0], type(q_roller[0][0]))
+
+    #         if not q_roller[0][0]:
+    #             self.dialogBox(title="Alert Roller Printer", msg="ROLLER PRINTER HABIS, TOLONG DICEK DI GATE MASUK !!!")
+                
+    #             # dlg = QMessageBox(self.window)
+    #             # dlg.setWindowTitle( "Alert Roller Printer" )
+    #             # dlg.setText( "ROLLER PRINTER HABIS, TOLONG DICEK DI GATE MASUK !!!" )
+    #             # dlg.setIcon(QMessageBox.Information)
+    #             # dlg.exec()  
+
+    #         elif q_roller[0][0]:
+    #             print("roller masih ada")
+
+    #         sleep(5)
+
     def calculate_parking_payment(self, rules, parking_seconds):
         
         # get max key:val
@@ -217,7 +238,7 @@ class Controller(Client):
                
                 if query_karcis[0][3]:
                     status_parkir = "LUNAS"
-                    self.components["lbl_ket_karcis"].setText("**karcis sudah pernah terpakai dan lunas")
+                    self.components["lbl_ket_karcis" ].setText("**karcis sudah pernah terpakai dan lunas")
                 elif not query_karcis[0][3]:
                     status_parkir = "BELUM LUNAS"
                     self.components["lbl_ket_karcis"].setText("")
