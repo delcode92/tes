@@ -6327,3 +6327,6 @@ Run video capture from --> rtsp://admin:admin@192.168.100.121
 'str' object has no attribute 'logger'
 'str' object has no attribute 'logger'
 'str' object has no attribute 'logger'
+'str' object has no attribute 'logger'
+'str' object has no attribute 'logger'
+'str' object has no attribute 'logger'
