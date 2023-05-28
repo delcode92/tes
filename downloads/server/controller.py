@@ -320,7 +320,33 @@ class Controller(Client):
 
                 
 
-            # elif int(q_karcis_count[0][0]) == 0:
+            elif int(q_karcis_count[0][0]) == 0:
+                # cek apakah karcis offline ?
+                first_three = barcode[:3]
+                if first_three == "000":
+                    # remove 000
+                    barcode = barcode.replace('000', "")
+                    print("==> offline barcode ", barcode)
+                    # get time delta
+                    
+                    # time_now = datetime.now().strftime("%H%M%S")
+
+                    # # Convert strings to datetime objects
+                    # dt1 = datetime.strptime(barcode, '%H%M%S')
+                    # dt2 = datetime.strptime(time_now, '%H%M%S')
+
+                    # # Calculate the time difference
+                    # time_diff = dt1 - dt2
+
+                    # j_kend = self.components["jns_kendaraan"].currentText()
+
+                    # print("d1:", dt1)
+                    # print("d2:", dt2)
+                    # print("ini karcis offline", time_diff)
+                    # print("jkend", j_kend)
+                    
+
+
             #     # jika data karcis tidak ada, cari di voucher
             #     if int(q_voucher_count[0][0]) > 0:
             #         # get jns_kendaraan from voucher based on id_pel

@@ -3689,7 +3689,7 @@ class Main(Util, View):
         
         # btn bayar
 
-        self.keyShortcut(keyCombination="Ctrl+b", command="pay")
+        # self.keyShortcut(keyCombination="Ctrl+b", command="pay")
         
         # lap user bermasalah
         self.keyShortcut(keyCombination="Ctrl+l", command="lost-ticket")
