@@ -1,4 +1,4 @@
-import sys, json, psycopg2, os, math, threading, logging, webbrowser, re
+import sys, json, psycopg2, os, math, threading, logging, webbrowser, re, serial, time
 from logging.handlers import TimedRotatingFileHandler
 
 from client.client_service import Client
@@ -99,6 +99,7 @@ class Controller(Client):
         except Exception as e:
             self.logger.info("\nexecute query fail")
             self.logger.error( str(e) )
+            # print( "wkwkkw: " + str(e) )
 
 
         if type.lower() =="select":
@@ -214,7 +215,6 @@ class Controller(Client):
     def getPrice(self, vehicle=None):
         """ this method execute when press enter in barcode lineEdit """
 
-        print("==> masuk getPrice ..")
         jns_kendaraan = ""
         status_parkir = ""
         self.diff_formatted = ""
@@ -379,7 +379,7 @@ class Controller(Client):
     
     def kasirWindowEnter(self):
         print("==> kasirWindowEnter()")
-        print("lost ticket", Controller.lostTicket_form)
+        # print("lost ticket", Controller.lostTicket_form)
         
         # check if barcode  and nopol filled ?
         barcode = self.components['barcode_transaksi'].text()
@@ -572,12 +572,12 @@ class Controller(Client):
     
     def setPay(self):
         # get barcode
-        # barcode = self.components["barcode_transaksi"].text()
-        # nopol = self.components["nopol_transaksi"].text()
-        # kendaraan = self.components["jns_kendaraan"].currentText()
-        # stat = self.components["ket_status"].text()
-        # stat = stat.lower()
-        # tarif = self.components["tarif_transaksi"].text()
+        barcode = self.components["barcode_transaksi"].text()
+        nopol = self.components["nopol_transaksi"].text()
+        kendaraan = self.components["jns_kendaraan"].currentText()
+        stat = self.components["ket_status"].text()
+        stat = stat.lower()
+        tarif = self.components["tarif_transaksi"].text()
 
         # pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
         # pattern2 = r'^\D+\d{1,4}\s*\D*$'
@@ -603,7 +603,7 @@ class Controller(Client):
         print("jns trans: ", jns_trans)
         print("==========*******==========")
 
-        # self.exec_query(f"update karcis set status_parkir=true, jenis_kendaraan='{kendaraan}', tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='{jns_trans}' where barcode='{barcode}'")
+        self.exec_query(f"update karcis set status_parkir=true, jenis_kendaraan='{kendaraan}', tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='{jns_trans}' where barcode='{barcode}'")
         
         # clear all text box and disable input
         self.clearKasirForm()
@@ -616,7 +616,18 @@ class Controller(Client):
         self.components['barcode_transaksi'].setFocus()
 
         # modal
-        self.dialogBox(title="Alert", msg="Payment success --> OPEN GATE KELUAR")
+        # self.dialogBox(title="Alert", msg="Payment success --> OPEN GATE KELUAR")
+        arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+
+        while True:
+            arduino.write(bytes("1", 'utf-8'))
+            data = arduino.readline()
+
+            n = len( data.decode('utf-8') )
+            if n > 0 : break;
+            time.sleep(0.01)
+
+        print("gate open ... ")
 
             # else:
             #     nopol = nopol.replace(' ', '').lower()

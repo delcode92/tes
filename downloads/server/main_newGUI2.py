@@ -903,17 +903,21 @@ class Main(Util, View):
     
    
     def lostTicket(self):
-       
+        
+        import psycopg2, serial, time
+
         class PopupWindow(QDialog):
             
-            def __init__(self, query, parent=None):
-                super().__init__(parent)
+            def __init__(self, query):
+                # super().__init__(parent)
+                super().__init__()
                 
                 self.resize(400, 350)
                 self.setContentsMargins(15,15,15,15)
 
                 # self.parentWidget().setStyleSheet("margin: 8px;")
                 # self.setStyleSheet("margin: 8px;")
+                self.connect_to_postgresql()
 
                 layout = QVBoxLayout()
                 self.inpt_nopol = QLineEdit()
@@ -966,6 +970,49 @@ class Main(Util, View):
                 self.setWindowModality(Qt.ApplicationModal)
                 self.setWindowTitle("Lost Ticket")
             
+            def getPath(self,fileName):
+                path = os.path.dirname(os.path.realpath(__file__))
+                
+                return '/'.join([path, fileName])
+    
+            def connect_to_postgresql(self):
+                try:
+                    ini = self.getPath("app.ini")
+                    
+                    configur = ConfigParser()
+                    configur.read(ini)
+                    
+                    conn = psycopg2.connect(
+                        database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
+                    )
+                    conn.autocommit = True
+                    self.db_cursor = conn.cursor()
+
+                except Exception as e:
+                    print( str(e) )    
+
+            def exec_query(self, query, type=""):
+        
+                try:
+                    self.db_cursor.execute(query)
+                    print("\nsuccess execute query")
+
+                    if type.lower() == "":    
+                        return True
+
+                except Exception as e:
+                    print("\nexecute query fail")
+                    print( str(e) )
+                    
+                if type.lower() =="select":
+                    data = self.db_cursor.fetchall()
+                    return data
+                
+                elif type.lower() =="cols_res":
+                    cols = [desc[0] for desc in self.db_cursor.description]
+                    data = self.db_cursor.fetchall()
+                    return cols,data
+
             def nopolEnter(self):
                 # check if nopol valid ?
                 pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
@@ -995,18 +1042,29 @@ class Main(Util, View):
                 date_now = datetime.now()
                 date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
                 
-                q = Controller.exec_query(f"""insert into karcis (
-                    barcode, gate, 
-                    status_parkir, jenis_kendaraan, 
-                    date_keluar, tarif, nopol, 
-                    kd_shift, jns_transaksi, 
-                    images_path_keluar, lost_ticket) 
-                    values('000000', '{Main.no_pos}', true, 
-                    '{self.jns_kendaraan.currentText()}', 
-                    '{date_now}', {int(self.denda)}, 
-                    '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
-               
-                print("from setpay")
+                # q = self.exec_query(f"""insert into karcis (
+                #     barcode, gate, 
+                #     status_parkir, jenis_kendaraan, 
+                #     date_keluar, tarif, nopol, 
+                #     kd_shift, jns_transaksi, 
+                #     images_path_keluar, lost_ticket) 
+                #     values('000000', '{Main.no_pos}', true, 
+                #     '{self.jns_kendaraan.currentText()}', 
+                #     '{date_now}', {int(self.denda)}, 
+                #     '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
+                
+                arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+
+                while True:
+                    arduino.write(bytes("1", 'utf-8'))
+                    data = arduino.readline()
+
+                    n = len( data.decode('utf-8') )
+                    if n > 0 : break;
+                    time.sleep(0.01)
+
+
+                print("from setpay: ==> buka gate")
                 
                 # open gate
 
@@ -1015,9 +1073,11 @@ class Main(Util, View):
 
             
             def getPrice(self):
+                """ get price from lost ticket """
+                
                 jns_kendaraan = self.jns_kendaraan.currentText().lower()
-                q_denda = Controller.exec_query(f"select denda from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
-                self.denda = q_denda[0][0]
+                q_denda = self.exec_query(f"select denda from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
+                self.denda = str( q_denda[0][0] )
                 self.tarif.setText(self.denda)
 
             def changeVehicle(self):
@@ -3149,45 +3209,6 @@ class Main(Util, View):
             self.app_stat = True
             sys.exit(self.app.exec_())
     
-    def checkRoller(self, win, x):
-        # while True:
-        print(f"select roller_stat from kasir where nama='{self.kasir_uname}'")
-
-        q_roller = self.exec_query(f"select roller_stat from kasir where nama='{self.kasir_uname}'","select")
-        print("==> roller: ", q_roller[0][0], type(q_roller[0][0]))
-
-        if not q_roller[0][0]:
-            # self.dialogBox(title="Alert Roller Printer", msg="ROLLER PRINTER HABIS, TOLONG DICEK DI GATE MASUK !!!")
-            
-            dlg = QMessageBox(win)
-            dlg.setWindowTitle( "Alert Roller Printer" )
-            dlg.setText( "ROLLER PRINTER HABIS, TOLONG DICEK DI GATE MASUK !!!" )
-            dlg.setIcon(QMessageBox.Information)
-            dlg.exec()
-           
-            # class PopupWindow(QDialog):
-            
-            #     def __init__(self, parent=None):
-            #         super().__init__(parent)
-                    
-            #         self.resize(400, 350)
-            #         self.setContentsMargins(15,15,15,15)  
-            #         self.setWindowModality(Qt.ApplicationModal)
-            #         self.setWindowTitle("Lost Ticket")
-            #         self.show()
-
-            # x = PopupWindow()
-            # x.exec
-
-        elif q_roller[0][0]:
-            print("roller masih ada")
-
-            # sleep(5)
-    
-    def coba(self, uname):
-        x = Controller.exec_query(f"select * from kasir", "select")
-        print(" data 123 bro")
-
     def KasirDashboard(self):
         
         ####### get ipcam ip ########
@@ -3212,9 +3233,6 @@ class Main(Util, View):
         ipcam2 = configur[f"gate{no_pos}"]["ipcam2"]
         ##############################
 
-        # check print roller  thread
-        # start_new_thread(self.checkRoller, (self.window,None))
-       
             
         class Debug():
             def __init__(self) -> None:
@@ -3239,29 +3257,7 @@ class Main(Util, View):
                 self.logger.addHandler(console_handler)
                 self.logger.addHandler(file_handler)
 
-        class checkRoller(QThread, Controller):
-            def run(self):
-                debug = Debug()
-                
-                debug.logger.info("Run Cam Thread 1 ...")
-
-                while True:
-                    try:
-                        # print(f"select roller_stat from kasir where nama='{Main.kasir_uname}'")
-                        # x = Controller.exec_query("select * from kasir","select")
-                        # # Main.coba(None)
-                        # print(x)
-                        ...
-                        # print("==> roller: ", q_roller, type(q_roller))
-                        # print("==> roller: ", q_roller[0][0], type(q_roller[0][0]))
-                    except Exception as e:
-                        debug.logger.error(str(e))
-
-                    self.msleep(5000)
-            
-            # def uname(self, uname):
-            #     return uname
-
+        
         class playCam1(QThread):
             
             cp = pyqtSignal(QImage)
@@ -3630,9 +3626,9 @@ class Main(Util, View):
         self.th2.cp2.connect(self.setImageKasir2) 
         self.th2.start()
 
-        roller_thread = checkRoller(parent=self.window)   
+        # roller_thread = checkRoller(parent=self.window)   
         # roller_thread.uname(self.kasir_uname)
-        roller_thread.start()
+        # roller_thread.start()
 
         # self.cap_1 = cv2.VideoCapture(self.stream_url_1)
         # self.cap_2 = cv2.VideoCapture(self.stream_url_2)
