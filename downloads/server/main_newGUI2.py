@@ -1042,19 +1042,20 @@ class Main(Util, View):
                 date_now = datetime.now()
                 date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
                 
-                # q = self.exec_query(f"""insert into karcis (
-                #     barcode, gate, 
-                #     status_parkir, jenis_kendaraan, 
-                #     date_keluar, tarif, nopol, 
-                #     kd_shift, jns_transaksi, 
-                #     images_path_keluar, lost_ticket) 
-                #     values('000000', '{Main.no_pos}', true, 
-                #     '{self.jns_kendaraan.currentText()}', 
-                #     '{date_now}', {int(self.denda)}, 
-                #     '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
+                q = self.exec_query(f"""insert into karcis (
+                    barcode, gate, 
+                    status_parkir, jenis_kendaraan, 
+                    date_keluar, tarif, nopol, 
+                    kd_shift, jns_transaksi, 
+                    images_path_keluar, lost_ticket) 
+                    values('000000', '{Main.no_pos}', true, 
+                    '{self.jns_kendaraan.currentText()}', 
+                    '{date_now}', {int(self.denda)}, 
+                    '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
                 
                 arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
 
+                # open gate
                 while True:
                     arduino.write(bytes("1", 'utf-8'))
                     data = arduino.readline()
@@ -1066,11 +1067,10 @@ class Main(Util, View):
 
                 print("from setpay: ==> buka gate")
                 
-                # open gate
-
-                # alert save success
-
-
+                # rest form
+                self.inpt_nopol.setText("")
+                self.jns_kendaraan.setCurrentIndex(0)
+                self.tarif.setText("...")
             
             def getPrice(self):
                 """ get price from lost ticket """
