@@ -2929,7 +2929,7 @@ class Main(Util, View):
                 lbl_shift.setStyleSheet( View.primary_lbl + " height: 25px; }" )
                 self.input_cari.setStyleSheet( View.primary_input + " height: 25px; }" )
                 
-                self.pilih_tgl1.setStyleSheet( View.primary_date + "width: 250px; height: 25px; }" )
+                self.pilih_tgl1.setStyleSheet( View.primary_date + "width: 250px; height: 25px; border: 2px solid red; }" )
                 self.pilih_tgl2.setStyleSheet( View.primary_date + "width: 250px; height: 25px; }" )
                 
                 self.pilih_jns_kendaraan.setStyleSheet( View.primary_combobox + " height: 25px; background:#fff; color: #000; }" )

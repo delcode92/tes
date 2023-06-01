@@ -321,31 +321,90 @@ class Controller(Client):
                 
 
             elif int(q_karcis_count[0][0]) == 0:
-                # cek apakah karcis offline ?
-                first_three = barcode[:3]
-                if first_three == "000":
-                    # remove 000
-                    barcode = barcode.replace('000', "")
-                    print("==> offline barcode ", barcode)
-                    # get time delta
-                    
-                    # time_now = datetime.now().strftime("%H%M%S")
+                """ execute when offline ticket """
+                print("===> disini broooo")
 
-                    # # Convert strings to datetime objects
-                    # dt1 = datetime.strptime(barcode, '%H%M%S')
-                    # dt2 = datetime.strptime(time_now, '%H%M%S')
+                if vehicle is None:
+                    self.components["jns_kendaraan"].setFocus()
+                    self.components["jns_kendaraan"].showPopup()
 
-                    # # Calculate the time difference
-                    # time_diff = dt1 - dt2
+                # check vehicle type
+                elif vehicle is not None:
+                    self.components["ket_status"].setText("BELUM LUNAS")
 
-                    # j_kend = self.components["jns_kendaraan"].currentText()
+                    # cek apakah karcis offline ?
+                    first_three = barcode[:3]
+                    if first_three == "000":
+                        # remove 000
+                        barcode = barcode.replace('000', "")
+                        print("==> offline barcode ", barcode)
+                        
 
-                    # print("d1:", dt1)
-                    # print("d2:", dt2)
-                    # print("ini karcis offline", time_diff)
-                    # print("jkend", j_kend)
-                    
+                        # # Convert strings to datetime objects
+                        time_now = datetime.now().strftime("%H%M%S")
+                        dt1 = datetime.strptime(time_now, '%H%M%S')
+                        dt2 = datetime.strptime(barcode, '%H%M%S')
 
+                        # # Calculate the time difference
+                        time_diff = dt1 - dt2
+
+                        parking_seconds = int( time_diff.total_seconds() )
+                        parking_seconds = parking_seconds*-1 if parking_seconds<0 else parking_seconds
+
+                        # check tolerance
+                        print(f"select toleransi, tipe_tarif, rules from tarif where jns_kendaraan='{vehicle}' or jns_kendaraan='{vehicle.lower()}'")
+                        query = self.exec_query(f"select toleransi, tipe_tarif, rules from tarif where jns_kendaraan='{vehicle}' or jns_kendaraan='{vehicle.lower()}'", "select")
+                        tolerance = int(query[0][0]) * 60
+
+                        # parse rules
+                        rules = json.loads( query[0][2] )
+
+                        if parking_seconds > tolerance:
+                            # cek kategori tarif
+                            if query[0][1] == "other":
+                                tot_pay = self.calculate_parking_payment(rules, parking_seconds)
+                                
+                                self.components["tarif_transaksi"].setText( str(tot_pay) )
+
+                            elif query[0][1] == "flat":
+                                # tarif flat artinya tarif konstan
+                                # get first key:value from json rules
+                                key,value = next( iter(rules.items()) )
+
+                                # set lineEdit
+                                self.components["tarif_transaksi"].setText( str(value) )
+
+                            
+                            elif query[0][1] == "progresif":
+                                # tarif artinya kelipatan dari jam yg di set
+                                h1,value = next( iter(rules.items()) )
+                                h1 = int(h1)
+                                value = int(value)
+
+                                ph = math.floor(parking_seconds/3600)
+                                h1_seconds = h1 * 60 * 60
+                                final_price = 0
+
+                                if parking_seconds>h1_seconds:
+                                    mod = parking_seconds % 3600
+
+                                    # exact multiple
+                                    if mod==0:
+                                        final_price = ph * value 
+                                    elif mod>0:
+                                        ph =math.floor( ph/h1 )
+                                        final_price = ( ph  * value) + value
+                                        
+                                elif parking_seconds <= h1_seconds:
+                                    final_price = value
+                                
+                                # set lineEdit
+                                self.components["tarif_transaksi"].setText( str(final_price) )
+                            
+                        elif parking_seconds < tolerance:
+                            self.components["ket_status"].setText("FREE")
+                            self.components["tarif_transaksi"].setText("0")
+                        
 
             #     # jika data karcis tidak ada, cari di voucher
             #     if int(q_voucher_count[0][0]) > 0:
@@ -427,7 +486,7 @@ class Controller(Client):
             if match1 or match2:
 
                 # check if all form field is filled
-                if kendaraan != "--" and stat != "" and tarif != "":
+                if kendaraan != "--" and stat != "lunas" and tarif != "":
                     self.setPay()
                     return 1
 
