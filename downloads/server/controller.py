@@ -14,7 +14,7 @@ from fpdf import FPDF
 # from framework import View
 
 class Controller(Client):
-    
+    kd_shift = ""
     def __init__(self) -> None:
         # self.Util.__init__(self)
         
@@ -696,8 +696,9 @@ class Controller(Client):
             date_masuk = str(self.date_masuk_offline)
             date_keluar = str(self.date_keluar_offline)
             lama_parkir = str(self.time_diff_offline)
-
-            self.exec_query(f"insert into karcis (barcode, datetime, status_parkir, jenis_kendaraan, date_keluar, lama_parkir, tarif, nopol, kd_shift, jns_transaksi, images_path_keluar) values ('{barcode}', '{date_masuk}', '{kendaraan}', '{date_keluar}', '{lama_parkir}', '{tarif}', '{nopol}', '{jns_trans}', '[IMG_PATH_KELUAR]')")
+            kd_shift = Controller.kd_shift
+            print(f"insert into karcis (barcode, datetime, status_parkir, jenis_kendaraan, date_keluar, lama_parkir, tarif, nopol, kd_shift, jns_transaksi, images_path_keluar) values ('{barcode}', '{date_masuk}', true, '{kendaraan}', '{date_keluar}', '{lama_parkir}', '{tarif}', '{nopol}', '{kd_shift}', '{jns_trans}', '[IMG_PATH_KELUAR]')")
+            self.exec_query(f"insert into karcis (barcode, datetime, status_parkir, jenis_kendaraan, date_keluar, lama_parkir, tarif, nopol, kd_shift, jns_transaksi, images_path_keluar) values ('{barcode}', '{date_masuk}', true,'{kendaraan}', '{date_keluar}', '{lama_parkir}', '{tarif}', '{nopol}', '{kd_shift}', '{jns_trans}', '[IMG_PATH_KELUAR]')")
 
         # clear all text box and disable input
         self.clearKasirForm()

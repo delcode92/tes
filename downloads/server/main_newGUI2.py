@@ -3227,6 +3227,7 @@ class Main(Util, View):
         # ========== for lost ticket & offline ticket ===============
         Main.no_pos = q_kasir[0][4]
         Main.kd_shift = q_kasir[0][5]
+        Controller.kd_shift = q_kasir[0][5]
         # ===========================================================
 
         ipcam1 = configur[f"gate{no_pos}"]["ipcam1"]
