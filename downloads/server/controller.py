@@ -318,11 +318,11 @@ class Controller(Client):
                 # if vehicle is None:
                 #     self.components['nopol_transaksi'].setText("BL ")
 
-                
-
             elif int(q_karcis_count[0][0]) == 0:
                 """ execute when offline ticket """
-                print("===> disini broooo")
+
+                self.time_now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                self.time_now = datetime.strptime(self.time_now, '%Y-%m-%d %H:%M:%S')
 
                 if vehicle is None:
                     self.components["jns_kendaraan"].setFocus()
@@ -330,7 +330,7 @@ class Controller(Client):
 
                 # check vehicle type
                 elif vehicle is not None:
-                    self.components["ket_status"].setText("BELUM LUNAS")
+                    self.components["ket_status"].setText("BELUM LUNAS (OFFLINE)")
 
                     # cek apakah karcis offline ?
                     first_three = barcode[:3]
@@ -341,18 +341,18 @@ class Controller(Client):
                         
 
                         # # Convert strings to datetime objects
-                        time_now = datetime.now().strftime("%H%M%S")
-                        dt1 = datetime.strptime(time_now, '%H%M%S')
-                        dt2 = datetime.strptime(barcode, '%H%M%S')
+                        self.date_keluar_offline = datetime.now().replace(microsecond=0)
+                        
+                        year = datetime.now().strftime("%Y-%m-%d")
+                        self.date_masuk_offline = datetime.strptime(year + " " + barcode[:2]+":"+barcode[2:4]+":"+barcode[4:6], "%Y-%m-%d %H:%M:%S")
 
                         # # Calculate the time difference
-                        time_diff = dt1 - dt2
-
-                        parking_seconds = int( time_diff.total_seconds() )
+                        self.time_diff_offline = self.date_keluar_offline - self.date_masuk_offline
+                        
+                        parking_seconds = int( self.time_diff_offline.total_seconds() )
                         parking_seconds = parking_seconds*-1 if parking_seconds<0 else parking_seconds
 
                         # check tolerance
-                        print(f"select toleransi, tipe_tarif, rules from tarif where jns_kendaraan='{vehicle}' or jns_kendaraan='{vehicle.lower()}'")
                         query = self.exec_query(f"select toleransi, tipe_tarif, rules from tarif where jns_kendaraan='{vehicle}' or jns_kendaraan='{vehicle.lower()}'", "select")
                         tolerance = int(query[0][0]) * 60
 
@@ -487,7 +487,10 @@ class Controller(Client):
 
                 # check if all form field is filled
                 if kendaraan != "--" and stat != "lunas" and tarif != "":
-                    self.setPay()
+                    if stat== "belum lunas (offline)":
+                        self.setPay(statOnline=False)
+                    else:
+                        self.setPay()
                     return 1
 
                 nopol = nopol.lower().replace(" ", "")
@@ -655,13 +658,12 @@ class Controller(Client):
             timer = threading.Timer(1.0, self.hideSuccess)
             timer.start()        
     
-    def setPay(self):
+    def setPay(self, statOnline=True):
         # get barcode
         barcode = self.components["barcode_transaksi"].text()
         nopol = self.components["nopol_transaksi"].text()
-        kendaraan = self.components["jns_kendaraan"].currentText()
-        stat = self.components["ket_status"].text()
-        stat = stat.lower()
+        kendaraan = self.components["jns_kendaraan"].currentText().lower()
+        stat = self.components["ket_status"].text().lower()
         tarif = self.components["tarif_transaksi"].text()
 
         # pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
@@ -688,8 +690,15 @@ class Controller(Client):
         print("jns trans: ", jns_trans)
         print("==========*******==========")
 
-        self.exec_query(f"update karcis set status_parkir=true, jenis_kendaraan='{kendaraan}', tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='{jns_trans}' where barcode='{barcode}'")
-        
+        if statOnline:
+            self.exec_query(f"update karcis set status_parkir=true, jenis_kendaraan='{kendaraan}', tarif='{tarif}', date_keluar='{dt_keluar}', lama_parkir='{self.diff_formatted}', jns_transaksi='{jns_trans}' where barcode='{barcode}'")
+        else:
+            date_masuk = str(self.date_masuk_offline)
+            date_keluar = str(self.date_keluar_offline)
+            lama_parkir = str(self.time_diff_offline)
+
+            self.exec_query(f"insert into karcis (barcode, datetime, status_parkir, jenis_kendaraan, date_keluar, lama_parkir, tarif, nopol, kd_shift, jns_transaksi, images_path_keluar) values ('{barcode}', '{date_masuk}', '{kendaraan}', '{date_keluar}', '{lama_parkir}', '{tarif}', '{nopol}', '{jns_trans}', '[IMG_PATH_KELUAR]')")
+
         # clear all text box and disable input
         self.clearKasirForm()
         
