@@ -658,7 +658,10 @@ class Controller(Client):
             timer = threading.Timer(1.0, self.hideSuccess)
             timer.start()        
     
-    def setPay(self, statOnline=True):
+    def setPay(self, statOnline=True, lostTicket=False):
+        if lostTicket:
+            print("lost ticket wak ....")
+            
         # get barcode
         barcode = self.components["barcode_transaksi"].text()
         nopol = self.components["nopol_transaksi"].text()

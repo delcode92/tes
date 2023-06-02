@@ -901,200 +901,284 @@ class Main(Util, View):
     def findVoucher(self):
         print("search voucher status ... ")
     
-   
-    def lostTicket(self):
-        
-        import psycopg2, serial, time
+    def nopolEnter(self):
+        """this method execute whenenter pressed in lost ticket dialog box"""
+        # check if nopol valid ?
+        pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
+        pattern2 = r'^\D+\d{1,4}\s*\D*$'
 
-        class PopupWindow(QDialog):
-            
-            def __init__(self, query):
-                # super().__init__(parent)
-                super().__init__()
+        match1 = re.match(pattern1, self.inpt_nopol_lost.text())
+        match2 = re.match(pattern2, self.inpt_nopol_lost.text())
+
+        if match1 or match2:
+
+            # check if all field is filled
+            if self.inpt_nopol_lost.text() != "" and self.jns_kendaraan_lost.currentText() != "--":
+                self.setPay(lostTicket=True)
                 
-                self.resize(400, 350)
-                self.setContentsMargins(15,15,15,15)
-
-                # self.parentWidget().setStyleSheet("margin: 8px;")
-                # self.setStyleSheet("margin: 8px;")
-                self.connect_to_postgresql()
-
-                layout = QVBoxLayout()
-                self.inpt_nopol = QLineEdit()
-                self.jns_kendaraan = QComboBox()
-                stat = QLabel("LOST TICKET")
-                self.tarif = QLabel("...")
-                nopol = QLabel("NOPOL:")
-                jns_kend_lbl = QLabel("JENIS KENDARAAN:")
-                stat_lbl = QLabel("STATUS:")
-                tarif_lbl = QLabel("TARIF(Rp):")
-
-                css = "margin-top:15px; font-size:13px; font-weight:500;"
-
-                self.inpt_nopol.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
-                self.jns_kendaraan.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
-                nopol.setStyleSheet("font-weight:500;")
-                jns_kend_lbl.setStyleSheet(css)
-                stat_lbl.setStyleSheet(css)
-                tarif_lbl.setStyleSheet(css)
-
-                stat.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
-                self.tarif.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
-                # list kendaraan
-                list_kendaraan = ["--"]
-                for i in range( len(query) ):
-                    list_kendaraan.append(query[i][0].lower())
-
-                self.jns_kendaraan.addItems( list_kendaraan )
-
-                layout.addWidget( nopol )
-                layout.addWidget(self.inpt_nopol)
-                
-
-                layout.addWidget( jns_kend_lbl )
-                layout.addWidget(self.jns_kendaraan)
-                
-                layout.addWidget(stat_lbl)
-                layout.addWidget(stat)
-               
-                layout.addWidget(tarif_lbl)
-                layout.addWidget(self.tarif)
-                
-                layout.addStretch(1)
-
-                # binder
-                EventBinder(self.inpt_nopol, self.nopolEnter)
-                self.jns_kendaraan.activated.connect(self.changeVehicle)
-
-                self.setLayout(layout)
-                self.setWindowModality(Qt.ApplicationModal)
-                self.setWindowTitle("Lost Ticket")
-            
-            def getPath(self,fileName):
-                path = os.path.dirname(os.path.realpath(__file__))
-                
-                return '/'.join([path, fileName])
+            elif self.inpt_nopol.text() != "" and self.jns_kendaraan_lost.currentText() == "--":
+                self.focusDropDown()
+        else:
+            dlg = QMessageBox()
     
-            def connect_to_postgresql(self):
-                try:
-                    ini = self.getPath("app.ini")
-                    
-                    configur = ConfigParser()
-                    configur.read(ini)
-                    
-                    conn = psycopg2.connect(
-                        database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
-                    )
-                    conn.autocommit = True
-                    self.db_cursor = conn.cursor()
+            dlg.setWindowTitle("Alert")
+            dlg.setText("Nopol Tidak Valid!")
+            dlg.setIcon(QMessageBox.Information)
+            dlg.exec()
 
-                except Exception as e:
-                    print( str(e) )    
+    def lostTicket(self):
+        dialog = QDialog()
+        dialog.resize(400, 350)
+        dialog.setContentsMargins(15,15,15,15)
+        dialog.setWindowTitle("Lost Ticket")
 
-            def exec_query(self, query, type=""):
+        layout = QVBoxLayout(dialog)
+        self.inpt_nopol_lost = QLineEdit()
+        self.jns_kendaraan_lost = QComboBox()
+        stat = QLabel("LOST TICKET")
+        tarif = QLabel("...")
+        nopol = QLabel("NOPOL:")
+        jns_kend_lbl = QLabel("JENIS KENDARAAN:")
+        stat_lbl = QLabel("STATUS:")
+        tarif_lbl = QLabel("TARIF(Rp):")
+
+        css = "margin-top:15px; font-size:13px; font-weight:500;"
+
+        self.inpt_nopol_lost.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+        self.jns_kendaraan_lost.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+        nopol.setStyleSheet("font-weight:500;")
+        jns_kend_lbl.setStyleSheet(css)
+        stat_lbl.setStyleSheet(css)
+        tarif_lbl.setStyleSheet(css)
+
+        stat.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
+        tarif.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
         
-                try:
-                    self.db_cursor.execute(query)
-                    print("\nsuccess execute query")
+        ########### list kendaraan #######
+        list_kendaraan = ["--"]
+        query = self.exec_query(f"select jns_kendaraan from tarif", "select")
+        for i in range( len(query) ):
+            list_kendaraan.append(query[i][0].lower())
 
-                    if type.lower() == "":    
-                        return True
-
-                except Exception as e:
-                    print("\nexecute query fail")
-                    print( str(e) )
-                    
-                if type.lower() =="select":
-                    data = self.db_cursor.fetchall()
-                    return data
-                
-                elif type.lower() =="cols_res":
-                    cols = [desc[0] for desc in self.db_cursor.description]
-                    data = self.db_cursor.fetchall()
-                    return cols,data
-
-            def nopolEnter(self):
-                # check if nopol valid ?
-                pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
-                pattern2 = r'^\D+\d{1,4}\s*\D*$'
-
-                match1 = re.match(pattern1, self.inpt_nopol.text())
-                match2 = re.match(pattern2, self.inpt_nopol.text())
-
-                if match1 or match2:
-
-                    # check if all field is filled
-                    if self.inpt_nopol.text() != "" and self.jns_kendaraan.currentText() != "--":
-                        self.setPay()
-
-                    elif self.inpt_nopol.text() != "" and self.jns_kendaraan.currentText() == "--":
-                        self.focusDropDown()
-                else:
-                    dlg = QMessageBox()
-            
-                    dlg.setWindowTitle("Alert")
-                    dlg.setText("Nopol Tidak Valid!")
-                    dlg.setIcon(QMessageBox.Information)
-                    dlg.exec()
-
-            def setPay(self):
-                # logic setpay
-                date_now = datetime.now()
-                date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
-                
-                q = self.exec_query(f"""insert into karcis (
-                    barcode, gate, 
-                    status_parkir, jenis_kendaraan, 
-                    date_keluar, tarif, nopol, 
-                    kd_shift, jns_transaksi, 
-                    images_path_keluar, lost_ticket) 
-                    values('000000', '{Main.no_pos}', true, 
-                    '{self.jns_kendaraan.currentText()}', 
-                    '{date_now}', {int(self.denda)}, 
-                    '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
-                
-                arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
-
-                # open gate
-                while True:
-                    arduino.write(bytes("1", 'utf-8'))
-                    data = arduino.readline()
-
-                    n = len( data.decode('utf-8') )
-                    if n > 0 : break;
-                    time.sleep(0.01)
+        self.jns_kendaraan_lost.addItems( list_kendaraan )
+        ############## end #############
 
 
-                print("from setpay: ==> buka gate")
-                
-                # rest form
-                self.inpt_nopol.setText("")
-                self.jns_kendaraan.setCurrentIndex(0)
-                self.tarif.setText("...")
-            
-            def getPrice(self):
-                """ get price from lost ticket """
-                
-                jns_kendaraan = self.jns_kendaraan.currentText().lower()
-                q_denda = self.exec_query(f"select denda from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
-                self.denda = str( q_denda[0][0] )
-                self.tarif.setText(self.denda)
-
-            def changeVehicle(self):
-                self.getPrice()
-                self.inpt_nopol.setFocus()
-            
-            def focusDropDown(self):
-                self.jns_kendaraan.setFocus()
-                self.jns_kendaraan.showPopup()
-
-            def keyPressEvent(self, event):
-                if event.key() == Qt.Key_Escape:
-                    self.close()
+        layout.addWidget( nopol )
+        layout.addWidget(self.inpt_nopol_lost)
         
-        self.q_kendaraan = self.exec_query(f"select jns_kendaraan from tarif", "select")
-        popup_window = PopupWindow(self.q_kendaraan)
-        popup_window.exec_()
+        layout.addWidget( jns_kend_lbl )
+        layout.addWidget(self.jns_kendaraan_lost)
+        
+        layout.addWidget(stat_lbl)
+        layout.addWidget(stat)
+        
+        layout.addWidget(tarif_lbl)
+        layout.addWidget(tarif)
+        
+        layout.addStretch(1)
+
+        # binder
+        EventBinder(self.inpt_nopol_lost, self.nopolEnter)
+        self.jns_kendaraan_lost.activated.connect(self.changeVehicle)
+
+        dialog.exec_()
+
+        # import psycopg2, serial, time
+
+        # class PopupWindow(QDialog):
+        #     sp = self.setPay
+        #     def __init__(self, query):
+        #         super().__init__()
+        #         # super().__init__()
+        #         # super().ini
+        #         # print(super(), type(super()))
+                
+        #         self.resize(400, 350)
+        #         self.setContentsMargins(15,15,15,15)
+
+        #         # self.parentWidget().setStyleSheet("margin: 8px;")
+        #         # self.setStyleSheet("margin: 8px;")
+        #         self.connect_to_postgresql()
+
+        #         layout = QVBoxLayout()
+        #         self.inpt_nopol = QLineEdit()
+        #         self.jns_kendaraan = QComboBox()
+        #         stat = QLabel("LOST TICKET")
+        #         self.tarif = QLabel("...")
+        #         nopol = QLabel("NOPOL:")
+        #         jns_kend_lbl = QLabel("JENIS KENDARAAN:")
+        #         stat_lbl = QLabel("STATUS:")
+        #         tarif_lbl = QLabel("TARIF(Rp):")
+
+        #         css = "margin-top:15px; font-size:13px; font-weight:500;"
+
+        #         self.inpt_nopol.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+        #         self.jns_kendaraan.setStyleSheet("font-weight:500; font-size: 13px; height: 35px;")
+        #         nopol.setStyleSheet("font-weight:500;")
+        #         jns_kend_lbl.setStyleSheet(css)
+        #         stat_lbl.setStyleSheet(css)
+        #         tarif_lbl.setStyleSheet(css)
+
+        #         stat.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
+        #         self.tarif.setStyleSheet("height: 45px; padding:8px; font-weight: 600; font-size:16px; background:#ffeaa7;")
+        #         # list kendaraan
+        #         list_kendaraan = ["--"]
+        #         for i in range( len(query) ):
+        #             list_kendaraan.append(query[i][0].lower())
+
+        #         self.jns_kendaraan.addItems( list_kendaraan )
+
+        #         layout.addWidget( nopol )
+        #         layout.addWidget(self.inpt_nopol)
+                
+        #         layout.addWidget( jns_kend_lbl )
+        #         layout.addWidget(self.jns_kendaraan)
+                
+        #         layout.addWidget(stat_lbl)
+        #         layout.addWidget(stat)
+               
+        #         layout.addWidget(tarif_lbl)
+        #         layout.addWidget(self.tarif)
+                
+        #         layout.addStretch(1)
+
+        #         # binder
+        #         EventBinder(self.inpt_nopol, self.nopolEnter)
+        #         self.jns_kendaraan.activated.connect(self.changeVehicle)
+
+        #         self.setLayout(layout)
+        #         self.setWindowModality(Qt.ApplicationModal)
+        #         self.setWindowTitle("Lost Ticket")
+            
+        #     def getPath(self,fileName):
+        #         path = os.path.dirname(os.path.realpath(__file__))
+                
+        #         return '/'.join([path, fileName])
+    
+        #     def connect_to_postgresql(self):
+        #         try:
+        #             ini = self.getPath("app.ini")
+                    
+        #             configur = ConfigParser()
+        #             configur.read(ini)
+                    
+        #             conn = psycopg2.connect(
+        #                 database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
+        #             )
+        #             conn.autocommit = True
+        #             self.db_cursor = conn.cursor()
+
+        #         except Exception as e:
+        #             print( str(e) )    
+
+        #     def exec_query(self, query, type=""):
+        
+        #         try:
+        #             self.db_cursor.execute(query)
+        #             print("\nsuccess execute query")
+
+        #             if type.lower() == "":    
+        #                 return True
+
+        #         except Exception as e:
+        #             print("\nexecute query fail")
+        #             print( str(e) )
+                    
+        #         if type.lower() =="select":
+        #             data = self.db_cursor.fetchall()
+        #             return data
+                
+        #         elif type.lower() =="cols_res":
+        #             cols = [desc[0] for desc in self.db_cursor.description]
+        #             data = self.db_cursor.fetchall()
+        #             return cols,data
+
+        #     def nopolEnter(self):
+        #         # check if nopol valid ?
+        #         pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
+        #         pattern2 = r'^\D+\d{1,4}\s*\D*$'
+
+        #         match1 = re.match(pattern1, self.inpt_nopol.text())
+        #         match2 = re.match(pattern2, self.inpt_nopol.text())
+
+        #         if match1 or match2:
+
+        #             # check if all field is filled
+        #             if self.inpt_nopol.text() != "" and self.jns_kendaraan.currentText() != "--":
+        #                 PopupWindow.sp(lostTicket=True)
+
+        #                 # self.setPay()
+        #                 # super().setpay()
+
+        #             elif self.inpt_nopol.text() != "" and self.jns_kendaraan.currentText() == "--":
+        #                 self.focusDropDown()
+        #         else:
+        #             dlg = QMessageBox()
+            
+        #             dlg.setWindowTitle("Alert")
+        #             dlg.setText("Nopol Tidak Valid!")
+        #             dlg.setIcon(QMessageBox.Information)
+        #             dlg.exec()
+
+        #     def setPay(self):
+        #         # logic setpay
+        #         date_now = datetime.now()
+        #         date_now = date_now.strftime("%Y-%m-%d %H:%M:%S")
+                
+        #         q = self.exec_query(f"""insert into karcis (
+        #             barcode, gate, 
+        #             status_parkir, jenis_kendaraan, 
+        #             date_keluar, tarif, nopol, 
+        #             kd_shift, jns_transaksi, 
+        #             images_path_keluar, lost_ticket) 
+        #             values('000000', '{Main.no_pos}', true, 
+        #             '{self.jns_kendaraan.currentText()}', 
+        #             '{date_now}', {int(self.denda)}, 
+        #             '{self.inpt_nopol.text()}', '{Main.kd_shift}', 'casual', '[IMG_PATH_KELUAR]', true  )""")
+                
+        #         arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+
+        #         # open gate
+        #         while True:
+        #             arduino.write(bytes("1", 'utf-8'))
+        #             data = arduino.readline()
+
+        #             n = len( data.decode('utf-8') )
+        #             if n > 0 : break;
+        #             time.sleep(0.01)
+
+
+        #         print("from setpay: ==> buka gate")
+                
+        #         # rest form
+        #         self.inpt_nopol.setText("")
+        #         self.jns_kendaraan.setCurrentIndex(0)
+        #         self.tarif.setText("...")
+            
+        #     def getPrice(self):
+        #         """ get price from lost ticket """
+                
+        #         jns_kendaraan = self.jns_kendaraan.currentText().lower()
+        #         q_denda = self.exec_query(f"select denda from tarif where jns_kendaraan='{jns_kendaraan}'", "select")
+        #         self.denda = str( q_denda[0][0] )
+        #         self.tarif.setText(self.denda)
+
+        #     def changeVehicle(self):
+        #         self.getPrice()
+        #         self.inpt_nopol.setFocus()
+            
+        #     def focusDropDown(self):
+        #         self.jns_kendaraan.setFocus()
+        #         self.jns_kendaraan.showPopup()
+
+        #     def keyPressEvent(self, event):
+        #         if event.key() == Qt.Key_Escape:
+        #             self.close()
+        
+        # self.q_kendaraan = self.exec_query(f"select jns_kendaraan from tarif", "select")
+        # popup_window = PopupWindow(self.q_kendaraan)
+        # popup_window.exec_()
     
     def Help(self):
         dlg = QMessageBox(self.window)
