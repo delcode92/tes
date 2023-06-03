@@ -19,6 +19,7 @@ class Controller(Client):
         # self.Util.__init__(self)
         
         self.initDebug()
+        self.initConfig()
 
         # active db cursor 
         self.connect_to_postgresql()
@@ -41,46 +42,52 @@ class Controller(Client):
         self.logger.info("active DB cursor ..... \n")
         
     def initDebug(self):
-        self.logger = logging.getLogger()
-        self.logger.setLevel(logging.NOTSET)
-        self.logfile_path = "./logging/log_file.log"
+        try:
+            self.logger = logging.getLogger()
+            self.logger.setLevel(logging.NOTSET)
+            self.logfile_path = "./logging/log_file.log"
 
 
-        # our first handler is a console handler
-        console_handler = logging.StreamHandler()
-        console_handler.setLevel(logging.DEBUG)
-        console_handler_format = '%(levelname)s: %(message)s'
-        console_handler.setFormatter(logging.Formatter(console_handler_format))
+            # our first handler is a console handler
+            console_handler = logging.StreamHandler()
+            console_handler.setLevel(logging.DEBUG)
+            console_handler_format = '%(levelname)s: %(message)s'
+            console_handler.setFormatter(logging.Formatter(console_handler_format))
 
-        # start logging and show messages
+            # start logging and show messages
 
-        # the second handler is a file handler
-        file_handler = logging.FileHandler(self.logfile_path)
-        file_handler.setLevel(logging.INFO)
-        file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
-        file_handler.setFormatter(logging.Formatter(file_handler_format))
+            # the second handler is a file handler
+            file_handler = logging.FileHandler(self.logfile_path)
+            file_handler.setLevel(logging.INFO)
+            file_handler_format = '%(asctime)s | %(levelname)s | %(lineno)d: %(message)s'
+            file_handler.setFormatter(logging.Formatter(file_handler_format))
 
-        # clear log file every 1 day
-        rotate = TimedRotatingFileHandler('sample.log', when='D', interval=1, backupCount=0, encoding=None, delay=False, utc=False)
+            # clear log file every 1 day
+            rotate = TimedRotatingFileHandler('sample.log', when='D', interval=1, backupCount=0, encoding=None, delay=False, utc=False)
+            
+            self.logger.addHandler(rotate)
+            self.logger.addHandler(console_handler)
+            self.logger.addHandler(file_handler)
         
-        self.logger.addHandler(rotate)
-        self.logger.addHandler(console_handler)
-        self.logger.addHandler(file_handler)
-    
+        except Exception as e:
+            print(str(e))
+
+    def initConfig(self):
+        try:
+            ini = self.getPath("app.ini")
+            
+            self.configur = ConfigParser()
+            self.configur.read(ini)
+        except Exception as e:
+            print(str(e))
 
     def connect_to_server(self, h, p):
         super().__init__(h,p)
         
-
     def connect_to_postgresql(self):
-        try:
-            ini = self.getPath("app.ini")
-            
-            configur = ConfigParser()
-            configur.read(ini)
-            
+        try:            
             conn = psycopg2.connect(
-                database=configur["db"]["db_name"], user=configur["db"]["username"], password=configur["db"]["password"], host=configur["db"]["host"], port= configur["db"]["port"]
+                database=self.configur["db"]["db_name"], user=self.configur["db"]["username"], password=self.configur["db"]["password"], host=self.configur["db"]["host"], port=self.configur["db"]["port"]
             )
             conn.autocommit = True
             self.db_cursor = conn.cursor()
@@ -658,10 +665,8 @@ class Controller(Client):
             timer = threading.Timer(1.0, self.hideSuccess)
             timer.start()        
     
-    def setPay(self, statOnline=True, lostTicket=False):
-        if lostTicket:
-            print("lost ticket wak ....")
-            
+    def setPay(self, statOnline=True):
+        
         # get barcode
         barcode = self.components["barcode_transaksi"].text()
         nopol = self.components["nopol_transaksi"].text()
@@ -715,7 +720,7 @@ class Controller(Client):
 
         # modal
         # self.dialogBox(title="Alert", msg="Payment success --> OPEN GATE KELUAR")
-        arduino = serial.Serial(port='COM4', baudrate=115200, timeout=.1)
+        arduino = serial.Serial(port=self.configur["serial"]["port"], baudrate=115200, timeout=.1)
 
         while True:
             arduino.write(bytes("1", 'utf-8'))
