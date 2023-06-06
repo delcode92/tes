@@ -1235,8 +1235,8 @@ class Main(Util, View):
         dlg.setText(
         """
         CTRL + h ==> HELP  \n\n
-        CTRL + t ==> Barcode Focus \n\n
-        CTRL + e ==> LOGOUT \n\n
+        CTRL + t ==> NOPOL Focus \n\n
+        CTRL + q ==> LOGOUT \n\n
         CTRL + o ==> Open Gate(darurat) \n\n
         CTRL + l ==> Lost Ticket
         """)
@@ -3393,7 +3393,7 @@ class Main(Util, View):
             def run(self):
                 while True:
                     self.cr.emit("emit txt")
-                    sleep(10)
+                    sleep(5*60*60)
 
         class playCam1(QThread):
             
@@ -3599,8 +3599,7 @@ class Main(Util, View):
         for i in range( len(q_kendaraan) ):
             list_kendaraan.append(q_kendaraan[i][0].lower())
         
-        left_content = [
-                    {
+        left_content = [{
                         "name":"lbl_stat_koneksi",
                         "text":"STAT:",
                         "category":"label",
@@ -3636,40 +3635,51 @@ class Main(Util, View):
                         "category":"label",
                         "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff;"
                     },
-                    
-                ]
+                    {
+                        "name":"lbl_legenda",
+                        "text":"*NOTE:",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top: 25px;"
+                    },
+                    {
+                        "name":"lbl_legenda",
+                        "text":"Tekan CTRL+h --> untuk menu legenda/ket.shortcut",
+                        "category":"label",
+                        "style":self.primary_lbl + "background: #0984e3; padding:5px; color: #fff; font-style:italic;"
+                    }]
     
+        self.statGetPrice = False
+
         center_content = [
                     {
-                        "name":"lbl_barcode_transaksi",
-                        "text":"BARCODE/VOUCHER:",
+                       "name":"lbl_nopol",
+                        "text":"NOPOL:",
                         "category":"label",
                         "style":self.primary_lbl + "color:#f1c40f;"
+                    },
+                    {
+                        "name":"nopol_transaksi",
+                        "category":"lineEdit",
+                        "style": self.primary_input + "font-weight: 600;",
+                        "text":"BL ",
+                        "event": {
+                            "method_name": self.barcodeFocus
+                        }
+                    },
+                    {
+                        "name":"lbl_barcode_transaksi",
+                        "text":"BARCODE:",
+                        "category":"label",
+                        "style":self.primary_lbl + "margin-top:20px; color:#f1c40f;"
                     },
                     {
                         "name":"barcode_transaksi",
                         "category":"lineEditInt",
                         "style": self.primary_input + "font-weight: 600;",
                         "event": {
-                            "method_name": self.nopolFocus
+                            "method_name": self.getPrice
                         }
-                    },
-                    {
-                       "name":"lbl_nopol",
-                        "text":"NOPOL:",
-                        "category":"label",
-                        "style":self.primary_lbl + "margin-top:20px; color:#f1c40f;"
-                    },
-                    {
-                        "name":"nopol_transaksi",
-                        "category":"lineEdit",
-                        "style": self.primary_input + "font-weight: 600;",
-                        # "event":{
-                        #     "trigger": "tab",
-                        #     "method_name": self.comboPopup,
-                        #     "arguments": self.components['jns_kendaraan']
-                        # }
-                    },
+                    },                    
                     {
                         "name":"lbl_jns_kendaraan",
                         "text":"JENIS KENDARAAN:",
@@ -3705,6 +3715,9 @@ class Main(Util, View):
                         "category":"lineEdit",
                         "editable": False,
                         "style": self.primary_input + "height: 45px; font-weight: 600; font-size:23px; background:#ffeaa7;",
+                        "event": {
+                            "method_name": self.kasirWindowEnter
+                        }
                     },
                     {
                         "name":"lbl_ket_karcis",
@@ -3730,8 +3743,8 @@ class Main(Util, View):
         # print("==> binder1: ", self.components['nopol_transaksi'], type(self.components['nopol_transaksi']))
         # print("==> binder2: ", self.window, type(self.window))
 
-        EventBinder(self.components['nopol_transaksi'],lambda: self.comboPopup(self.components['jns_kendaraan']), "tab")
-        EventBinder(self.window, self.kasirWindowEnter )
+        EventBinder(self.components['barcode_transaksi'],lambda: self.comboPopup(self.components['jns_kendaraan']), "tab")
+        # EventBinder(self.window, self.kasirWindowEnter ) # binder for pay
         self.components['jns_kendaraan'].activated.connect(self.changeVehicle)
 
 
@@ -3828,7 +3841,7 @@ class Main(Util, View):
         
         ################# create shortcut key #################
         # transaksi
-        self.keyShortcut(keyCombination="Ctrl+t", targetWidget=self.components["barcode_transaksi"])
+        self.keyShortcut(keyCombination="Ctrl+t", targetWidget=self.components["nopol_transaksi"])
         
         # search voucher
         self.keyShortcut(keyCombination="Ctrl+f", command="search-voucher")
@@ -3840,7 +3853,7 @@ class Main(Util, View):
         # lap user bermasalah
         self.keyShortcut(keyCombination="Ctrl+l", command="lost-ticket")
         
-        self.keyShortcut(keyCombination="Ctrl+e", command="logout")
+        self.keyShortcut(keyCombination="Ctrl+q", command="logout")
         
         self.keyShortcut(keyCombination="Ctrl+h", command="help")
         
@@ -3890,12 +3903,14 @@ class Main(Util, View):
         self.time_lbl.setText("JAM: "+ current_time)
     
     def kasirLogout(self):
-        self.th.stop()
-        self.th2.stop()    
-        
-        self.closeWindow(self.window)
-        self.Login()
-        
+        # self.th.stop()
+        # self.th2.stop()    
+        try:
+            self.closeWindow(self.window)
+            self.Login()
+        except Exception as e:
+            print(str(e))
+
     def setImageKasir(self, image):
         try:
             self.image_label.setPixmap(QPixmap.fromImage(image))

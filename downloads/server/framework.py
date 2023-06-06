@@ -359,7 +359,7 @@ class View:
     
     # lineedit styling
     primary_input = """QLineEdit:focus {
-                        border: 2px solid #e74c3c;
+                        border: 4px solid #e74c3c;
                     }
                     QLineEdit{
                         height:30px; 
@@ -408,12 +408,13 @@ class View:
     primary_combobox = """
                         QComboBox QAbstractItemView {
                             background: #fff;
+                            color:#000;
                         }
                         QComboBox{
                             height:35px; 
-                            background-color: blue;
+                            background-color: #fff;
                             selection-background-color: #192038;
-                            color: #fff;
+                            color: #000;
                             font-family: Helvetica;
                             font-size: 14px;
     """
@@ -537,17 +538,8 @@ class EventBinder(QObject):
     def eventFilter(self, source, event):
         if event.type() == QEvent.KeyPress and source is self.target:
             if self.key_trigger is None:
-                if event.key() == Qt.Key_Return:
-                    # print('===> Enter pressed bro')
+                if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
                     self.eventTarget() # run method
-
-                # if event.key() == Qt.Key_Return and self.target.hasFocus():
-                #     print('===> Enter pressed bro')
-                #     self.eventTarget() # run method
-                
-                # elif event.key() == Qt.Key_Return and not self.target.hasFocus():
-                #     print('all position Enter pressed')
-                    # self.eventTarget() # run method
                 
             elif self.key_trigger == "tab":
                 if event.key() == Qt.Key_Tab and self.target.hasFocus():
