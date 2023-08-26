@@ -912,7 +912,7 @@ class Main(Util, View):
         print("search voucher status ... ")
     
     def nopolEnter(self):
-        """this method execute whenenter pressed in lost ticket dialog box"""
+        """this method execute when enter pressed in lost ticket dialog box"""
         # check if nopol valid ?
         pattern1 = r'^\D+\s+\d{1,4}\s*\D*$'
         pattern2 = r'^\D+\d{1,4}\s*\D*$'

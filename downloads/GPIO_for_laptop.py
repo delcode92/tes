@@ -1,5 +1,5 @@
 # import RPi.GPIO as GPIO
-import sys, socket, select, random, os, re, json
+import sys, socket, select, random, os, re, json, cProfile
 from time import sleep
 from datetime import datetime
 from _thread import start_new_thread
@@ -9,6 +9,9 @@ from configparser import ConfigParser
 
 class GPIOHandler:
     def __init__(self) -> None:
+        self.profiler = cProfile.Profile()
+        self.profiler.enable()
+
         # global variable
         self.led1, self.led2, self.led3, self.gate = 8,10,11,18
         self.loop1, self.loop2, self.button = 12,13,7
@@ -23,6 +26,8 @@ class GPIOHandler:
         # buat koneksi socket utk GPIO
         host = sys.argv[1]
         port = int(sys.argv[2])
+        
+        start_new_thread( self.rfid_input,() )
         
         while True:
 
@@ -46,7 +51,7 @@ class GPIOHandler:
                     start_new_thread( self.recv_server,() )
                     
                     # run input RFID thread
-                    start_new_thread( self.rfid_input,() )
+                    # start_new_thread( self.rfid_input,() )
                     # self.run_GPIO()
                 except Exception  as e:
                     print(str(e))
@@ -108,7 +113,10 @@ class GPIOHandler:
             
             if rfid != "":
                 # send to server
-
+                if rfid == "p": 
+                    self.profiler.disable()
+                    self.profiler.dump_stats("example.stats")
+                    
                 try:
                     self.s.sendall( bytes(f"rfid#{rfid}#end", 'utf-8') )
                 except:

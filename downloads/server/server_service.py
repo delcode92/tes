@@ -773,7 +773,7 @@ class Server:
                 self.debug.logger.info("Server standby waiting message from client ... ")
 
                 while True:
-                    data = conn.recv(1024)
+                    data = conn.recv(1024 * 4)
                     msg = data.decode("utf-8")
                     
                     if(msg==''):

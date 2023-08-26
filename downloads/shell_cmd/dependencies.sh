@@ -23,3 +23,7 @@ pip install postgres
 pip install fpdf
 pip install keyboard
 pip install pynput 
+
+sudo apt install postgresql postgresql-contrib
+sudo apt install python3-pip
+pip install fpdf keyboard pynput PyQt5 configparser opencv-python python-escpos-win psycopg2
